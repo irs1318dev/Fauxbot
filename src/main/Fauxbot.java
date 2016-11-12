@@ -1,7 +1,6 @@
 package main;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 import main.Common.Motor;
 import main.Common.MotorManager;
@@ -20,7 +19,6 @@ public class Fauxbot
 		controllers.setDriver(driver);
 		controllers.update();
 
-		Scanner inScanner = new Scanner(System.in);
 		boolean run = true;
 		while (run)
 		{
@@ -96,7 +94,5 @@ public class Fauxbot
 
 			Thread.sleep(10);
 		}
-
-		inScanner.close();
 	}
 }
