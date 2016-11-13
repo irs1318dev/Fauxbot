@@ -31,28 +31,28 @@ import main.Driver.Operation;
 public class Fauxbot extends Application
 {
     @SuppressWarnings("serial")
-    private Map<Integer, String> sensorNameMap = new HashMap<Integer, String>()
+    private final Map<Integer, String> sensorNameMap = new HashMap<Integer, String>()
     {
         {
-            put(0, "Through-Beam sensor:");
-            put(1, "Open sensor:");
-            put(2, "Closed sensor:");
+            this.put(0, "Through-Beam sensor:");
+            this.put(1, "Open sensor:");
+            this.put(2, "Closed sensor:");
         }
     };
 
     @SuppressWarnings("serial")
-    private Map<Integer, String> motorNameMap = new HashMap<Integer, String>()
+    private final Map<Integer, String> motorNameMap = new HashMap<Integer, String>()
     {
         {
-            put(0, "Door motor:");
+            this.put(0, "Door motor:");
         }
     };
 
-    private Driver driver;
-    private ComponentManager components;
-    private ControllerManager controllers;
-    private FauxbotRunner runner;
-    private Thread runnerThread;
+    private final Driver driver;
+    private final ComponentManager components;
+    private final ControllerManager controllers;
+    private final FauxbotRunner runner;
+    private final Thread runnerThread;
 
     public Fauxbot()
     {
@@ -63,8 +63,8 @@ public class Fauxbot extends Application
         this.controllers = new ControllerManager(this.components);
 
         this.controllers.setDriver(this.driver);
-        this.runner = new FauxbotRunner(controllers);
-        this.runnerThread = new Thread(runner);
+        this.runner = new FauxbotRunner(this.controllers);
+        this.runnerThread = new Thread(this.runner);
     }
 
     @Override
@@ -184,12 +184,12 @@ public class Fauxbot extends Application
     @Override
     public void stop() throws Exception
     {
-    	this.runner.stop();
+        this.runner.stop();
         this.runnerThread.join(500);
     }
 
     public static void main(String[] args) throws InterruptedException, IOException
     {
-        launch(args);
+        Application.launch(args);
     }
 }

@@ -2,35 +2,35 @@ package main;
 
 public class FauxbotRunner implements Runnable
 {
-	private ControllerManager controllers;
-	private boolean stop;
+    private final ControllerManager controllers;
+    private boolean stop;
 
-	public FauxbotRunner(ControllerManager controllers)
-	{
-		this.controllers = controllers;
-		this.stop = false;
-	}
+    public FauxbotRunner(ControllerManager controllers)
+    {
+        this.controllers = controllers;
+        this.stop = false;
+    }
 
-	@Override
-	public void run()
-	{
-		while (!this.stop)
-		{
-			this.controllers.update();
+    @Override
+    public void run()
+    {
+        while (!this.stop)
+        {
+            this.controllers.update();
 
-			try
-			{
-				Thread.sleep(20);
-			}
-			catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
-		}
-	}
+            try
+            {
+                Thread.sleep(20);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
 
-	public void stop()
-	{
-		this.stop = true;
-	}
+    public void stop()
+    {
+        this.stop = true;
+    }
 }

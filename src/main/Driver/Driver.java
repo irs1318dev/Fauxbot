@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Driver
 {
-	private Map<Operation, Boolean> mapping = new HashMap<Operation, Boolean>();
+    private final Map<Operation, Boolean> mapping = new HashMap<>();
 
     /**
      * Get a boolean indicating whether the current digital operation is enabled
@@ -16,14 +16,14 @@ public class Driver
     {
         synchronized (this.mapping)
         {
-        	Boolean currentValue = this.mapping.containsKey(digitalOperation) && this.mapping.get(digitalOperation);
-        	if (currentValue)
-        	{
-        		this.mapping.put(digitalOperation, false);
-        		return true;
-        	}
+            Boolean currentValue = this.mapping.containsKey(digitalOperation) && this.mapping.get(digitalOperation);
+            if (currentValue)
+            {
+                this.mapping.put(digitalOperation, false);
+                return true;
+            }
 
-    	    return false;
+            return false;
         }
     }
 
