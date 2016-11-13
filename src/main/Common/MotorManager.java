@@ -6,10 +6,15 @@ import java.util.Map;
 public class MotorManager
 {
 	private static Map<Integer, Motor> motorMap = new HashMap<Integer, Motor>();
+	private static int highestPort = 0;
 
-	public static void set(int port, Motor motor)
+	public static void set(int port, Motor sensor)
 	{
-		MotorManager.motorMap.put(port, motor);
+		MotorManager.motorMap.put(port, sensor);
+		if (MotorManager.highestPort < port)
+		{
+			MotorManager.highestPort = port;
+		}
 	}
 
 	public static Motor get(int port)
@@ -20,5 +25,10 @@ public class MotorManager
 		}
 
 		return MotorManager.motorMap.get(port);
+	}
+
+	public static int getHightestPort()
+	{
+		return MotorManager.highestPort;
 	}
 }

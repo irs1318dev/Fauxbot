@@ -14,14 +14,17 @@ public class Driver
      */
     public boolean getDigital(Operation digitalOperation)
     {
-    	Boolean currentValue = this.mapping.containsKey(digitalOperation) && this.mapping.get(digitalOperation);
-    	if (currentValue)
-    	{
-    		this.mapping.put(digitalOperation, false);
-    		return true;
-    	}
+        synchronized (this.mapping)
+        {
+        	Boolean currentValue = this.mapping.containsKey(digitalOperation) && this.mapping.get(digitalOperation);
+        	if (currentValue)
+        	{
+        		this.mapping.put(digitalOperation, false);
+        		return true;
+        	}
 
-    	return false;
+    	    return false;
+        }
     }
 
     /**
@@ -30,6 +33,9 @@ public class Driver
      */
     public void pressButton(Operation digitalOperation)
     {
-    	this.mapping.put(digitalOperation, true);
+        synchronized (this.mapping)
+        {
+            this.mapping.put(digitalOperation, true);
+        }
     }
 }

@@ -1,22 +1,31 @@
 package main.Common;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
 public class Motor
 {
-	private double currentSpeed; 
+	private DoubleProperty currentPowerProperty; 
 
 	public Motor(int port)
 	{
-		this.currentSpeed = 0.0;
+		this.currentPowerProperty = new SimpleDoubleProperty();
+		this.currentPowerProperty.set(0.0);
 		MotorManager.set(port, this);
 	}
 
 	public void set(double newValue)
 	{
-		this.currentSpeed = newValue;
+		this.currentPowerProperty.set(newValue);
 	}
 
 	public double get()
 	{
-		return this.currentSpeed;
+		return this.currentPowerProperty.get();
 	}
+
+    public DoubleProperty getProperty()
+    {
+        return this.currentPowerProperty;
+    }
 }

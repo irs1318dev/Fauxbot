@@ -2,21 +2,21 @@ package main.GarageDoor;
 
 import main.ElectronicsConstants;
 import main.Common.Motor;
-import main.Common.Sensor;
+import main.Common.DigitalInput;
 
 public class GarageDoorComponent
 {
 	private Motor motor;
-	private Sensor throughBeam;
-	private Sensor openSensor;
-	private Sensor closedSensor;
+	private DigitalInput throughBeam;
+	private DigitalInput openSensor;
+	private DigitalInput closedSensor;
 	
 	public GarageDoorComponent()
 	{
 		this.motor = new Motor(ElectronicsConstants.GARAGEDOOR_MOTOR_CHANNEL);
-		this.throughBeam = new Sensor(ElectronicsConstants.GARAGEDOOR_THROUGHBEAM_CHANNEL);
-		this.openSensor = new Sensor(ElectronicsConstants.GARAGEDOOR_OPENSENSOR_CHANNEL);
-		this.closedSensor = new Sensor(ElectronicsConstants.GARAGEDOOR_CLOSEDSENSOR_CHANNEL);
+		this.throughBeam = new DigitalInput(ElectronicsConstants.GARAGEDOOR_THROUGHBEAM_CHANNEL);
+		this.openSensor = new DigitalInput(ElectronicsConstants.GARAGEDOOR_OPENSENSOR_CHANNEL);
+		this.closedSensor = new DigitalInput(ElectronicsConstants.GARAGEDOOR_CLOSEDSENSOR_CHANNEL);
 	}
 
 	public boolean isBeamBroken()
