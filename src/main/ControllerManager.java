@@ -3,6 +3,7 @@ package main;
 import java.util.ArrayList;
 
 import main.Common.IController;
+import main.GarageDoor.GarageDoorController;
 
 public class ControllerManager implements IController
 {
@@ -13,6 +14,7 @@ public class ControllerManager implements IController
     {
         this.components = components;
         this.controllerList = new ArrayList<>();
+        this.controllerList.add(new GarageDoorController(this.components.getGarageDoorComponent()));
     }
 
     @Override
