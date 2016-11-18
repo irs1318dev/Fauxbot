@@ -48,6 +48,8 @@ public class Fauxbot extends Application
         }
     };
 
+    private final RealWorldSimulator simulator;
+
     private final Driver driver;
     private final ComponentManager components;
     private final ControllerManager controllers;
@@ -63,7 +65,8 @@ public class Fauxbot extends Application
         this.controllers = new ControllerManager(this.components);
 
         this.controllers.setDriver(this.driver);
-        this.runner = new FauxbotRunner(this.controllers);
+        this.simulator = new RealWorldSimulator();
+        this.runner = new FauxbotRunner(this.controllers, this.simulator);
         this.runnerThread = new Thread(this.runner);
     }
 

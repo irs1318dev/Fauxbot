@@ -3,11 +3,13 @@ package main;
 public class FauxbotRunner implements Runnable
 {
     private final ControllerManager controllers;
+    private final RealWorldSimulator simulator;
     private boolean stop;
 
-    public FauxbotRunner(ControllerManager controllers)
+    public FauxbotRunner(ControllerManager controllers, RealWorldSimulator simulator)
     {
         this.controllers = controllers;
+        this.simulator = simulator;
         this.stop = false;
     }
 
@@ -17,6 +19,7 @@ public class FauxbotRunner implements Runnable
         while (!this.stop)
         {
             this.controllers.update();
+            this.simulator.update();
 
             try
             {
