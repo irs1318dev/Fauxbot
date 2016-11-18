@@ -7,12 +7,14 @@ import main.Common.SensorManager;
 
 public class RealWorldSimulator
 {
+    private static final int GarageFullyOpened = 250;
+
     private GarageState garageState;
-    private int numUpdatesSinceStateChange;
+    private int numUpdatesOpened;
     public RealWorldSimulator()
     {
         this.garageState = GarageState.Stopped;
-        this.numUpdatesSinceStateChange = 0;
+        this.numUpdatesOpened = 0;
     }
 
     public void update()
@@ -23,11 +25,10 @@ public class RealWorldSimulator
             if (this.garageState != GarageState.Opening)
             {
                 this.garageState = GarageState.Opening;
-                this.numUpdatesSinceStateChange = 0;
             }
             else
             {
-                this.numUpdatesSinceStateChange++;
+                this.numUpdatesOpened++;
             }
         }
         else if (motor.get() < 0)
@@ -35,11 +36,10 @@ public class RealWorldSimulator
             if (this.garageState != GarageState.Closing)
             {
                 this.garageState = GarageState.Closing;
-                this.numUpdatesSinceStateChange = 0;
             }
             else
             {
-                this.numUpdatesSinceStateChange++;
+                this.numUpdatesOpened--;
             }
         }
         else // if (motor.get() == 0)
@@ -47,35 +47,21 @@ public class RealWorldSimulator
             if (this.garageState != GarageState.Stopped)
             {
                 this.garageState = GarageState.Stopped;
-                this.numUpdatesSinceStateChange = 0;
             }
         }
 
         DigitalInput openSensor = (DigitalInput)SensorManager.get(ElectronicsConstants.GARAGEDOOR_OPENSENSOR_CHANNEL);
         DigitalInput closedSensor = (DigitalInput)SensorManager.get(ElectronicsConstants.GARAGEDOOR_CLOSEDSENSOR_CHANNEL);
-        
-        // if we have been opening for 500 updates (10 seconds), set our open sensor
-        if (this.garageState == GarageState.Opening)
+
+        openSensor.set(false);
+        closedSensor.set(false);
+        if (this.numUpdatesOpened >= RealWorldSimulator.GarageFullyOpened)
         {
-            if (this.numUpdatesSinceStateChange > 500)
-            {
-                openSensor.set(true);
-            }
-            else if (this.numUpdatesSinceStateChange > 10)
-            {
-                closedSensor.set(false);
-            }
+            openSensor.set(true);
         }
-        else if (this.garageState == GarageState.Closing)
+        else if (this.numUpdatesOpened <= 0)
         {
-            if (this.numUpdatesSinceStateChange > 500)
-            {
-                closedSensor.set(true);
-            }
-            else if (this.numUpdatesSinceStateChange > 10)
-            {
-                openSensor.set(false);
-            }
+            closedSensor.set(true);
         }
     }
     
