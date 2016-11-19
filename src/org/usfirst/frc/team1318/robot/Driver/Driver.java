@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.usfirst.frc.team1318.robot.TuningConstants;
-import org.usfirst.frc.team1318.robot.Driver.Buttons.*;
-import org.usfirst.frc.team1318.robot.Driver.Descriptions.*;
-import org.usfirst.frc.team1318.robot.Driver.States.*;
+import org.usfirst.frc.team1318.robot.Driver.States.AnalogOperationState;
+import org.usfirst.frc.team1318.robot.Driver.States.DigitalOperationState;
+import org.usfirst.frc.team1318.robot.Driver.States.OperationState;
 
 /**
  * Driver that represents something that operates the robot.  This is either autonomous or teleop/user driver.
@@ -14,26 +14,6 @@ import org.usfirst.frc.team1318.robot.Driver.States.*;
  */
 public abstract class Driver
 {
-    @SuppressWarnings("serial")
-    protected Map<Operation, OperationDescription> operationSchema = new HashMap<Operation, OperationDescription>()
-    {
-        {
-            put(
-                Operation.GarageDoorButton,
-                new DigitalOperationDescription(
-                    UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
-                    ButtonType.Click));
-        }
-    };
-
-    @SuppressWarnings("serial")
-    protected Map<MacroOperation, MacroOperationDescription> macroSchema = new HashMap<MacroOperation, MacroOperationDescription>()
-    {
-        {
-        }
-    };
-
     protected final Map<Operation, OperationState> operationStateMap;
 
     /**
@@ -41,10 +21,10 @@ public abstract class Driver
      */
     protected Driver()
     {
-        this.operationStateMap = new HashMap<Operation, OperationState>(this.operationSchema.size());
-        for (Operation operation : this.operationSchema.keySet())
+        this.operationStateMap = new HashMap<Operation, OperationState>(ButtonMap.OperationSchema.size());
+        for (Operation operation : ButtonMap.OperationSchema.keySet())
         {
-            this.operationStateMap.put(operation, OperationState.createFromDescription(this.operationSchema.get(operation)));
+            this.operationStateMap.put(operation, OperationState.createFromDescription(ButtonMap.OperationSchema.get(operation)));
         }
     }
 

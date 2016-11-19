@@ -8,6 +8,7 @@ import java.util.Set;
 import org.usfirst.frc.team1318.robot.ComponentManager;
 import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.Common.SetHelper;
+import org.usfirst.frc.team1318.robot.Driver.ButtonMap;
 import org.usfirst.frc.team1318.robot.Driver.Driver;
 import org.usfirst.frc.team1318.robot.Driver.MacroOperation;
 import org.usfirst.frc.team1318.robot.Driver.Operation;
@@ -42,12 +43,12 @@ public class UserDriver extends Driver
         this.macroStateMap = new HashMap<MacroOperation, MacroOperationState>();
         this.components = components;
 
-        for (MacroOperation macroOperation : this.macroSchema.keySet())
+        for (MacroOperation macroOperation : ButtonMap.MacroSchema.keySet())
         {
             this.macroStateMap.put(
                 macroOperation,
                 new MacroOperationState(
-                    this.macroSchema.get(macroOperation),
+                    ButtonMap.MacroSchema.get(macroOperation),
                     this.operationStateMap,
                     this.components));
         }
