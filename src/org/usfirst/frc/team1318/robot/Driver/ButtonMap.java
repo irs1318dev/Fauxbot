@@ -3,13 +3,8 @@ package org.usfirst.frc.team1318.robot.Driver;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.usfirst.frc.team1318.robot.Driver.Buttons.AnalogAxis;
-import org.usfirst.frc.team1318.robot.Driver.Buttons.ButtonType;
-import org.usfirst.frc.team1318.robot.Driver.Descriptions.AnalogOperationDescription;
-import org.usfirst.frc.team1318.robot.Driver.Descriptions.DigitalOperationDescription;
-import org.usfirst.frc.team1318.robot.Driver.Descriptions.MacroOperationDescription;
-import org.usfirst.frc.team1318.robot.Driver.Descriptions.OperationDescription;
-import org.usfirst.frc.team1318.robot.Driver.Descriptions.UserInputDevice;
+import org.usfirst.frc.team1318.robot.Driver.Buttons.*;
+import org.usfirst.frc.team1318.robot.Driver.Descriptions.*;
 
 public class ButtonMap
 {

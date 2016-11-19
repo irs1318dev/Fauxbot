@@ -4,12 +4,24 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.usfirst.frc.team1318.robot.Driver.ButtonMap;
 import org.usfirst.frc.team1318.robot.Driver.Driver;
+import org.usfirst.frc.team1318.robot.Driver.MacroOperation;
 import org.usfirst.frc.team1318.robot.Driver.Operation;
+import org.usfirst.frc.team1318.robot.Driver.Buttons.ButtonType;
+import org.usfirst.frc.team1318.robot.Driver.Descriptions.AnalogOperationDescription;
+import org.usfirst.frc.team1318.robot.Driver.Descriptions.DigitalOperationDescription;
+import org.usfirst.frc.team1318.robot.Driver.Descriptions.MacroOperationDescription;
+import org.usfirst.frc.team1318.robot.Driver.Descriptions.OperationDescription;
+import org.usfirst.frc.team1318.robot.Driver.Descriptions.OperationType;
+import org.usfirst.frc.team1318.robot.Driver.Descriptions.UserInputDevice;
+import org.usfirst.frc.team1318.robot.Driver.States.AnalogOperationState;
 import org.usfirst.frc.team1318.robot.Driver.User.UserDriver;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.JoystickManager;
 import edu.wpi.first.wpilibj.MotorBase;
 import edu.wpi.first.wpilibj.MotorManager;
 import edu.wpi.first.wpilibj.SensorBase;
@@ -90,18 +102,154 @@ public class Fauxbot extends Application
         grid.add(buttonsTitle, 0, rowIndex++, 2, 1);
         for (Operation op : Operation.values())
         {
-            Button operationButton = new Button(op.toString());
-            operationButton.setOnMouseClicked(
-                (MouseEvent event) ->
-                {
-                    // this.driver.pressButton(op);
-                });
+            OperationDescription description = ButtonMap.OperationSchema.get(op);
 
-            grid.add(operationButton, 0, rowIndex++);
+            if (description != null)
+            {
+                int joystickPort = -1;
+                if (description.getUserInputDevice() == UserInputDevice.Driver)
+                {
+                    joystickPort = ElectronicsConstants.JOYSTICK_DRIVER_PORT;
+                }
+                else if (description.getUserInputDevice() == UserInputDevice.CoDriver)
+                {
+                    joystickPort = ElectronicsConstants.JOYSTICK_CO_DRIVER_PORT;
+                }
+
+                if (joystickPort != -1)
+                {
+                    final Joystick joystick = JoystickManager.get(joystickPort);
+                    if (joystick != null)
+                    {
+                        int thisRowIndex = rowIndex;
+                        rowIndex++;
+
+                        Label operationNameLabel = new Label(op.toString());
+                        grid.add(operationNameLabel, 0, thisRowIndex);
+
+                        if (description.getType() == OperationType.Digital)
+                        {
+                            DigitalOperationDescription digitalDescription = (DigitalOperationDescription)description;
+                            int buttonNumber = digitalDescription.getUserInputDeviceButton().Value;
+                            if (digitalDescription.getButtonType() == ButtonType.Click)
+                            {
+                                Button operationButton = new Button("Click");
+                                operationButton.setOnMouseClicked(
+                                    (MouseEvent event) ->
+                                    {
+                                        joystick.getButtonProperty(buttonNumber).set(true);
+                                    });
+
+                                grid.add(operationButton, 1, thisRowIndex);
+                            }
+                            else if (digitalDescription.getButtonType() == ButtonType.Toggle)
+                            {
+                                CheckBox operationCheckBox = new CheckBox();
+                                grid.add(operationCheckBox, 1, thisRowIndex);
+                                Bindings.bindBidirectional(joystick.getButtonProperty(buttonNumber), operationCheckBox.selectedProperty());
+                            }
+                            else if (digitalDescription.getButtonType() == ButtonType.Simple)
+                            {
+                                Button operationButton = new Button("Simple");
+                                operationButton.setOnMouseClicked(
+                                    (MouseEvent event) ->
+                                    {
+                                        joystick.getButtonProperty(buttonNumber).set(true);;
+                                    });
+
+                                grid.add(operationButton, 1, thisRowIndex);
+                            }
+                        }
+                        else if (description.getType() == OperationType.Analog)
+                        {
+                            AnalogOperationDescription analogDescription = (AnalogOperationDescription)description;
+
+                            Slider analogSlider = new Slider();
+                            analogSlider.setMin(-1.0);
+                            analogSlider.setMax(1.0);
+                            analogSlider.setBlockIncrement(0.1);
+                            analogSlider.setShowTickMarks(true);
+
+                            grid.add(analogSlider, 1, thisRowIndex);
+                            Bindings.bindBidirectional(joystick.getAxisProperty(AnalogOperationState.fromAxis(analogDescription.getUserInputDeviceAxis())), analogSlider.valueProperty());
+                        }
+                    }
+                }
+            }
         }
 
         // add a spacer:
         rowIndex++;
+
+        if (MacroOperation.values().length > 0)
+        {
+            Text macrosTitle = new Text("Macros");
+            macrosTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+            grid.add(macrosTitle, 0, rowIndex++, 2, 1);
+            for (MacroOperation op : MacroOperation.values())
+            {
+                MacroOperationDescription description = ButtonMap.MacroSchema.get(op);
+
+                if (description != null)
+                {
+                    int joystickPort = -1;
+                    if (description.getUserInputDevice() == UserInputDevice.Driver)
+                    {
+                        joystickPort = ElectronicsConstants.JOYSTICK_DRIVER_PORT;
+                    }
+                    else if (description.getUserInputDevice() == UserInputDevice.CoDriver)
+                    {
+                        joystickPort = ElectronicsConstants.JOYSTICK_CO_DRIVER_PORT;
+                    }
+
+                    if (joystickPort != -1)
+                    {
+                        final Joystick joystick = JoystickManager.get(joystickPort);
+                        if (joystick != null)
+                        {
+                            int thisRowIndex = rowIndex;
+                            rowIndex++;
+
+                            Label operationNameLabel = new Label(op.toString());
+                            grid.add(operationNameLabel, 0, thisRowIndex);
+
+                            int buttonNumber = description.getUserInputDeviceButton().Value;
+                            if (description.getButtonType() == ButtonType.Click)
+                            {
+                                Button operationButton = new Button("Click");
+                                operationButton.setOnMouseClicked(
+                                    (MouseEvent event) ->
+                                    {
+                                        joystick.getButtonProperty(buttonNumber).set(true);;
+                                    });
+
+                                grid.add(operationButton, 1, thisRowIndex);
+                            }
+                            else if (description.getButtonType() == ButtonType.Toggle)
+                            {
+                                CheckBox operationCheckBox = new CheckBox();
+                                grid.add(operationCheckBox, 1, thisRowIndex);
+                                Bindings.bindBidirectional(joystick.getButtonProperty(buttonNumber), operationCheckBox.selectedProperty());
+                            }
+                            else if (description.getButtonType() == ButtonType.Simple)
+                            {
+                                Button operationButton = new Button("Simple");
+                                operationButton.setOnMouseClicked(
+                                    (MouseEvent event) ->
+                                    {
+                                        joystick.getButtonProperty(buttonNumber).set(true);;
+                                    });
+
+                                grid.add(operationButton, 1, thisRowIndex);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // add a spacer:
+            rowIndex++;
+        }
 
         Text sensorsTitle = new Text("Sensors");
         sensorsTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));

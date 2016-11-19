@@ -3,6 +3,7 @@ package org.usfirst.frc.team1318.robot.Driver.States;
 import org.usfirst.frc.team1318.robot.ComponentManager;
 import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.TuningConstants;
+import org.usfirst.frc.team1318.robot.Driver.Buttons.AnalogAxis;
 import org.usfirst.frc.team1318.robot.Driver.Descriptions.AnalogOperationDescription;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -58,6 +59,7 @@ public class AnalogOperationState extends OperationState
      * @param components to update from
      * @return true if there was any active user input that triggered a state change
      */
+    @SuppressWarnings("unused")
     @Override
     public boolean checkInput(Joystick driver, Joystick coDriver, ComponentManager components)
     {
@@ -95,40 +97,19 @@ public class AnalogOperationState extends OperationState
         if (relevantJoystick != null)
         {
             boolean invert = false;
-            switch (description.getUserInputDeviceAxis())
+            relevantAxis = AnalogOperationState.fromAxis(description.getUserInputDeviceAxis());
+            if (relevantAxis == null)
             {
-                case None:
-                    return false;
+                return false;
+            }
 
-                case X:
-                    invert = ElectronicsConstants.INVERT_X_AXIS;
-                    relevantAxis = AxisType.kX;
-                    break;
-
-                case Y:
-                    invert = ElectronicsConstants.INVERT_Y_AXIS;
-                    relevantAxis = AxisType.kY;
-                    break;
-
-                case Z:
-                    relevantAxis = AxisType.kZ;
-                    break;
-
-                case Twist:
-                    relevantAxis = AxisType.kTwist;
-                    break;
-
-                case Throttle:
-                    relevantAxis = AxisType.kThrottle;
-                    break;
-
-                default:
-                    if (TuningConstants.THROW_EXCEPTIONS)
-                    {
-                        throw new RuntimeException("unknown axis type " + description.getUserInputDeviceAxis());
-                    }
-
-                    return false;
+            if (relevantAxis == AxisType.kY && ElectronicsConstants.INVERT_Y_AXIS)
+            {
+                invert = true;
+            }
+            else if (relevantAxis == AxisType.kX && ElectronicsConstants.INVERT_X_AXIS)
+            {
+                invert = true;
             }
 
             newValue = relevantJoystick.getAxis(relevantAxis);
@@ -169,5 +150,37 @@ public class AnalogOperationState extends OperationState
         }
 
         this.interruptValue = value;
+    }
+
+    public static AxisType fromAxis(AnalogAxis axis)
+    {
+        switch (axis)
+        {
+            case None:
+                return null;
+
+            case X:
+                return AxisType.kX;
+
+            case Y:
+                return AxisType.kY;
+
+            case Z:
+                return AxisType.kZ;
+
+            case Twist:
+                return AxisType.kTwist;
+
+            case Throttle:
+                return AxisType.kThrottle;
+
+            default:
+                if (TuningConstants.THROW_EXCEPTIONS)
+                {
+                    throw new RuntimeException("unknown axis type " + axis);
+                }
+
+                return null;
+        }
     }
 }
