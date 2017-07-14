@@ -64,6 +64,7 @@ public class Fauxbot extends Application
     private ITimer timer;
 
     private Injector injector;
+    private Injector fauxbotInjector;
 
     public Fauxbot()
     {
@@ -359,11 +360,11 @@ public class Fauxbot extends Application
      */
     Injector getFauxbotInjector()
     {
-        if (this.injector == null)
+        if (this.fauxbotInjector == null)
         {
-            this.injector = Guice.createInjector(new FauxbotModule());
+            this.fauxbotInjector = Guice.createInjector(new FauxbotModule());
         }
 
-        return this.injector;
+        return this.fauxbotInjector;
     }
 }
