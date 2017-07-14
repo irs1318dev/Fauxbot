@@ -1,8 +1,6 @@
 package org.usfirst.frc.team1318.robot.fauxbot;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.usfirst.frc.team1318.robot.ControllerManager;
 import org.usfirst.frc.team1318.robot.ElectronicsConstants;
@@ -22,7 +20,6 @@ import org.usfirst.frc.team1318.robot.driver.descriptions.OperationType;
 import org.usfirst.frc.team1318.robot.driver.descriptions.UserInputDevice;
 import org.usfirst.frc.team1318.robot.driver.states.AnalogOperationState;
 import org.usfirst.frc.team1318.robot.driver.user.UserDriver;
-import org.usfirst.frc.team1318.robot.fauxbot.simulation.GarageDoorSimulator;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
