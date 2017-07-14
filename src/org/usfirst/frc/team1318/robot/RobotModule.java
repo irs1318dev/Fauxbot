@@ -19,6 +19,7 @@ import org.usfirst.frc.team1318.robot.common.wpilibmocks.TalonWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.TimerWrapper;
 import org.usfirst.frc.team1318.robot.driver.ButtonMap;
 import org.usfirst.frc.team1318.robot.driver.IButtonMap;
+import org.usfirst.frc.team1318.robot.garagedoor.GarageDoorController;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
@@ -69,7 +70,7 @@ public class RobotModule extends AbstractModule
     public ControllerManager getControllerManager(Injector injector)
     {
         List<IController> controllerList = new ArrayList<>();
-        //controllerList.add(injector.getInstance(GarageDoorController.class));
+        controllerList.add(injector.getInstance(GarageDoorController.class));
         return new ControllerManager(controllerList);
     }
 
@@ -95,5 +96,37 @@ public class RobotModule extends AbstractModule
     public IDigitalInput getAutoDipSwitchA()
     {
         return new DigitalInputWrapper(ElectronicsConstants.AUTO_DIP_SWITCH_A_CHANNEL);
+    }
+
+    @Singleton
+    @Provides
+    @Named("GARAGEDOOR_MOTOR")
+    public IMotor getGarageDoorMotor()
+    {
+        return new TalonWrapper(ElectronicsConstants.GARAGEDOOR_MOTOR_CHANNEL);
+    }
+
+    @Singleton
+    @Provides
+    @Named("GARAGEDOOR_THROUGHBEAM_SENSOR")
+    public IDigitalInput getGarageDoorThroughBeamSensor()
+    {
+        return new DigitalInputWrapper(ElectronicsConstants.GARAGEDOOR_THROUGHBEAMSENSOR_CHANNEL);
+    }
+
+    @Singleton
+    @Provides
+    @Named("GARAGEDOOR_OPEN_SENSOR")
+    public IDigitalInput getGarageDoorOpenSensor()
+    {
+        return new DigitalInputWrapper(ElectronicsConstants.GARAGEDOOR_OPENSENSOR_CHANNEL);
+    }
+
+    @Singleton
+    @Provides
+    @Named("GARAGEDOOR_CLOSED_SENSOR")
+    public IDigitalInput getGarageDoorClosedSensor()
+    {
+        return new DigitalInputWrapper(ElectronicsConstants.GARAGEDOOR_CLOSEDSENSOR_CHANNEL);
     }
 }
