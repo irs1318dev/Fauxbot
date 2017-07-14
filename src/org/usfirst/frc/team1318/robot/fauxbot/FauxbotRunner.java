@@ -1,15 +1,16 @@
-package org.usfirst.frc.team1318.robot;
+package org.usfirst.frc.team1318.robot.fauxbot;
 
+import org.usfirst.frc.team1318.robot.ControllerManager;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 
 public class FauxbotRunner implements Runnable
 {
     private final ControllerManager controllers;
     private final Driver driver;
-    private final RealWorldSimulator simulator;
+    private final IRealWorldSimulator simulator;
     private boolean stop;
 
-    public FauxbotRunner(ControllerManager controllers, Driver driver, RealWorldSimulator simulator)
+    public FauxbotRunner(ControllerManager controllers, Driver driver, IRealWorldSimulator simulator)
     {
         this.controllers = controllers;
         this.driver = driver;

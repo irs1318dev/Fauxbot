@@ -1,14 +1,20 @@
-package org.usfirst.frc.team1318.robot;
+package org.usfirst.frc.team1318.robot.fauxbot.simulation;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.usfirst.frc.team1318.robot.fauxbot.IRealWorldSimulator;
+
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.MotorBase;
 import edu.wpi.first.wpilibj.MotorManager;
 import edu.wpi.first.wpilibj.SensorManager;
 
-public class RealWorldSimulator
+@Singleton
+public class GarageDoorSimulator implements IRealWorldSimulator
 {
     private static final int ThroughBeamSensorChannel = 0;
     private static final int OpenSensorChannel = 1;
@@ -19,9 +25,9 @@ public class RealWorldSimulator
     private final Map<Integer, String> sensorNameMap = new HashMap<Integer, String>()
     {
         {
-            this.put(RealWorldSimulator.ThroughBeamSensorChannel, "Through-Beam sensor");
-            this.put(RealWorldSimulator.OpenSensorChannel, "Open sensor");
-            this.put(RealWorldSimulator.ClosedSensorChannel, "Closed sensor");
+            this.put(GarageDoorSimulator.ThroughBeamSensorChannel, "Through-Beam sensor");
+            this.put(GarageDoorSimulator.OpenSensorChannel, "Open sensor");
+            this.put(GarageDoorSimulator.ClosedSensorChannel, "Closed sensor");
         }
     };
 
@@ -29,7 +35,7 @@ public class RealWorldSimulator
     private final Map<Integer, String> motorNameMap = new HashMap<Integer, String>()
     {
         {
-            this.put(RealWorldSimulator.MotorChannel, "Door motor");
+            this.put(GarageDoorSimulator.MotorChannel, "Door motor");
         }
     };
 
@@ -37,7 +43,9 @@ public class RealWorldSimulator
 
     private GarageState garageState;
     private int numUpdatesOpened;
-    public RealWorldSimulator()
+
+    @Inject
+    public GarageDoorSimulator()
     {
         this.garageState = GarageState.Stopped;
         this.numUpdatesOpened = 0;
@@ -65,7 +73,7 @@ public class RealWorldSimulator
 
     public void update()
     {
-        MotorBase motor = MotorManager.get(RealWorldSimulator.MotorChannel);
+        MotorBase motor = MotorManager.get(GarageDoorSimulator.MotorChannel);
         if (motor != null)
         {
             if (motor.get() > 0)
@@ -99,14 +107,14 @@ public class RealWorldSimulator
             }
         }
 
-        DigitalInput openSensor = (DigitalInput)SensorManager.get(RealWorldSimulator.OpenSensorChannel);
-        DigitalInput closedSensor = (DigitalInput)SensorManager.get(RealWorldSimulator.ClosedSensorChannel);
+        DigitalInput openSensor = (DigitalInput)SensorManager.get(GarageDoorSimulator.OpenSensorChannel);
+        DigitalInput closedSensor = (DigitalInput)SensorManager.get(GarageDoorSimulator.ClosedSensorChannel);
 
         if (openSensor != null && closedSensor != null)
         {
             openSensor.set(false);
             closedSensor.set(false);
-            if (this.numUpdatesOpened >= RealWorldSimulator.GarageFullyOpened)
+            if (this.numUpdatesOpened >= GarageDoorSimulator.GarageFullyOpened)
             {
                 openSensor.set(true);
             }
