@@ -1,8 +1,6 @@
 package org.usfirst.frc.team1318.robot.fauxbot;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.usfirst.frc.team1318.robot.ControllerManager;
 import org.usfirst.frc.team1318.robot.ElectronicsConstants;
@@ -22,7 +20,6 @@ import org.usfirst.frc.team1318.robot.driver.descriptions.OperationType;
 import org.usfirst.frc.team1318.robot.driver.descriptions.UserInputDevice;
 import org.usfirst.frc.team1318.robot.driver.states.AnalogOperationState;
 import org.usfirst.frc.team1318.robot.driver.user.UserDriver;
-import org.usfirst.frc.team1318.robot.fauxbot.simulation.GarageDoorSimulator;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -64,6 +61,7 @@ public class Fauxbot extends Application
     private ITimer timer;
 
     private Injector injector;
+    private Injector fauxbotInjector;
 
     public Fauxbot()
     {
@@ -359,11 +357,11 @@ public class Fauxbot extends Application
      */
     Injector getFauxbotInjector()
     {
-        if (this.injector == null)
+        if (this.fauxbotInjector == null)
         {
-            this.injector = Guice.createInjector(new FauxbotModule());
+            this.fauxbotInjector = Guice.createInjector(new FauxbotModule());
         }
 
-        return this.injector;
+        return this.fauxbotInjector;
     }
 }
