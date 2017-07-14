@@ -2,27 +2,25 @@ package edu.wpi.first.wpilibj;
 
 public class DoubleSolenoid
 {
-
     public enum Value
     {
-        kOff, kForward, kReverse
-
+        kOff, kForward, kReverse;
     }
+
+    private Value currentValue;
 
     public DoubleSolenoid(int forwardChannel, int reverseChannel)
     {
-        // TODO Auto-generated constructor stub
+        this(0, forwardChannel, reverseChannel);
     }
 
     public DoubleSolenoid(int moduleNumber, int forwardChannel, int reverseChannel)
     {
-        // TODO Auto-generated constructor stub
+        this.currentValue = Value.kOff;
     }
 
-    public void set(Value wpilibValue)
+    public void set(Value value)
     {
-        // TODO Auto-generated method stub
-        
+        this.currentValue = value;
     }
-
 }

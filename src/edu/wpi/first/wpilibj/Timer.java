@@ -20,7 +20,7 @@ public class Timer
 
     public double get()
     {
-        if (!isRunning)
+        if (!this.isRunning)
         {
             return 0.0;
         }
@@ -31,13 +31,12 @@ public class Timer
 
     public void stop()
     {
-        // TODO Auto-generated method stub
-        
+        this.isRunning = false;
     }
 
     public void reset()
     {
-        // TODO Auto-generated method stub
-        
+        this.isRunning = false;
+        this.startTime = 0.0;
     }
 }

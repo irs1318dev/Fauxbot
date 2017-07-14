@@ -1,41 +1,45 @@
 package edu.wpi.first.wpilibj;
 
-public class Encoder
+public class Encoder extends SensorBase
 {
+    private double distancePerPulse;
+
+    private double currentRate;
+    private double currentDistance;
+    private int currentTicks;
 
     public Encoder(int channelA, int channelB)
     {
-        // TODO Auto-generated constructor stub
+        this.reset();
+        this.distancePerPulse = 0.0;
+
+        SensorManager.set(channelA * 100 + channelB, this);
     }
 
     public double getRate()
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return this.currentRate;
     }
 
     public double getDistance()
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return this.currentDistance;
     }
 
     public int get()
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return this.currentTicks;
     }
 
     public void setDistancePerPulse(double distancePerPulse)
     {
-        // TODO Auto-generated method stub
-        
+        this.distancePerPulse = distancePerPulse;
     }
 
     public void reset()
     {
-        // TODO Auto-generated method stub
-        
+        this.currentRate = 0.0;
+        this.currentDistance = 0.0;
+        this.currentTicks = 0;
     }
-
 }

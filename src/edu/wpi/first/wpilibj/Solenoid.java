@@ -2,21 +2,20 @@ package edu.wpi.first.wpilibj;
 
 public class Solenoid
 {
+    private boolean currentValue;
 
     public Solenoid(int channel)
     {
-        // TODO Auto-generated constructor stub
+        this(0, channel);
     }
 
     public Solenoid(int moduleNumber, int channel)
     {
-        // TODO Auto-generated constructor stub
+        this.currentValue = false;
     }
 
     public void set(boolean on)
     {
-        // TODO Auto-generated method stub
-        
+        this.currentValue = on;
     }
-
 }
