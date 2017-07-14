@@ -23,10 +23,4 @@ public class ElectronicsConstants
     //================================================== Auto ==============================================================
 
     public static final int AUTO_DIP_SWITCH_A_CHANNEL = 0;
-
-    //================================================== Garage Door =======================================================
-
-    public static final int GARAGEDOOR_MOTOR_CHANNEL = 1;
-    public static final int GARAGEDOOR_OPENSENSOR_CHANNEL = 2;
-    public static final int GARAGEDOOR_CLOSEDSENSOR_CHANNEL = 3;
 }

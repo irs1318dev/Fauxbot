@@ -49,24 +49,6 @@ import javafx.stage.Stage;
 
 public class Fauxbot extends Application
 {
-    @SuppressWarnings("serial")
-    private final Map<Integer, String> sensorNameMap = new HashMap<Integer, String>()
-    {
-        {
-            this.put(0, "Through-Beam sensor:");
-            this.put(1, "Open sensor:");
-            this.put(2, "Closed sensor:");
-        }
-    };
-
-    @SuppressWarnings("serial")
-    private final Map<Integer, String> motorNameMap = new HashMap<Integer, String>()
-    {
-        {
-            this.put(0, "Door motor:");
-        }
-    };
-
     private final RealWorldSimulator simulator;
 
     private Driver driver;
@@ -274,11 +256,7 @@ public class Fauxbot extends Application
             SensorBase sensor = SensorManager.get(i);
             if (sensor != null)
             {
-                String sensorName = "Sensor " + i + ":";
-                if (this.sensorNameMap.containsKey(i))
-                {
-                    sensorName = this.sensorNameMap.get(i);
-                }
+                String sensorName = this.simulator.getSensorName(i) + ":";
 
                 int thisRowIndex = rowIndex;
                 rowIndex++;
@@ -317,11 +295,7 @@ public class Fauxbot extends Application
             MotorBase motor = MotorManager.get(i);
             if (motor != null)
             {
-                String motorName = "Motor " + i + ":";
-                if (this.motorNameMap.containsKey(i))
-                {
-                    motorName = this.motorNameMap.get(i);
-                }
+                String motorName = this.simulator.getMotorName(i) + ":";
 
                 int thisRowIndex = rowIndex;
                 rowIndex++;
