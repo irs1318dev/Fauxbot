@@ -2,8 +2,8 @@ package org.usfirst.frc.team1318.robot;
 
 import java.util.ArrayList;
 
-import org.usfirst.frc.team1318.robot.Common.IController;
-import org.usfirst.frc.team1318.robot.GarageDoor.GarageDoorController;
+import org.usfirst.frc.team1318.robot.common.IController;
+import org.usfirst.frc.team1318.robot.garagedoor.GarageDoorController;
 
 public class ControllerManager implements IController
 {
@@ -36,7 +36,7 @@ public class ControllerManager implements IController
     }
 
     @Override
-    public void setDriver(org.usfirst.frc.team1318.robot.Driver.Driver driver)
+    public void setDriver(org.usfirst.frc.team1318.robot.driver.Driver driver)
     {
         for (IController controller : this.controllerList)
         {

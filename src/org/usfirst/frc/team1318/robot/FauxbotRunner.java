@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1318.robot;
 
-import org.usfirst.frc.team1318.robot.Driver.Driver;
+import org.usfirst.frc.team1318.robot.driver.Driver;
 
 public class FauxbotRunner implements Runnable
 {

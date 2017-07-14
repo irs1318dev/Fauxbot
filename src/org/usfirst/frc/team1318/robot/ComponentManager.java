@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1318.robot;
 
-import org.usfirst.frc.team1318.robot.GarageDoor.GarageDoorComponent;
+import org.usfirst.frc.team1318.robot.garagedoor.GarageDoorComponent;
 
 public class ComponentManager
 {
