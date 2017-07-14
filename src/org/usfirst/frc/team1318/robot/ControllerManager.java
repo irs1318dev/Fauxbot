@@ -1,20 +1,17 @@
 package org.usfirst.frc.team1318.robot;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.usfirst.frc.team1318.robot.common.IController;
-import org.usfirst.frc.team1318.robot.garagedoor.GarageDoorController;
+import org.usfirst.frc.team1318.robot.driver.Driver;
 
 public class ControllerManager implements IController
 {
-    public final ComponentManager components;
-    public final ArrayList<IController> controllerList;
+    public final List<IController> controllerList;
 
-    public ControllerManager(ComponentManager components)
+    public ControllerManager(List<IController> controllerList)
     {
-        this.components = components;
-        this.controllerList = new ArrayList<>();
-        this.controllerList.add(new GarageDoorController(this.components.getGarageDoorComponent()));
+        this.controllerList = controllerList;
     }
 
     @Override
@@ -22,7 +19,17 @@ public class ControllerManager implements IController
     {
         for (IController controller : this.controllerList)
         {
-            controller.update();
+            try
+            {
+                controller.update();
+            }
+            catch (Exception ex)
+            {
+                if (TuningConstants.THROW_EXCEPTIONS)
+                {
+                    throw ex;
+                }
+            }
         }
     }
 
@@ -31,12 +38,22 @@ public class ControllerManager implements IController
     {
         for (IController controller : this.controllerList)
         {
-            controller.stop();
+            try
+            {
+                controller.stop();
+            }
+            catch (Exception ex)
+            {
+                if (TuningConstants.THROW_EXCEPTIONS)
+                {
+                    throw ex;
+                }
+            }
         }
     }
 
     @Override
-    public void setDriver(org.usfirst.frc.team1318.robot.driver.Driver driver)
+    public void setDriver(Driver driver)
     {
         for (IController controller : this.controllerList)
         {

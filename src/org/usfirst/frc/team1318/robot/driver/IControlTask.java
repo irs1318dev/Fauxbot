@@ -2,8 +2,9 @@ package org.usfirst.frc.team1318.robot.driver;
 
 import java.util.Map;
 
-import org.usfirst.frc.team1318.robot.ComponentManager;
 import org.usfirst.frc.team1318.robot.driver.states.OperationState;
+
+import com.google.inject.Injector;
 
 /**
  * Interface describing a task that that controls the functioning of the robot.
@@ -14,9 +15,9 @@ public interface IControlTask
     /**
      * Initialize the task with the mapping of operations to states
      * @param operationStateMap indicating the mapping of an operation to its current state
-     * @param components to utilize for making any decisions
+     * @param injector used to retrieve components to utilize for making any decisions
      */
-    public void initialize(Map<Operation, OperationState> operationStateMap, ComponentManager components);
+    public void initialize(Map<Operation, OperationState> operationStateMap, Injector injector);
 
     /**
      * Begin the current task.

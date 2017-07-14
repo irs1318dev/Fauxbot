@@ -4,9 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.usfirst.frc.team1318.robot.TuningConstants;
+import org.usfirst.frc.team1318.robot.driver.descriptions.OperationDescription;
 import org.usfirst.frc.team1318.robot.driver.states.AnalogOperationState;
 import org.usfirst.frc.team1318.robot.driver.states.DigitalOperationState;
 import org.usfirst.frc.team1318.robot.driver.states.OperationState;
+
+import com.google.inject.Injector;
 
 /**
  * Driver that represents something that operates the robot.  This is either autonomous or teleop/user driver.
@@ -14,17 +17,21 @@ import org.usfirst.frc.team1318.robot.driver.states.OperationState;
  */
 public abstract class Driver
 {
+    protected final Injector injector;
     protected final Map<Operation, OperationState> operationStateMap;
 
     /**
      * Initializes a new Driver
      */
-    protected Driver()
+    protected Driver(Injector injector, IButtonMap buttonMap)
     {
-        this.operationStateMap = new HashMap<Operation, OperationState>(ButtonMap.OperationSchema.size());
-        for (Operation operation : ButtonMap.OperationSchema.keySet())
+        this.injector = injector;
+
+        Map<Operation, OperationDescription> operationSchema = buttonMap.getOperationSchema();
+        this.operationStateMap = new HashMap<Operation, OperationState>(operationSchema.size());
+        for (Operation operation : operationSchema.keySet())
         {
-            this.operationStateMap.put(operation, OperationState.createFromDescription(ButtonMap.OperationSchema.get(operation)));
+            this.operationStateMap.put(operation, OperationState.createFromDescription(operationSchema.get(operation)));
         }
     }
 

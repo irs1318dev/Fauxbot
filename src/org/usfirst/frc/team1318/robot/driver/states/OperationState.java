@@ -1,12 +1,10 @@
 package org.usfirst.frc.team1318.robot.driver.states;
 
-import org.usfirst.frc.team1318.robot.ComponentManager;
 import org.usfirst.frc.team1318.robot.TuningConstants;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IJoystick;
 import org.usfirst.frc.team1318.robot.driver.descriptions.AnalogOperationDescription;
 import org.usfirst.frc.team1318.robot.driver.descriptions.DigitalOperationDescription;
 import org.usfirst.frc.team1318.robot.driver.descriptions.OperationDescription;
-
-import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * The state of a current operation.
@@ -42,10 +40,9 @@ public abstract class OperationState
      * Checks whether the operation state should change based on the driver and co-driver joysticks and component sensors. 
      * @param driver joystick to update from
      * @param coDriver joystick to update from
-     * @param components to update from
      * @return true if there was any active user input that triggered a state change
      */
-    public abstract boolean checkInput(Joystick driver, Joystick coDriver, ComponentManager components);
+    public abstract boolean checkInput(IJoystick driver, IJoystick coDriver);
 
     /**
      * Create the state corresponding to the description

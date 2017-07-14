@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
 import org.usfirst.frc.team1318.robot.driver.ButtonMap;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.driver.MacroOperation;
@@ -17,6 +19,9 @@ import org.usfirst.frc.team1318.robot.driver.descriptions.OperationType;
 import org.usfirst.frc.team1318.robot.driver.descriptions.UserInputDevice;
 import org.usfirst.frc.team1318.robot.driver.states.AnalogOperationState;
 import org.usfirst.frc.team1318.robot.driver.user.UserDriver;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -64,9 +69,13 @@ public class Fauxbot extends Application
 
     private final RealWorldSimulator simulator;
 
-    private final Driver driver;
-    private final ComponentManager components;
-    private final ControllerManager controllers;
+    private Driver driver;
+    private ControllerManager controllers;
+    private IDashboardLogger logger;
+    private Injector injector;
+
+    private ITimer timer;
+
     private final FauxbotRunner runner;
     private final Thread runnerThread;
 
@@ -74,11 +83,16 @@ public class Fauxbot extends Application
     {
         super();
 
-        this.components = new ComponentManager();
-        this.driver = new UserDriver(this.components);
-        this.controllers = new ControllerManager(this.components);
+        this.controllers = this.getInjector().getInstance(ControllerManager.class);
+        this.logger = this.getInjector().getInstance(IDashboardLogger.class);
+
+        this.timer = this.getInjector().getInstance(ITimer.class);
+
+        this.driver = this.getInjector().getInstance(UserDriver.class);
 
         this.controllers.setDriver(this.driver);
+        this.timer.start();
+
         this.simulator = new RealWorldSimulator();
         this.runner = new FauxbotRunner(this.controllers, this.driver, this.simulator);
         this.runnerThread = new Thread(this.runner);
@@ -345,5 +359,19 @@ public class Fauxbot extends Application
     public static void main(String[] args) throws InterruptedException, IOException
     {
         Application.launch(args);
+    }
+
+    /**
+     * Lazily initializes and retrieves the injector.
+     * @return the injector to use for this robot
+     */
+    Injector getInjector()
+    {
+        if (this.injector == null)
+        {
+            this.injector = Guice.createInjector(new RobotModule());
+        }
+
+        return this.injector;
     }
 }

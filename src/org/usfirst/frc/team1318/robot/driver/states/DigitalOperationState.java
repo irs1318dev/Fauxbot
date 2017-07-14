@@ -1,15 +1,13 @@
 package org.usfirst.frc.team1318.robot.driver.states;
 
-import org.usfirst.frc.team1318.robot.ComponentManager;
 import org.usfirst.frc.team1318.robot.TuningConstants;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IJoystick;
 import org.usfirst.frc.team1318.robot.driver.UserInputDeviceButton;
 import org.usfirst.frc.team1318.robot.driver.buttons.ClickButton;
 import org.usfirst.frc.team1318.robot.driver.buttons.IButton;
 import org.usfirst.frc.team1318.robot.driver.buttons.SimpleButton;
 import org.usfirst.frc.team1318.robot.driver.buttons.ToggleButton;
 import org.usfirst.frc.team1318.robot.driver.descriptions.DigitalOperationDescription;
-
-import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * The state of the current digital operation.
@@ -80,15 +78,14 @@ public class DigitalOperationState extends OperationState
      * Checks whether the operation state should change based on the driver and co-driver joysticks and component sensors. 
      * @param driver joystick to update from
      * @param coDriver joystick to update from
-     * @param components to update from
      * @return true if there was any active user input that triggered a state change
      */
     @Override
-    public boolean checkInput(Joystick driver, Joystick coDriver, ComponentManager components)
+    public boolean checkInput(IJoystick driver, IJoystick coDriver)
     {
         DigitalOperationDescription description = (DigitalOperationDescription)this.getDescription();
 
-        Joystick relevantJoystick;
+        IJoystick relevantJoystick;
         UserInputDeviceButton relevantButton;
         switch (description.getUserInputDevice())
         {

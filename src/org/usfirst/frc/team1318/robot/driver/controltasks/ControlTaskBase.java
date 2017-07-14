@@ -2,17 +2,18 @@ package org.usfirst.frc.team1318.robot.driver.controltasks;
 
 import java.util.Map;
 
-import org.usfirst.frc.team1318.robot.ComponentManager;
 import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 import org.usfirst.frc.team1318.robot.driver.states.AnalogOperationState;
 import org.usfirst.frc.team1318.robot.driver.states.DigitalOperationState;
 import org.usfirst.frc.team1318.robot.driver.states.OperationState;
 
+import com.google.inject.Injector;
+
 public abstract class ControlTaskBase implements IControlTask
 {
     private Map<Operation, OperationState> operationStateMap;
-    private ComponentManager components;
+    private Injector injector;
 
     /**
      * Initialize the task with the mapping of operations to states
@@ -20,10 +21,10 @@ public abstract class ControlTaskBase implements IControlTask
      * @param components to utilize for making any decisions
      */
     @Override
-    public void initialize(Map<Operation, OperationState> operationStateMap, ComponentManager components)
+    public void initialize(Map<Operation, OperationState> operationStateMap, Injector injector)
     {
         this.operationStateMap = operationStateMap;
-        this.components = components;
+        this.injector = injector;
     }
 
     /**
@@ -103,11 +104,11 @@ public abstract class ControlTaskBase implements IControlTask
     }
 
     /**
-     * Gets the component manager for the robot
-     * @return the set of robot components
+     * Gets the injector for the robot
+     * @return the injector for retrieving the of robot components
      */
-    protected ComponentManager getComponents()
+    protected Injector getInjector()
     {
-        return this.components;
+        return this.injector;
     }
 }

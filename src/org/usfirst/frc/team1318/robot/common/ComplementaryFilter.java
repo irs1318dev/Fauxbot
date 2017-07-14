@@ -5,7 +5,7 @@ public class ComplementaryFilter
     private final double kO;
     private final double kN;
 
-    private double currentValue; 
+    private double currentValue;
 
     public ComplementaryFilter(double kO, double kN)
     {
@@ -24,9 +24,14 @@ public class ComplementaryFilter
     {
         return this.currentValue;
     }
-    
+
     public void update(double value)
     {
         this.currentValue = this.currentValue * this.kO + value * this.kN;
+    }
+
+    public void reset()
+    {
+        this.currentValue = 0.0;
     }
 }

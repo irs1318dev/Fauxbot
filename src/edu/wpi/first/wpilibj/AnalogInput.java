@@ -31,4 +31,9 @@ public class AnalogInput extends SensorBase
     {
         return this.valueProperty;
     }
+
+    public double getVoltage()
+    {
+        return this.valueProperty.doubleValue();
+    }
 }

@@ -1,20 +1,33 @@
 package org.usfirst.frc.team1318.robot.driver.autonomous;
 
-import org.usfirst.frc.team1318.robot.common.DashboardLogger;
+import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDigitalInput;
 import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.WaitTask;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
+
+@Singleton
 public class AutonomousRoutineSelector
 {
-    // smartdash other constants
-    private static final String AUTONOMOUS_ROUTINE_PREFERENCE_KEY = "a.routine value";
+    private static final String LogName = "auto";
+    private final IDashboardLogger logger;
+
+    private final IDigitalInput dipSwitchA;
 
     /**
      * Initializes a new AutonomousDriver
      */
-    public AutonomousRoutineSelector()
+    @Inject
+    public AutonomousRoutineSelector(
+        IDashboardLogger logger,
+        @Named("AUTO_DIP_SWITCH_A") IDigitalInput dipSwitchA)
     {
         // initialize robot parts that are used to select autonomous routine (e.g. dipswitches) here...
+        this.logger = logger;
+        this.dipSwitchA = dipSwitchA;
     }
 
     /**
@@ -26,13 +39,25 @@ public class AutonomousRoutineSelector
         int routineSelection = 0;
 
         // add next base2 number (1, 2, 4, 8, 16, etc.) here based on number of dipswitches and which is on...
+        if (this.dipSwitchA.get())
+        {
+            routineSelection += 1;
+        }
 
         // print routine selection to the smartdash
-        DashboardLogger.putInteger(AutonomousRoutineSelector.AUTONOMOUS_ROUTINE_PREFERENCE_KEY, routineSelection);
+        this.logger.logInteger(
+            AutonomousRoutineSelector.LogName, "routine",
+            routineSelection);
 
         switch (routineSelection)
         {
-            default:
+            case 0: // No switches flipped
+                return AutonomousRoutineSelector.GetFillerRoutine();
+
+            case 1: // Just A flipped
+                return AutonomousRoutineSelector.GetFillerRoutine();
+
+            default: // CANNOT READ
                 return AutonomousRoutineSelector.GetFillerRoutine();
         }
     }

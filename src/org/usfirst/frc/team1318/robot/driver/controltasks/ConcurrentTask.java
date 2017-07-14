@@ -2,10 +2,11 @@ package org.usfirst.frc.team1318.robot.driver.controltasks;
 
 import java.util.Map;
 
-import org.usfirst.frc.team1318.robot.ComponentManager;
 import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 import org.usfirst.frc.team1318.robot.driver.states.OperationState;
+
+import com.google.inject.Injector;
 
 /**
  * Task that holds multiple other tasks and executes them in parallel until certain conditions
@@ -43,15 +44,15 @@ public class ConcurrentTask extends ControlTaskBase implements IControlTask
     /**
      * Initialize the task with the mapping of operations to states
      * @param operationStateMap indicating the mapping of an operation to its current state
-     * @param components to utilize for making any decisions
+     * @param injector used to retrieve the components to utilize for making any decisions
      */
     @Override
-    public void initialize(Map<Operation, OperationState> operationStateMap, ComponentManager components)
+    public void initialize(Map<Operation, OperationState> operationStateMap, Injector injector)
     {
-        super.initialize(operationStateMap, components);
+        super.initialize(operationStateMap, injector);
         for (IControlTask task : this.tasks)
         {
-            task.initialize(operationStateMap, components);
+            task.initialize(operationStateMap, injector);
         }
     }
 

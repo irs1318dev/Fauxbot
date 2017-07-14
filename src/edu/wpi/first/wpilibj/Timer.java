@@ -28,4 +28,16 @@ public class Timer
         double currentTime = Calendar.getInstance().getTime().getTime() / 1000.0;
         return currentTime - this.startTime;
     }
+
+    public void stop()
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public void reset()
+    {
+        // TODO Auto-generated method stub
+        
+    }
 }

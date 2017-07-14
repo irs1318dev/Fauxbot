@@ -1,12 +1,10 @@
 package org.usfirst.frc.team1318.robot.driver.states;
 
-import org.usfirst.frc.team1318.robot.ComponentManager;
-import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.TuningConstants;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IJoystick;
 import org.usfirst.frc.team1318.robot.driver.buttons.AnalogAxis;
 import org.usfirst.frc.team1318.robot.driver.descriptions.AnalogOperationDescription;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 
 /**
@@ -56,16 +54,14 @@ public class AnalogOperationState extends OperationState
      * Checks whether the operation state should change based on the driver and co-driver joysticks and component sensors. 
      * @param driver joystick to update from
      * @param coDriver joystick to update from
-     * @param components to update from
      * @return true if there was any active user input that triggered a state change
      */
-    @SuppressWarnings("unused")
     @Override
-    public boolean checkInput(Joystick driver, Joystick coDriver, ComponentManager components)
+    public boolean checkInput(IJoystick driver, IJoystick coDriver)
     {
         AnalogOperationDescription description = (AnalogOperationDescription)this.getDescription();
 
-        Joystick relevantJoystick;
+        IJoystick relevantJoystick;
         AxisType relevantAxis;
         switch (description.getUserInputDevice())
         {
@@ -96,27 +92,19 @@ public class AnalogOperationState extends OperationState
         double oldValue = this.currentValue;
         if (relevantJoystick != null)
         {
-            boolean invert = false;
             relevantAxis = AnalogOperationState.fromAxis(description.getUserInputDeviceAxis());
             if (relevantAxis == null)
             {
                 return false;
             }
 
-            if (relevantAxis == AxisType.kY && ElectronicsConstants.INVERT_Y_AXIS)
-            {
-                invert = true;
-            }
-            else if (relevantAxis == AxisType.kX && ElectronicsConstants.INVERT_X_AXIS)
-            {
-                invert = true;
-            }
-
             newValue = relevantJoystick.getAxis(relevantAxis);
-            if (invert)
+            if (description.getShouldInvert())
             {
                 newValue *= -1.0;
             }
+
+            newValue = this.adjustForDeadZone(newValue, description.getDeadZone());
         }
         else
         {
@@ -182,5 +170,28 @@ public class AnalogOperationState extends OperationState
 
                 return null;
         }
+    }
+
+    /**
+     * Adjust the value as a part of dead zone calculation
+     * @param value to adjust
+     * @param deadZone to consider
+     * @return adjusted value for deadZone
+     */
+    private double adjustForDeadZone(double value, double deadZone)
+    {
+        if (value < deadZone && value > -deadZone)
+        {
+            return 0.0;
+        }
+
+        double sign = 1.0;
+        if (value < 0.0)
+        {
+            sign = -1.0;
+        }
+
+        // scale so that we have the area just outside the deadzone be the starting point
+        return (value - sign * deadZone) / (1 - deadZone);
     }
 }
