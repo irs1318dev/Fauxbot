@@ -1,21 +1,40 @@
 package edu.wpi.first.wpilibj;
 
-public class Solenoid
-{
-    private boolean currentValue;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleDoubleProperty;
 
-    public Solenoid(int channel)
+public class Solenoid extends ActuatorBase
+{
+    private DoubleProperty currentValueProperty;
+
+    public Solenoid(int port)
     {
-        this(0, channel);
+        this(0, port);
     }
 
-    public Solenoid(int moduleNumber, int channel)
+    public Solenoid(int moduleNumber, int port)
     {
-        this.currentValue = false;
+        ActuatorManager.set(port, this);
+
+        this.currentValueProperty = new SimpleDoubleProperty();
+        this.currentValueProperty.set(0.0);
     }
 
     public void set(boolean on)
     {
-        this.currentValue = on;
+        if (on)
+        {
+            this.currentValueProperty.set(1.0);
+        }
+        else
+        {
+            this.currentValueProperty.set(0.0);
+        }
+    }
+
+    public DoubleProperty getProperty()
+    {
+        return this.currentValueProperty;
     }
 }

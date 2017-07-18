@@ -1,45 +1,51 @@
 package edu.wpi.first.wpilibj;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
 public class Encoder extends SensorBase
 {
-    private double distancePerPulse;
-
-    private double currentRate;
-    private double currentDistance;
-    private int currentTicks;
+    private final DoubleProperty valueProperty;
 
     public Encoder(int channelA, int channelB)
     {
-        this.reset();
-        this.distancePerPulse = 0.0;
+        this.valueProperty = new SimpleDoubleProperty();
 
-        SensorManager.set(channelA * 100 + channelB, this);
+        SensorManager.set(channelA, this);
+        SensorManager.set(channelB, null);
     }
 
     public double getRate()
     {
-        return this.currentRate;
+        return this.valueProperty.get();
     }
 
     public double getDistance()
     {
-        return this.currentDistance;
+        return this.valueProperty.get();
     }
 
     public int get()
     {
-        return this.currentTicks;
+        return (int)this.valueProperty.get();
     }
 
     public void setDistancePerPulse(double distancePerPulse)
     {
-        this.distancePerPulse = distancePerPulse;
     }
 
     public void reset()
     {
-        this.currentRate = 0.0;
-        this.currentDistance = 0.0;
-        this.currentTicks = 0;
+        this.set(0.0);
+    }
+
+    public void set(double value)
+    {
+        this.valueProperty.set(value);
+    }
+
+    public DoubleProperty getProperty()
+    {
+        return this.valueProperty;
     }
 }

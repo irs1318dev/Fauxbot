@@ -3,15 +3,16 @@ package edu.wpi.first.wpilibj;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
-public abstract class MotorBase
+public class MotorBase extends ActuatorBase
 {
     private final DoubleProperty currentPowerProperty;
 
     public MotorBase(int port)
     {
+        ActuatorManager.set(port, this);
+
         this.currentPowerProperty = new SimpleDoubleProperty();
         this.currentPowerProperty.set(0.0);
-        MotorManager.set(port, this);
     }
 
     public void set(double newValue)

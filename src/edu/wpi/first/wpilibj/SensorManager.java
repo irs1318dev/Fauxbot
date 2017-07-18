@@ -10,6 +10,11 @@ public class SensorManager
 
     public static void set(int port, SensorBase sensor)
     {
+        if (SensorManager.sensorMap.containsKey(port))
+        {
+            throw new RuntimeException("Don't expect port " + port + " to be specified multiple times!");
+        }
+
         SensorManager.sensorMap.put(port, sensor);
         if (SensorManager.highestPort < port)
         {

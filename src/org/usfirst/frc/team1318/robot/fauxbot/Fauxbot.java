@@ -26,23 +26,33 @@ import com.google.inject.Injector;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.JoystickManager;
 import edu.wpi.first.wpilibj.MotorBase;
-import edu.wpi.first.wpilibj.MotorManager;
+import edu.wpi.first.wpilibj.ActuatorBase;
+import edu.wpi.first.wpilibj.ActuatorManager;
 import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.SensorManager;
+import edu.wpi.first.wpilibj.Solenoid;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -55,24 +65,20 @@ public class Fauxbot extends Application
 
     private final IRealWorldSimulator simulator;
 
-    private Driver driver;
     private ControllerManager controllers;
-    private IDashboardLogger logger;
     private ITimer timer;
+    private Driver driver;
 
-    private Injector injector;
+    private Injector robotInjector;
     private Injector fauxbotInjector;
 
     public Fauxbot()
     {
         super();
 
-        this.controllers = this.getInjector().getInstance(ControllerManager.class);
-        this.logger = this.getInjector().getInstance(IDashboardLogger.class);
-
-        this.timer = this.getInjector().getInstance(ITimer.class);
-
-        this.driver = this.getInjector().getInstance(UserDriver.class);
+        this.controllers = this.getRobotInjector().getInstance(ControllerManager.class);
+        this.timer = this.getRobotInjector().getInstance(ITimer.class);
+        this.driver = this.getRobotInjector().getInstance(UserDriver.class);
 
         this.controllers.setDriver(this.driver);
         this.timer.start();
@@ -93,11 +99,11 @@ public class Fauxbot extends Application
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        int rowIndex = 0;
+        int rowCount = 0;
 
         Text buttonsTitle = new Text("Buttons");
         buttonsTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        grid.add(buttonsTitle, 0, rowIndex++, 2, 1);
+        grid.add(buttonsTitle, 0, rowCount++, 2, 1);
         for (Operation op : Operation.values())
         {
             OperationDescription description = ButtonMap.OperationSchema.get(op);
@@ -119,8 +125,8 @@ public class Fauxbot extends Application
                     final Joystick joystick = JoystickManager.get(joystickPort);
                     if (joystick != null)
                     {
-                        int thisRowIndex = rowIndex;
-                        rowIndex++;
+                        int thisRowIndex = rowCount;
+                        rowCount++;
 
                         Label operationNameLabel = new Label(op.toString());
                         grid.add(operationNameLabel, 0, thisRowIndex);
@@ -177,13 +183,13 @@ public class Fauxbot extends Application
         }
 
         // add a spacer:
-        rowIndex++;
+        rowCount++;
 
         if (MacroOperation.values().length > 0)
         {
             Text macrosTitle = new Text("Macros");
             macrosTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            grid.add(macrosTitle, 0, rowIndex++, 2, 1);
+            grid.add(macrosTitle, 0, rowCount++, 2, 1);
             for (MacroOperation op : MacroOperation.values())
             {
                 MacroOperationDescription description = ButtonMap.MacroSchema.get(op);
@@ -205,8 +211,8 @@ public class Fauxbot extends Application
                         final Joystick joystick = JoystickManager.get(joystickPort);
                         if (joystick != null)
                         {
-                            int thisRowIndex = rowIndex;
-                            rowIndex++;
+                            int thisRowIndex = rowCount;
+                            rowCount++;
 
                             Label operationNameLabel = new Label(op.toString());
                             grid.add(operationNameLabel, 0, thisRowIndex);
@@ -246,12 +252,12 @@ public class Fauxbot extends Application
             }
 
             // add a spacer:
-            rowIndex++;
+            rowCount++;
         }
 
         Text sensorsTitle = new Text("Sensors");
         sensorsTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        grid.add(sensorsTitle, 0, rowIndex++, 2, 1);
+        grid.add(sensorsTitle, 0, rowCount++, 2, 1);
 
         for (int i = 0; i <= SensorManager.getHightestPort(); i++)
         {
@@ -260,8 +266,8 @@ public class Fauxbot extends Application
             {
                 String sensorName = this.simulator.getSensorName(i) + ":";
 
-                int thisRowIndex = rowIndex;
-                rowIndex++;
+                int thisRowIndex = rowCount;
+                rowCount++;
 
                 Label sensorNameLabel = new Label(sensorName);
                 grid.add(sensorNameLabel, 0, thisRowIndex);
@@ -283,41 +289,81 @@ public class Fauxbot extends Application
                     grid.add(sensorSlider, 1, thisRowIndex);
                     Bindings.bindBidirectional(((AnalogInput)sensor).getProperty(), sensorSlider.valueProperty());
                 }
+                else if (sensor instanceof Encoder)
+                {
+                    double encoderMax = this.simulator.getEncoderMax(i);
+                    Slider sensorSlider = new Slider();
+                    sensorSlider.setMin(-encoderMax);
+                    sensorSlider.setMax(encoderMax);
+                    sensorSlider.setBlockIncrement(0.1);
+                    sensorSlider.setShowTickMarks(true);
+
+                    grid.add(sensorSlider, 1, thisRowIndex);
+                    Bindings.bindBidirectional(((Encoder)sensor).getProperty(), sensorSlider.valueProperty());
+                }
             }
         }
 
         // add a spacer:
-        rowIndex++;
+        rowCount++;
 
-        Text motorsTitle = new Text("Motors");
+        Text motorsTitle = new Text("Actuators");
         motorsTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        grid.add(motorsTitle, 0, rowIndex++, 2, 1);
-        for (int i = 0; i <= MotorManager.getHightestPort(); i++)
+        grid.add(motorsTitle, 0, rowCount++, 2, 1);
+        for (int i = 0; i <= ActuatorManager.getHightestPort(); i++)
         {
-            MotorBase motor = MotorManager.get(i);
-            if (motor != null)
+            ActuatorBase actuator = ActuatorManager.get(i);
+            if (actuator != null)
             {
-                String motorName = this.simulator.getMotorName(i) + ":";
+                String motorName = this.simulator.getActuatorName(i) + ":";
 
-                int thisRowIndex = rowIndex;
-                rowIndex++;
+                int thisRowIndex = rowCount;
+                rowCount++;
 
-                Label motorNameLabel = new Label(motorName);
-                grid.add(motorNameLabel, 0, thisRowIndex);
+                Label actuatorNameLabel = new Label(motorName);
+                grid.add(actuatorNameLabel, 0, thisRowIndex);
 
-                Slider sensorSlider = new Slider();
-                sensorSlider.setMin(-1.0);
-                sensorSlider.setMax(1.0);
-                sensorSlider.setBlockIncrement(0.25);
-                sensorSlider.setShowTickLabels(true);
-                sensorSlider.setShowTickMarks(true);
-
-                grid.add(sensorSlider, 1, thisRowIndex);
-                Bindings.bindBidirectional(motor.getProperty(), sensorSlider.valueProperty());
+                if (actuator instanceof MotorBase)
+                {
+                    Slider motorSlider = new Slider();
+                    motorSlider.setMin(-1.0);
+                    motorSlider.setMax(1.0);
+                    motorSlider.setBlockIncrement(0.25);
+                    motorSlider.setShowTickLabels(true);
+                    motorSlider.setShowTickMarks(true);
+    
+                    grid.add(motorSlider, 1, thisRowIndex);
+                    Bindings.bindBidirectional(((MotorBase)actuator).getProperty(), motorSlider.valueProperty());
+                }
+                else if (actuator instanceof Solenoid)
+                {
+                    Slider solenoidSlider = new Slider();
+                    solenoidSlider.setMin(0.0);
+                    solenoidSlider.setMax(1.0);
+                    solenoidSlider.setBlockIncrement(0.25);
+                    solenoidSlider.setShowTickLabels(true);
+                    solenoidSlider.setShowTickMarks(true);
+    
+                    grid.add(solenoidSlider, 1, thisRowIndex);
+                    Bindings.bindBidirectional(((Solenoid)actuator).getProperty(), solenoidSlider.valueProperty());
+                }
+                else if (actuator instanceof DoubleSolenoid)
+                {
+                    Slider solenoidSlider = new Slider();
+                    solenoidSlider.setMin(-1.0);
+                    solenoidSlider.setMax(1.0);
+                    solenoidSlider.setBlockIncrement(0.25);
+                    solenoidSlider.setShowTickLabels(true);
+                    solenoidSlider.setShowTickMarks(true);
+    
+                    grid.add(solenoidSlider, 1, thisRowIndex);
+                    Bindings.bindBidirectional(((DoubleSolenoid)actuator).getProperty(), solenoidSlider.valueProperty());
+                }
             }
         }
 
-        Scene scene = new Scene(grid, 375, 400);
+        Scene scene = new Scene(grid, 600, 400);
+
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -341,14 +387,14 @@ public class Fauxbot extends Application
      * Lazily initializes and retrieves the injector.
      * @return the injector to use for this robot
      */
-    Injector getInjector()
+    Injector getRobotInjector()
     {
-        if (this.injector == null)
+        if (this.robotInjector == null)
         {
-            this.injector = Guice.createInjector(new RobotModule());
+            this.robotInjector = Guice.createInjector(new RobotModule());
         }
 
-        return this.injector;
+        return this.robotInjector;
     }
 
     /**

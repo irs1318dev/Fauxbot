@@ -1,26 +1,49 @@
 package edu.wpi.first.wpilibj;
 
-public class DoubleSolenoid
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
+public class DoubleSolenoid extends ActuatorBase
 {
     public enum Value
     {
         kOff, kForward, kReverse;
     }
 
-    private Value currentValue;
+    private DoubleProperty currentValueProperty;
 
-    public DoubleSolenoid(int forwardChannel, int reverseChannel)
+    public DoubleSolenoid(int forwardPort, int reversePort)
     {
-        this(0, forwardChannel, reverseChannel);
+        this(0, forwardPort, reversePort);
     }
 
-    public DoubleSolenoid(int moduleNumber, int forwardChannel, int reverseChannel)
+    public DoubleSolenoid(int moduleNumber, int forwardPort, int reversePort)
     {
-        this.currentValue = Value.kOff;
+        ActuatorManager.set(forwardPort, this);
+        ActuatorManager.set(reversePort, null);
+
+        this.currentValueProperty = new SimpleDoubleProperty();
+        this.currentValueProperty.set(0.0);
     }
 
     public void set(Value value)
     {
-        this.currentValue = value;
+        if (value == Value.kOff)
+        {
+            this.currentValueProperty.set(0.0);
+        }
+        else if (value == Value.kForward)
+        {
+            this.currentValueProperty.set(1.0);
+        }
+        else if (value == Value.kReverse)
+        {
+            this.currentValueProperty.set(-1.0);
+        }
+    }
+
+    public DoubleProperty getProperty()
+    {
+        return this.currentValueProperty;
     }
 }
