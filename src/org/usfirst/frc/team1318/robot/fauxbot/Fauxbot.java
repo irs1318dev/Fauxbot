@@ -37,6 +37,7 @@ import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.SensorManager;
 import edu.wpi.first.wpilibj.Solenoid;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -72,6 +73,8 @@ public class Fauxbot extends Application
     private Injector robotInjector;
     private Injector fauxbotInjector;
 
+    private Canvas canvas;
+
     public Fauxbot()
     {
         super();
@@ -84,7 +87,7 @@ public class Fauxbot extends Application
         this.timer.start();
 
         this.simulator = this.getFauxbotInjector().getInstance(IRealWorldSimulator.class);
-        this.runner = new FauxbotRunner(this.controllers, this.driver, this.simulator);
+        this.runner = new FauxbotRunner(this.controllers, this.driver, this.simulator, this);
         this.runnerThread = new Thread(this.runner);
     }
 
@@ -362,6 +365,10 @@ public class Fauxbot extends Application
             }
         }
 
+        // construct Canvas
+        this.canvas = new Canvas(200, 200);
+        grid.add(this.canvas, 2, 0, 2, rowCount);
+
         Scene scene = new Scene(grid, 600, 400);
 
         primaryStage.setScene(scene);
@@ -369,6 +376,15 @@ public class Fauxbot extends Application
 
         // start the runner:
         this.runnerThread.start();
+    }
+
+    public void refresh()
+    {
+        Platform.runLater(
+            ()->
+            {
+                this.simulator.draw(this.canvas);
+            });
     }
 
     @Override

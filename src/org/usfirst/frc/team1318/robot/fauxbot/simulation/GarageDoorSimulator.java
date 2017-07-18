@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj.MotorBase;
 import edu.wpi.first.wpilibj.ActuatorBase;
 import edu.wpi.first.wpilibj.ActuatorManager;
 import edu.wpi.first.wpilibj.SensorManager;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 @Singleton
 public class GarageDoorSimulator implements IRealWorldSimulator
@@ -84,35 +87,20 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         {
             MotorBase motor = (MotorBase)actuator;
             double motorPower = motor.get();
-            if (motorPower > 0)
+            if (motorPower > 0 && this.garageState != GarageState.Opening)
             {
-                if (this.garageState != GarageState.Opening)
-                {
-                    this.garageState = GarageState.Opening;
-                }
-                else
-                {
-                    this.numUpdatesOpened += motorPower;
-                }
+                this.garageState = GarageState.Opening;
             }
-            else if (motorPower < 0)
+            else if (motorPower < 0 && this.garageState != GarageState.Closing)
             {
-                if (this.garageState != GarageState.Closing)
-                {
-                    this.garageState = GarageState.Closing;
-                }
-                else
-                {
-                    this.numUpdatesOpened -= motorPower;
-                }
+                this.garageState = GarageState.Closing;
             }
-            else // if (motorPower == 0)
+            else if (motorPower == 0 && this.garageState != GarageState.Stopped)
             {
-                if (this.garageState != GarageState.Stopped)
-                {
-                    this.garageState = GarageState.Stopped;
-                }
+                this.garageState = GarageState.Stopped;
             }
+
+            this.numUpdatesOpened += motorPower;
         }
 
         DigitalInput openSensor = (DigitalInput)SensorManager.get(GarageDoorSimulator.OpenSensorChannel);
@@ -138,5 +126,14 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         Stopped,
         Opening,
         Closing;
+    }
+
+    @Override
+    public void draw(Canvas canvas)
+    {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        //gc.setFill(Color.RED);
+        //gc.setLineWidth(5.0);
+        //gc.strokeLine(0.0, 0.0, this.numUpdatesOpened, this.numUpdatesOpened);
     }
 }

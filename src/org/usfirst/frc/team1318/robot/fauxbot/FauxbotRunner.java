@@ -8,13 +8,15 @@ public class FauxbotRunner implements Runnable
     private final ControllerManager controllers;
     private final Driver driver;
     private final IRealWorldSimulator simulator;
+    private final Fauxbot fauxbot;
     private boolean stop;
 
-    public FauxbotRunner(ControllerManager controllers, Driver driver, IRealWorldSimulator simulator)
+    public FauxbotRunner(ControllerManager controllers, Driver driver, IRealWorldSimulator simulator, Fauxbot fauxbot)
     {
         this.controllers = controllers;
         this.driver = driver;
         this.simulator = simulator;
+        this.fauxbot = fauxbot;
         this.stop = false;
     }
 
@@ -26,6 +28,7 @@ public class FauxbotRunner implements Runnable
             this.driver.update();
             this.controllers.update();
             this.simulator.update();
+            this.fauxbot.refresh();
 
             try
             {
