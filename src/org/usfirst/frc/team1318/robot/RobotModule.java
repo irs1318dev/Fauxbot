@@ -10,7 +10,9 @@ import org.usfirst.frc.team1318.robot.common.IController;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.SmartDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DigitalInputWrapper;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.EncoderWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDigitalInput;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IEncoder;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IJoystick;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
@@ -19,6 +21,7 @@ import org.usfirst.frc.team1318.robot.common.wpilibmocks.TalonWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.TimerWrapper;
 import org.usfirst.frc.team1318.robot.driver.ButtonMap;
 import org.usfirst.frc.team1318.robot.driver.IButtonMap;
+import org.usfirst.frc.team1318.robot.elevator.ElevatorController;
 import org.usfirst.frc.team1318.robot.garagedoor.GarageDoorController;
 
 import com.google.inject.AbstractModule;
@@ -70,7 +73,8 @@ public class RobotModule extends AbstractModule
     public ControllerManager getControllerManager(Injector injector)
     {
         List<IController> controllerList = new ArrayList<>();
-        controllerList.add(injector.getInstance(GarageDoorController.class));
+        //controllerList.add(injector.getInstance(GarageDoorController.class));
+        controllerList.add(injector.getInstance(ElevatorController.class));
         return new ControllerManager(controllerList);
     }
 
@@ -128,5 +132,21 @@ public class RobotModule extends AbstractModule
     public IDigitalInput getGarageDoorClosedSensor()
     {
         return new DigitalInputWrapper(ElectronicsConstants.GARAGEDOOR_CLOSEDSENSOR_CHANNEL);
+    }
+
+    @Singleton
+    @Provides
+    @Named("ELEVATOR_MOTOR")
+    public IMotor getElevatorMotor()
+    {
+        return new TalonWrapper(ElectronicsConstants.ELEVATOR_MOTOR_CHANNEL);
+    }
+
+    @Singleton
+    @Provides
+    @Named("ELEVATOR_ENCODER")
+    public IEncoder getElevatorEncoder()
+    {
+        return new EncoderWrapper(ElectronicsConstants.ELEVATOR_ENCODER_CHANNEL_A, ElectronicsConstants.ELEVATOR_ENCODER_CHANNEL_B);
     }
 }
