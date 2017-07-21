@@ -46,13 +46,13 @@ public class GarageDoorSimulator implements IRealWorldSimulator
     private static final int GarageFullyOpened = 250;
 
     private GarageState garageState;
-    private double numUpdatesOpened;
+    private double amountOpened;
 
     @Inject
     public GarageDoorSimulator()
     {
         this.garageState = GarageState.Stopped;
-        this.numUpdatesOpened = 0.0;
+        this.amountOpened = 0.0;
     }
 
     public String getSensorName(int channel)
@@ -105,7 +105,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
                 this.garageState = GarageState.Stopped;
             }
 
-            this.numUpdatesOpened += motorPower;
+            this.amountOpened += motorPower;
         }
 
         DigitalInput openSensor = (DigitalInput)SensorManager.get(GarageDoorSimulator.OpenSensorChannel);
@@ -115,11 +115,11 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         {
             openSensor.set(false);
             closedSensor.set(false);
-            if (this.numUpdatesOpened >= GarageDoorSimulator.GarageFullyOpened)
+            if (this.amountOpened >= GarageDoorSimulator.GarageFullyOpened)
             {
                 openSensor.set(true);
             }
-            else if (this.numUpdatesOpened <= 0)
+            else if (this.amountOpened <= 0)
             {
                 closedSensor.set(true);
             }
@@ -136,9 +136,29 @@ public class GarageDoorSimulator implements IRealWorldSimulator
     @Override
     public void draw(Canvas canvas)
     {
+        double canvasHeight = canvas.getHeight();
+        double canvasWidth = canvas.getWidth();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.RED);
-        gc.setLineWidth(5.0);
-        gc.strokeLine(0.0, 0.0, this.numUpdatesOpened, this.numUpdatesOpened);
+        gc.clearRect(0.0, 0.0, 200.0, 200.0);
+
+        double openRatio = this.amountOpened / GarageDoorSimulator.GarageFullyOpened;
+        if (openRatio == 1.0)
+        {
+            gc.setStroke(Color.GREEN);
+        }
+        else
+        {
+            gc.setStroke(Color.RED);
+        }
+
+        gc.setLineWidth(4.0);
+
+        // bars
+        if (openRatio < 0.5)
+        {
+            gc.strokeLine(0.0, canvasHeight / 2.0, canvasWidth, canvasHeight / 2.0);
+        }
+
+        gc.strokeRect(0.0, 0.0, canvasWidth, (1 - openRatio) * canvasHeight);
     }
 }
