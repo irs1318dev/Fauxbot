@@ -9,7 +9,7 @@ public class Encoder extends SensorBase
 
     public Encoder(int channelA, int channelB)
     {
-        this.valueProperty = new SimpleDoubleProperty();
+        this.valueProperty = new SimpleDoubleProperty(0.0);
 
         SensorManager.set(channelA, this);
         SensorManager.set(channelB, null);

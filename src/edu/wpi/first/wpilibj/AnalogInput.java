@@ -9,7 +9,8 @@ public class AnalogInput extends SensorBase
 
     public AnalogInput(int port)
     {
-        this.valueProperty = new SimpleDoubleProperty();
+        this.valueProperty = new SimpleDoubleProperty(0.0);
+
         SensorManager.set(port, this);
     }
 

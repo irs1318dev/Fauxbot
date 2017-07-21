@@ -65,6 +65,11 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         return "Sensor " + channel;
     }
 
+    public double getEncoderMin(int channel)
+    {
+        return 0.0;
+    }
+
     public double getEncoderMax(int channel)
     {
         return 1.0;
@@ -132,8 +137,8 @@ public class GarageDoorSimulator implements IRealWorldSimulator
     public void draw(Canvas canvas)
     {
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        //gc.setFill(Color.RED);
-        //gc.setLineWidth(5.0);
-        //gc.strokeLine(0.0, 0.0, this.numUpdatesOpened, this.numUpdatesOpened);
+        gc.setFill(Color.RED);
+        gc.setLineWidth(5.0);
+        gc.strokeLine(0.0, 0.0, this.numUpdatesOpened, this.numUpdatesOpened);
     }
 }
