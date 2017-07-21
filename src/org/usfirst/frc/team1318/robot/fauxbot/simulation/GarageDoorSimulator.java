@@ -166,6 +166,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0.0, 0.0, canvasWidth, canvasHeight);
 
+        // determine the garage door color based on whether it is fully opened or not:
         double openRatio = this.amountOpened / GarageDoorSimulator.GarageFullyOpened;
         if (openRatio == 1.0)
         {
@@ -178,12 +179,13 @@ public class GarageDoorSimulator implements IRealWorldSimulator
 
         gc.setLineWidth(4.0);
 
-        // bars
+        // draw the midway-bar:
         if (openRatio < 0.5)
         {
             gc.strokeLine(0.0, canvasHeight / 2.0, canvasWidth, canvasHeight / 2.0);
         }
 
+        // draw the garage door:
         gc.strokeRect(0.0, 0.0, canvasWidth, (1 - openRatio) * canvasHeight);
     }
 }

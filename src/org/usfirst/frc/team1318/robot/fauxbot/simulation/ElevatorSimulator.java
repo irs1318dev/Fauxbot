@@ -129,6 +129,7 @@ public class ElevatorSimulator implements IRealWorldSimulator
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0.0, 0.0, canvasWidth, canvasHeight);
 
+        // cycle through the floors:
         Color elevatorCarColor = Color.RED;
         for (double ratio : ElevatorSimulator.FloorHeightPercentages)
         {
@@ -138,11 +139,13 @@ public class ElevatorSimulator implements IRealWorldSimulator
                 elevatorCarColor = Color.GREEN;
             }
 
+            // draw the floor:
             gc.setStroke(Color.BLACK);
             gc.setLineWidth(1.0);
             gc.strokeLine(ElevatorSimulator.ElevatorCarWidth, (1 - ratio) * canvasHeight, canvasWidth, (1 - ratio) * canvasHeight); 
         }
 
+        // draw the elevator car:
         gc.setStroke(elevatorCarColor);
         gc.setLineWidth(1.0);
         gc.strokeRect(
