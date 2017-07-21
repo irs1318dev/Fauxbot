@@ -132,8 +132,31 @@ public class GarageDoorSimulator implements IRealWorldSimulator
     public void draw(Canvas canvas)
     {
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        //gc.setFill(Color.RED);
-        //gc.setLineWidth(5.0);
-        //gc.strokeLine(0.0, 0.0, this.numUpdatesOpened, this.numUpdatesOpened);
+        gc.clearRect(0.0, 0.0, 200.0, 200.0);
+        
+        
+        if (this.numUpdatesOpened == GarageDoorSimulator.GarageFullyOpened) {
+            gc.setStroke(Color.GREEN);
+            gc.setLineWidth(4.0);
+            
+        } else if (this.numUpdatesOpened < GarageDoorSimulator.GarageFullyOpened) {
+            gc.setStroke(Color.RED);
+            gc.setLineWidth(4.0);
+            
+        } 
+        
+        
+        
+        if (this.numUpdatesOpened < (GarageDoorSimulator.GarageFullyOpened /2)) {
+            gc.strokeLine(0.0, (GarageDoorSimulator.GarageFullyOpened/2),
+                200.0, (GarageDoorSimulator.GarageFullyOpened/2));
+        }  //Bars 
+       
+        gc.strokeRect(0.0, 0.0, 200.0,
+            ((1 -(this.numUpdatesOpened/GarageDoorSimulator.GarageFullyOpened)) * 200.0) );
+            
+        
+        //gc.strokeLine(0.0, 0.0, ((1 -(this.numUpdatesOpened/GarageDoorSimulator.GarageFullyOpened)) * 200.0), 
+        //   ((1 -(this.numUpdatesOpened/GarageDoorSimulator.GarageFullyOpened)) * 200.0) );
     }
 }
