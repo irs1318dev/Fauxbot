@@ -139,7 +139,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         double canvasHeight = canvas.getHeight();
         double canvasWidth = canvas.getWidth();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.clearRect(0.0, 0.0, 200.0, 200.0);
+        gc.clearRect(0.0, 0.0, canvasWidth, canvasHeight);
 
         double openRatio = this.amountOpened / GarageDoorSimulator.GarageFullyOpened;
         if (openRatio == 1.0)
