@@ -10,11 +10,13 @@ import com.google.inject.Singleton;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.MotorBase;
+import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.ActuatorBase;
 import edu.wpi.first.wpilibj.ActuatorManager;
 import edu.wpi.first.wpilibj.SensorManager;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 @Singleton
 public class ElevatorSimulator implements IRealWorldSimulator
@@ -42,6 +44,11 @@ public class ElevatorSimulator implements IRealWorldSimulator
 
     private static final double ElevatorMinHeight = 0.0;
     private static final double ElevatorMaxHeight = 250.0;
+
+    private static final double[] FloorHeightPercentages = new double[] { 0.0, 0.2, 0.4, 0.6, 0.8 };
+    private static final double PercentageAllowance = 0.01;
+    private static final double ElevatorCarWidth = 15.0;
+    private static final double ElevatorCarHeight = 35.0;
 
     private double currentElevatorHeight;
 
@@ -91,19 +98,57 @@ public class ElevatorSimulator implements IRealWorldSimulator
             this.currentElevatorHeight += motorPower;
         }
 
-        Encoder encoder = (Encoder)SensorManager.get(ElevatorSimulator.EncoderAChannel);
-        if (encoder != null)
+        if (this.currentElevatorHeight > ElevatorSimulator.ElevatorMaxHeight)
         {
+            this.currentElevatorHeight = ElevatorSimulator.ElevatorMaxHeight;
+        }
+        else if (this.currentElevatorHeight < ElevatorSimulator.ElevatorMinHeight)
+        {
+            this.currentElevatorHeight = ElevatorSimulator.ElevatorMinHeight;
+        }
+
+        SensorBase sensor = SensorManager.get(ElevatorSimulator.EncoderAChannel);
+        if (sensor != null && sensor instanceof Encoder)
+        {
+            Encoder encoder = (Encoder)sensor;
             encoder.set(this.currentElevatorHeight);
         }
     }
 
+    /**
+     * Draw a frame of animation based on the current state of the simulation.
+     * Remember that (0, 0) is at the top left!
+     */
     @Override
     public void draw(Canvas canvas)
     {
+        double elevatorHeightRatio = this.currentElevatorHeight / (ElevatorSimulator.ElevatorMaxHeight - ElevatorSimulator.ElevatorMinHeight);
+
+        double canvasHeight = canvas.getHeight();
+        double canvasWidth = canvas.getWidth();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        //gc.setFill(Color.RED);
-        //gc.setLineWidth(5.0);
-        //gc.strokeLine(0.0, 0.0, this.numUpdatesOpened, this.numUpdatesOpened);
+        gc.clearRect(0.0, 0.0, canvasWidth, canvasHeight);
+
+        Color elevatorCarColor = Color.RED;
+        for (double ratio : ElevatorSimulator.FloorHeightPercentages)
+        {
+            // if we are within a small allowance from the floor, change elevator color to Green
+            if (Math.abs(elevatorHeightRatio - ratio) < ElevatorSimulator.PercentageAllowance)
+            {
+                elevatorCarColor = Color.GREEN;
+            }
+
+            gc.setStroke(Color.BLACK);
+            gc.setLineWidth(1.0);
+            gc.strokeLine(ElevatorSimulator.ElevatorCarWidth, (1 - ratio) * canvasHeight, canvasWidth, (1 - ratio) * canvasHeight); 
+        }
+
+        gc.setStroke(elevatorCarColor);
+        gc.setLineWidth(1.0);
+        gc.strokeRect(
+            0.0,
+            (1.0 - elevatorHeightRatio) * canvasHeight - ElevatorSimulator.ElevatorCarHeight,
+            ElevatorSimulator.ElevatorCarWidth,
+            ElevatorSimulator.ElevatorCarHeight);
     }
 }

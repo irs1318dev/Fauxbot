@@ -10,6 +10,7 @@ import com.google.inject.Singleton;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.MotorBase;
+import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.ActuatorBase;
 import edu.wpi.first.wpilibj.ActuatorManager;
 import edu.wpi.first.wpilibj.SensorManager;
@@ -108,20 +109,40 @@ public class GarageDoorSimulator implements IRealWorldSimulator
             this.amountOpened += motorPower;
         }
 
-        DigitalInput openSensor = (DigitalInput)SensorManager.get(GarageDoorSimulator.OpenSensorChannel);
-        DigitalInput closedSensor = (DigitalInput)SensorManager.get(GarageDoorSimulator.ClosedSensorChannel);
-
-        if (openSensor != null && closedSensor != null)
+        if (this.amountOpened > GarageDoorSimulator.GarageFullyOpened)
         {
-            openSensor.set(false);
-            closedSensor.set(false);
+            this.amountOpened = GarageDoorSimulator.GarageFullyOpened;
+        }
+        else if (this.amountOpened < 0.0)
+        {
+            this.amountOpened = 0.0;
+        }
+
+        SensorBase openSensor = SensorManager.get(GarageDoorSimulator.OpenSensorChannel);
+        if (openSensor != null && openSensor instanceof DigitalInput)
+        {
+            DigitalInput openSwitch = (DigitalInput)openSensor;
             if (this.amountOpened >= GarageDoorSimulator.GarageFullyOpened)
             {
-                openSensor.set(true);
+                openSwitch.set(true);
             }
-            else if (this.amountOpened <= 0)
+            else
             {
-                closedSensor.set(true);
+                openSwitch.set(false);
+            }
+        }
+
+        SensorBase closedSensor = SensorManager.get(GarageDoorSimulator.ClosedSensorChannel);
+        if (closedSensor != null && closedSensor instanceof DigitalInput)
+        {
+            DigitalInput closedSwitch = (DigitalInput)closedSensor;
+            if (this.amountOpened <= 0)
+            {
+                closedSwitch.set(true);
+            }
+            else
+            {
+                closedSwitch.set(false);
             }
         }
     }
@@ -133,6 +154,10 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         Closing;
     }
 
+    /**
+     * Draw a frame of animation based on the current state of the simulation.
+     * Remember that (0, 0) is at the top left!
+     */
     @Override
     public void draw(Canvas canvas)
     {
