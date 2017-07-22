@@ -3,22 +3,13 @@ package org.usfirst.frc.team1318.robot;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.usfirst.frc.team1318.robot.common.IMechanism;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.SmartDashboardLogger;
-import org.usfirst.frc.team1318.robot.common.wpilib.DigitalInputWrapper;
-import org.usfirst.frc.team1318.robot.common.wpilib.EncoderWrapper;
-import org.usfirst.frc.team1318.robot.common.wpilib.IDigitalInput;
-import org.usfirst.frc.team1318.robot.common.wpilib.IEncoder;
-import org.usfirst.frc.team1318.robot.common.wpilib.IJoystick;
-import org.usfirst.frc.team1318.robot.common.wpilib.IMotor;
 import org.usfirst.frc.team1318.robot.common.wpilib.ITimer;
 import org.usfirst.frc.team1318.robot.common.wpilib.IWpilibProvider;
-import org.usfirst.frc.team1318.robot.common.wpilib.JoystickWrapper;
-import org.usfirst.frc.team1318.robot.common.wpilib.TalonWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilib.TimerWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilib.WpilibProvider;
 import org.usfirst.frc.team1318.robot.driver.ButtonMap;

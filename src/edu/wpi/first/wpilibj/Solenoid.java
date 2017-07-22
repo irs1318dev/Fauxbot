@@ -1,7 +1,6 @@
 package edu.wpi.first.wpilibj;
 
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleDoubleProperty;
 
 public class Solenoid extends ActuatorBase
