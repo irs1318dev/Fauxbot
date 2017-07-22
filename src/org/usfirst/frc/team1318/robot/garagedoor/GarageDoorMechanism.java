@@ -1,21 +1,37 @@
 package org.usfirst.frc.team1318.robot.garagedoor;
 
-import org.usfirst.frc.team1318.robot.common.IController;
+import javax.inject.Named;
+
+import org.usfirst.frc.team1318.robot.common.IMechanism;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDigitalInput;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 
 import com.google.inject.Inject;
 
-public class GarageDoorController implements IController
+public class GarageDoorMechanism implements IMechanism
 {
-    private GarageDoorComponent component;
+    private final IMotor motor;
+    private final IDigitalInput throughBeamSensor;
+    private final IDigitalInput openSensor;
+    private final IDigitalInput closedSensor;
+
     private Driver driver;
     private GarageDoorState state;
 
     @Inject
-    public GarageDoorController(GarageDoorComponent component)
+    public GarageDoorMechanism(
+        @Named("GARAGEDOOR_MOTOR") IMotor motor,
+        @Named("GARAGEDOOR_THROUGHBEAM_SENSOR") IDigitalInput throughBeamSensor,
+        @Named("GARAGEDOOR_OPEN_SENSOR") IDigitalInput openSensor,
+        @Named("GARAGEDOOR_CLOSED_SENSOR") IDigitalInput closedSensor)
     {
-        this.component = component;
+        this.motor = motor;
+        this.throughBeamSensor = throughBeamSensor;
+        this.openSensor = openSensor;
+        this.closedSensor = closedSensor;
+
         this.driver = null;
         this.state = GarageDoorState.Closed;
     }
@@ -44,18 +60,18 @@ public class GarageDoorController implements IController
             {
                 this.state = GarageDoorState.Closing;
             }
-            else if (this.component.isOpen())
+            else if (this.openSensor.get())
             {
                 this.state = GarageDoorState.Open;
             }
         }
         else // if (this.state == GarageDoorState.Closing)
         {
-            if (buttonPressed || this.component.isBlocked())
+            if (buttonPressed || this.throughBeamSensor.get())
             {
                 this.state = GarageDoorState.Opening;
             }
-            else if (this.component.isClosed())
+            else if (this.closedSensor.get())
             {
                 this.state = GarageDoorState.Closed;
             }
@@ -65,15 +81,15 @@ public class GarageDoorController implements IController
         {
             case Closed:
             case Open:
-                this.component.setMotorPower(0.0);
+                this.motor.set(0.0);
                 break;
 
             case Opening:
-                this.component.setMotorPower(1.0);
+                this.motor.set(1.0);
                 break;
 
             case Closing:
-                this.component.setMotorPower(-1.0);
+                this.motor.set(-1.0);
                 break;
         }
     }
@@ -81,7 +97,7 @@ public class GarageDoorController implements IController
     @Override
     public void stop()
     {
-        this.component.setMotorPower(0.0);
+        this.motor.set(0.0);
     }
 
     @Override

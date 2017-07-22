@@ -2,7 +2,7 @@ package org.usfirst.frc.team1318.robot.fauxbot;
 
 import java.io.IOException;
 
-import org.usfirst.frc.team1318.robot.ControllerManager;
+import org.usfirst.frc.team1318.robot.MechanismManager;
 import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.RobotModule;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
@@ -60,7 +60,7 @@ public class Fauxbot extends Application
 
     private final IRealWorldSimulator simulator;
 
-    private ControllerManager controllers;
+    private MechanismManager mechanisms;
     private ITimer timer;
     private Driver driver;
 
@@ -73,15 +73,15 @@ public class Fauxbot extends Application
     {
         super();
 
-        this.controllers = this.getRobotInjector().getInstance(ControllerManager.class);
+        this.mechanisms = this.getRobotInjector().getInstance(MechanismManager.class);
         this.timer = this.getRobotInjector().getInstance(ITimer.class);
         this.driver = this.getRobotInjector().getInstance(UserDriver.class);
 
-        this.controllers.setDriver(this.driver);
+        this.mechanisms.setDriver(this.driver);
         this.timer.start();
 
         this.simulator = this.getFauxbotInjector().getInstance(IRealWorldSimulator.class);
-        this.runner = new FauxbotRunner(this.controllers, this.driver, this.simulator, this);
+        this.runner = new FauxbotRunner(this.mechanisms, this.driver, this.simulator, this);
         this.runnerThread = new Thread(this.runner);
     }
 
@@ -155,7 +155,8 @@ public class Fauxbot extends Application
                                 operationButton.setOnMouseClicked(
                                     (MouseEvent event) ->
                                     {
-                                        joystick.getButtonProperty(buttonNumber).set(true);;
+                                        joystick.getButtonProperty(buttonNumber).set(true);
+                                        ;
                                     });
 
                                 grid.add(operationButton, 1, thisRowIndex);
@@ -172,7 +173,8 @@ public class Fauxbot extends Application
                             analogSlider.setShowTickMarks(true);
 
                             grid.add(analogSlider, 1, thisRowIndex);
-                            Bindings.bindBidirectional(joystick.getAxisProperty(AnalogOperationState.fromAxis(analogDescription.getUserInputDeviceAxis())), analogSlider.valueProperty());
+                            Bindings.bindBidirectional(joystick.getAxisProperty(AnalogOperationState.fromAxis(analogDescription
+                                .getUserInputDeviceAxis())), analogSlider.valueProperty());
                         }
                     }
                 }
@@ -221,7 +223,8 @@ public class Fauxbot extends Application
                                 operationButton.setOnMouseClicked(
                                     (MouseEvent event) ->
                                     {
-                                        joystick.getButtonProperty(buttonNumber).set(true);;
+                                        joystick.getButtonProperty(buttonNumber).set(true);
+                                        ;
                                     });
 
                                 grid.add(operationButton, 1, thisRowIndex);
@@ -238,7 +241,8 @@ public class Fauxbot extends Application
                                 operationButton.setOnMouseClicked(
                                     (MouseEvent event) ->
                                     {
-                                        joystick.getButtonProperty(buttonNumber).set(true);;
+                                        joystick.getButtonProperty(buttonNumber).set(true);
+                                        ;
                                     });
 
                                 grid.add(operationButton, 1, thisRowIndex);
@@ -328,7 +332,7 @@ public class Fauxbot extends Application
                     motorSlider.setBlockIncrement(0.25);
                     motorSlider.setShowTickLabels(true);
                     motorSlider.setShowTickMarks(true);
-    
+
                     grid.add(motorSlider, 1, thisRowIndex);
                     Bindings.bindBidirectional(((MotorBase)actuator).getProperty(), motorSlider.valueProperty());
                 }
@@ -340,7 +344,7 @@ public class Fauxbot extends Application
                     solenoidSlider.setBlockIncrement(0.25);
                     solenoidSlider.setShowTickLabels(true);
                     solenoidSlider.setShowTickMarks(true);
-    
+
                     grid.add(solenoidSlider, 1, thisRowIndex);
                     Bindings.bindBidirectional(((Solenoid)actuator).getProperty(), solenoidSlider.valueProperty());
                 }
@@ -352,7 +356,7 @@ public class Fauxbot extends Application
                     solenoidSlider.setBlockIncrement(0.25);
                     solenoidSlider.setShowTickLabels(true);
                     solenoidSlider.setShowTickMarks(true);
-    
+
                     grid.add(solenoidSlider, 1, thisRowIndex);
                     Bindings.bindBidirectional(((DoubleSolenoid)actuator).getProperty(), solenoidSlider.valueProperty());
                 }
@@ -375,7 +379,7 @@ public class Fauxbot extends Application
     public void refresh()
     {
         Platform.runLater(
-            ()->
+            () ->
             {
                 this.simulator.draw(this.canvas);
             });

@@ -2,26 +2,26 @@ package org.usfirst.frc.team1318.robot;
 
 import java.util.List;
 
-import org.usfirst.frc.team1318.robot.common.IController;
+import org.usfirst.frc.team1318.robot.common.IMechanism;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 
-public class ControllerManager implements IController
+public class MechanismManager implements IMechanism
 {
-    public final List<IController> controllerList;
+    public final List<IMechanism> mechanismList;
 
-    public ControllerManager(List<IController> controllerList)
+    public MechanismManager(List<IMechanism> mechanismList)
     {
-        this.controllerList = controllerList;
+        this.mechanismList = mechanismList;
     }
 
     @Override
     public void update()
     {
-        for (IController controller : this.controllerList)
+        for (IMechanism mechanism : this.mechanismList)
         {
             try
             {
-                controller.update();
+                mechanism.update();
             }
             catch (Exception ex)
             {
@@ -36,11 +36,11 @@ public class ControllerManager implements IController
     @Override
     public void stop()
     {
-        for (IController controller : this.controllerList)
+        for (IMechanism mechanism : this.mechanismList)
         {
             try
             {
-                controller.stop();
+                mechanism.stop();
             }
             catch (Exception ex)
             {
@@ -55,7 +55,7 @@ public class ControllerManager implements IController
     @Override
     public void setDriver(Driver driver)
     {
-        for (IController controller : this.controllerList)
+        for (IMechanism controller : this.mechanismList)
         {
             controller.setDriver(driver);
         }

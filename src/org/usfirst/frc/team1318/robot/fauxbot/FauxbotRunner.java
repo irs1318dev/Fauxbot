@@ -1,19 +1,19 @@
 package org.usfirst.frc.team1318.robot.fauxbot;
 
-import org.usfirst.frc.team1318.robot.ControllerManager;
+import org.usfirst.frc.team1318.robot.MechanismManager;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 
 public class FauxbotRunner implements Runnable
 {
-    private final ControllerManager controllers;
+    private final MechanismManager mechanisms;
     private final Driver driver;
     private final IRealWorldSimulator simulator;
     private final Fauxbot fauxbot;
     private boolean stop;
 
-    public FauxbotRunner(ControllerManager controllers, Driver driver, IRealWorldSimulator simulator, Fauxbot fauxbot)
+    public FauxbotRunner(MechanismManager mechanisms, Driver driver, IRealWorldSimulator simulator, Fauxbot fauxbot)
     {
-        this.controllers = controllers;
+        this.mechanisms = mechanisms;
         this.driver = driver;
         this.simulator = simulator;
         this.fauxbot = fauxbot;
@@ -26,7 +26,7 @@ public class FauxbotRunner implements Runnable
         while (!this.stop)
         {
             this.driver.update();
-            this.controllers.update();
+            this.mechanisms.update();
             this.simulator.update();
             this.fauxbot.refresh();
 

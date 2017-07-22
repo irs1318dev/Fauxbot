@@ -1,30 +1,37 @@
 package org.usfirst.frc.team1318.robot.elevator;
 
+import javax.inject.Named;
+
 import org.usfirst.frc.team1318.robot.HardwareConstants;
-import org.usfirst.frc.team1318.robot.common.IController;
+import org.usfirst.frc.team1318.robot.common.IMechanism;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.PIDHandler;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IEncoder;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 
 import com.google.inject.Inject;
 
-public class ElevatorController implements IController
+public class ElevatorMechanism implements IMechanism
 {
-    private final ElevatorComponent component;
+    private final IMotor motor;
+    private final IEncoder encoder;
     private Driver driver;
 
     private Floor requestedFloor;
     private PIDHandler pid;
 
     @Inject
-    public ElevatorController(
-        ElevatorComponent component,
+    public ElevatorMechanism(
+        @Named("ELEVATOR_MOTOR") IMotor motor,
+        @Named("ELEVATOR_ENCODER") IEncoder encoder,
         IDashboardLogger logger,
         ITimer timer)
     {
-        this.component = component;
+        this.motor = motor;
+        this.encoder = encoder;
         this.driver = null;
 
         this.requestedFloor = Floor.One;
@@ -61,7 +68,7 @@ public class ElevatorController implements IController
             this.requestedFloor = Floor.Five;
         }
 
-        double currentHeight = this.component.getElevatorHeight();
+        double currentHeight = this.encoder.getDistance();
         double desiredHeight = currentHeight;
         switch (this.requestedFloor)
         {
@@ -86,13 +93,13 @@ public class ElevatorController implements IController
                 break;
         }
 
-        this.component.setMotorPower(this.pid.calculatePosition(desiredHeight, currentHeight));
+        this.motor.set(this.pid.calculatePosition(desiredHeight, currentHeight));
     }
 
     @Override
     public void stop()
     {
-        this.component.setMotorPower(0.0);
+        this.motor.set(0.0);
     }
 
     @Override

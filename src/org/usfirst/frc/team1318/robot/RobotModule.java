@@ -6,7 +6,7 @@ import java.util.List;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.usfirst.frc.team1318.robot.common.IController;
+import org.usfirst.frc.team1318.robot.common.IMechanism;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.SmartDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DigitalInputWrapper;
@@ -21,8 +21,8 @@ import org.usfirst.frc.team1318.robot.common.wpilibmocks.TalonWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.TimerWrapper;
 import org.usfirst.frc.team1318.robot.driver.ButtonMap;
 import org.usfirst.frc.team1318.robot.driver.IButtonMap;
-import org.usfirst.frc.team1318.robot.elevator.ElevatorController;
-import org.usfirst.frc.team1318.robot.garagedoor.GarageDoorController;
+import org.usfirst.frc.team1318.robot.elevator.ElevatorMechanism;
+import org.usfirst.frc.team1318.robot.garagedoor.GarageDoorMechanism;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
@@ -70,12 +70,12 @@ public class RobotModule extends AbstractModule
 
     @Singleton
     @Provides
-    public ControllerManager getControllerManager(Injector injector)
+    public MechanismManager getMechanismManager(Injector injector)
     {
-        List<IController> controllerList = new ArrayList<>();
-        //controllerList.add(injector.getInstance(GarageDoorController.class));
-        controllerList.add(injector.getInstance(ElevatorController.class));
-        return new ControllerManager(controllerList);
+        List<IMechanism> mechanismList = new ArrayList<>();
+        mechanismList.add(injector.getInstance(GarageDoorMechanism.class));
+        //mechanismList.add(injector.getInstance(ElevatorMechanism.class));
+        return new MechanismManager(mechanismList);
     }
 
     @Singleton

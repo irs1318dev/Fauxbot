@@ -9,7 +9,7 @@ import org.usfirst.frc.team1318.robot.driver.Driver;
  * @author Will
  *
  */
-public interface IController
+public interface IMechanism
 {
     /**
      * calculate the various outputs to use based on the inputs and apply them to the outputs for the relevant component
