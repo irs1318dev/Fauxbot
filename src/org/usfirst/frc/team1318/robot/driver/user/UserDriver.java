@@ -5,8 +5,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.common.SetHelper;
-import org.usfirst.frc.team1318.robot.common.wpilibmocks.IJoystick;
+import org.usfirst.frc.team1318.robot.common.wpilib.IJoystick;
+import org.usfirst.frc.team1318.robot.common.wpilib.IWpilibProvider;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.driver.IButtonMap;
 import org.usfirst.frc.team1318.robot.driver.MacroOperation;
@@ -16,7 +18,6 @@ import org.usfirst.frc.team1318.robot.driver.states.MacroOperationState;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.name.Named;
 
 /**
  * Driver for teleop mode.  User driver translates current state and joystick state information into
@@ -38,13 +39,12 @@ public class UserDriver extends Driver
     public UserDriver(
         Injector injector,
         IButtonMap buttonMap,
-        @Named("USER_DRIVER_JOYSTICK") IJoystick joystickDriver,
-        @Named("USER_CODRIVER_JOYSTICK") IJoystick joystickCoDriver)
+        IWpilibProvider provider)
     {
         super(injector, buttonMap);
 
-        this.joystickDriver = joystickDriver;
-        this.joystickCoDriver = joystickCoDriver;
+        this.joystickDriver = provider.getJoystick(ElectronicsConstants.JOYSTICK_DRIVER_PORT);
+        this.joystickCoDriver = provider.getJoystick(ElectronicsConstants.JOYSTICK_CO_DRIVER_PORT);
 
         this.macroStateMap = new HashMap<MacroOperation, MacroOperationState>();
         Map<MacroOperation, MacroOperationDescription> macroSchema = buttonMap.getMacroOperationSchema();

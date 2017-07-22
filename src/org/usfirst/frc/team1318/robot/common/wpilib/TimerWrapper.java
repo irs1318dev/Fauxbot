@@ -1,7 +1,10 @@
-package org.usfirst.frc.team1318.robot.common.wpilibmocks;
+package org.usfirst.frc.team1318.robot.common.wpilib;
+
+import javax.inject.Singleton;
 
 import edu.wpi.first.wpilibj.Timer;
 
+@Singleton
 public class TimerWrapper implements ITimer
 {
     private final Timer wrappedObject;

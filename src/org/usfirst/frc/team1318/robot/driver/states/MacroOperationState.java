@@ -3,7 +3,7 @@ package org.usfirst.frc.team1318.robot.driver.states;
 import java.util.Map;
 
 import org.usfirst.frc.team1318.robot.TuningConstants;
-import org.usfirst.frc.team1318.robot.common.wpilibmocks.IJoystick;
+import org.usfirst.frc.team1318.robot.common.wpilib.IJoystick;
 import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 import org.usfirst.frc.team1318.robot.driver.UserInputDeviceButton;

@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1318.robot.common.wpilibmocks;
+package org.usfirst.frc.team1318.robot.common.wpilib;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;

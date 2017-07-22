@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1318.robot.common;
 
-import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
+import org.usfirst.frc.team1318.robot.common.wpilib.ITimer;
 
 /**
  * This class is a PID handler with a feed-forward handler and a complementary filter.

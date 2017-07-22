@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.usfirst.frc.team1318.robot.MechanismManager;
 import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.RobotModule;
-import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
+import org.usfirst.frc.team1318.robot.common.wpilib.ITimer;
 import org.usfirst.frc.team1318.robot.driver.ButtonMap;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.driver.MacroOperation;

@@ -1,10 +1,10 @@
 package org.usfirst.frc.team1318.robot.garagedoor;
 
-import javax.inject.Named;
-
+import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.common.IMechanism;
-import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDigitalInput;
-import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
+import org.usfirst.frc.team1318.robot.common.wpilib.IDigitalInput;
+import org.usfirst.frc.team1318.robot.common.wpilib.IMotor;
+import org.usfirst.frc.team1318.robot.common.wpilib.IWpilibProvider;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 
@@ -21,16 +21,12 @@ public class GarageDoorMechanism implements IMechanism
     private GarageDoorState state;
 
     @Inject
-    public GarageDoorMechanism(
-        @Named("GARAGEDOOR_MOTOR") IMotor motor,
-        @Named("GARAGEDOOR_THROUGHBEAM_SENSOR") IDigitalInput throughBeamSensor,
-        @Named("GARAGEDOOR_OPEN_SENSOR") IDigitalInput openSensor,
-        @Named("GARAGEDOOR_CLOSED_SENSOR") IDigitalInput closedSensor)
+    public GarageDoorMechanism(IWpilibProvider provider)
     {
-        this.motor = motor;
-        this.throughBeamSensor = throughBeamSensor;
-        this.openSensor = openSensor;
-        this.closedSensor = closedSensor;
+        this.motor = provider.getTalon(ElectronicsConstants.GARAGEDOOR_MOTOR_CHANNEL);
+        this.throughBeamSensor = provider.getDigitalInput(ElectronicsConstants.GARAGEDOOR_THROUGHBEAMSENSOR_CHANNEL);
+        this.openSensor = provider.getDigitalInput(ElectronicsConstants.GARAGEDOOR_OPENSENSOR_CHANNEL);
+        this.closedSensor = provider.getDigitalInput(ElectronicsConstants.GARAGEDOOR_CLOSEDSENSOR_CHANNEL);
 
         this.driver = null;
         this.state = GarageDoorState.Closed;

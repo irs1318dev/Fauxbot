@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1318.robot.driver.autonomous;
 
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
-import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDigitalInput;
+import org.usfirst.frc.team1318.robot.common.wpilib.IDigitalInput;
 import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.WaitTask;
 

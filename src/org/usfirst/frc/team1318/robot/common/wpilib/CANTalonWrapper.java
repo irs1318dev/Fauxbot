@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1318.robot.common.wpilibmocks;
+package org.usfirst.frc.team1318.robot.common.wpilib;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;

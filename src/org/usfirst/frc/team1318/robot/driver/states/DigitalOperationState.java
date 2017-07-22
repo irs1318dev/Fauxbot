@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1318.robot.driver.states;
 
 import org.usfirst.frc.team1318.robot.TuningConstants;
-import org.usfirst.frc.team1318.robot.common.wpilibmocks.IJoystick;
+import org.usfirst.frc.team1318.robot.common.wpilib.IJoystick;
 import org.usfirst.frc.team1318.robot.driver.UserInputDeviceButton;
 import org.usfirst.frc.team1318.robot.driver.buttons.ClickButton;
 import org.usfirst.frc.team1318.robot.driver.buttons.IButton;

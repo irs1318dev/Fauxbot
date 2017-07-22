@@ -2,13 +2,15 @@ package org.usfirst.frc.team1318.robot.elevator;
 
 import javax.inject.Named;
 
+import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.HardwareConstants;
 import org.usfirst.frc.team1318.robot.common.IMechanism;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.PIDHandler;
-import org.usfirst.frc.team1318.robot.common.wpilibmocks.IEncoder;
-import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
-import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
+import org.usfirst.frc.team1318.robot.common.wpilib.IEncoder;
+import org.usfirst.frc.team1318.robot.common.wpilib.IMotor;
+import org.usfirst.frc.team1318.robot.common.wpilib.ITimer;
+import org.usfirst.frc.team1318.robot.common.wpilib.IWpilibProvider;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 
@@ -25,13 +27,12 @@ public class ElevatorMechanism implements IMechanism
 
     @Inject
     public ElevatorMechanism(
-        @Named("ELEVATOR_MOTOR") IMotor motor,
-        @Named("ELEVATOR_ENCODER") IEncoder encoder,
+        IWpilibProvider provider,
         IDashboardLogger logger,
         ITimer timer)
     {
-        this.motor = motor;
-        this.encoder = encoder;
+        this.motor = provider.getTalon(ElectronicsConstants.ELEVATOR_MOTOR_CHANNEL);
+        this.encoder = provider.getEncoder(ElectronicsConstants.ELEVATOR_ENCODER_CHANNEL_A, ElectronicsConstants.ELEVATOR_ENCODER_CHANNEL_B);
         this.driver = null;
 
         this.requestedFloor = Floor.One;
@@ -110,10 +111,6 @@ public class ElevatorMechanism implements IMechanism
 
     private enum Floor
     {
-        One,
-        Two,
-        Three,
-        Four,
-        Five;
+        One, Two, Three, Four, Five;
     }
 }
