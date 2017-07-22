@@ -1,13 +1,14 @@
 package org.usfirst.frc.team1318.robot.driver.autonomous;
 
+import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilib.IDigitalInput;
+import org.usfirst.frc.team1318.robot.common.wpilib.IWpilibProvider;
 import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.WaitTask;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 
 @Singleton
 public class AutonomousRoutineSelector
@@ -22,12 +23,12 @@ public class AutonomousRoutineSelector
      */
     @Inject
     public AutonomousRoutineSelector(
-        IDashboardLogger logger,
-        @Named("AUTO_DIP_SWITCH_A") IDigitalInput dipSwitchA)
+        IWpilibProvider provider,
+        IDashboardLogger logger)
     {
         // initialize robot parts that are used to select autonomous routine (e.g. dipswitches) here...
         this.logger = logger;
-        this.dipSwitchA = dipSwitchA;
+        this.dipSwitchA = provider.getDigitalInput(ElectronicsConstants.AUTO_DIP_SWITCH_A_CHANNEL);
     }
 
     /**
