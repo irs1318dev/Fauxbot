@@ -1,7 +1,5 @@
 package org.usfirst.frc.team1318.robot.elevator;
 
-import javax.inject.Named;
-
 import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.HardwareConstants;
 import org.usfirst.frc.team1318.robot.common.IMechanism;
