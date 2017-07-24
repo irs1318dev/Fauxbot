@@ -55,9 +55,9 @@ public class MechanismManager implements IMechanism
     @Override
     public void setDriver(Driver driver)
     {
-        for (IMechanism controller : this.mechanismList)
+        for (IMechanism mechanism : this.mechanismList)
         {
-            controller.setDriver(driver);
+            mechanism.setDriver(driver);
         }
     }
 }

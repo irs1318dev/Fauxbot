@@ -23,8 +23,8 @@ public class AutonomousRoutineSelector
      */
     @Inject
     public AutonomousRoutineSelector(
-        IWpilibProvider provider,
-        IDashboardLogger logger)
+        IDashboardLogger logger,
+        IWpilibProvider provider)
     {
         // initialize robot parts that are used to select autonomous routine (e.g. dipswitches) here...
         this.logger = logger;
