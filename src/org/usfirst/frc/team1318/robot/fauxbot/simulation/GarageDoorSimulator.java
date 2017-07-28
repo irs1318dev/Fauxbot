@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1318.robot.fauxbot.simulation;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +18,7 @@ import edu.wpi.first.wpilibj.ActuatorManager;
 import edu.wpi.first.wpilibj.SensorManager;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 @Singleton
@@ -25,6 +28,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
     private static final int OpenSensorChannel = 1;
     private static final int ClosedSensorChannel = 2;
     private static final int MotorChannel = 0;
+    private Image image;
 
     @SuppressWarnings("serial")
     private final Map<Integer, String> sensorNameMap = new HashMap<Integer, String>()
@@ -54,6 +58,30 @@ public class GarageDoorSimulator implements IRealWorldSimulator
     {
         this.garageState = GarageState.Stopped;
         this.amountOpened = 0.0;
+        
+        String golfCart = "C:\\Users\\David\\git\\Fauxbot\\src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\golfCart.jpg";
+        String lamborghini = "C:\\Users\\David\\git\\Fauxbot\\src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\lamborghini.jpg";
+        
+        double randCar = Math.random();
+        if (randCar == 0) {
+            try 
+            {
+                FileInputStream imageInput = new FileInputStream(lamborghini); 
+                this.image = new Image(imageInput);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        } else {
+            try 
+            {
+                FileInputStream imageInput = new FileInputStream(golfCart); 
+                this.image = new Image(imageInput);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        
+       
     }
 
     public String getSensorName(int channel)
@@ -166,6 +194,11 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0.0, 0.0, canvasWidth, canvasHeight);
 
+        double imageHeight = this.image.getHeight() / 4; 
+        double imageWidth = this.image.getWidth() / 4;
+
+        gc.drawImage(this.image, 0, (canvasHeight - imageHeight), imageWidth, imageHeight);
+
         // determine the garage door color based on whether it is fully opened or not:
         double openRatio = this.amountOpened / GarageDoorSimulator.GarageFullyOpened;
         if (openRatio == 1.0)
@@ -177,6 +210,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
             gc.setStroke(Color.RED);
         }
 
+        gc.setFill(Color.BLACK);
         gc.setLineWidth(4.0);
 
         // draw the midway-bar:
@@ -186,6 +220,6 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         }
 
         // draw the garage door:
-        gc.strokeRect(0.0, 0.0, canvasWidth, (1 - openRatio) * canvasHeight);
+        gc.fillRect(0.0, 0.0, canvasWidth, (1 - openRatio) * canvasHeight);
     }
 }
