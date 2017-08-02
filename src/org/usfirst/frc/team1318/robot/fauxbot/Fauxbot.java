@@ -99,7 +99,7 @@ public class Fauxbot extends Application
         int rowCount = 0;
         
         
-        String fontDefault = "Times New Roman";
+        String fontDefault = "Arial";
         
         
         

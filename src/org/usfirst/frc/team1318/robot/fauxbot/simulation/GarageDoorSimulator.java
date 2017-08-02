@@ -5,7 +5,11 @@ import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.ws.spi.Provider;
+
+import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.fauxbot.IRealWorldSimulator;
+import org.usfirst.frc.team1318.robot.garagedoor.GarageDoorMechanism;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -61,8 +65,12 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         
         String golfCart = "C:\\Users\\David\\git\\Fauxbot\\src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\golfCart.jpg";
         String lamborghini = "C:\\Users\\David\\git\\Fauxbot\\src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\lamborghini.jpg";
+        String porsche = "C:\\Users\\David\\git\\Fauxbot\\src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\porsche.jpg";
+        String cessnaCitation = "C:\\Users\\David\\git\\Fauxbot\\src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\cesssnaCitX.jpg";
         
-        double randCar = Math.random();
+
+        //(int)Math.floor(Math.random() * 4);
+        int randCar = (int)Math.floor(Math.random() * 4);
         if (randCar == 0) {
             try 
             {
@@ -71,10 +79,26 @@ public class GarageDoorSimulator implements IRealWorldSimulator
             } catch (Exception e) {
                 System.out.println(e);
             }
-        } else {
+        } else if (randCar == 1) {
+            try 
+            {
+                FileInputStream imageInput = new FileInputStream(porsche); 
+                this.image = new Image(imageInput);
+            } catch (Exception e) {
+                System.out.println(e);
+            } 
+        } else if (randCar == 2) {
             try 
             {
                 FileInputStream imageInput = new FileInputStream(golfCart); 
+                this.image = new Image(imageInput);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        } else {
+            try 
+            {
+                FileInputStream imageInput = new FileInputStream(cessnaCitation); 
                 this.image = new Image(imageInput);
             } catch (Exception e) {
                 System.out.println(e);
@@ -193,24 +217,44 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         double canvasWidth = canvas.getWidth();
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0.0, 0.0, canvasWidth, canvasHeight);
-
-        double imageHeight = this.image.getHeight() / 4; 
-        double imageWidth = this.image.getWidth() / 4;
+        
+        double height = this.image.getHeight();
+        double width = this.image.getWidth();
+        
+        int scale;
+        if (height < 400 || width < 400) {
+            scale = 4;
+        } else if ((height > 600 || width > 400) && (height < 1200 || width < 800))  {
+            scale = 5;
+        } else if ((height > 1200 || width > 800) && (height < 2400 || width < 1600))  {
+            scale = 6;
+        } else if ((height > 5400 || width > 3600))  {
+            scale = 20;
+        } else {
+            scale = 10;
+        }
+        
+        //int tempScale = 19;
+        double imageHeight = this.image.getHeight() / scale; 
+        double imageWidth = this.image.getWidth() / scale;
 
         gc.drawImage(this.image, 0, (canvasHeight - imageHeight), imageWidth, imageHeight);
 
         // determine the garage door color based on whether it is fully opened or not:
         double openRatio = this.amountOpened / GarageDoorSimulator.GarageFullyOpened;
-        if (openRatio == 1.0)
+        gc.setFill(Color.GRAY);
+        if (openRatio >= 0.9)
         {
-            gc.setStroke(Color.GREEN);
+            gc.setFill(Color.GREEN);
         }
         else
         {
-            gc.setStroke(Color.RED);
+            gc.setFill(Color.GRAY);
         }
-
-        gc.setFill(Color.BLACK);
+        
+        
+            
+        
         gc.setLineWidth(4.0);
 
         // draw the midway-bar:
