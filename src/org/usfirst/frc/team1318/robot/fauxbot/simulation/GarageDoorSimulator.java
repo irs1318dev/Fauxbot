@@ -69,7 +69,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         String cessnaCitation = "C:\\Users\\David\\git\\Fauxbot\\src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\cesssnaCitX.jpg";
         
 
-        //(int)Math.floor(Math.random() * 4);
+       
         int randCar = (int)Math.floor(Math.random() * 4);
         if (randCar == 0) {
             try 
@@ -221,6 +221,11 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         double height = this.image.getHeight();
         double width = this.image.getWidth();
         
+        
+        //Auto Resize for images
+        
+        //Based on a 3 to 2 width/height ratio
+         
         int scale;
         if (height < 400 || width < 400) {
             scale = 4;
@@ -231,7 +236,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         } else if ((height > 5400 || width > 3600))  {
             scale = 20;
         } else {
-            scale = 10;
+            scale = 30;
         }
         
         //int tempScale = 19;
