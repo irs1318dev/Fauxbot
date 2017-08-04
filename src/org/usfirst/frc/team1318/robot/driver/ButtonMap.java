@@ -58,6 +58,13 @@ public class ButtonMap implements IButtonMap
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
                     ButtonType.Click));
+            put(
+                Operation.DriveTrainAnalog,
+                new AnalogOperationDescription(
+                    UserInputDevice.Driver,
+                    AnalogAxis.X,
+                    ElectronicsConstants.INVERT_X_AXIS,
+                    TuningConstants.DEAD_ZONE));
 
             /** Example Analog operation entry:
             put(

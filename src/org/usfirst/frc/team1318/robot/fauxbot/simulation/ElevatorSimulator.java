@@ -26,8 +26,8 @@ public class ElevatorSimulator implements IRealWorldSimulator
     private static final int EncoderAChannel = 0;
     private static final int EncoderBChannel = 1;
     private static final int MotorChannel = 0;
-    private Image ElevatorPerson;
     private FileInputStream elevatorPersonInputStream;
+    private Image ElevatorPerson;
 
     @SuppressWarnings("serial")
     private final Map<Integer, String> sensorNameMap = new HashMap<Integer, String>()
@@ -157,10 +157,6 @@ public class ElevatorSimulator implements IRealWorldSimulator
         }
 
             // draw the elevator car:
-            gc.drawImage(ElevatorPerson, 0.0, (1.0 - elevatorHeightRatio) * canvasHeight - ElevatorSimulator.ElevatorCarHeight, 
-                         ElevatorSimulator.ElevatorCarWidth,  ElevatorSimulator.ElevatorCarHeight);
-        
-        
             gc.setStroke(elevatorCarColor);
             gc.setLineWidth(1.0);
             gc.strokeRect(
@@ -168,5 +164,10 @@ public class ElevatorSimulator implements IRealWorldSimulator
                 (1.0 - elevatorHeightRatio) * canvasHeight - ElevatorSimulator.ElevatorCarHeight,
                 ElevatorSimulator.ElevatorCarWidth,
                 ElevatorSimulator.ElevatorCarHeight);
+            
+            // draw the elevator rider:
+            gc.drawImage(ElevatorPerson, 0.0, (1.0 - elevatorHeightRatio) * canvasHeight - ElevatorSimulator.ElevatorCarHeight, 
+                         ElevatorSimulator.ElevatorCarWidth,  ElevatorSimulator.ElevatorCarHeight);
+        
     }
 }
