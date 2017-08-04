@@ -28,7 +28,9 @@ public class DriveTrainMechanism implements IMechanism
     @Override
     public void update()
     {
-        boolean buttonPressed = this.driver.getDigital(Operation.WheelSpinButton);
+        double turnAmount = this.driver.getAnalog(Operation.DriveTrainTurn);
+        double forwardVelocity = this.driver.getAnalog(Operation.DriveTrainMoveForward);
+        
         if (this.state == GarageDoorState.Closed)
         {
             if (buttonPressed)
