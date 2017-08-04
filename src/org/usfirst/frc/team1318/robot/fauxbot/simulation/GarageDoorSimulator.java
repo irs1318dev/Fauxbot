@@ -63,10 +63,10 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         this.garageState = GarageState.Stopped;
         this.amountOpened = 0.0;
         
-        String golfCart = "C:\\Users\\David\\git\\Fauxbot\\src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\golfCart.jpg";
-        String lamborghini = "C:\\Users\\David\\git\\Fauxbot\\src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\lamborghini.jpg";
-        String porsche = "C:\\Users\\David\\git\\Fauxbot\\src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\porsche.jpg";
-        String cessnaCitation = "C:\\Users\\David\\git\\Fauxbot\\src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\cesssnaCitX.jpg";
+        final String golfCart = "C:\\Users\\David\\git\\Fauxbot\\src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\golfCart.jpg";
+        final String lamborghini = "C:\\Users\\David\\git\\Fauxbot\\src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\lamborghini.jpg";
+        final String porsche = "C:\\Users\\David\\git\\Fauxbot\\src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\porsche.jpg";
+        final String cessnaCitation = "C:\\Users\\David\\git\\Fauxbot\\src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\cesssnaCitX.jpg";
         
 
        
@@ -140,6 +140,8 @@ public class GarageDoorSimulator implements IRealWorldSimulator
 
     public void update()
     {
+        
+        
         ActuatorBase actuator = ActuatorManager.get(GarageDoorSimulator.MotorChannel);
         if (actuator != null && actuator instanceof MotorBase)
         {
@@ -248,7 +250,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         // determine the garage door color based on whether it is fully opened or not:
         double openRatio = this.amountOpened / GarageDoorSimulator.GarageFullyOpened;
         gc.setFill(Color.GRAY);
-        if (openRatio >= 0.9)
+        if (openRatio >= 0.98)
         {
             gc.setFill(Color.GREEN);
         }
