@@ -32,6 +32,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
     private static final int OpenSensorChannel = 1;
     private static final int ClosedSensorChannel = 2;
     private static final int MotorChannel = 0;
+
     private Image image;
 
     @SuppressWarnings("serial")
@@ -56,6 +57,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
 
     private GarageState garageState;
     private double amountOpened;
+    private boolean isThroughBeamBroken;
 
     @Inject
     public GarageDoorSimulator()
@@ -97,7 +99,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
 
         return "Motor " + channel;
     }
-
+    Color doorColor;
     public void update()
     {
         
@@ -160,6 +162,25 @@ public class GarageDoorSimulator implements IRealWorldSimulator
             }
         }
         
+        
+        SensorBase throughBeamSensor = SensorManager.get(GarageDoorSimulator.ThroughBeamSensorChannel);
+        if (throughBeamSensor != null && throughBeamSensor instanceof DigitalInput)
+        {
+            DigitalInput throughBeam = (DigitalInput)throughBeamSensor;
+            this.isThroughBeamBroken = throughBeam.get();
+            
+            if (this.isThroughBeamBroken) {
+                doorColor = Color.YELLOW;
+            } else {
+                doorColor = Color.GRAY;
+            }
+        }
+        
+        
+        /*if (this.garageState == GarageState.Stopped && (this.amountOpened != 0.0 && this.amountOpened != 250)) {
+            
+        }*/
+        
         if (this.garageState == GarageState.Stopped && this.amountOpened == 0.0) {
             
             final String golfCart = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\golfCart.jpg";
@@ -212,6 +233,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
     @Override
     public void draw(Canvas canvas)
     {
+        
         double canvasHeight = canvas.getHeight();
         double canvasWidth = canvas.getWidth();
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -238,6 +260,8 @@ public class GarageDoorSimulator implements IRealWorldSimulator
             scale = 30;
         }
         
+        
+        
         //int tempScale = 19;
         double imageHeight = this.image.getHeight() / scale; 
         double imageWidth = this.image.getWidth() / scale;
@@ -246,14 +270,14 @@ public class GarageDoorSimulator implements IRealWorldSimulator
 
         // determine the garage door color based on whether it is fully opened or not:
         double openRatio = this.amountOpened / GarageDoorSimulator.GarageFullyOpened;
-        gc.setFill(Color.GRAY);
+        gc.setFill(doorColor);
         if (openRatio >= 0.98)
         {
             gc.setFill(Color.GREEN);
         }
         else
         {
-            gc.setFill(Color.GRAY);
+            gc.setFill(doorColor);
         }
         
         
