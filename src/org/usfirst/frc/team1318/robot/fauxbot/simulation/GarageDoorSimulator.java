@@ -161,6 +161,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         }
         
         if (this.garageState == GarageState.Stopped && this.amountOpened == 0.0) {
+            
             final String golfCart = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\golfCart.jpg";
             final String lamborghini = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\lamborghini.jpg";
             final String porsche = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\porsche.jpg";
@@ -168,7 +169,8 @@ public class GarageDoorSimulator implements IRealWorldSimulator
             final String benz = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\benz.jpeg";
             
             String usedImg;
-            int randCar = (int)Math.floor(Math.random() * 4);
+            int randCar = (int)Math.floor(Math.random() * 5);
+            
            
             
             if (randCar == 0) {
@@ -179,8 +181,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
                 usedImg = golfCart;
             } else if (randCar == 3) {
                 usedImg = benz;
-            }else{
-                
+            }  else {
                 usedImg = cessnaCitation;
             }
             
