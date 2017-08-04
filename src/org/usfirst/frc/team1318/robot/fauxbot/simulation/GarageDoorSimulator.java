@@ -63,39 +63,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         this.garageState = GarageState.Stopped;
         this.amountOpened = 0.0;
         
-        final String golfCart = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\golfCart.jpg";
-        final String lamborghini = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\lamborghini.jpg";
-        final String porsche = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\porsche.jpg";
-        final String cessnaCitation = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\cesssnaCitX.jpg";
-        final String benz = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\benz.jpeg";
         
-        
-        
-        String usedImg;
-        //int randCar = (int)Math.floor(Math.random() * 4);
-        int randCar = 3;
-        
-        if (randCar == 0) {
-            usedImg = lamborghini;
-        } else if (randCar == 1) {
-            usedImg = porsche;
-        } else if (randCar == 2) {
-            usedImg = golfCart;
-        } else if (randCar == 3) {
-            usedImg = benz;
-        }else{
-            
-            usedImg = cessnaCitation;
-        }
-        
-        
-        try 
-        {
-            FileInputStream imageInput = new FileInputStream(usedImg); 
-            this.image = new Image(imageInput);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
         
        
     }
@@ -189,6 +157,40 @@ public class GarageDoorSimulator implements IRealWorldSimulator
             else
             {
                 closedSwitch.set(false);
+            }
+        }
+        
+        if (this.garageState == GarageState.Stopped && this.amountOpened == 0.0) {
+            final String golfCart = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\golfCart.jpg";
+            final String lamborghini = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\lamborghini.jpg";
+            final String porsche = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\porsche.jpg";
+            final String cessnaCitation = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\cesssnaCitX.jpg";
+            final String benz = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\benz.jpeg";
+            
+            String usedImg;
+            int randCar = (int)Math.floor(Math.random() * 4);
+           
+            
+            if (randCar == 0) {
+                usedImg = lamborghini;
+            } else if (randCar == 1) {
+                usedImg = porsche;
+            } else if (randCar == 2) {
+                usedImg = golfCart;
+            } else if (randCar == 3) {
+                usedImg = benz;
+            }else{
+                
+                usedImg = cessnaCitation;
+            }
+            
+            
+            try 
+            {
+                FileInputStream imageInput = new FileInputStream(usedImg); 
+                this.image = new Image(imageInput);
+            } catch (Exception e) {
+                System.out.println(e);
             }
         }
         
