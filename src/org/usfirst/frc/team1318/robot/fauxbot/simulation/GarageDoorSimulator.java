@@ -63,46 +63,38 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         this.garageState = GarageState.Stopped;
         this.amountOpened = 0.0;
         
-        final String golfCart = "C:\\Users\\David\\git\\Fauxbot\\src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\golfCart.jpg";
-        final String lamborghini = "C:\\Users\\David\\git\\Fauxbot\\src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\lamborghini.jpg";
-        final String porsche = "C:\\Users\\David\\git\\Fauxbot\\src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\porsche.jpg";
-        final String cessnaCitation = "C:\\Users\\David\\git\\Fauxbot\\src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\cesssnaCitX.jpg";
+        final String golfCart = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\golfCart.jpg";
+        final String lamborghini = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\lamborghini.jpg";
+        final String porsche = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\porsche.jpg";
+        final String cessnaCitation = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\cesssnaCitX.jpg";
+        final String benz = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\benz.jpeg";
         
-
-       
-        int randCar = (int)Math.floor(Math.random() * 4);
+        
+        
+        String usedImg;
+        //int randCar = (int)Math.floor(Math.random() * 4);
+        int randCar = 3;
+        
         if (randCar == 0) {
-            try 
-            {
-                FileInputStream imageInput = new FileInputStream(lamborghini); 
-                this.image = new Image(imageInput);
-            } catch (Exception e) {
-                System.out.println(e);
-            }
+            usedImg = lamborghini;
         } else if (randCar == 1) {
-            try 
-            {
-                FileInputStream imageInput = new FileInputStream(porsche); 
-                this.image = new Image(imageInput);
-            } catch (Exception e) {
-                System.out.println(e);
-            } 
+            usedImg = porsche;
         } else if (randCar == 2) {
-            try 
-            {
-                FileInputStream imageInput = new FileInputStream(golfCart); 
-                this.image = new Image(imageInput);
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-        } else {
-            try 
-            {
-                FileInputStream imageInput = new FileInputStream(cessnaCitation); 
-                this.image = new Image(imageInput);
-            } catch (Exception e) {
-                System.out.println(e);
-            }
+            usedImg = golfCart;
+        } else if (randCar == 3) {
+            usedImg = benz;
+        }else{
+            
+            usedImg = cessnaCitation;
+        }
+        
+        
+        try 
+        {
+            FileInputStream imageInput = new FileInputStream(usedImg); 
+            this.image = new Image(imageInput);
+        } catch (Exception e) {
+            System.out.println(e);
         }
         
        
@@ -199,6 +191,8 @@ public class GarageDoorSimulator implements IRealWorldSimulator
                 closedSwitch.set(false);
             }
         }
+        
+        
     }
 
     public enum GarageState
