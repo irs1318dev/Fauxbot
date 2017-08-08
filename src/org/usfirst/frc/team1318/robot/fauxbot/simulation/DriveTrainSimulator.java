@@ -44,7 +44,9 @@ public class DriveTrainSimulator implements IRealWorldSimulator
     private DriveState driveState;
     private double amountTurned;
     private double amountMoved;
-    private double leftMoved; 
+    private double powerLeft; 
+    private double powerRight;
+    private double leftMoved;
     private double rightMoved;
    
     @Inject 
@@ -109,9 +111,10 @@ public class DriveTrainSimulator implements IRealWorldSimulator
             }
          
             amountMoved = 0.0;
+            powerLeft = leftPower;
+            powerRight = rightPower;
             leftMoved = ++leftPower;
             rightMoved = ++rightPower;
-            
         }
         
     }
@@ -134,7 +137,15 @@ public class DriveTrainSimulator implements IRealWorldSimulator
         double canvasWidth = canvas.getWidth();
         GraphicsContext gc = canvas.getGraphicsContext2D();
         
-        gc.fillRoundRect(leftMoved, rightMoved, 10, 10, 50, 50);
+        
+        //gc.fillRoundRect(leftMoved, rightMoved, 10, 10, 50, 50);
+        
+       
+        gc.setFill(Color.RED);
+        gc.fillRect(0, 0, 20, powerRight);
+        
+        gc.setFill(Color.GREEN);
+        gc.fillRect(0, 30, 20, powerRight);
         
       
         

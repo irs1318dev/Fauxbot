@@ -71,6 +71,7 @@ public class DriveTrainMechanism implements IMechanism
             // with this value representing the forward velocity percentage and right turn percentage (of max speed)
             double turnAmount = this.driver.getAnalog(Operation.DriveTrainTurn);
             double forwardVelocity = this.driver.getAnalog(Operation.DriveTrainMoveForward);
+            
     
     
             // adjust the intensity of the input
