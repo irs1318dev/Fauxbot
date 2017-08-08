@@ -134,7 +134,7 @@ public class DriveTrainSimulator implements IRealWorldSimulator
         double canvasWidth = canvas.getWidth();
         GraphicsContext gc = canvas.getGraphicsContext2D();
         
-        gc.fillRoundRect(0, 0, (canvasWidth / 4), (canvasHeight /4), 50, 50);
+        gc.fillRoundRect(leftMoved, rightMoved, 10, 10, 50, 50);
         
       
         
