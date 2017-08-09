@@ -42,7 +42,18 @@ public class DriveTrainMechanism implements IMechanism
             
             // apply the power settings to the drivetrain component
             setDriveTrainPower(leftPower, rightPower);
+            
+            boolean leftBtnPressed = this.driver.getDigital(Operation.TurnLeft);
+            
+            if (leftBtnPressed) {
+                this.leftMotor.set(0.0);
+                this.rightMotor.set(1.0);
+            }
         }
+        
+        //switch (DriveTrainSimulator.)
+        
+        // Create a switch with states to make the robot turn
     
         @Override
         public void stop()
@@ -88,8 +99,8 @@ public class DriveTrainMechanism implements IMechanism
                 leftVelocityGoal = forwardVelocity;
                 rightVelocityGoal = forwardVelocity;
             }
-    
-    
+                //Comment
+                
             // decrease the desired velocity based on the configured max power level
             leftVelocityGoal = leftVelocityGoal * TuningConstants.DRIVETRAIN_MAX_POWER_LEVEL;
             rightVelocityGoal = rightVelocityGoal * TuningConstants.DRIVETRAIN_MAX_POWER_LEVEL;

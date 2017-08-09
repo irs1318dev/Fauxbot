@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.xml.ws.spi.Provider;
 
 import org.usfirst.frc.team1318.robot.ElectronicsConstants;
+import org.usfirst.frc.team1318.robot.fauxbot.Fauxbot;
 import org.usfirst.frc.team1318.robot.fauxbot.IRealWorldSimulator;
 import org.usfirst.frc.team1318.robot.fauxbot.simulation.GarageDoorSimulator.GarageState;
 import org.usfirst.frc.team1318.robot.garagedoor.GarageDoorMechanism;
@@ -29,7 +30,7 @@ import javafx.scene.paint.Color;
 public class DriveTrainSimulator implements IRealWorldSimulator
 {
     private static final int LeftMotorChannel = 0;
-    private static final int RightMotorChannel = 1;
+    private static final int RightMotorChannel = 0;
     
     @SuppressWarnings("serial")
     private final Map<Integer, String> motorNameMap = new HashMap<Integer, String>()
@@ -63,7 +64,7 @@ public class DriveTrainSimulator implements IRealWorldSimulator
 
     public double getEncoderMin(int channel)
     {
-        return 0.0;
+        return -1.0;
     }
 
     public double getEncoderMax(int channel)
@@ -136,16 +137,16 @@ public class DriveTrainSimulator implements IRealWorldSimulator
         double canvasHeight = canvas.getHeight();
         double canvasWidth = canvas.getWidth();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        
+        gc.clearRect(0, 0, 200, 200);
         
         //gc.fillRoundRect(leftMoved, rightMoved, 10, 10, 50, 50);
         
-       
+        
         gc.setFill(Color.RED);
-        gc.fillRect(0, 0, 20, powerRight);
+        gc.fillRect(0, 0, 20, powerLeft);
         
         gc.setFill(Color.GREEN);
-        gc.fillRect(0, 30, 20, powerRight);
+        gc.fillRect(50, 0, 20, powerRight);
         
       
         
