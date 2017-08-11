@@ -29,8 +29,8 @@ import javafx.scene.paint.Color;
 @Singleton
 public class DriveTrainSimulator implements IRealWorldSimulator
 {
-    private static final int LeftMotorChannel = 0;
-    private static final int RightMotorChannel = 0;
+    private static final int LeftMotorChannel = ElectronicsConstants.GARAGEDOOR_MOTOR_CHANNEL;
+    private static final int RightMotorChannel = ElectronicsConstants.GARAGEDOOR_MOTOR_CHANNEL;
     
     @SuppressWarnings("serial")
     private final Map<Integer, String> motorNameMap = new HashMap<Integer, String>()
@@ -52,6 +52,9 @@ public class DriveTrainSimulator implements IRealWorldSimulator
    
     @Inject 
     public DriveTrainSimulator() {
+        this.driveState = DriveState.Stopped;
+        this.powerLeft = 0.0;
+        this.powerRight = 0.0;
         
     }
 
@@ -141,12 +144,22 @@ public class DriveTrainSimulator implements IRealWorldSimulator
         
         //gc.fillRoundRect(leftMoved, rightMoved, 10, 10, 50, 50);
         
-        
         gc.setFill(Color.RED);
-        gc.fillRect(0, 0, 20, powerLeft);
+        if (powerLeft < 0) {
+            gc.setFill(Color.BLUE);
+            powerLeft = powerLeft * -1;
+        }
+        
+        
+        gc.fillRect(0, 0, 20, (powerLeft * 100));
         
         gc.setFill(Color.GREEN);
-        gc.fillRect(50, 0, 20, powerRight);
+        if (powerRight < 0) {
+            gc.setFill(Color.YELLOW);
+            powerRight = powerRight * -1;
+        }
+        
+        gc.fillRect(50, 0, 20, (powerRight * 100));
         
       
         

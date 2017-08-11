@@ -46,12 +46,25 @@ public class DriveTrainMechanism implements IMechanism
             boolean leftBtnPressed = this.driver.getDigital(Operation.TurnLeft);
             
             if (leftBtnPressed) {
-                this.leftMotor.set(0.0);
+                int i = 0;
+                while (i < 40){
+                this.leftMotor.set(-1.0);
                 this.rightMotor.set(1.0);
+                i++;
+                }
             }
+            
+            boolean resetPressed = this.driver.getDigital(Operation.ResetPower);
+            
+            if (resetPressed) {
+                this.leftMotor.set(0.0);
+                this.rightMotor.set(0.0);
+            }
+            
+            
         }
         
-        //switch (DriveTrainSimulator.)
+       
         
         // Create a switch with states to make the robot turn
     
@@ -83,7 +96,8 @@ public class DriveTrainMechanism implements IMechanism
             double turnAmount = this.driver.getAnalog(Operation.DriveTrainTurn);
             double forwardVelocity = this.driver.getAnalog(Operation.DriveTrainMoveForward);
             
-    
+            
+              
     
             // adjust the intensity of the input
     

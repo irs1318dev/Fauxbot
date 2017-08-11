@@ -22,7 +22,7 @@ public class ButtonMap implements IButtonMap
     public static Map<Operation, OperationDescription> OperationSchema = new HashMap<Operation, OperationDescription>()
     {
         {
-            put(
+            /*put(
                 Operation.GarageDoorButton,
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
@@ -57,7 +57,7 @@ public class ButtonMap implements IButtonMap
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
-                    ButtonType.Click));
+                    ButtonType.Click));*/
             put(
                 Operation.DriveTrainTurn,
                 new AnalogOperationDescription(
@@ -78,6 +78,13 @@ public class ButtonMap implements IButtonMap
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.BUTTON_PAD_BUTTON_1,
+                    ButtonType.Click));
+            
+            put(
+                Operation.ResetPower,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_2,
                     ButtonType.Click));
 
             /** Example Analog operation entry:
