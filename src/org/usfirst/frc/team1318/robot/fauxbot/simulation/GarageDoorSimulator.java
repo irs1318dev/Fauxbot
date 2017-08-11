@@ -32,6 +32,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
     private static final int OpenSensorChannel = 1;
     private static final int ClosedSensorChannel = 2;
     private static final int MotorChannel = 0;
+
     private Image image;
 
     @SuppressWarnings("serial")
@@ -56,6 +57,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
 
     private GarageState garageState;
     private double amountOpened;
+    private boolean isThroughBeamBroken;
 
     @Inject
     public GarageDoorSimulator()
@@ -63,13 +65,17 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         this.garageState = GarageState.Stopped;
         this.amountOpened = 0.0;
         
+<<<<<<< HEAD
         final String cerberus = "src/org/usfirst/frc/team1318/robot/fauxbot/images/cerberus.jpg";
         final String golfCart = "src/org/usfirst/frc/team1318/robot/fauxbot/images/golfCart.jpg";
         final String lamborghini = "src/org/usfirst/frc/team1318/robot/fauxbot/images/lamborghini.jpg";
         final String porsche = "src/org/usfirst/frc/team1318/robot/fauxbot/images/porsche.jpg";
         final String cessnaCitation = "src/org/usfirst/frc/team1318/robot/fauxbot/images/cesssnaCitX.jpg";
         final String benz = "src/org/usfirst/frc/team1318/robot/fauxbot/images/benz.jpeg";
+=======
+>>>>>>> refs/heads/Drivetrain
         
+<<<<<<< HEAD
         
         
         String usedImg;
@@ -98,6 +104,8 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         } catch (Exception e) {
             System.out.println(e);
         }
+=======
+>>>>>>> refs/heads/Drivetrain
         
        
     }
@@ -131,7 +139,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
 
         return "Motor " + channel;
     }
-
+    Color doorColor;
     public void update()
     {
         
@@ -195,6 +203,60 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         }
         
         
+        SensorBase throughBeamSensor = SensorManager.get(GarageDoorSimulator.ThroughBeamSensorChannel);
+        if (throughBeamSensor != null && throughBeamSensor instanceof DigitalInput)
+        {
+            DigitalInput throughBeam = (DigitalInput)throughBeamSensor;
+            this.isThroughBeamBroken = throughBeam.get();
+            
+            if (this.isThroughBeamBroken) {
+                doorColor = Color.YELLOW;
+            } else {
+                doorColor = Color.GRAY;
+            }
+        }
+        
+        
+        /*if (this.garageState == GarageState.Stopped && (this.amountOpened != 0.0 && this.amountOpened != 250)) {
+            
+        }*/
+        
+        if (this.garageState == GarageState.Stopped && this.amountOpened == 0.0) {
+            
+            final String golfCart = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\golfCart.jpg";
+            final String lamborghini = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\lamborghini.jpg";
+            final String porsche = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\porsche.jpg";
+            final String cessnaCitation = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\cesssnaCitX.jpg";
+            final String benz = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\benz.jpeg";
+            
+            String usedImg;
+            int randCar = (int)Math.floor(Math.random() * 5);
+            
+           
+            
+            if (randCar == 0) {
+                usedImg = lamborghini;
+            } else if (randCar == 1) {
+                usedImg = porsche;
+            } else if (randCar == 2) {
+                usedImg = golfCart;
+            } else if (randCar == 3) {
+                usedImg = benz;
+            }  else {
+                usedImg = cessnaCitation;
+            }
+            
+            
+            try 
+            {
+                FileInputStream imageInput = new FileInputStream(usedImg); 
+                this.image = new Image(imageInput);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        
+        
     }
 
     public enum GarageState
@@ -211,6 +273,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
     @Override
     public void draw(Canvas canvas)
     {
+        
         double canvasHeight = canvas.getHeight();
         double canvasWidth = canvas.getWidth();
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -237,6 +300,8 @@ public class GarageDoorSimulator implements IRealWorldSimulator
             scale = 30;
         }
         
+        
+        
         //int tempScale = 19;
         double imageHeight = this.image.getHeight() / scale; 
         double imageWidth = this.image.getWidth() / scale;
@@ -245,14 +310,14 @@ public class GarageDoorSimulator implements IRealWorldSimulator
 
         // determine the garage door color based on whether it is fully opened or not:
         double openRatio = this.amountOpened / GarageDoorSimulator.GarageFullyOpened;
-        gc.setFill(Color.GRAY);
+        gc.setFill(doorColor);
         if (openRatio >= 0.98)
         {
             gc.setFill(Color.GREEN);
         }
         else
         {
-            gc.setFill(Color.GRAY);
+            gc.setFill(doorColor);
         }
         
         

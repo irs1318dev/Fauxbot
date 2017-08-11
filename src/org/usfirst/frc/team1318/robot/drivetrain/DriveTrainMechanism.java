@@ -42,7 +42,32 @@ public class DriveTrainMechanism implements IMechanism
             
             // apply the power settings to the drivetrain component
             setDriveTrainPower(leftPower, rightPower);
+
+            
+            boolean leftBtnPressed = this.driver.getDigital(Operation.TurnLeft);
+            
+            if (leftBtnPressed) {
+                int i = 0;
+                while (i < 40){
+                this.leftMotor.set(-1.0);
+                this.rightMotor.set(1.0);
+                i++;
+                }
+            }
+            
+            boolean resetPressed = this.driver.getDigital(Operation.ResetPower);
+            
+            if (resetPressed) {
+                this.leftMotor.set(0.0);
+                this.rightMotor.set(0.0);
+            }
+            
+            
         }
+        
+       
+        
+        // Create a switch with states to make the robot turn
     
         @Override
         public void stop()
@@ -71,7 +96,7 @@ public class DriveTrainMechanism implements IMechanism
             // with this value representing the forward velocity percentage and right turn percentage (of max speed)
             double turnAmount = this.driver.getAnalog(Operation.DriveTrainTurn);
             double forwardVelocity = this.driver.getAnalog(Operation.DriveTrainMoveForward);
-    
+
     
             // adjust the intensity of the input
     
@@ -87,6 +112,27 @@ public class DriveTrainMechanism implements IMechanism
                 leftVelocityGoal = forwardVelocity;
                 rightVelocityGoal = forwardVelocity;
             }
+
+                //Comment
+                
+            // decrease the desired velocity based on the configured max power level
+            leftVelocityGoal = leftVelocityGoal * TuningConstants.DRIVETRAIN_MAX_POWER_LEVEL;
+            rightVelocityGoal = rightVelocityGoal * TuningConstants.DRIVETRAIN_MAX_POWER_LEVEL;
+    
+            // convert velocity goal to power level...
+            double leftPower;
+            double rightPower;
+    
+            // Implement PID here
+            leftPower = leftVelocityGoal;
+            rightPower = rightVelocityGoal;
+            return new PowerSetting(leftPower, rightPower);
+        }
+        
+        /**
+         * Simple holder of power setting information for the left and right motor
+         * (This exists only to allow splitting out common code and have only one return value, because Java doesn't support multiple-return)
+
     
     
             // decrease the desired velocity based on the configured max power level
@@ -106,6 +152,7 @@ public class DriveTrainMechanism implements IMechanism
         /**
          * Simple holder of power setting information for the left and right motor
          * (This exists only to allow splitting out common code and have only one return value, because Java doesn't support multi-return)
+
          */
         private class PowerSetting
         {

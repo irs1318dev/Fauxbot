@@ -312,7 +312,8 @@ public class Fauxbot extends Application
 
         // add a spacer:
         rowCount++;
-
+        
+        
         Text motorsTitle = new Text("Actuators");
         motorsTitle.setFont(Font.font(fontDefault, FontWeight.NORMAL, 20));
         grid.add(motorsTitle, 0, rowCount++, 2, 1);
@@ -328,6 +329,9 @@ public class Fauxbot extends Application
 
                 Label actuatorNameLabel = new Label(motorName);
                 grid.add(actuatorNameLabel, 0, thisRowIndex);
+                
+                
+                
 
                 if (actuator instanceof MotorBase)
                 {
