@@ -12,7 +12,7 @@ public class ElectronicsConstants
     public static final boolean INVERT_X_AXIS = false;
 
     // change INVERT_Y_AXIS to true if positive on the joystick isn't forward, and negative isn't backwards.
-    public static final boolean INVERT_Y_AXIS = true;
+    public static final boolean INVERT_Y_AXIS = false;
 
     public static final int PCM_A_MODULE = 0;
     public static final int PCM_B_MODULE = 1;
@@ -32,10 +32,15 @@ public class ElectronicsConstants
     public static final int GARAGEDOOR_OPENSENSOR_CHANNEL = 1;
     public static final int GARAGEDOOR_CLOSEDSENSOR_CHANNEL = 2;
 
-    //================================================== Garage Door =======================================================
+    //================================================== Elevator ==========================================================
 
     public static final int ELEVATOR_MOTOR_CHANNEL = 0;
 
     public static final int ELEVATOR_ENCODER_CHANNEL_A = 0;
     public static final int ELEVATOR_ENCODER_CHANNEL_B = 1;
+    
+   //================================================== Drive Train =======================================================
+
+    public static final int DRIVETRAIN_LEFT_MOTOR_CHANNEL = 0;
+    public static final int DRIVETRAIN_RIGHT_MOTOR_CHANNEL = 1; 
 }

@@ -11,6 +11,4 @@ public enum Operation
     // Elevator operations:
     ElevatorOneButton, ElevatorTwoButton, ElevatorThreeButton, ElevatorFourButton, ElevatorFiveButton,
     
-    
-    
 }

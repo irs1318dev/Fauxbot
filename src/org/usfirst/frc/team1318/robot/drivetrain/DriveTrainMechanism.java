@@ -21,8 +21,8 @@ public class DriveTrainMechanism implements IMechanism
         @Inject
         public DriveTrainMechanism(IWpilibProvider provider)
         {
-            this.leftMotor = provider.getTalon(ElectronicsConstants.GARAGEDOOR_MOTOR_CHANNEL);
-            this.rightMotor = provider.getTalon(ElectronicsConstants.GARAGEDOOR_MOTOR_CHANNEL);
+            this.leftMotor = provider.getTalon(ElectronicsConstants.DRIVETRAIN_LEFT_MOTOR_CHANNEL);
+            this.rightMotor = provider.getTalon(ElectronicsConstants.DRIVETRAIN_RIGHT_MOTOR_CHANNEL);
             this.driver = null;
         }
         
@@ -42,18 +42,6 @@ public class DriveTrainMechanism implements IMechanism
             
             // apply the power settings to the drivetrain component
             setDriveTrainPower(leftPower, rightPower);
-
-            
-            boolean leftBtnPressed = this.driver.getDigital(Operation.TurnLeft);
-            
-            if (leftBtnPressed) {
-                int i = 0;
-                while (i < 40){
-                this.leftMotor.set(-1.0);
-                this.rightMotor.set(1.0);
-                i++;
-                }
-            }
             
             boolean resetPressed = this.driver.getDigital(Operation.ResetPower);
             
@@ -61,7 +49,6 @@ public class DriveTrainMechanism implements IMechanism
                 this.leftMotor.set(0.0);
                 this.rightMotor.set(0.0);
             }
-            
             
         }
         
