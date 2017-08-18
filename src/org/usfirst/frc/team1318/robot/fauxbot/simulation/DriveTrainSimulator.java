@@ -98,10 +98,23 @@ public class DriveTrainSimulator implements IRealWorldSimulator
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, 200, 200);
         
-        gc.setFill(Color.RED);
-        gc.fillRect(0, 0, 20, (50 + powerLeft * 50));
+        if (powerLeft < 0) {
+            powerLeft = powerLeft * -1;
+            gc.setFill(Color.BLUE); 
+        } else {
+            gc.setFill(Color.RED); 
+        }
         
-        gc.setFill(Color.GREEN);
-        gc.fillRect(50, 0, 20, (50 + powerRight * 50));
+        gc.fillRect(0, 0, 20, (0 + powerLeft * 50));
+        
+        
+        if (powerRight < 0) {
+            powerRight = powerRight * -1;
+            gc.setFill(Color.YELLOW); 
+        } else {
+            gc.setFill(Color.GREEN); 
+        }
+        
+        gc.fillRect(50, 0, 20, (0 + powerRight * 50));
     } 
 }
