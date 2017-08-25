@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1318.robot.fauxbot.simulation;
 
+import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj.ActuatorManager;
 import edu.wpi.first.wpilibj.SensorManager;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 @Singleton
@@ -24,6 +26,8 @@ public class ElevatorSimulator implements IRealWorldSimulator
     private static final int EncoderAChannel = 0;
     private static final int EncoderBChannel = 1;
     private static final int MotorChannel = 0;
+    private FileInputStream elevatorPersonInputStream;
+    private Image ElevatorPerson;
 
     @SuppressWarnings("serial")
     private final Map<Integer, String> sensorNameMap = new HashMap<Integer, String>()
@@ -55,6 +59,13 @@ public class ElevatorSimulator implements IRealWorldSimulator
     @Inject
     public ElevatorSimulator()
     {
+        try{
+            elevatorPersonInputStream = new FileInputStream("src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\stickFigure.png");
+        }catch(Exception e){
+            System.out.println("ERROR: INVALID IMAGE");             
+        }
+        
+        ElevatorPerson = new Image(elevatorPersonInputStream);
         this.currentElevatorHeight = 0.0;
     }
 
@@ -123,7 +134,7 @@ public class ElevatorSimulator implements IRealWorldSimulator
     public void draw(Canvas canvas)
     {
         double elevatorHeightRatio = this.currentElevatorHeight / (ElevatorSimulator.ElevatorMaxHeight - ElevatorSimulator.ElevatorMinHeight);
-
+                
         double canvasHeight = canvas.getHeight();
         double canvasWidth = canvas.getWidth();
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -145,13 +156,18 @@ public class ElevatorSimulator implements IRealWorldSimulator
             gc.strokeLine(ElevatorSimulator.ElevatorCarWidth, (1 - ratio) * canvasHeight, canvasWidth, (1 - ratio) * canvasHeight); 
         }
 
-        // draw the elevator car:
-        gc.setStroke(elevatorCarColor);
-        gc.setLineWidth(1.0);
-        gc.strokeRect(
-            0.0,
-            (1.0 - elevatorHeightRatio) * canvasHeight - ElevatorSimulator.ElevatorCarHeight,
-            ElevatorSimulator.ElevatorCarWidth,
-            ElevatorSimulator.ElevatorCarHeight);
+            // draw the elevator car:
+            gc.setStroke(elevatorCarColor);
+            gc.setLineWidth(1.0);
+            gc.strokeRect(
+                0.0,
+                (1.0 - elevatorHeightRatio) * canvasHeight - ElevatorSimulator.ElevatorCarHeight,
+                ElevatorSimulator.ElevatorCarWidth,
+                ElevatorSimulator.ElevatorCarHeight);
+            
+            // draw the elevator rider:
+            gc.drawImage(ElevatorPerson, 0.0, (1.0 - elevatorHeightRatio) * canvasHeight - ElevatorSimulator.ElevatorCarHeight, 
+                         ElevatorSimulator.ElevatorCarWidth,  ElevatorSimulator.ElevatorCarHeight);
+        
     }
 }

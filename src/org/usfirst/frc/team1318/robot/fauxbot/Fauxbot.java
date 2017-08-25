@@ -97,9 +97,14 @@ public class Fauxbot extends Application
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         int rowCount = 0;
-
+        
+        
+        String fontDefault = "Arial";
+        
+        
+        
         Text buttonsTitle = new Text("Buttons");
-        buttonsTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        buttonsTitle.setFont(Font.font(fontDefault, FontWeight.NORMAL, 20));
         grid.add(buttonsTitle, 0, rowCount++, 2, 1);
         for (Operation op : Operation.values())
         {
@@ -187,7 +192,7 @@ public class Fauxbot extends Application
         if (MacroOperation.values().length > 0)
         {
             Text macrosTitle = new Text("Macros");
-            macrosTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+            macrosTitle.setFont(Font.font(fontDefault, FontWeight.NORMAL, 20));
             grid.add(macrosTitle, 0, rowCount++, 2, 1);
             for (MacroOperation op : MacroOperation.values())
             {
@@ -257,7 +262,7 @@ public class Fauxbot extends Application
         }
 
         Text sensorsTitle = new Text("Sensors");
-        sensorsTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        sensorsTitle.setFont(Font.font(fontDefault, FontWeight.NORMAL, 20));
         grid.add(sensorsTitle, 0, rowCount++, 2, 1);
 
         for (int i = 0; i <= SensorManager.getHightestPort(); i++)
@@ -307,9 +312,10 @@ public class Fauxbot extends Application
 
         // add a spacer:
         rowCount++;
-
+        
+        
         Text motorsTitle = new Text("Actuators");
-        motorsTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        motorsTitle.setFont(Font.font(fontDefault, FontWeight.NORMAL, 20));
         grid.add(motorsTitle, 0, rowCount++, 2, 1);
         for (int i = 0; i <= ActuatorManager.getHightestPort(); i++)
         {
@@ -323,6 +329,9 @@ public class Fauxbot extends Application
 
                 Label actuatorNameLabel = new Label(motorName);
                 grid.add(actuatorNameLabel, 0, thisRowIndex);
+                
+                
+                
 
                 if (actuator instanceof MotorBase)
                 {
