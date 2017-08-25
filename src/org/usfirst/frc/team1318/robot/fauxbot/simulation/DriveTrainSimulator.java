@@ -99,7 +99,6 @@ public class DriveTrainSimulator implements IRealWorldSimulator
         gc.clearRect(0, 0, 200, 200);
         
         if (powerLeft < 0) {
-            powerLeft = powerLeft * -1;
             gc.setFill(Color.BLUE); 
         } else {
             gc.setFill(Color.RED); 
@@ -109,7 +108,6 @@ public class DriveTrainSimulator implements IRealWorldSimulator
         
         
         if (powerRight < 0) {
-            powerRight = powerRight * -1;
             gc.setFill(Color.YELLOW); 
         } else {
             gc.setFill(Color.GREEN); 
