@@ -72,14 +72,7 @@ public class ButtonMap implements IButtonMap
                     AnalogAxis.Y,
                     ElectronicsConstants.INVERT_Y_AXIS,
                     TuningConstants.DEAD_ZONE));
-            
-            put(
-                Operation.TurnLeft,
-                new DigitalOperationDescription(
-                    UserInputDevice.Driver,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_1,
-                    ButtonType.Click));
-            
+
             put(
                 Operation.ResetPower,
                 new DigitalOperationDescription(
