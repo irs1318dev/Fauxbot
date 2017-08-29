@@ -22,63 +22,14 @@ public class ButtonMap implements IButtonMap
     public static Map<Operation, OperationDescription> OperationSchema = new HashMap<Operation, OperationDescription>()
     {
         {
-            /*put(
+            put(
                 Operation.GarageDoorButton,
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
                     ButtonType.Click));
-            put(
-                Operation.ElevatorOneButton,
-                new DigitalOperationDescription(
-                    UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
-                    ButtonType.Click));
-            put(
-                Operation.ElevatorTwoButton,
-                new DigitalOperationDescription(
-                    UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
-                    ButtonType.Click));
-            put(
-                Operation.ElevatorThreeButton,
-                new DigitalOperationDescription(
-                    UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_BASE_MIDDLE_LEFT_BUTTON,
-                    ButtonType.Click));
-            put(
-                Operation.ElevatorFourButton,
-                new DigitalOperationDescription(
-                    UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_BASE_MIDDLE_RIGHT_BUTTON,
-                    ButtonType.Click));
-            put(
-                Operation.ElevatorFiveButton,
-                new DigitalOperationDescription(
-                    UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
-                    ButtonType.Click));*/
-            put(
-                Operation.DriveTrainTurn,
-                new AnalogOperationDescription(
-                    UserInputDevice.Driver,
-                    AnalogAxis.X,
-                    ElectronicsConstants.INVERT_X_AXIS,
-                    TuningConstants.DEAD_ZONE));
-            put(
-                Operation.DriveTrainMoveForward,
-                new AnalogOperationDescription(
-                    UserInputDevice.Driver,
-                    AnalogAxis.Y,
-                    ElectronicsConstants.INVERT_Y_AXIS,
-                    TuningConstants.DEAD_ZONE));
-
-            put(
-                Operation.ResetPower,
-                new DigitalOperationDescription(
-                    UserInputDevice.Driver,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_2,
-                    ButtonType.Click));
+         
+            
 
             /** Example Analog operation entry:
             put(
