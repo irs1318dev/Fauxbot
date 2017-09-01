@@ -13,6 +13,7 @@ import org.usfirst.frc.team1318.robot.common.wpilib.IWpilibProvider;
 import org.usfirst.frc.team1318.robot.common.wpilib.TimerWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilib.WpilibProvider;
 import org.usfirst.frc.team1318.robot.driver.ButtonMap;
+import org.usfirst.frc.team1318.robot.driver.DriveTrainButtonMap;
 import org.usfirst.frc.team1318.robot.driver.IButtonMap;
 import org.usfirst.frc.team1318.robot.drivetrain.DriveTrainMechanism;
 import org.usfirst.frc.team1318.robot.garagedoor.GarageDoorMechanism;
@@ -28,7 +29,16 @@ public class RobotModule extends AbstractModule
     {
         this.bind(IWpilibProvider.class).to(WpilibProvider.class);
         this.bind(ITimer.class).to(TimerWrapper.class);
-        this.bind(IButtonMap.class).to(ButtonMap.class);
+        this.bind(IButtonMap.class).to(DriveTrainButtonMap.class);
+    }
+
+    @Singleton
+    @Provides
+    public MechanismManager getMechanismManager(Injector injector)
+    {
+        List<IMechanism> mechanismList = new ArrayList<>();
+        mechanismList.add(injector.getInstance(DriveTrainMechanism.class));
+        return new MechanismManager(mechanismList);
     }
 
     @Singleton
@@ -48,14 +58,5 @@ public class RobotModule extends AbstractModule
         //        }
 
         return logger;
-    }
-
-    @Singleton
-    @Provides
-    public MechanismManager getMechanismManager(Injector injector)
-    {
-        List<IMechanism> mechanismList = new ArrayList<>();
-        mechanismList.add(injector.getInstance(DriveTrainMechanism.class));
-        return new MechanismManager(mechanismList);
     }
 }

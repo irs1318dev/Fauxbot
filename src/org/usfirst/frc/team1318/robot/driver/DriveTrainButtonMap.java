@@ -16,28 +16,32 @@ import org.usfirst.frc.team1318.robot.driver.descriptions.OperationDescription;
 import org.usfirst.frc.team1318.robot.driver.descriptions.UserInputDevice;
 
 @Singleton
-public class ButtonMap implements IButtonMap
+public class DriveTrainButtonMap implements IButtonMap
 {
     @SuppressWarnings("serial")
     public static Map<Operation, OperationDescription> OperationSchema = new HashMap<Operation, OperationDescription>()
     {
         {
-            /** Example Analog operation entry:
             put(
-                Operation.SomeAnalogOperation,
+                Operation.DriveTrainTurn,
                 new AnalogOperationDescription(
                     UserInputDevice.Driver,
                     AnalogAxis.X,
                     ElectronicsConstants.INVERT_X_AXIS,
-                    TuningConstants.DRIVETRAIN_X_DEAD_ZONE));*/
-            
-            /** Example Digital operation entry:
+                    TuningConstants.DEAD_ZONE));
             put(
-                Operation.SomeDigitalOperation,
+                Operation.DriveTrainMoveForward,
+                new AnalogOperationDescription(
+                    UserInputDevice.Driver,
+                    AnalogAxis.Y,
+                    ElectronicsConstants.INVERT_Y_AXIS,
+                    TuningConstants.DEAD_ZONE));
+            put(
+                Operation.ResetPower,
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
-                    ButtonType.Toggle));*/
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_2,
+                    ButtonType.Click));
         }
     };
 
@@ -45,31 +49,18 @@ public class ButtonMap implements IButtonMap
     public static Map<MacroOperation, MacroOperationDescription> MacroSchema = new HashMap<MacroOperation, MacroOperationDescription>()
     {
         {
-            /** Example Macro operation entry:
-            put(
-                MacroOperation.SomeMacroOperation,
-                new MacroOperationDescription(
-                    UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_STICK_THUMB_BUTTON,
-                    ButtonType.Simple,
-                    () -> new SequentialTask(),
-                    new Operation[]
-                    {
-                        Operation.SomeAnalogOperation,
-                        Operation.SomeDigitalOperation,
-                    }));*/
         }
     };
 
     @Override
     public Map<Operation, OperationDescription> getOperationSchema()
     {
-        return ButtonMap.OperationSchema;
+        return DriveTrainButtonMap.OperationSchema;
     }
 
     @Override
     public Map<MacroOperation, MacroOperationDescription> getMacroOperationSchema()
     {
-        return ButtonMap.MacroSchema;
+        return DriveTrainButtonMap.MacroSchema;
     }
 }

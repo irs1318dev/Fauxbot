@@ -8,6 +8,7 @@ import org.usfirst.frc.team1318.robot.RobotModule;
 import org.usfirst.frc.team1318.robot.common.wpilib.ITimer;
 import org.usfirst.frc.team1318.robot.driver.ButtonMap;
 import org.usfirst.frc.team1318.robot.driver.Driver;
+import org.usfirst.frc.team1318.robot.driver.IButtonMap;
 import org.usfirst.frc.team1318.robot.driver.MacroOperation;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 import org.usfirst.frc.team1318.robot.driver.buttons.ButtonType;
@@ -63,6 +64,7 @@ public class Fauxbot extends Application
     private MechanismManager mechanisms;
     private ITimer timer;
     private Driver driver;
+    private IButtonMap buttonMap;
 
     private Injector robotInjector;
     private Injector fauxbotInjector;
@@ -76,6 +78,7 @@ public class Fauxbot extends Application
         this.mechanisms = this.getRobotInjector().getInstance(MechanismManager.class);
         this.timer = this.getRobotInjector().getInstance(ITimer.class);
         this.driver = this.getRobotInjector().getInstance(UserDriver.class);
+        this.buttonMap = this.getRobotInjector().getInstance(IButtonMap.class);
 
         this.mechanisms.setDriver(this.driver);
         this.timer.start();
@@ -97,19 +100,14 @@ public class Fauxbot extends Application
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         int rowCount = 0;
-        
-        
         String fontDefault = "Arial";
-        
-        
-        
+
         Text buttonsTitle = new Text("Buttons");
         buttonsTitle.setFont(Font.font(fontDefault, FontWeight.NORMAL, 20));
         grid.add(buttonsTitle, 0, rowCount++, 2, 1);
         for (Operation op : Operation.values())
         {
-            OperationDescription description = ButtonMap.OperationSchema.get(op);
-
+            OperationDescription description = this.buttonMap.getOperationSchema().getOrDefault(op, null);
             if (description != null)
             {
                 int joystickPort = -1;
@@ -196,8 +194,7 @@ public class Fauxbot extends Application
             grid.add(macrosTitle, 0, rowCount++, 2, 1);
             for (MacroOperation op : MacroOperation.values())
             {
-                MacroOperationDescription description = ButtonMap.MacroSchema.get(op);
-
+                MacroOperationDescription description = this.buttonMap.getMacroOperationSchema().getOrDefault(op, null);
                 if (description != null)
                 {
                     int joystickPort = -1;
@@ -312,8 +309,7 @@ public class Fauxbot extends Application
 
         // add a spacer:
         rowCount++;
-        
-        
+
         Text motorsTitle = new Text("Actuators");
         motorsTitle.setFont(Font.font(fontDefault, FontWeight.NORMAL, 20));
         grid.add(motorsTitle, 0, rowCount++, 2, 1);
@@ -329,9 +325,6 @@ public class Fauxbot extends Application
 
                 Label actuatorNameLabel = new Label(motorName);
                 grid.add(actuatorNameLabel, 0, thisRowIndex);
-                
-                
-                
 
                 if (actuator instanceof MotorBase)
                 {
