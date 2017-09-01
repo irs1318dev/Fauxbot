@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1318.robot.driver.buttons;
+package org.usfirst.frc.team1318.robot.driver.common.buttons;
 
 /**
  * Defines a simple button that activates when pressed and deactivates when released

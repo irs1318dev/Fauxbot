@@ -2,24 +2,24 @@ package org.usfirst.frc.team1318.robot.fauxbot;
 
 import java.io.IOException;
 
-import org.usfirst.frc.team1318.robot.MechanismManager;
 import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.RobotModule;
+import org.usfirst.frc.team1318.robot.common.MechanismManager;
 import org.usfirst.frc.team1318.robot.common.wpilib.ITimer;
 import org.usfirst.frc.team1318.robot.driver.ButtonMap;
-import org.usfirst.frc.team1318.robot.driver.Driver;
-import org.usfirst.frc.team1318.robot.driver.IButtonMap;
 import org.usfirst.frc.team1318.robot.driver.MacroOperation;
 import org.usfirst.frc.team1318.robot.driver.Operation;
-import org.usfirst.frc.team1318.robot.driver.buttons.ButtonType;
-import org.usfirst.frc.team1318.robot.driver.descriptions.AnalogOperationDescription;
-import org.usfirst.frc.team1318.robot.driver.descriptions.DigitalOperationDescription;
-import org.usfirst.frc.team1318.robot.driver.descriptions.MacroOperationDescription;
-import org.usfirst.frc.team1318.robot.driver.descriptions.OperationDescription;
-import org.usfirst.frc.team1318.robot.driver.descriptions.OperationType;
-import org.usfirst.frc.team1318.robot.driver.descriptions.UserInputDevice;
-import org.usfirst.frc.team1318.robot.driver.states.AnalogOperationState;
-import org.usfirst.frc.team1318.robot.driver.user.UserDriver;
+import org.usfirst.frc.team1318.robot.driver.common.Driver;
+import org.usfirst.frc.team1318.robot.driver.common.IButtonMap;
+import org.usfirst.frc.team1318.robot.driver.common.buttons.ButtonType;
+import org.usfirst.frc.team1318.robot.driver.common.descriptions.AnalogOperationDescription;
+import org.usfirst.frc.team1318.robot.driver.common.descriptions.DigitalOperationDescription;
+import org.usfirst.frc.team1318.robot.driver.common.descriptions.MacroOperationDescription;
+import org.usfirst.frc.team1318.robot.driver.common.descriptions.OperationDescription;
+import org.usfirst.frc.team1318.robot.driver.common.descriptions.OperationType;
+import org.usfirst.frc.team1318.robot.driver.common.descriptions.UserInputDevice;
+import org.usfirst.frc.team1318.robot.driver.common.states.AnalogOperationState;
+import org.usfirst.frc.team1318.robot.driver.common.user.UserDriver;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

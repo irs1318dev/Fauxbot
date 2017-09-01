@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1318.robot.common;
 
-import org.usfirst.frc.team1318.robot.driver.Driver;
+import org.usfirst.frc.team1318.robot.driver.common.Driver;
 
 /**
  * The controller defines the logic that controls a mechanism given inputs (component) and driver-requested actions, and 

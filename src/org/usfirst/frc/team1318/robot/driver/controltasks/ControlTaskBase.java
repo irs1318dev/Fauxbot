@@ -2,11 +2,11 @@ package org.usfirst.frc.team1318.robot.driver.controltasks;
 
 import java.util.Map;
 
-import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.Operation;
-import org.usfirst.frc.team1318.robot.driver.states.AnalogOperationState;
-import org.usfirst.frc.team1318.robot.driver.states.DigitalOperationState;
-import org.usfirst.frc.team1318.robot.driver.states.OperationState;
+import org.usfirst.frc.team1318.robot.driver.common.IControlTask;
+import org.usfirst.frc.team1318.robot.driver.common.states.AnalogOperationState;
+import org.usfirst.frc.team1318.robot.driver.common.states.DigitalOperationState;
+import org.usfirst.frc.team1318.robot.driver.common.states.OperationState;
 
 import com.google.inject.Injector;
 

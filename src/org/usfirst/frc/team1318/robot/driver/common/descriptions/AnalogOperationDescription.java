@@ -1,6 +1,6 @@
-package org.usfirst.frc.team1318.robot.driver.descriptions;
+package org.usfirst.frc.team1318.robot.driver.common.descriptions;
 
-import org.usfirst.frc.team1318.robot.driver.buttons.AnalogAxis;
+import org.usfirst.frc.team1318.robot.driver.common.buttons.AnalogAxis;
 
 /**
  * Describes an operation that will give a double value (typically between -1 and 1).

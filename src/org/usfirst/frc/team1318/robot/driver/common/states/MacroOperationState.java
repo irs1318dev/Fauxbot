@@ -1,30 +1,42 @@
-package org.usfirst.frc.team1318.robot.driver.states;
+package org.usfirst.frc.team1318.robot.driver.common.states;
+
+import java.util.Map;
 
 import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.common.wpilib.IJoystick;
-import org.usfirst.frc.team1318.robot.driver.UserInputDeviceButton;
-import org.usfirst.frc.team1318.robot.driver.buttons.ClickButton;
-import org.usfirst.frc.team1318.robot.driver.buttons.IButton;
-import org.usfirst.frc.team1318.robot.driver.buttons.SimpleButton;
-import org.usfirst.frc.team1318.robot.driver.buttons.ToggleButton;
-import org.usfirst.frc.team1318.robot.driver.descriptions.DigitalOperationDescription;
+import org.usfirst.frc.team1318.robot.driver.Operation;
+import org.usfirst.frc.team1318.robot.driver.common.IControlTask;
+import org.usfirst.frc.team1318.robot.driver.common.UserInputDeviceButton;
+import org.usfirst.frc.team1318.robot.driver.common.buttons.ClickButton;
+import org.usfirst.frc.team1318.robot.driver.common.buttons.IButton;
+import org.usfirst.frc.team1318.robot.driver.common.buttons.SimpleButton;
+import org.usfirst.frc.team1318.robot.driver.common.buttons.ToggleButton;
+import org.usfirst.frc.team1318.robot.driver.common.descriptions.MacroOperationDescription;
+
+import com.google.inject.Injector;
 
 /**
- * The state of the current digital operation.
+ * The state of the current macro operation.
  *
  */
-public class DigitalOperationState extends OperationState
+public class MacroOperationState extends OperationState
 {
     private final IButton button;
-    private boolean isInterrupted;
-    private boolean interruptValue;
+    private final Map<Operation, OperationState> operationStateMap;
+    private final Injector injector;
 
-    public DigitalOperationState(DigitalOperationDescription description)
+    private IControlTask task;
+
+    public MacroOperationState(
+        MacroOperationDescription description,
+        Map<Operation, OperationState> operationStateMap,
+        Injector injector)
     {
         super(description);
 
-        this.isInterrupted = false;
-        this.interruptValue = false;
+        this.operationStateMap = operationStateMap;
+        this.injector = injector;
+
         switch (description.getButtonType())
         {
             case Simple:
@@ -48,6 +60,9 @@ public class DigitalOperationState extends OperationState
                 this.button = null;
                 break;
         }
+
+        this.task = null;
+        this.button.clearState();
     }
 
     /**
@@ -57,10 +72,9 @@ public class DigitalOperationState extends OperationState
     @Override
     public void setIsInterrupted(boolean enable)
     {
-        this.isInterrupted = enable;
-        if (!enable)
+        if (enable)
         {
-            this.interruptValue = false;
+            this.button.clearState();
         }
     }
 
@@ -71,7 +85,7 @@ public class DigitalOperationState extends OperationState
     @Override
     public boolean getIsInterrupted()
     {
-        return this.isInterrupted;
+        return false;
     }
 
     /**
@@ -83,7 +97,7 @@ public class DigitalOperationState extends OperationState
     @Override
     public boolean checkInput(IJoystick driver, IJoystick coDriver)
     {
-        DigitalOperationDescription description = (DigitalOperationDescription)this.getDescription();
+        MacroOperationDescription description = (MacroOperationDescription)this.getDescription();
 
         IJoystick relevantJoystick;
         UserInputDeviceButton relevantButton;
@@ -139,29 +153,79 @@ public class DigitalOperationState extends OperationState
         }
 
         this.button.updateState(buttonPressed);
+
         return buttonPressed;
     }
 
-    public boolean getState()
+    public Operation[] getAffectedOperations()
     {
-        if (this.isInterrupted)
-        {
-            return this.interruptValue;
-        }
+        return ((MacroOperationDescription)this.getDescription()).getAffectedOperations();
+    }
 
+    public boolean getIsActive()
+    {
         return this.button.isActivated();
     }
 
-    public void setInterruptState(boolean value)
+    public void run()
     {
-        if (!this.isInterrupted)
+        if (this.button.isActivated())
         {
-            if (TuningConstants.THROW_EXCEPTIONS)
+            if (this.task == null)
             {
-                throw new RuntimeException("cannot set interrupt state for non-interrupted digital operations");
+                for (Operation operation : this.getAffectedOperations())
+                {
+                    this.operationStateMap.get(operation).setIsInterrupted(true);
+                }
+
+                // start task
+                this.task = ((MacroOperationDescription)this.getDescription()).constructTask();
+                this.task.initialize(this.operationStateMap, this.injector);
+                this.task.begin();
+            }
+            else
+            {
+                boolean shouldEnd = this.task.hasCompleted();
+                boolean shouldCancel = this.task.shouldCancel();
+                if (shouldEnd || shouldCancel)
+                {
+                    if (shouldEnd)
+                    {
+                        this.task.end();
+                    }
+                    else
+                    {
+                        this.task.stop();
+                    }
+
+                    this.task = null;
+                    this.button.clearState();
+
+                    MacroOperationDescription description = (MacroOperationDescription)this.getDescription();
+                    if (description.shouldClearInterrupt())
+                    {
+                        for (Operation operation : this.getAffectedOperations())
+                        {
+                            this.operationStateMap.get(operation).setIsInterrupted(false);
+                        }
+                    }
+                }
+                else
+                {
+                    this.task.update();
+                }
             }
         }
+        else if (this.task != null)
+        {
+            // cancel task:
+            this.task.stop();
+            this.task = null;
 
-        this.interruptValue = value;
+            for (Operation operation : this.getAffectedOperations())
+            {
+                this.operationStateMap.get(operation).setIsInterrupted(false);
+            }
+        }
     }
 }

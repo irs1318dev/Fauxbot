@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1318.robot.driver.controltasks;
 
-import org.usfirst.frc.team1318.robot.driver.IControlTask;
+import org.usfirst.frc.team1318.robot.driver.common.IControlTask;
 
 /**
  * Task that simply waits for a short period of time.

@@ -1,11 +1,11 @@
-package org.usfirst.frc.team1318.robot.driver.descriptions;
+package org.usfirst.frc.team1318.robot.driver.common.descriptions;
 
 import java.util.function.Supplier;
 
-import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.Operation;
-import org.usfirst.frc.team1318.robot.driver.UserInputDeviceButton;
-import org.usfirst.frc.team1318.robot.driver.buttons.ButtonType;
+import org.usfirst.frc.team1318.robot.driver.common.IControlTask;
+import org.usfirst.frc.team1318.robot.driver.common.UserInputDeviceButton;
+import org.usfirst.frc.team1318.robot.driver.common.buttons.ButtonType;
 
 public class MacroOperationDescription extends OperationDescription
 {

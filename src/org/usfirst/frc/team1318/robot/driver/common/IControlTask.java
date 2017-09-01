@@ -1,8 +1,9 @@
-package org.usfirst.frc.team1318.robot.driver;
+package org.usfirst.frc.team1318.robot.driver.common;
 
 import java.util.Map;
 
-import org.usfirst.frc.team1318.robot.driver.states.OperationState;
+import org.usfirst.frc.team1318.robot.driver.Operation;
+import org.usfirst.frc.team1318.robot.driver.common.states.OperationState;
 
 import com.google.inject.Injector;
 

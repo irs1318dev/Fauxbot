@@ -1,7 +1,7 @@
-package org.usfirst.frc.team1318.robot.driver.descriptions;
+package org.usfirst.frc.team1318.robot.driver.common.descriptions;
 
-import org.usfirst.frc.team1318.robot.driver.UserInputDeviceButton;
-import org.usfirst.frc.team1318.robot.driver.buttons.ButtonType;
+import org.usfirst.frc.team1318.robot.driver.common.UserInputDeviceButton;
+import org.usfirst.frc.team1318.robot.driver.common.buttons.ButtonType;
 
 /**
  * Describes an operation that will give a boolean (true or false) value.

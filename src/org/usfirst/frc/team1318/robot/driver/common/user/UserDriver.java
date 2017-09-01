@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1318.robot.driver.user;
+package org.usfirst.frc.team1318.robot.driver.common.user;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,12 +9,12 @@ import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.common.SetHelper;
 import org.usfirst.frc.team1318.robot.common.wpilib.IJoystick;
 import org.usfirst.frc.team1318.robot.common.wpilib.IWpilibProvider;
-import org.usfirst.frc.team1318.robot.driver.Driver;
-import org.usfirst.frc.team1318.robot.driver.IButtonMap;
 import org.usfirst.frc.team1318.robot.driver.MacroOperation;
 import org.usfirst.frc.team1318.robot.driver.Operation;
-import org.usfirst.frc.team1318.robot.driver.descriptions.MacroOperationDescription;
-import org.usfirst.frc.team1318.robot.driver.states.MacroOperationState;
+import org.usfirst.frc.team1318.robot.driver.common.Driver;
+import org.usfirst.frc.team1318.robot.driver.common.IButtonMap;
+import org.usfirst.frc.team1318.robot.driver.common.descriptions.MacroOperationDescription;
+import org.usfirst.frc.team1318.robot.driver.common.states.MacroOperationState;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;

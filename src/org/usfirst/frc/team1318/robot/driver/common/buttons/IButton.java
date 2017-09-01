@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1318.robot.driver.buttons;
+package org.usfirst.frc.team1318.robot.driver.common.buttons;
 
 /**
  * Interface for different types of button to handle how the code responds to user input devices.

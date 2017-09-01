@@ -1,51 +1,50 @@
-package org.usfirst.frc.team1318.robot.driver.buttons;
+package org.usfirst.frc.team1318.robot.driver.common.buttons;
 
 /**
- * Defines a simple button that switches between true and false.
+ * Defines a simple button that activates when clicked and deactivates when measured
  * 
- * Toggle on press behavior:
+ * Register on press behavior:
  * 
  *     button pressed:        _________________
  *                           |                 |
  * button not pressed: ______|                 |________
  *                           ^ takes effect when first pressed
+ *                               ^ cleared after next update
  * 
- * Toggle on release behavior:
+ * Register on release behavior:
  * 
  *     button pressed:        _________________
  *                           |                 |
  * button not pressed: ______|                 |________
  *                                             ^ takes effect when first released
+ *                                                 ^ cleared after next update
  * 
- * 
- * @author Will
- *
  */
-public class ToggleButton implements IButton
+public class ClickButton implements IButton
 {
-    private final boolean toggleOnPress;
+    private final boolean registerOnPress;
 
-    private boolean currentState;
+    private boolean isActivated;
     private boolean prevButtonState;
 
     /**
-     * Initializes a new ToggleButton
+     * Initializes a new ClickButton
      */
-    public ToggleButton()
+    public ClickButton()
     {
         this(true);
     }
 
     /**
-     * Initializes a new ToggleButton
-     * @param toggleOnPress indicates whether we should toggle when the button is first pressed or when released
+     * Initializes a new ClickButton
+     * @param registerOnPress indicates whether we should activate when the button is first pressed or when released
      */
-    public ToggleButton(boolean toggleOnPress)
+    public ClickButton(boolean registerOnPress)
     {
-        this.currentState = false;
+        this.isActivated = false;
         this.prevButtonState = false;
 
-        this.toggleOnPress = toggleOnPress;
+        this.registerOnPress = registerOnPress;
     }
 
     /**
@@ -54,11 +53,15 @@ public class ToggleButton implements IButton
      */
     public void updateState(boolean buttonState)
     {
-        // if button has switched state, check if we want to toggle
-        if (this.prevButtonState != buttonState &&
-            (this.toggleOnPress && buttonState || !this.toggleOnPress && !buttonState))
+        // if button has switched state, check if we want to activate
+        if ((buttonState && !this.prevButtonState && this.registerOnPress) ||
+            (!buttonState && this.prevButtonState && !this.registerOnPress))
         {
-            this.currentState = !this.currentState;
+            this.isActivated = true;
+        }
+        else
+        {
+            this.isActivated = false;
         }
 
         this.prevButtonState = buttonState;
@@ -70,12 +73,12 @@ public class ToggleButton implements IButton
      */
     public boolean isActivated()
     {
-        return this.currentState;
+        return this.isActivated;
     }
 
     public void clearState()
     {
-        this.currentState = false;
+        this.isActivated = false;
         this.prevButtonState = false;
     }
 }

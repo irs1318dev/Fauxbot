@@ -1,9 +1,9 @@
-package org.usfirst.frc.team1318.robot.driver.autonomous;
+package org.usfirst.frc.team1318.robot.driver.common.autonomous;
 
-import org.usfirst.frc.team1318.robot.driver.Driver;
-import org.usfirst.frc.team1318.robot.driver.IButtonMap;
-import org.usfirst.frc.team1318.robot.driver.IControlTask;
-import org.usfirst.frc.team1318.robot.driver.states.OperationState;
+import org.usfirst.frc.team1318.robot.driver.common.Driver;
+import org.usfirst.frc.team1318.robot.driver.common.IButtonMap;
+import org.usfirst.frc.team1318.robot.driver.common.IControlTask;
+import org.usfirst.frc.team1318.robot.driver.common.states.OperationState;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;

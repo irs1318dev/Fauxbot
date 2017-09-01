@@ -1,13 +1,14 @@
-package org.usfirst.frc.team1318.robot.driver;
+package org.usfirst.frc.team1318.robot.driver.common;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.usfirst.frc.team1318.robot.TuningConstants;
-import org.usfirst.frc.team1318.robot.driver.descriptions.OperationDescription;
-import org.usfirst.frc.team1318.robot.driver.states.AnalogOperationState;
-import org.usfirst.frc.team1318.robot.driver.states.DigitalOperationState;
-import org.usfirst.frc.team1318.robot.driver.states.OperationState;
+import org.usfirst.frc.team1318.robot.driver.Operation;
+import org.usfirst.frc.team1318.robot.driver.common.descriptions.OperationDescription;
+import org.usfirst.frc.team1318.robot.driver.common.states.AnalogOperationState;
+import org.usfirst.frc.team1318.robot.driver.common.states.DigitalOperationState;
+import org.usfirst.frc.team1318.robot.driver.common.states.OperationState;
 
 import com.google.inject.Injector;
 

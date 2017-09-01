@@ -5,9 +5,9 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
-import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.Operation;
-import org.usfirst.frc.team1318.robot.driver.states.OperationState;
+import org.usfirst.frc.team1318.robot.driver.common.IControlTask;
+import org.usfirst.frc.team1318.robot.driver.common.states.OperationState;
 
 import com.google.inject.Injector;
 

@@ -1,9 +1,9 @@
-package org.usfirst.frc.team1318.robot.driver.states;
+package org.usfirst.frc.team1318.robot.driver.common.states;
 
 import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.common.wpilib.IJoystick;
-import org.usfirst.frc.team1318.robot.driver.buttons.AnalogAxis;
-import org.usfirst.frc.team1318.robot.driver.descriptions.AnalogOperationDescription;
+import org.usfirst.frc.team1318.robot.driver.common.buttons.AnalogAxis;
+import org.usfirst.frc.team1318.robot.driver.common.descriptions.AnalogOperationDescription;
 
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 

@@ -1,9 +1,9 @@
-package org.usfirst.frc.team1318.robot;
+package org.usfirst.frc.team1318.robot.common;
 
 import java.util.List;
 
-import org.usfirst.frc.team1318.robot.common.IMechanism;
-import org.usfirst.frc.team1318.robot.driver.Driver;
+import org.usfirst.frc.team1318.robot.TuningConstants;
+import org.usfirst.frc.team1318.robot.driver.common.Driver;
 
 public class MechanismManager implements IMechanism
 {
