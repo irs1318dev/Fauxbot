@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1318.robot.drivetrain;
 
+import javax.inject.Singleton;
+
 import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.common.IMechanism;
@@ -11,6 +13,7 @@ import org.usfirst.frc.team1318.robot.driver.common.Driver;
 
 import com.google.inject.Inject;
 
+@Singleton
 public class DriveTrainMechanism implements IMechanism
 {
     private final IMotor leftMotor;

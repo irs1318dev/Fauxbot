@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1318.robot.driver.common.autonomous;
 
+import org.usfirst.frc.team1318.robot.driver.AutonomousRoutineSelector;
 import org.usfirst.frc.team1318.robot.driver.common.Driver;
 import org.usfirst.frc.team1318.robot.driver.common.IButtonMap;
 import org.usfirst.frc.team1318.robot.driver.common.IControlTask;

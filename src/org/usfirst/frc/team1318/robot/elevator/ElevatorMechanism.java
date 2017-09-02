@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1318.robot.elevator;
 
+import javax.inject.Singleton;
+
 import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.HardwareConstants;
 import org.usfirst.frc.team1318.robot.common.IMechanism;
@@ -14,6 +16,7 @@ import org.usfirst.frc.team1318.robot.driver.common.Driver;
 
 import com.google.inject.Inject;
 
+@Singleton
 public class ElevatorMechanism implements IMechanism
 {
     private final IMotor motor;
