@@ -73,9 +73,19 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         final String benz = "src/org/usfirst/frc/team1318/robot/fauxbot/images/benz.jpeg";
 
         String usedImg;
-        int randCar = (int)Math.floor(Math.random() * 5);
+        int randCar = (int)(Math.random() * 6);
         
-        if (randCar == 0) {
+        switch(randCar) {
+            case 0: usedImg = lamborghini;
+            case 1: usedImg = porsche;
+            case 2: usedImg = golfCart;
+            case 3: usedImg = benz;
+            case 4: usedImg = cessnaCitation;
+            case 5: usedImg = cerberus;
+            default: usedImg = porsche;
+        }
+        
+        /*if (randCar == 0) {
             usedImg = lamborghini;
         } else if (randCar == 1) {
             usedImg = porsche;
@@ -88,7 +98,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         }else{
             
             usedImg = cessnaCitation;
-        }
+        }*/
         
         
         try 
@@ -132,6 +142,8 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         return "Motor " + channel;
     }
     Color doorColor;
+    
+    
     public void update()
     {
         
@@ -169,6 +181,8 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         SensorBase openSensor = SensorManager.get(GarageDoorSimulator.OpenSensorChannel);
         if (openSensor != null && openSensor instanceof DigitalInput)
         {
+           
+            
             DigitalInput openSwitch = (DigitalInput)openSensor;
             if (this.amountOpened >= GarageDoorSimulator.GarageFullyOpened)
             {
@@ -176,6 +190,10 @@ public class GarageDoorSimulator implements IRealWorldSimulator
             }
             else
             {
+                openSwitch.set(false);
+            }
+            
+            if(openSwitch.get() == true && this.amountOpened <= GarageDoorSimulator.GarageFullyOpened) {
                 openSwitch.set(false);
             }
         }
@@ -193,6 +211,9 @@ public class GarageDoorSimulator implements IRealWorldSimulator
                 closedSwitch.set(false);
             }
         }
+       
+        
+        
         
         
         SensorBase throughBeamSensor = SensorManager.get(GarageDoorSimulator.ThroughBeamSensorChannel);
@@ -311,6 +332,8 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         {
             gc.setFill(doorColor);
         }
+        
+        
         
         
             
