@@ -72,17 +72,23 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         final String cessnaCitation = "src/org/usfirst/frc/team1318/robot/fauxbot/images/cesssnaCitX.jpg";
         final String benz = "src/org/usfirst/frc/team1318/robot/fauxbot/images/benz.jpeg";
 
-        String usedImg;
+        String usedImg = null;
         int randCar = (int)(Math.random() * 6);
         
         switch(randCar) {
             case 0: usedImg = lamborghini;
+                    break;
             case 1: usedImg = porsche;
+                    break;
             case 2: usedImg = golfCart;
+                    break;
             case 3: usedImg = benz;
+                    break;
             case 4: usedImg = cessnaCitation;
+                    break;
             case 5: usedImg = cerberus;
-            default: usedImg = porsche;
+                    break;
+            
         }
         
         /*if (randCar == 0) {
