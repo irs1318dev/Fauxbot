@@ -12,6 +12,11 @@ import org.usfirst.frc.team1318.robot.driver.common.Driver;
 public interface IMechanism
 {
     /**
+     * read all of the sensors for the mechanism
+     */
+    public void readSensors();
+    
+    /**
      * calculate the various outputs to use based on the inputs and apply them to the outputs for the relevant component
      */
     public void update();

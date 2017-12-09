@@ -22,7 +22,10 @@ public class GarageDoorMechanism implements IMechanism
 
     private Driver driver;
     private GarageDoorState state;
-
+    
+    private boolean isOpen;
+    private boolean isClosed;
+    private boolean isThroughBeamSensorBroken;
     @Inject
     public GarageDoorMechanism(IWpilibProvider provider)
     {
@@ -33,6 +36,19 @@ public class GarageDoorMechanism implements IMechanism
 
         this.driver = null;
         this.state = GarageDoorState.Closed;
+        
+        this.isOpen = false;
+        this.isClosed = true;
+        this.isThroughBeamSensorBroken = false;
+    }
+    
+    @Override
+    public void readSensors()
+    {
+        this.isOpen = this.openSensor.get();
+        this.isClosed = this.closedSensor.get();
+        this.isThroughBeamSensorBroken = this.throughBeamSensor.get();
+        
     }
 
     @Override
@@ -59,18 +75,18 @@ public class GarageDoorMechanism implements IMechanism
             {
                 this.state = GarageDoorState.Closing;
             }
-            else if (this.openSensor.get())
+            else if (this.isOpen)
             {
                 this.state = GarageDoorState.Open;
             }
         }
         else // if (this.state == GarageDoorState.Closing)
         {
-            if (buttonPressed || this.throughBeamSensor.get())
+            if (buttonPressed || this.isThroughBeamSensorBroken)
             {
                 this.state = GarageDoorState.Opening;
             }
-            else if (this.closedSensor.get())
+            else if (this.isClosed)
             {
                 this.state = GarageDoorState.Closed;
             }
@@ -109,4 +125,6 @@ public class GarageDoorMechanism implements IMechanism
     {
         Open, Closing, Closed, Opening;
     }
+
+    
 }

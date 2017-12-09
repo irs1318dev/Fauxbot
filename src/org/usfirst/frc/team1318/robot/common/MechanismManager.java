@@ -13,6 +13,21 @@ public class MechanismManager implements IMechanism
     {
         this.mechanismList = mechanismList;
     }
+    
+    @Override
+    public void readSensors()
+    {
+       for (IMechanism mechanism : this.mechanismList) {
+           try
+           {
+               mechanism.readSensors();
+           } catch (Exception ex) {
+               if (TuningConstants.THROW_EXCEPTIONS) {
+                   throw ex;
+               }
+           }
+       }
+    }
 
     @Override
     public void update()
@@ -60,4 +75,6 @@ public class MechanismManager implements IMechanism
             mechanism.setDriver(driver);
         }
     }
+
+    
 }
