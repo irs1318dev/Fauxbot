@@ -19,7 +19,7 @@ public class DriveTrainMechanism implements IMechanism
     private final IMotor leftMotor;
     private final IMotor rightMotor;
     private Driver driver;
-    private PowerSetting powerSetting = this.calculateVelocityModePowerSetting();
+    
    
     
     private double leftPower;
@@ -58,10 +58,7 @@ public class DriveTrainMechanism implements IMechanism
         @Override
         public void readSensors()
         {//read sensors
-            this.leftPower = this.powerSetting.getLeftPower();
-            this.rightPower = this.powerSetting.getRightPower();  
-            
-            
+
          // get the X and Y values from the operator.  We expect these to be between -1.0 and 1.0,
             // with this value representing the forward velocity percentage and right turn percentage (of max speed)
             this.turnAmount = this.driver.getAnalog(Operation.DriveTrainTurn);
@@ -71,7 +68,10 @@ public class DriveTrainMechanism implements IMechanism
         @Override
         public void update()
         {
-           
+            PowerSetting powerSetting = this.calculateVelocityModePowerSetting();
+            
+            this.leftPower = powerSetting.getLeftPower();
+            this.rightPower = powerSetting.getRightPower();  
             // apply the power settings to the drivetrain component
             setDriveTrainPower(this.leftPower, this.rightPower);
             
