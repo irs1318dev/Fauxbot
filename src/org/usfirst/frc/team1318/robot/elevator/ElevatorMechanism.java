@@ -25,6 +25,15 @@ public class ElevatorMechanism implements IMechanism
 
     private Floor requestedFloor;
     private PIDHandler pid;
+    
+    private double currentHeight;
+    
+    private boolean onePressed;
+    private boolean twoPressed;
+    private boolean threePressed;
+    private boolean fourPressed;
+    private boolean fivePressed;
+
 
     @Inject
     public ElevatorMechanism(
@@ -39,39 +48,48 @@ public class ElevatorMechanism implements IMechanism
         this.requestedFloor = Floor.One;
         this.pid = new PIDHandler(1.0, 0.0, 0.0, 0.0, 1.0, -1.0, 1.0, "elevator", logger, timer);
     }
+    
+    @Override
+    public void readSensors()
+    {//read sensors
+        
+        
+        this.onePressed = this.driver.getDigital(Operation.ElevatorOneButton);
+        this.twoPressed = this.driver.getDigital(Operation.ElevatorTwoButton);
+        this.threePressed = this.driver.getDigital(Operation.ElevatorThreeButton);
+        this.fourPressed = this.driver.getDigital(Operation.ElevatorFourButton);
+        this.fivePressed = this.driver.getDigital(Operation.ElevatorFiveButton);
+
+    }
 
     @Override
     public void update()
     {
-        boolean onePressed = this.driver.getDigital(Operation.ElevatorOneButton);
-        boolean twoPressed = this.driver.getDigital(Operation.ElevatorTwoButton);
-        boolean threePressed = this.driver.getDigital(Operation.ElevatorThreeButton);
-        boolean fourPressed = this.driver.getDigital(Operation.ElevatorFourButton);
-        boolean fivePressed = this.driver.getDigital(Operation.ElevatorFiveButton);
-
-        if (onePressed)
+        this.currentHeight = this.encoder.getDistance();
+      
+        if (this.onePressed)
         {
             this.requestedFloor = Floor.One;
         }
-        else if (twoPressed)
+        else if (this.twoPressed)
         {
             this.requestedFloor = Floor.Two;
         }
-        else if (threePressed)
+        else if (this.threePressed)
         {
             this.requestedFloor = Floor.Three;
         }
-        else if (fourPressed)
+        else if (this.fourPressed)
         {
             this.requestedFloor = Floor.Four;
         }
-        else if (fivePressed)
+        else if (this.fivePressed)
         {
             this.requestedFloor = Floor.Five;
         }
 
-        double currentHeight = this.encoder.getDistance();
-        double desiredHeight = currentHeight;
+        
+        double desiredHeight = this.currentHeight;
         switch (this.requestedFloor)
         {
             case One:
@@ -93,9 +111,14 @@ public class ElevatorMechanism implements IMechanism
             case Five:
                 desiredHeight = HardwareConstants.ELEVATOR_FLOOR_FIVE_HEIGHT;
                 break;
+            
         }
+        
+        
+        this.motor.set(this.pid.calculatePosition(desiredHeight, this.currentHeight));
+        
 
-        this.motor.set(this.pid.calculatePosition(desiredHeight, currentHeight));
+        
     }
 
     @Override
@@ -114,4 +137,6 @@ public class ElevatorMechanism implements IMechanism
     {
         One, Two, Three, Four, Five;
     }
+
+    
 }

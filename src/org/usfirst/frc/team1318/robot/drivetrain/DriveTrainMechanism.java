@@ -19,6 +19,14 @@ public class DriveTrainMechanism implements IMechanism
     private final IMotor leftMotor;
     private final IMotor rightMotor;
     private Driver driver;
+    private PowerSetting powerSetting = this.calculateVelocityModePowerSetting();
+   
+    
+    private double leftPower;
+    private double rightPower;
+    
+    private double turnAmount;
+    private double forwardVelocity;
 
     // Component Code
         @Inject
@@ -27,6 +35,12 @@ public class DriveTrainMechanism implements IMechanism
             this.leftMotor = provider.getTalon(ElectronicsConstants.DRIVETRAIN_LEFT_MOTOR_CHANNEL);
             this.rightMotor = provider.getTalon(ElectronicsConstants.DRIVETRAIN_RIGHT_MOTOR_CHANNEL);
             this.driver = null;
+            
+            this.leftPower = 0.0;
+            this.rightPower = 0.0;
+            
+            this.turnAmount = 0.0;
+            this.forwardVelocity = 0.0;
         }
         
         public void setDriveTrainPower(double leftPower, double rightPower)
@@ -34,23 +48,37 @@ public class DriveTrainMechanism implements IMechanism
             this.leftMotor.set(leftPower);
             this.rightMotor.set(rightPower);
         }
+        
+
+        
     
     //Control Code
+        
+        
+        @Override
+        public void readSensors()
+        {//read sensors
+            this.leftPower = this.powerSetting.getLeftPower();
+            this.rightPower = this.powerSetting.getRightPower();  
+            
+            
+         // get the X and Y values from the operator.  We expect these to be between -1.0 and 1.0,
+            // with this value representing the forward velocity percentage and right turn percentage (of max speed)
+            this.turnAmount = this.driver.getAnalog(Operation.DriveTrainTurn);
+            this.forwardVelocity = this.driver.getAnalog(Operation.DriveTrainMoveForward);
+        }
+        
         @Override
         public void update()
         {
-            PowerSetting powerSetting = this.calculateVelocityModePowerSetting();
-            double leftPower = powerSetting.getLeftPower();
-            double rightPower = powerSetting.getRightPower();
-            
+           
             // apply the power settings to the drivetrain component
-            setDriveTrainPower(leftPower, rightPower);
+            setDriveTrainPower(this.leftPower, this.rightPower);
             
             boolean resetPressed = this.driver.getDigital(Operation.ResetPower);
             
             if (resetPressed) {
-                this.leftMotor.set(0.0);
-                this.rightMotor.set(0.0);
+                this.stop();
             }
             
         }
@@ -81,26 +109,20 @@ public class DriveTrainMechanism implements IMechanism
             // velocity goals represent the desired percentage of the max velocity
             double leftVelocityGoal = 0.0;
             double rightVelocityGoal = 0.0;
-    
-            // get the X and Y values from the operator.  We expect these to be between -1.0 and 1.0,
-            // with this value representing the forward velocity percentage and right turn percentage (of max speed)
-            double turnAmount = this.driver.getAnalog(Operation.DriveTrainTurn);
-            double forwardVelocity = this.driver.getAnalog(Operation.DriveTrainMoveForward);
 
-    
             // adjust the intensity of the input
     
-            if (Math.abs(forwardVelocity) < Math.abs(turnAmount))
+            if (Math.abs(this.forwardVelocity) < Math.abs(this.turnAmount))
             {
                 // in-place turn
-                leftVelocityGoal = turnAmount;
-                rightVelocityGoal = -turnAmount;
+                leftVelocityGoal = this.turnAmount;
+                rightVelocityGoal = -this.turnAmount;
             }
             else
             {
                 // forward/backward
-                leftVelocityGoal = forwardVelocity;
-                rightVelocityGoal = forwardVelocity;
+                leftVelocityGoal = this.forwardVelocity;
+                rightVelocityGoal = this.forwardVelocity;
             }
 
                 //Comment
@@ -110,13 +132,12 @@ public class DriveTrainMechanism implements IMechanism
             rightVelocityGoal = rightVelocityGoal * TuningConstants.DRIVETRAIN_MAX_POWER_LEVEL;
     
             // convert velocity goal to power level...
-            double leftPower;
-            double rightPower;
+           
     
             // Implement PID here
-            leftPower = leftVelocityGoal;
-            rightPower = rightVelocityGoal;
-            return new PowerSetting(leftPower, rightPower);
+            this.leftPower = leftVelocityGoal;
+            this.rightPower = rightVelocityGoal;
+            return new PowerSetting(this.leftPower, this.rightPower);
         }
         
         /**
@@ -178,4 +199,5 @@ public class DriveTrainMechanism implements IMechanism
                 return this.rightPower;
             }
         }
+
 }

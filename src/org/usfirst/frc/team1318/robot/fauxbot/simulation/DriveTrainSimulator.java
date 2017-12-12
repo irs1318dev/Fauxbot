@@ -100,6 +100,7 @@ public class DriveTrainSimulator implements IRealWorldSimulator
         
         gc.setFill(Color.BLUE); 
         gc.fillRect(0, 0, 20, (0 + powerLeft * 50));
+      
         
         gc.setFill(Color.RED); 
         gc.fillRect(50, 0, 20, (0 + powerRight * 50));
