@@ -25,9 +25,9 @@ public class FauxbotRunner implements Runnable
     {
         while (!this.stop)
         {
+            this.mechanisms.readSensors();
             this.driver.update();
             this.mechanisms.update();
-            this.mechanisms.readSensors();
             this.simulator.update();
             this.fauxbot.refresh();
 

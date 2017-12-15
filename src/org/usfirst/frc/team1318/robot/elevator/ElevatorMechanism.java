@@ -27,13 +27,6 @@ public class ElevatorMechanism implements IMechanism
     private PIDHandler pid;
     
     private double currentHeight;
-    
-    private boolean onePressed;
-    private boolean twoPressed;
-    private boolean threePressed;
-    private boolean fourPressed;
-    private boolean fivePressed;
-
 
     @Inject
     public ElevatorMechanism(
@@ -51,44 +44,35 @@ public class ElevatorMechanism implements IMechanism
     
     @Override
     public void readSensors()
-    {//read sensors
-        
-        
-        this.onePressed = this.driver.getDigital(Operation.ElevatorOneButton);
-        this.twoPressed = this.driver.getDigital(Operation.ElevatorTwoButton);
-        this.threePressed = this.driver.getDigital(Operation.ElevatorThreeButton);
-        this.fourPressed = this.driver.getDigital(Operation.ElevatorFourButton);
-        this.fivePressed = this.driver.getDigital(Operation.ElevatorFiveButton);
-
+    {
+        // read sensors
+        this.currentHeight = this.encoder.getDistance();
     }
 
     @Override
     public void update()
     {
-        this.currentHeight = this.encoder.getDistance();
-      
-        if (this.onePressed)
+        if (this.driver.getDigital(Operation.ElevatorOneButton))
         {
             this.requestedFloor = Floor.One;
         }
-        else if (this.twoPressed)
+        else if (this.driver.getDigital(Operation.ElevatorTwoButton))
         {
             this.requestedFloor = Floor.Two;
         }
-        else if (this.threePressed)
+        else if (this.driver.getDigital(Operation.ElevatorThreeButton))
         {
             this.requestedFloor = Floor.Three;
         }
-        else if (this.fourPressed)
+        else if (this.driver.getDigital(Operation.ElevatorFourButton))
         {
             this.requestedFloor = Floor.Four;
         }
-        else if (this.fivePressed)
+        else if (this.driver.getDigital(Operation.ElevatorFiveButton))
         {
             this.requestedFloor = Floor.Five;
         }
 
-        
         double desiredHeight = this.currentHeight;
         switch (this.requestedFloor)
         {
@@ -111,14 +95,9 @@ public class ElevatorMechanism implements IMechanism
             case Five:
                 desiredHeight = HardwareConstants.ELEVATOR_FLOOR_FIVE_HEIGHT;
                 break;
-            
         }
-        
-        
-        this.motor.set(this.pid.calculatePosition(desiredHeight, this.currentHeight));
-        
 
-        
+        this.motor.set(this.pid.calculatePosition(desiredHeight, this.currentHeight));
     }
 
     @Override
@@ -137,6 +116,4 @@ public class ElevatorMechanism implements IMechanism
     {
         One, Two, Three, Four, Five;
     }
-
-    
 }

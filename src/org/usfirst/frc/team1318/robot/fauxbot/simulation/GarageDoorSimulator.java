@@ -33,8 +33,6 @@ public class GarageDoorSimulator implements IRealWorldSimulator
     private static final int ClosedSensorChannel = 2;
     private static final int MotorChannel = 0;
 
-    private Image image;
-
     @SuppressWarnings("serial")
     private final Map<Integer, String> sensorNameMap = new HashMap<Integer, String>()
     {
@@ -53,69 +51,29 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         }
     };
 
+    private static final String CerberusPath = "src/org/usfirst/frc/team1318/robot/fauxbot/images/cerberus.jpg";
+    private static final String GolfCartPath = "src/org/usfirst/frc/team1318/robot/fauxbot/images/golfCart.jpg";
+    private static final String lamborghiniPath = "src/org/usfirst/frc/team1318/robot/fauxbot/images/lamborghini.jpg";
+    private static final String PorschePath = "src/org/usfirst/frc/team1318/robot/fauxbot/images/porsche.jpg";
+    private static final String CessnaCitationPath = "src/org/usfirst/frc/team1318/robot/fauxbot/images/cesssnaCitX.jpg";
+    private static final String BenzPath = "src/org/usfirst/frc/team1318/robot/fauxbot/images/benz.jpeg";
+
     private static final int GarageFullyOpened = 250;
 
     private GarageState garageState;
     private double amountOpened;
     private boolean isThroughBeamBroken;
 
+    private Image image;
+    private Color doorColor;
+
     @Inject
     public GarageDoorSimulator()
     {
         this.garageState = GarageState.Stopped;
         this.amountOpened = 0.0;
-        
-        final String cerberus = "src/org/usfirst/frc/team1318/robot/fauxbot/images/cerberus.jpg";
-        final String golfCart = "src/org/usfirst/frc/team1318/robot/fauxbot/images/golfCart.jpg";
-        final String lamborghini = "src/org/usfirst/frc/team1318/robot/fauxbot/images/lamborghini.jpg";
-        final String porsche = "src/org/usfirst/frc/team1318/robot/fauxbot/images/porsche.jpg";
-        final String cessnaCitation = "src/org/usfirst/frc/team1318/robot/fauxbot/images/cesssnaCitX.jpg";
-        final String benz = "src/org/usfirst/frc/team1318/robot/fauxbot/images/benz.jpeg";
 
-        String usedImg = null;
-        int randCar = (int)(Math.random() * 6);
-        
-        switch(randCar) {
-            case 0: usedImg = lamborghini;
-                    break;
-            case 1: usedImg = porsche;
-                    break;
-            case 2: usedImg = golfCart;
-                    break;
-            case 3: usedImg = benz;
-                    break;
-            case 4: usedImg = cessnaCitation;
-                    break;
-            case 5: usedImg = cerberus;
-                    break;
-            
-        }
-        
-        /*if (randCar == 0) {
-            usedImg = lamborghini;
-        } else if (randCar == 1) {
-            usedImg = porsche;
-        } else if (randCar == 2) {
-            usedImg = golfCart;
-        } else if (randCar == 3) {
-            usedImg = benz;
-        } else if (randCar == 3){
-            usedImg = cerberus; 
-        }else{
-            
-            usedImg = cessnaCitation;
-        }*/
-        
-        
-        try 
-        {
-            FileInputStream imageInput = new FileInputStream(usedImg); 
-            this.image = new Image(imageInput);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        
-       
+        this.loadRandomImage();
     }
 
     public String getSensorName(int channel)
@@ -147,13 +105,9 @@ public class GarageDoorSimulator implements IRealWorldSimulator
 
         return "Motor " + channel;
     }
-    Color doorColor;
-    
-    
+
     public void update()
     {
-        
-        
         ActuatorBase actuator = ActuatorManager.get(GarageDoorSimulator.MotorChannel);
         if (actuator != null && actuator instanceof MotorBase)
         {
@@ -187,8 +141,6 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         SensorBase openSensor = SensorManager.get(GarageDoorSimulator.OpenSensorChannel);
         if (openSensor != null && openSensor instanceof DigitalInput)
         {
-           
-            
             DigitalInput openSwitch = (DigitalInput)openSensor;
             if (this.amountOpened >= GarageDoorSimulator.GarageFullyOpened)
             {
@@ -196,10 +148,6 @@ public class GarageDoorSimulator implements IRealWorldSimulator
             }
             else
             {
-                openSwitch.set(false);
-            }
-            
-            if(openSwitch.get() == true && this.amountOpened <= GarageDoorSimulator.GarageFullyOpened) {
                 openSwitch.set(false);
             }
         }
@@ -217,65 +165,70 @@ public class GarageDoorSimulator implements IRealWorldSimulator
                 closedSwitch.set(false);
             }
         }
-       
-        
-        
-        
-        
+
         SensorBase throughBeamSensor = SensorManager.get(GarageDoorSimulator.ThroughBeamSensorChannel);
         if (throughBeamSensor != null && throughBeamSensor instanceof DigitalInput)
         {
             DigitalInput throughBeam = (DigitalInput)throughBeamSensor;
             this.isThroughBeamBroken = throughBeam.get();
             
-            if (this.isThroughBeamBroken) {
-                doorColor = Color.YELLOW;
-            } else {
-                doorColor = Color.GRAY;
-            }
-        }
-        
-        
-        /*if (this.garageState == GarageState.Stopped && (this.amountOpened != 0.0 && this.amountOpened != 250)) {
-            
-        }*/
-        
-        if (this.garageState == GarageState.Stopped && this.amountOpened == 0.0) {
-            
-            final String golfCart = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\golfCart.jpg";
-            final String lamborghini = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\lamborghini.jpg";
-            final String porsche = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\porsche.jpg";
-            final String cessnaCitation = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\cesssnaCitX.jpg";
-            final String benz = "src\\org\\usfirst\\frc\\team1318\\robot\\fauxbot\\images\\benz.jpeg";
-            
-            String usedImg;
-            int randCar = (int)Math.floor(Math.random() * 5);
-            
-           
-            
-            if (randCar == 0) {
-                usedImg = lamborghini;
-            } else if (randCar == 1) {
-                usedImg = porsche;
-            } else if (randCar == 2) {
-                usedImg = golfCart;
-            } else if (randCar == 3) {
-                usedImg = benz;
-            }  else {
-                usedImg = cessnaCitation;
-            }
-            
-            
-            try 
+            if (this.isThroughBeamBroken)
             {
-                FileInputStream imageInput = new FileInputStream(usedImg); 
-                this.image = new Image(imageInput);
-            } catch (Exception e) {
-                System.out.println(e);
+                this.doorColor = Color.YELLOW;
+            }
+            else
+            {
+                this.doorColor = Color.GRAY;
             }
         }
-        
-        
+
+        if (this.garageState == GarageState.Stopped && this.amountOpened <= 0.0)
+        {
+            this.loadRandomImage();
+        }
+    }
+
+    private void loadRandomImage()
+    {
+        String usedImg = null;
+        int randCar = (int)(Math.random() * 6);
+
+        switch (randCar)
+        {
+            case 0:
+                usedImg = GarageDoorSimulator.lamborghiniPath;
+                break;
+
+            case 1:
+                usedImg = GarageDoorSimulator.PorschePath;
+                break;
+
+            case 2:
+                usedImg = GarageDoorSimulator.GolfCartPath;
+                break;
+
+            case 3:
+                usedImg = GarageDoorSimulator.BenzPath;
+                break;
+
+            case 4:
+                usedImg = GarageDoorSimulator.CessnaCitationPath;
+                break;
+
+            case 5:
+                usedImg = GarageDoorSimulator.CerberusPath;
+                break;
+        }
+
+        try 
+        {
+            FileInputStream imageInput = new FileInputStream(usedImg); 
+            this.image = new Image(imageInput);
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
     }
 
     public enum GarageState
@@ -292,35 +245,38 @@ public class GarageDoorSimulator implements IRealWorldSimulator
     @Override
     public void draw(Canvas canvas)
     {
-        
         double canvasHeight = canvas.getHeight();
         double canvasWidth = canvas.getWidth();
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0.0, 0.0, canvasWidth, canvasHeight);
-        
+
         double height = this.image.getHeight();
         double width = this.image.getWidth();
-        
-        
+
         //Auto Resize for images
-        
         //Based on a 3 to 2 width/height ratio
-         
         int scale;
-        if (height < 400 || width < 400) {
+        if (height < 400 || width < 400)
+        {
             scale = 4;
-        } else if ((height > 600 || width > 400) && (height < 1200 || width < 800))  {
+        }
+        else if ((height > 600 || width > 400) && (height < 1200 || width < 800))
+        {
             scale = 5;
-        } else if ((height > 1200 || width > 800) && (height < 2400 || width < 1600))  {
+        }
+        else if ((height > 1200 || width > 800) && (height < 2400 || width < 1600))
+        {
             scale = 6;
-        } else if ((height > 5400 || width > 3600))  {
+        }
+        else if (height > 5400 || width > 3600)
+        {
             scale = 20;
-        } else {
+        }
+        else
+        {
             scale = 30;
         }
-        
-        
-        
+
         //int tempScale = 19;
         double imageHeight = this.image.getHeight() / scale; 
         double imageWidth = this.image.getWidth() / scale;
@@ -338,12 +294,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         {
             gc.setFill(doorColor);
         }
-        
-        
-        
-        
-            
-        
+
         gc.setLineWidth(4.0);
 
         // draw the midway-bar:
