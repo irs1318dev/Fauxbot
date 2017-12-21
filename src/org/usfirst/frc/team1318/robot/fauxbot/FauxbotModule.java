@@ -11,6 +11,7 @@ public class FauxbotModule extends AbstractModule
     @Override
     protected void configure()
     {
+        
         this.bind(IRealWorldSimulator.class).to(GarageDoorSimulator.class);
         
     }
