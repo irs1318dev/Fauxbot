@@ -1,12 +1,10 @@
 package org.usfirst.frc.team1318.robot.common.wpilib;
 
-public enum CANTalonControlMode
+public enum TalonSRXControlMode
 {
-    PercentVbus,
     Current,
     Disabled,
     Follower,
     Position,
-    Speed,
-    Voltage;
+    Velocity;
 }

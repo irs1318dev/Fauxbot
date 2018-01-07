@@ -3,7 +3,7 @@ package org.usfirst.frc.team1318.robot.common.wpilib;
 public interface IWpilibProvider
 {
     public IAnalogInput getAnalogInput(int channel);
-    public ICANTalon getCANTalon(int deviceNumber);
+    public ITalonSRX getTalonSRX(int deviceNumber);
     public ICompressor getCompressor();
     public ICompressor getCompressor(int module);
     public IDigitalInput getDigitalInput(int channel);

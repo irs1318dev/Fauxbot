@@ -3,7 +3,7 @@ package org.usfirst.frc.team1318.robot;
 import java.util.HashMap;
 
 import org.usfirst.frc.team1318.robot.common.wpilib.IAnalogInput;
-import org.usfirst.frc.team1318.robot.common.wpilib.ICANTalon;
+import org.usfirst.frc.team1318.robot.common.wpilib.ITalonSRX;
 import org.usfirst.frc.team1318.robot.common.wpilib.ICompressor;
 import org.usfirst.frc.team1318.robot.common.wpilib.IDigitalInput;
 import org.usfirst.frc.team1318.robot.common.wpilib.IDoubleSolenoid;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.mock;
 public class TestWpilibProvider implements IWpilibProvider
 {
     private HashMap<Integer, IAnalogInput> analogInputMap = new HashMap<Integer, IAnalogInput>();
-    private HashMap<Integer, ICANTalon> canTalonMap = new HashMap<Integer, ICANTalon>();
+    private HashMap<Integer, ITalonSRX> canTalonMap = new HashMap<Integer, ITalonSRX>();
     private HashMap<Integer, ICompressor> compressorMap = new HashMap<Integer, ICompressor>();
     private HashMap<Integer, IDigitalInput> digitalInputMap = new HashMap<Integer, IDigitalInput>();
     private HashMap<Integer, HashMap<Integer, IDoubleSolenoid>> doubleSolenoidModuleMap = new HashMap<Integer, HashMap<Integer, IDoubleSolenoid>>();
@@ -44,11 +44,11 @@ public class TestWpilibProvider implements IWpilibProvider
     }
 
     @Override
-    public ICANTalon getCANTalon(int deviceNumber)
+    public ITalonSRX getTalonSRX(int deviceNumber)
     {
         if (!this.canTalonMap.containsKey(deviceNumber))
         {
-            this.canTalonMap.put(deviceNumber, mock(ICANTalon.class));
+            this.canTalonMap.put(deviceNumber, mock(ITalonSRX.class));
         }
 
         return this.canTalonMap.get(deviceNumber);
