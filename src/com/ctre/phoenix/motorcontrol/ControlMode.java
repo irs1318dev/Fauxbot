@@ -6,5 +6,6 @@ public enum ControlMode
     Disabled,
     Follower,
     Position,
-    Velocity;
+    Velocity,
+    Current;
 }

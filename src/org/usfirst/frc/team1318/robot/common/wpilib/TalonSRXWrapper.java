@@ -17,7 +17,7 @@ public class TalonSRXWrapper implements ITalonSRX
     public TalonSRXWrapper(int deviceNumber)
     {
         this.wrappedObject = new TalonSRX(deviceNumber);
-        this.controlMode = ControlMode.PercentOutput;
+        this.controlMode = ControlMode.Current;
     }
 
     public void set(double value)
