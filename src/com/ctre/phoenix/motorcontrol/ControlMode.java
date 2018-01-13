@@ -2,7 +2,7 @@ package com.ctre.phoenix.motorcontrol;
 
 public enum ControlMode
 {
-    Current,
+    PercentOutput,
     Disabled,
     Follower,
     Position,

@@ -3,8 +3,9 @@ package org.usfirst.frc.team1318.robot.common.wpilib;
 public interface ITalonSRX extends IMotor
 {
     void changeControlMode(TalonSRXControlMode mode);
-    void setPIDF(double p, double i, double d, double f);
-    void setPIDF(double p, double i, double d, double f, int izone, double closeLoopRampRate, int profile);
+    void setSensorType(TalonSRXFeedbackDevice feedbackDevice);
+    void setPIDF(double p, double i, double d, double f, int slotId);
+    void setPIDF(double p, double i, double d, double f, int izone, double closeLoopRampRate, int slotId);
     void invertOutput(boolean flip);
     void invertSensor(boolean flip);
     void setNeutralMode(TalonSRXNeutralMode neutralMode);

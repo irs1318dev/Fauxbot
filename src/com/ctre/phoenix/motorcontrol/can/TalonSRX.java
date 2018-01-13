@@ -1,6 +1,7 @@
 package com.ctre.phoenix.motorcontrol.can;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class TalonSRX
@@ -61,6 +62,10 @@ public class TalonSRX
     {
     }
     public void set(ControlMode disabled, double value)
+    {
+    }
+
+    public void configSelectedFeedbackSensor(FeedbackDevice device, int pididx, int i)
     {
     }
 }

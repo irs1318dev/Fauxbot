@@ -1,12 +1,13 @@
 package org.usfirst.frc.team1318.robot.common.wpilib;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class TalonSRXWrapper implements ITalonSRX
 {
-    private static final int slotId = 0;
+    private static final int pidIdx = 0;
     private static final int timeoutMS = 10;
 
     private final TalonSRX wrappedObject;
@@ -16,7 +17,7 @@ public class TalonSRXWrapper implements ITalonSRX
     public TalonSRXWrapper(int deviceNumber)
     {
         this.wrappedObject = new TalonSRX(deviceNumber);
-        this.controlMode = ControlMode.Current;
+        this.controlMode = ControlMode.PercentOutput;
     }
 
     public void set(double value)
@@ -27,9 +28,9 @@ public class TalonSRXWrapper implements ITalonSRX
     public void changeControlMode(TalonSRXControlMode mode)
     {
         ControlMode controlMode;
-        if (mode == TalonSRXControlMode.Current)
+        if (mode == TalonSRXControlMode.PercentOutput)
         {
-            controlMode = ControlMode.Current;
+            controlMode = ControlMode.PercentOutput;
         }
         else if (mode == TalonSRXControlMode.Disabled)
         {
@@ -49,21 +50,36 @@ public class TalonSRXWrapper implements ITalonSRX
         }
     }
 
-    public void setPIDF(double p, double i, double d, double f)
+    public void setSensorType(TalonSRXFeedbackDevice feedbackDevice)
     {
-        this.wrappedObject.config_kP(TalonSRXWrapper.slotId, p, TalonSRXWrapper.timeoutMS);
-        this.wrappedObject.config_kI(TalonSRXWrapper.slotId, i, TalonSRXWrapper.timeoutMS);
-        this.wrappedObject.config_kD(TalonSRXWrapper.slotId, d, TalonSRXWrapper.timeoutMS);
-        this.wrappedObject.config_kF(TalonSRXWrapper.slotId, f, TalonSRXWrapper.timeoutMS);
+        FeedbackDevice device;
+        if (feedbackDevice == TalonSRXFeedbackDevice.QuadEncoder)
+        {
+            device = FeedbackDevice.QuadEncoder;
+        }
+        else
+        {
+            device = FeedbackDevice.None;
+        }
+
+        this.wrappedObject.configSelectedFeedbackSensor(device, TalonSRXWrapper.pidIdx, 0);
     }
 
-    public void setPIDF(double p, double i, double d, double f, int izone, double closeLoopRampRate, int profile)
+    public void setPIDF(double p, double i, double d, double f, int slotId)
     {
-        this.wrappedObject.config_kP(TalonSRXWrapper.slotId, p, TalonSRXWrapper.timeoutMS);
-        this.wrappedObject.config_kI(TalonSRXWrapper.slotId, i, TalonSRXWrapper.timeoutMS);
-        this.wrappedObject.config_kD(TalonSRXWrapper.slotId, d, TalonSRXWrapper.timeoutMS);
-        this.wrappedObject.config_kF(TalonSRXWrapper.slotId, f, TalonSRXWrapper.timeoutMS);
-        this.wrappedObject.config_IntegralZone(TalonSRXWrapper.slotId, izone, TalonSRXWrapper.timeoutMS);
+        this.wrappedObject.config_kP(slotId, p, TalonSRXWrapper.timeoutMS);
+        this.wrappedObject.config_kI(slotId, i, TalonSRXWrapper.timeoutMS);
+        this.wrappedObject.config_kD(slotId, d, TalonSRXWrapper.timeoutMS);
+        this.wrappedObject.config_kF(slotId, f, TalonSRXWrapper.timeoutMS);
+    }
+
+    public void setPIDF(double p, double i, double d, double f, int izone, double closeLoopRampRate, int slotId)
+    {
+        this.wrappedObject.config_kP(slotId, p, TalonSRXWrapper.timeoutMS);
+        this.wrappedObject.config_kI(slotId, i, TalonSRXWrapper.timeoutMS);
+        this.wrappedObject.config_kD(slotId, d, TalonSRXWrapper.timeoutMS);
+        this.wrappedObject.config_kF(slotId, f, TalonSRXWrapper.timeoutMS);
+        this.wrappedObject.config_IntegralZone(slotId, izone, TalonSRXWrapper.timeoutMS);
         this.wrappedObject.configClosedloopRamp(closeLoopRampRate, TalonSRXWrapper.timeoutMS);
     }
 
@@ -99,19 +115,16 @@ public class TalonSRXWrapper implements ITalonSRX
 
     public int getPosition()
     {
-        // what is pidIdx ??
-        return this.wrappedObject.getSelectedSensorPosition(TalonSRXWrapper.slotId);
+        return this.wrappedObject.getSelectedSensorPosition(TalonSRXWrapper.pidIdx);
     }
 
     public double getVelocity()
     {
-        // what is pidIdx ??
-        return this.wrappedObject.getSelectedSensorVelocity(TalonSRXWrapper.slotId);
+        return this.wrappedObject.getSelectedSensorVelocity(TalonSRXWrapper.pidIdx);
     }
 
     public double getError()
     {
-        // what is pidIdx ??
-        return this.wrappedObject.getClosedLoopError(TalonSRXWrapper.slotId);
+        return this.wrappedObject.getClosedLoopError(TalonSRXWrapper.pidIdx);
     }
 }

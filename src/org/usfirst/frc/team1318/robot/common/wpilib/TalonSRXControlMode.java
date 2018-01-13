@@ -2,7 +2,7 @@ package org.usfirst.frc.team1318.robot.common.wpilib;
 
 public enum TalonSRXControlMode
 {
-    Current,
+    PercentOutput,
     Disabled,
     Follower,
     Position,
