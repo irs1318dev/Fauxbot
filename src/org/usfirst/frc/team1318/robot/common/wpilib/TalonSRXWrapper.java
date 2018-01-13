@@ -77,10 +77,10 @@ public class TalonSRXWrapper implements ITalonSRX
         this.wrappedObject.setSensorPhase(invert);
     }
 
-    public void setNeutralMode(boolean brake)
+    public void setNeutralMode(TalonSRXNeutralMode neutralMode)
     {
         NeutralMode mode;
-        if (brake)
+        if (neutralMode == TalonSRXNeutralMode.Brake)
         {
             mode = NeutralMode.Brake;
         }
