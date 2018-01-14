@@ -17,7 +17,7 @@ public class TalonSRXWrapper implements ITalonSRX
     public TalonSRXWrapper(int deviceNumber)
     {
         this.wrappedObject = new TalonSRX(deviceNumber);
-        this.controlMode = ControlMode.Current;
+        this.controlMode = ControlMode.PercentOutput;
     }
 
     public void set(double value)
@@ -27,26 +27,25 @@ public class TalonSRXWrapper implements ITalonSRX
 
     public void changeControlMode(TalonSRXControlMode mode)
     {
-        ControlMode controlMode;
         if (mode == TalonSRXControlMode.PercentOutput)
         {
-            controlMode = ControlMode.PercentOutput;
+            this.controlMode = ControlMode.PercentOutput;
         }
         else if (mode == TalonSRXControlMode.Disabled)
         {
-            controlMode = ControlMode.Disabled;
+            this.controlMode = ControlMode.Disabled;
         }
         else if (mode == TalonSRXControlMode.Follower)
         {
-            controlMode = ControlMode.Follower;
+            this.controlMode = ControlMode.Follower;
         }
         else if (mode == TalonSRXControlMode.Position)
         {
-            controlMode = ControlMode.Position;
+            this.controlMode = ControlMode.Position;
         }
         else if (mode == TalonSRXControlMode.Velocity)
         {
-            controlMode = ControlMode.Velocity;
+            this.controlMode = ControlMode.Velocity;
         }
     }
 
