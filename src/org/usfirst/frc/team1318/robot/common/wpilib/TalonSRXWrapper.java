@@ -2,7 +2,10 @@ package org.usfirst.frc.team1318.robot.common.wpilib;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class TalonSRXWrapper implements ITalonSRX
@@ -25,7 +28,7 @@ public class TalonSRXWrapper implements ITalonSRX
         this.wrappedObject.set(this.controlMode, value);
     }
 
-    public void changeControlMode(TalonSRXControlMode mode)
+    public void setControlMode(TalonSRXControlMode mode)
     {
         if (mode == TalonSRXControlMode.PercentOutput)
         {
@@ -64,6 +67,11 @@ public class TalonSRXWrapper implements ITalonSRX
         this.wrappedObject.configSelectedFeedbackSensor(device, TalonSRXWrapper.pidIdx, 0);
     }
 
+    public void setSelectedSlot(int slotId)
+    {
+        this.wrappedObject.selectProfileSlot(slotId, TalonSRXWrapper.pidIdx);
+    }
+
     public void setPIDF(double p, double i, double d, double f, int slotId)
     {
         this.wrappedObject.config_kP(slotId, p, TalonSRXWrapper.timeoutMS);
@@ -82,12 +90,52 @@ public class TalonSRXWrapper implements ITalonSRX
         this.wrappedObject.configClosedloopRamp(closeLoopRampRate, TalonSRXWrapper.timeoutMS);
     }
 
-    public void invertOutput(boolean invert)
+    public void setForwardLimitSwitch(boolean enabled, boolean normallyOpen)
+    {
+        LimitSwitchSource source = LimitSwitchSource.Deactivated;
+        if (enabled)
+        {
+            source = LimitSwitchSource.FeedbackConnector;
+        }
+
+        LimitSwitchNormal type = LimitSwitchNormal.NormallyClosed;
+        if (normallyOpen)
+        {
+            type = LimitSwitchNormal.NormallyOpen;
+        }
+
+        this.wrappedObject.configForwardLimitSwitchSource(
+            source,
+            type,
+            TalonSRXWrapper.timeoutMS);
+    }
+
+    public void setReverseLimitSwitch(boolean enabled, boolean normallyOpen)
+    {
+        LimitSwitchSource source = LimitSwitchSource.Deactivated;
+        if (enabled)
+        {
+            source = LimitSwitchSource.FeedbackConnector;
+        }
+
+        LimitSwitchNormal type = LimitSwitchNormal.NormallyClosed;
+        if (normallyOpen)
+        {
+            type = LimitSwitchNormal.NormallyOpen;
+        }
+
+        this.wrappedObject.configReverseLimitSwitchSource(
+            source,
+            type,
+            TalonSRXWrapper.timeoutMS);
+    }
+
+    public void setInvertOutput(boolean invert)
     {
         this.wrappedObject.setInverted(invert);
     }
 
-    public void invertSensor(boolean invert)
+    public void setInvertSensor(boolean invert)
     {
         this.wrappedObject.setSensorPhase(invert);
     }
@@ -110,6 +158,7 @@ public class TalonSRXWrapper implements ITalonSRX
     public void reset()
     {
         this.wrappedObject.set(ControlMode.Disabled, 0.0);
+        this.wrappedObject.setSelectedSensorPosition(0, TalonSRXWrapper.pidIdx, TalonSRXWrapper.timeoutMS);
     }
 
     public int getPosition()
@@ -125,5 +174,14 @@ public class TalonSRXWrapper implements ITalonSRX
     public double getError()
     {
         return this.wrappedObject.getClosedLoopError(TalonSRXWrapper.pidIdx);
+    }
+
+    public TalonSRXLimitSwitchStatus getLimitSwitchStatus()
+    {
+        SensorCollection collection = this.wrappedObject.getSensorCollection();
+
+        return new TalonSRXLimitSwitchStatus(
+            collection.isFwdLimitSwitchClosed(),
+            collection.isRevLimitSwitchClosed());
     }
 }
