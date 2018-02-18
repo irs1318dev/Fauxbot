@@ -4,6 +4,7 @@ public interface IWpilibProvider
 {
     public IAnalogInput getAnalogInput(int channel);
     public ITalonSRX getTalonSRX(int deviceNumber);
+    public IVictorSPX getVictorSPX(int deviceNumber);
     public ICompressor getCompressor();
     public ICompressor getCompressor(int module);
     public IDigitalInput getDigitalInput(int channel);
@@ -13,6 +14,7 @@ public interface IWpilibProvider
     public IJoystick getJoystick(int port);
     public IMotor getTalon(int channel);
     public IMotor getVictor(int channel);
+    public IServo getServo(int channel);
     public IPowerDistributionPanel getPDP();
     public IPowerDistributionPanel getPDP(int module);
     public IRelay getRelay(int channel);

@@ -155,9 +155,19 @@ public class TalonSRXWrapper implements ITalonSRX
         this.wrappedObject.setNeutralMode(mode);
     }
 
-    public void reset()
+    public void setVoltageCompensation(boolean enabled, double maxVoltage)
+    {
+        this.wrappedObject.configVoltageCompSaturation(maxVoltage, TalonSRXWrapper.timeoutMS);
+        this.wrappedObject.enableVoltageCompensation(enabled);
+    }
+
+    public void stop()
     {
         this.wrappedObject.set(ControlMode.Disabled, 0.0);
+    }
+
+    public void reset()
+    {
         this.wrappedObject.setSelectedSensorPosition(0, TalonSRXWrapper.pidIdx, TalonSRXWrapper.timeoutMS);
     }
 

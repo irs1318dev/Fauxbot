@@ -92,4 +92,12 @@ public class TalonSRX
     {
         return null;
     }
+
+    public void configVoltageCompSaturation(double maxVoltage, int timeoutms)
+    {
+    }
+
+    public void enableVoltageCompensation(boolean enabled)
+    {
+    }
 }

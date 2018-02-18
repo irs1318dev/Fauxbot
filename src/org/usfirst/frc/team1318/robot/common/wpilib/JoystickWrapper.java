@@ -12,6 +12,7 @@ public class JoystickWrapper implements IJoystick
         this.wrappedObject = new Joystick(port);
     }
 
+    @SuppressWarnings("deprecation")
     public double getAxis(AxisType relevantAxis)
     {
         return this.wrappedObject.getAxis(relevantAxis);
