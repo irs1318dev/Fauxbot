@@ -46,6 +46,10 @@ public class TalonSRXWrapper implements ITalonSRX
         {
             this.controlMode = ControlMode.Position;
         }
+        else if (mode == TalonSRXControlMode.MotionMagicPosition)
+        {
+            this.controlMode = ControlMode.MotionMagic;
+        }
         else if (mode == TalonSRXControlMode.Velocity)
         {
             this.controlMode = ControlMode.Velocity;
@@ -78,6 +82,16 @@ public class TalonSRXWrapper implements ITalonSRX
         this.wrappedObject.config_kI(slotId, i, TalonSRXWrapper.timeoutMS);
         this.wrappedObject.config_kD(slotId, d, TalonSRXWrapper.timeoutMS);
         this.wrappedObject.config_kF(slotId, f, TalonSRXWrapper.timeoutMS);
+    }
+
+    public void setMotionMagicPIDF(double p, double i, double d, double f, int velocity, int acceleration, int slotId)
+    {
+        this.wrappedObject.config_kP(slotId, p, TalonSRXWrapper.timeoutMS);
+        this.wrappedObject.config_kI(slotId, i, TalonSRXWrapper.timeoutMS);
+        this.wrappedObject.config_kD(slotId, d, TalonSRXWrapper.timeoutMS);
+        this.wrappedObject.config_kF(slotId, f, TalonSRXWrapper.timeoutMS);
+        this.wrappedObject.configMotionCruiseVelocity(velocity, TalonSRXWrapper.timeoutMS);
+        this.wrappedObject.configMotionAcceleration(acceleration, TalonSRXWrapper.timeoutMS);
     }
 
     public void setPIDF(double p, double i, double d, double f, int izone, double closeLoopRampRate, int slotId)
@@ -164,6 +178,11 @@ public class TalonSRXWrapper implements ITalonSRX
     public void stop()
     {
         this.wrappedObject.set(ControlMode.Disabled, 0.0);
+    }
+
+    public void setPosition(int position)
+    {
+        this.wrappedObject.setSelectedSensorPosition(position, TalonSRXWrapper.pidIdx, TalonSRXWrapper.timeoutMS);
     }
 
     public void reset()

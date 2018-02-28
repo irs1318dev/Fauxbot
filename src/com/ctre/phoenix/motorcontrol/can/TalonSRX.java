@@ -100,4 +100,12 @@ public class TalonSRX
     public void enableVoltageCompensation(boolean enabled)
     {
     }
+
+    public void configMotionCruiseVelocity(int velocity, int timeoutms)
+    {
+    }
+
+    public void configMotionAcceleration(int acceleration, int timeoutms)
+    {
+    }
 }

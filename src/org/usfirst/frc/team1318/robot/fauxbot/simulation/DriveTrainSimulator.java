@@ -29,8 +29,8 @@ import javafx.scene.paint.Color;
 @Singleton
 public class DriveTrainSimulator implements IRealWorldSimulator
 {
-    private static final int LeftMotorChannel = ElectronicsConstants.DRIVETRAIN_LEFT_MOTOR_CHANNEL;
-    private static final int RightMotorChannel = ElectronicsConstants.DRIVETRAIN_RIGHT_MOTOR_CHANNEL;
+    private static final int LeftMotorChannel = ElectronicsConstants.DRIVETRAIN_LEFT_MOTOR_PWM_CHANNEL;
+    private static final int RightMotorChannel = ElectronicsConstants.DRIVETRAIN_RIGHT_MOTOR_PWM_CHANNEL;
     
     @SuppressWarnings("serial")
     private final Map<Integer, String> motorNameMap = new HashMap<Integer, String>()

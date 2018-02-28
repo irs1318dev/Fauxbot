@@ -30,10 +30,10 @@ public class GarageDoorMechanism implements IMechanism
     @Inject
     public GarageDoorMechanism(IWpilibProvider provider)
     {
-        this.motor = provider.getTalon(ElectronicsConstants.GARAGEDOOR_MOTOR_CHANNEL);
-        this.throughBeamSensor = provider.getDigitalInput(ElectronicsConstants.GARAGEDOOR_THROUGHBEAMSENSOR_CHANNEL);
-        this.openSensor = provider.getDigitalInput(ElectronicsConstants.GARAGEDOOR_OPENSENSOR_CHANNEL);
-        this.closedSensor = provider.getDigitalInput(ElectronicsConstants.GARAGEDOOR_CLOSEDSENSOR_CHANNEL);
+        this.motor = provider.getTalon(ElectronicsConstants.GARAGEDOOR_MOTOR_DIGITAL_CHANNEL);
+        this.throughBeamSensor = provider.getDigitalInput(ElectronicsConstants.GARAGEDOOR_THROUGHBEAMSENSOR_DIGITAL_CHANNEL);
+        this.openSensor = provider.getDigitalInput(ElectronicsConstants.GARAGEDOOR_OPENSENSOR_DIGITAL_CHANNEL);
+        this.closedSensor = provider.getDigitalInput(ElectronicsConstants.GARAGEDOOR_CLOSEDSENSOR_DIGITAL_CHANNEL);
 
         this.driver = null;
         this.state = GarageDoorState.Closed;

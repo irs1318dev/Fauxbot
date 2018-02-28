@@ -34,8 +34,8 @@ public class ElevatorMechanism implements IMechanism
         IDashboardLogger logger,
         ITimer timer)
     {
-        this.motor = provider.getTalon(ElectronicsConstants.ELEVATOR_MOTOR_CHANNEL);
-        this.encoder = provider.getEncoder(ElectronicsConstants.ELEVATOR_ENCODER_CHANNEL_A, ElectronicsConstants.ELEVATOR_ENCODER_CHANNEL_B);
+        this.motor = provider.getTalon(ElectronicsConstants.ELEVATOR_MOTOR_PWM_CHANNEL);
+        this.encoder = provider.getEncoder(ElectronicsConstants.ELEVATOR_ENCODER_DIGITAL_CHANNEL_A, ElectronicsConstants.ELEVATOR_ENCODER_DIGITAL_CHANNEL_B);
         this.driver = null;
 
         this.requestedFloor = Floor.One;

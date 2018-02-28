@@ -11,10 +11,13 @@ import org.usfirst.frc.team1318.robot.common.wpilib.IJoystick;
 import org.usfirst.frc.team1318.robot.common.wpilib.IWpilibProvider;
 import org.usfirst.frc.team1318.robot.driver.MacroOperation;
 import org.usfirst.frc.team1318.robot.driver.Operation;
+import org.usfirst.frc.team1318.robot.driver.Shift;
 import org.usfirst.frc.team1318.robot.driver.common.Driver;
 import org.usfirst.frc.team1318.robot.driver.common.IButtonMap;
 import org.usfirst.frc.team1318.robot.driver.common.descriptions.MacroOperationDescription;
+import org.usfirst.frc.team1318.robot.driver.common.descriptions.ShiftDescription;
 import org.usfirst.frc.team1318.robot.driver.common.states.MacroOperationState;
+import org.usfirst.frc.team1318.robot.driver.common.states.OperationState;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -29,6 +32,9 @@ public class UserDriver extends Driver
     private final IJoystick joystickDriver;
     private final IJoystick joystickCoDriver;
 
+    private final Set<Shift> activeShifts;
+
+    private final Map<Shift, ShiftDescription> shiftMap;
     private final Map<MacroOperation, MacroOperationState> macroStateMap;
 
     /**
@@ -46,6 +52,8 @@ public class UserDriver extends Driver
         this.joystickDriver = provider.getJoystick(ElectronicsConstants.JOYSTICK_DRIVER_PORT);
         this.joystickCoDriver = provider.getJoystick(ElectronicsConstants.JOYSTICK_CO_DRIVER_PORT);
 
+        this.activeShifts = new HashSet<Shift>();
+        this.shiftMap = buttonMap.getShiftMap();
         this.macroStateMap = new HashMap<MacroOperation, MacroOperationState>();
         Map<MacroOperation, MacroOperationDescription> macroSchema = buttonMap.getMacroOperationSchema();
         for (MacroOperation macroOperation : macroSchema.keySet())
@@ -76,13 +84,34 @@ public class UserDriver extends Driver
             }
         }
 
+        // check inputs and update shifts based on it...
+        this.activeShifts.clear();
+        for (Shift shift : this.shiftMap.keySet())
+        {
+            ShiftDescription shiftDescription = this.shiftMap.get(shift);
+            if (shiftDescription.checkInput(this.joystickDriver, this.joystickCoDriver))
+            {
+                this.activeShifts.add(shift);
+            }
+        }
+
+        // if no other shifts are active, we will use the "None" shift
+        if (this.activeShifts.size() == 0)
+        {
+            this.activeShifts.add(Shift.None);
+        }
+
+        // no matter what, we will set the "Any" shift
+        this.activeShifts.add(Shift.Any);
+
         // check user inputs for various operations (non-macro) and keep track of:
         // operations that were interrupted already, and operations that were modified by user input in this update
         Set<Operation> modifiedOperations = new HashSet<Operation>();
         Set<Operation> interruptedOperations = new HashSet<Operation>();
         for (Operation operation : this.operationStateMap.keySet())
         {
-            boolean receivedInput = this.operationStateMap.get(operation).checkInput(this.joystickDriver, this.joystickCoDriver);
+            OperationState opState = this.operationStateMap.get(operation);
+            boolean receivedInput = opState.checkInput(this.joystickDriver, this.joystickCoDriver, this.activeShifts);
             if (receivedInput)
             {
                 modifiedOperations.add(operation);
@@ -101,7 +130,7 @@ public class UserDriver extends Driver
         for (MacroOperation macroOperation : this.macroStateMap.keySet())
         {
             MacroOperationState macroState = this.macroStateMap.get(macroOperation);
-            macroState.checkInput(this.joystickDriver, this.joystickCoDriver);
+            macroState.checkInput(this.joystickDriver, this.joystickCoDriver, this.activeShifts);
 
             if (macroState.getIsActive())
             {

@@ -7,5 +7,6 @@ public enum ControlMode
     Follower,
     Position,
     Velocity,
-    Current;
+    Current,
+    MotionMagic;
 }

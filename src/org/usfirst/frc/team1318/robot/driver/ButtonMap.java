@@ -8,17 +8,32 @@ import javax.inject.Singleton;
 import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.driver.common.IButtonMap;
+import org.usfirst.frc.team1318.robot.driver.common.UserInputDeviceButton;
 import org.usfirst.frc.team1318.robot.driver.common.buttons.AnalogAxis;
 import org.usfirst.frc.team1318.robot.driver.common.buttons.ButtonType;
 import org.usfirst.frc.team1318.robot.driver.common.descriptions.AnalogOperationDescription;
 import org.usfirst.frc.team1318.robot.driver.common.descriptions.DigitalOperationDescription;
 import org.usfirst.frc.team1318.robot.driver.common.descriptions.MacroOperationDescription;
 import org.usfirst.frc.team1318.robot.driver.common.descriptions.OperationDescription;
+import org.usfirst.frc.team1318.robot.driver.common.descriptions.ShiftDescription;
 import org.usfirst.frc.team1318.robot.driver.common.descriptions.UserInputDevice;
 
 @Singleton
 public class ButtonMap implements IButtonMap
 {
+    @SuppressWarnings("serial")
+    private static Map<Shift, ShiftDescription> ShiftButtons = new HashMap<Shift, ShiftDescription>()
+    {
+        {
+            /** Example Shift entry:
+            put(
+                Shift.Debug,
+                new ShiftDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON));*/
+        }
+    };
+
     @SuppressWarnings("serial")
     public static Map<Operation, OperationDescription> OperationSchema = new HashMap<Operation, OperationDescription>()
     {
@@ -61,6 +76,12 @@ public class ButtonMap implements IButtonMap
                     }));*/
         }
     };
+
+    @Override
+    public Map<Shift, ShiftDescription> getShiftMap()
+    {
+        return ButtonMap.ShiftButtons;
+    }
 
     @Override
     public Map<Operation, OperationDescription> getOperationSchema()

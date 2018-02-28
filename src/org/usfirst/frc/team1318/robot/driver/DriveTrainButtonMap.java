@@ -15,11 +15,19 @@ import org.usfirst.frc.team1318.robot.driver.common.descriptions.AnalogOperation
 import org.usfirst.frc.team1318.robot.driver.common.descriptions.DigitalOperationDescription;
 import org.usfirst.frc.team1318.robot.driver.common.descriptions.MacroOperationDescription;
 import org.usfirst.frc.team1318.robot.driver.common.descriptions.OperationDescription;
+import org.usfirst.frc.team1318.robot.driver.common.descriptions.ShiftDescription;
 import org.usfirst.frc.team1318.robot.driver.common.descriptions.UserInputDevice;
 
 @Singleton
 public class DriveTrainButtonMap implements IButtonMap
 {
+    @SuppressWarnings("serial")
+    private static Map<Shift, ShiftDescription> ShiftButtons = new HashMap<Shift, ShiftDescription>()
+    {
+        {
+        }
+    };
+
     @SuppressWarnings("serial")
     public static Map<Operation, OperationDescription> OperationSchema = new HashMap<Operation, OperationDescription>()
     {
@@ -53,6 +61,12 @@ public class DriveTrainButtonMap implements IButtonMap
         {
         }
     };
+
+    @Override
+    public Map<Shift, ShiftDescription> getShiftMap()
+    {
+        return DriveTrainButtonMap.ShiftButtons;
+    }
 
     @Override
     public Map<Operation, OperationDescription> getOperationSchema()

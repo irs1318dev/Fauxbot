@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1318.robot.driver.common.descriptions;
 
+import org.usfirst.frc.team1318.robot.driver.Shift;
 import org.usfirst.frc.team1318.robot.driver.common.buttons.AnalogAxis;
 
 /**
@@ -21,9 +22,31 @@ public class AnalogOperationDescription extends OperationDescription
      * @param shouldInvert whether we should invert the axis so that -1 and 1 are on the opposite ends as where they are designed to be in hardware
      * @param deadZone the amount in the center of the axis (around 0) that should be ignored to account for joystick sensors imprecision
      */
-    public AnalogOperationDescription(UserInputDevice userInputDevice, AnalogAxis userInputDeviceAxis, boolean shouldInvert, double deadZone)
+    public AnalogOperationDescription(
+        UserInputDevice userInputDevice,
+        AnalogAxis userInputDeviceAxis,
+        boolean shouldInvert,
+        double deadZone)
     {
-        super(OperationType.Analog, userInputDevice);
+        this(userInputDevice, userInputDeviceAxis, Shift.Any, shouldInvert, deadZone);
+    }
+
+    /**
+     * Initializes a new AnalogOperationDescription based on a user interaction
+     * @param userInputDevice which device will indicate the operation (driver or codriver joystick) 
+     * @param userInputDeviceAxis the axis on the device that will indicate the operation
+     * @param requiredShift the shift button that must be applied to perform macro
+     * @param shouldInvert whether we should invert the axis so that -1 and 1 are on the opposite ends as where they are designed to be in hardware
+     * @param deadZone the amount in the center of the axis (around 0) that should be ignored to account for joystick sensors imprecision
+     */
+    public AnalogOperationDescription(
+        UserInputDevice userInputDevice,
+        AnalogAxis userInputDeviceAxis,
+        Shift requiredShift,
+        boolean shouldInvert,
+        double deadZone)
+    {
+        super(OperationType.Analog, userInputDevice, requiredShift);
 
         this.userInputDeviceAxis = userInputDeviceAxis;
         this.shouldInvert = shouldInvert;
@@ -38,7 +61,7 @@ public class AnalogOperationDescription extends OperationDescription
      */
     public AnalogOperationDescription(AnalogSensor sensor)
     {
-        super(OperationType.Analog, UserInputDevice.Sensor);
+        super(OperationType.Analog, UserInputDevice.Sensor, Shift.Any);
 
         this.userInputDeviceAxis = AnalogAxis.None;
         this.shouldInvert = false;

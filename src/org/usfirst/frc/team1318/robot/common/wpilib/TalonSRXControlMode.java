@@ -6,5 +6,6 @@ public enum TalonSRXControlMode
     Disabled,
     Follower,
     Position,
+    MotionMagicPosition,
     Velocity;
 }
