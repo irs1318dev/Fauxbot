@@ -105,6 +105,7 @@ public class MacroOperationState extends OperationState
         Shift requiredShift = description.getRequiredShift();
         if (!activeShifts.contains(requiredShift))
         {
+            this.button.updateState(false);
             return false;
         }
 
@@ -162,7 +163,6 @@ public class MacroOperationState extends OperationState
         }
 
         this.button.updateState(buttonPressed);
-
         return buttonPressed;
     }
 

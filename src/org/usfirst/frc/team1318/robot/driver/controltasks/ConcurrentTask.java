@@ -96,23 +96,25 @@ public class ConcurrentTask extends ControlTaskBase implements IControlTask
     {
         for (int i = 0; i < this.tasks.length; i++)
         {
-            if (!this.completedTasks[i])
+            if (this.completedTasks[i])
             {
-                if (this.tasks[i].hasCompleted())
-                {
-                    this.completedTasks[i] = true;
-                    this.tasks[i].end();
-                }
-                else
-                {
-                    this.tasks[i].update();
-
-                    if (this.tasks[i].shouldCancel())
-                    {
-                        this.shouldCancelTasks = true;
-                    }
-                }
+                continue;
             }
+
+            if (this.tasks[i].hasCompleted())
+            {
+                this.completedTasks[i] = true;
+                this.tasks[i].end();
+                continue;
+            }
+
+            if (this.tasks[i].shouldCancel())
+            {
+                this.shouldCancelTasks = true;
+                continue;
+            }
+
+            this.tasks[i].update();
         }
     }
 

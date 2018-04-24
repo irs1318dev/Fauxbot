@@ -92,6 +92,7 @@ public class DigitalOperationState extends OperationState
         Shift requiredShift = description.getRequiredShift();
         if (!activeShifts.contains(requiredShift))
         {
+            this.button.updateState(false);
             return false;
         }
 

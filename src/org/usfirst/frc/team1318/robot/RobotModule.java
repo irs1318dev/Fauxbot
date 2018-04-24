@@ -37,6 +37,8 @@ public class RobotModule extends AbstractModule
         this.bind(IWpilibProvider.class).to(WpilibProvider.class);
         this.bind(ITimer.class).to(TimerWrapper.class);
         this.bind(IButtonMap.class).to(GarageDoorButtonMap.class);
+        //this.bind(IButtonMap.class).to(DriveTrainButtonMap.class);
+        //this.bind(IButtonMap.class).to(ElevatorButtonMap.class);
     }
 
     @Singleton
@@ -45,6 +47,8 @@ public class RobotModule extends AbstractModule
     {
         List<IMechanism> mechanismList = new ArrayList<>();
         mechanismList.add(injector.getInstance(GarageDoorMechanism.class));
+        //mechanismList.add(injector.getInstance(DriveTrainMechanism.class));
+        //mechanismList.add(injector.getInstance(ElevatorMechanism.class));
         return new MechanismManager(mechanismList);
     }
 

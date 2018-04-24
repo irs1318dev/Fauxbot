@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1318.robot.driver;
 
 import org.usfirst.frc.team1318.robot.ElectronicsConstants;
+import org.usfirst.frc.team1318.robot.TuningConstants;
+import org.usfirst.frc.team1318.robot.common.Helpers;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilib.IDigitalInput;
 import org.usfirst.frc.team1318.robot.common.wpilib.IWpilibProvider;
@@ -58,7 +60,12 @@ public class AutonomousRoutineSelector
             case 1: // Just A flipped
                 return AutonomousRoutineSelector.GetFillerRoutine();
 
-            default: // CANNOT READ
+            default: // how did we get here?
+                if (TuningConstants.THROW_EXCEPTIONS)
+                {
+                    throw new RuntimeException("code bug - no case for the desired routine");
+                }
+
                 return AutonomousRoutineSelector.GetFillerRoutine();
         }
     }

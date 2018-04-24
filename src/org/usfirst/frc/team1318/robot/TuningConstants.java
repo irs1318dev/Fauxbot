@@ -13,6 +13,6 @@ public class TuningConstants
 
     //================================================== DriveTrain ==============================================================
 
-    public static final double DEAD_ZONE = .1;
-    public static final double DRIVETRAIN_MAX_POWER_LEVEL = 1; 
+    public static final double DEAD_ZONE = 0.1;
+    public static final double DRIVETRAIN_MAX_POWER_LEVEL = 1.0; 
 }

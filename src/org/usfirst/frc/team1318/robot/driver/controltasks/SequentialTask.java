@@ -71,33 +71,36 @@ public class SequentialTask extends ControlTaskBase implements IControlTask
     @Override
     public void update()
     {
-        // check whether we should continue with the current task
-        if (this.currentTask != null)
+        do
         {
+            // if there's no current task, find the next one and start it (if any)
+            if (this.currentTask == null)
+            {
+                this.currentTask = this.orderedTasks.poll();
+
+                // if there's no next task to run, then we are done
+                if (this.currentTask == null)
+                {
+                    return;
+                }
+
+                this.currentTask.begin();
+            }
+
             if (this.currentTask.hasCompleted())
             {
                 this.currentTask.end();
                 this.currentTask = null;
             }
-        }
-
-        // if there's no current task, find the next one and start it (if any)
-        if (this.currentTask == null)
-        {
-            this.currentTask = this.orderedTasks.poll();
-
-            // if there's no next task to run, then we are done
-            if (this.currentTask == null)
+            else if (this.currentTask.shouldCancel())
             {
-                return;
+                this.shouldCancelTask = true;
             }
-
-            this.currentTask.begin();
-        }
-
-        // run the current task and apply the result to the control data
-        this.currentTask.update();
-        this.shouldCancelTask = this.currentTask.shouldCancel();
+            else
+            {
+                this.currentTask.update();
+            }
+        } while (this.currentTask == null);
     }
 
     /**

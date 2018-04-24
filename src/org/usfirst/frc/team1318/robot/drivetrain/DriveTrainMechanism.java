@@ -30,7 +30,7 @@ public class DriveTrainMechanism implements IMechanism
     @Inject
     public DriveTrainMechanism(IWpilibProvider provider)
     {
-        this.leftMotor = provider.getTalon(ElectronicsConstants.DRIVETRAIN_LEFT_MOTOR_PWM_CHANNEL);
+        this.leftMotor = provider.getTalon(ElectronicsConstants.DRIVETRAIN_LEFT_MOTOR_CAN_ID);
         this.rightMotor = provider.getTalon(ElectronicsConstants.DRIVETRAIN_RIGHT_MOTOR_PWM_CHANNEL);
         this.driver = null;
 

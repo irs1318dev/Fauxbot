@@ -302,6 +302,11 @@ public class PIDHandler
         return this.output;
     }
 
+    public double getError()
+    {
+        return this.prevError;
+    }
+
     public void setKp(double kp)
     {
         this.kp = kp;
