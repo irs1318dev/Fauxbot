@@ -46,14 +46,19 @@
    1. [Setting up your Environment](#setting-up-your-environment)
    2. [Making Simple Operation changes](#making-simple-operation-changes)
    3. [Writing a new Mechanism](#writing-a-new-mechanism)
-      1. [Define class and member variables](#define-class-and-member-variables)
-      2. [Write constructor](#write-constructor)
-      3. [Write readSensors function](#write-readsensors-function)
-      4. [Write update function](#write-update-function)
-      5. [Write stop function](#write-stop-function)
-      6. [Write setDriver function](#write-setdriver-function)
+      1. [Define mechanism class and member variables](#define-mechanism-class-and-member-variables)
+      2. [Write mechanism constructor](#write-mechanism-constructor)
+      3. [Write mechanism readSensors function](#write-mechanism-readsensors-function)
+      4. [Write mechanism update function](#write-mechanism-update-function)
+      5. [Write mechanism stop function](#write-mechanism-stop-function)
+      6. [Write mechanism setDriver function](#write-mechanism-setdriver-function)
    4. [Writing Macros and Autonomous Routines](#writing-macros-and-autonomous-routines)
       1. [Writing Tasks](#writing-tasks)
+         1. [Define task class, member variables, and constructor](#define-task-class-member-variables-and-constructor)
+         2. [Define task begin function](#define-task-begin-function)
+         3. [Define task update function](#define-task-update-function)
+         4. [Define task end function](#define-task-end-function)
+         5. [Define task hasCompleted function](#define-task-hascompleted-function)
       2. [Adding Macros](#adding-macros)
       3. [Composing Tasks into Routines](#composing-tasks-into-routines)
          1. [SequentialTask.Sequence()](#sequentialtasksequence)
@@ -134,7 +139,9 @@ When the robot is enabled in teleop mode (teleopInit)
   * In autonomousPeriodic, we again call "generalPeriodic".
 
 ### Mechanisms
-Mechanism classes handle the reading of all of the sensors and control of all of the actuators on each mechanism of the robot.  There is one Mechanism class for each individual part of the robot, named using the pattern "ThingMechanism" (where "Thing" is the name of the mechanism, like "DriveTrain").  Mechanisms read from all of the Sensors and translate the Operations from the Driver into the functions that need to be called on the individual Actuators.  This typically involves some math and logic to convert the data from the operations into the particular actions that need to happen.  For example, when using a typical Tank drivetrain, the DriveTrain Mechanism calculates the speed settings to apply to the left and right motors based on the DriveForward operation and the Turn operation.  Also, there may be other concerns to take care of, such as how to respond based on the presence or absence of a setting from another operation or a sensor.  The Mechanisms implement the IMechanism interface which has the definitions of functions that every Mechanism must implement.  In the mechanism, the readSensor and update functions are the most important, and are called every ~20 milliseconds.  The readSensors function reads the current values from all of the sensors and stores them locally in member variables on the object.  The update function calculates what should be applied to the output devices based on the current Operations and the data read from the sensors.  It is important that these functions execute quickly, so anything that depends on a certain length of time elapsing should be calculated between separate runs of update and not involve any sleep operation.  Therefore, most actions that take multiple iterations of the update function belong in a macro instead of being hard-coded into the Mechanism.
+Mechanism classes handle the reading of all of the sensors and control of all of the actuators on each mechanism of the robot.  There is one Mechanism class for each individual part of the robot, named using the pattern "ThingMechanism" (where "Thing" is the name of the mechanism, like "DriveTrain").  Mechanisms read from all of the Sensors and translate the Operations from the Driver into the functions that need to be called on the individual Actuators.  This typically involves some math and logic to convert the data from the operations into the particular actions that need to happen.  For example, when using a typical Tank drivetrain, the DriveTrain Mechanism calculates the speed settings to apply to the left and right motors based on the DriveForward operation and the Turn operation.  Also, there may be other concerns to take care of, such as how to respond based on the presence or absence of a setting from another operation or a sensor.
+
+The Mechanisms implement the IMechanism interface which has the definitions of functions that every Mechanism must implement.  In the mechanism, the readSensor and update functions are the most important, and are called every ~20 milliseconds.  The readSensors function reads the current values from all of the sensors and stores them locally in member variables on the object.  The update function calculates what should be applied to the output devices based on the current Operations and the data read from the sensors.  It is important that these functions execute quickly, so anything that depends on a certain length of time elapsing should be calculated between separate runs of update and not involve any sleep operation.  Therefore, most actions that take multiple iterations of the update function belong in a macro instead of being hard-coded into the Mechanism.
 
 ### ElectronicsConstants
 ElectroincsConstants is a class that holds constant values for all of the physical connections (PWM channels, Digital IO channels, Analog IO channels, CAN ids, etc.) that are needed to be known in order to control the correct output device and read the correct sensors.  We keep this information in a separate class (and all in a single file) so that there is only one place to update if the Electronics sub-team needs to re-run the wiring, or in case there are wiring differences between the practice robot and the competition robot.
@@ -155,6 +162,11 @@ There are three main types of digital operations
 * Simple: which is "true" whenever the button is actively being pressed, and "false" (off) otherwise.  A simple button would typically be used for spinning an intake roller while trying to pick up a ball.
 * Toggle: which is "true" from the time that it is first pressed until the next time it is pressed, and then false until it is pressed again.  A toggle button could be used for enabling the vision system, though we often use a click button instead.
 * Click: which is true the first time we run an update after each time the button is pressed, and false until the button has been released and pressed again).  A click button would typically be used for shooting a ball or lifting an arm.
+
+#### Tasks
+Tasks are used to control operations or groups of operations that run until a certain condition is met.  They are used within Macros and Autonomous Routines and can be composed together to perform complex actions.  Tasks themselves should aim to be relatively simple and only accomplish on thing if possible - this helps prevent code duplication later.  An example of a single task is "DriveDistanceTask", which drives forward for a specified distance, or "DriveTimedTask" which drives forward for a specified length of time.
+
+Tasks implement the IControlTask interface, and typically extend from the ControlTaskBase class.  Tasks apply settings to one or more operations.  Every ~20ms, the update function is called to update the settings based on the criteria defined in the task.  Before running update, the hasCompleted function is called to check whether the task should end.
 
 #### UserDriver
 The UserDriver represents the driver and co-driver operating the robot using joysticks and button pads.  The user driver is in charge of reading from the joysticks and button pads, and then using the ButtonMap schema to translate the individual actions taken on the joystick into Operations and Macro Operations.  The UserDriver is used during Teleop mode.
@@ -240,7 +252,7 @@ The Digital description takes arguments describing the User Input Device, the bu
 ### Writing a new Mechanism
 Mechanisms handle the interactions with the actuators (e.g. motors, pneumatic solenoids) and sensors (e.g. Encoders, Limit Switches) of each part of the robot, controlling them based on the operations from the Driver.  A mechanism is a class that implements the IMechanism interface with a name based on the name of that portion of the robot (e.g. DriveTrain, Intake) combined with "Mechanism", such as ThingMechanism.  It should be placed within the mechanisms folder with the other mechanisms and managers.
 
-#### Define class and member variables
+#### Define mechanism class and member variables
 ```java
 @Singleton
 public class ThingMechanism implements IMechanism
@@ -267,7 +279,7 @@ public class ThingMechanism implements IMechanism
 
 At the top of the class, you should have a list of the definitions of your different actuators and sensors (see the "```private final ISomeActuator nameOfActuator;```" and "```private final ISomeSensor nameOfSensor;```").  These will be initialized in the constructor (a special function, as will be described below.  After the set of actuators and sensors are defined, you will also need to define the logger ("```private IDashboardLogger logger;```"), the driver ("```private Driver driver;```"), anything that will be read from the sensors ("```private boolean someSetting;```"), and any state that needs to be kept for the operation of the mechanism ("```private boolean someState;```").
 
-#### Write constructor
+#### Write mechanism constructor
 ```java
   @Inject
   public ThingMechanism(IWpilibProvider provider, IDashboardLogger logger)
@@ -285,7 +297,7 @@ At the top of the class, you should have a list of the definitions of your diffe
 
 After defining all of the class's variables, you will define a constructor named like "```public ThingMechanism(IWpilibProvider provider, IDashboardLogger logger)```".  Since 2017 we’ve made use of Google’s Guice to control dependency injection, which is the reason why the special @Inject markup is required.  You will then set the value for each actuator and sensor you defined at the top in the constructor by calling the corresponding function on the IWpilibProvider that is passed into the constructor.  These functions will take some number of arguments based on how the actuators/sensors are physically plugged together in the robot.  These arguments should be placed as constants in the ElectronicsConstants file.  We don’t necessarily know in advance how the robot plugs together, so they can be initialized with a value of -1 until we do.  After initializing the sensors and actuators, you should set the logger as provided and the settings and states to their default values.
 
-#### Write readSensors function
+#### Write mechanism readSensors function
 ```java
   @Override
   public void readSensors()
@@ -297,7 +309,7 @@ After defining all of the class's variables, you will define a constructor named
 ```
 The readSensors function reads from the relevant sensors for that mechanism, stores the results in class member variables, and then logs the results to the logger.
 
-#### Write update function
+#### Write mechanism update function
 ```java
   @Override
   public void update()
@@ -310,7 +322,7 @@ The readSensors function reads from the relevant sensors for that mechanism, sto
 
 The update function examines the inputs from the Driver, and then calculates the various outputs to use applies them to the outputs for the relevant actuators.  For some mechanisms, the logic will be very simple - reading an operation and applying it to an actuator.  Other mechanisms will involve some internal state and information from the most recent readings from the sensors in order to determine what the actuator should do.
 
-#### Write stop function
+#### Write mechanism stop function
 ```java
   @Override
   public void stop()
@@ -321,7 +333,7 @@ The update function examines the inputs from the Driver, and then calculates the
 
 The stop function tells each of the actuators to stop moving.  This typically means setting any Motor to 0.0 and any DoubleSolenoid to kOff.  It is called when the robot is being disabled, and it is very important to stop everything to ensure that the robot is safe.
 
-#### Write setDriver function
+#### Write mechanism setDriver function
 ```java
   @Override
   public void setDriver(Driver driver)
@@ -336,21 +348,60 @@ Sets the driver to use in this class (the implementation of this function should
 Macros and Autonomous routines both involve control tasks.  These tasks control the robot through setting Operations.  For more advanced tasks, they can read the current state of the robot by running the functions that expose sensors on the Mechanism.
 
 #### Writing Tasks
-Tasks implement the IControlTask interface, and typically extend from the ControlTaskBase class.  Tasks should aim to be simple and only accomplish one thing if possible - this helps prevent code duplication later.  An example of a single task is "DriveDistanceTask", which drives forward for a specified distance, or "DriveTimedTask" which drives forward for a specified length of time.
+Tasks are used to control operations or groups of operations that run until a certain condition is met.  A task is a class that implements the IControlTask interface, and typically extends from the ControlTaskBase class. Tasks are named based on the sort of action they perform (e.g. RaiseElevator) combined with "Task", such as RaiseElevatorTask.  It should be placed within the controltasks folder with the other mechanisms and managers.
 
-As a part of implementing the IControlTask interface, you will need to have implementations for the following functions in your class (or in a sub-class of your class):
-* ```public void begin()```  
-  This is called at the very beginning of the task, and can be used to set some initial state.
-* ```public void update()```  
-  The update function is called every ~20ms and should update the relevant operations.
-* ```public void stop()```  
-  This function is called when the task needs to be stopped for some reason, allowing state to be cleared and operations to be cancelled.
-* ```public void end()```  
-  This function is called when the task has ended and should clear any state that needs to be cleared.
-* ```public boolean shouldCancel()```  
-  This function is called by the driver to check whether something has interrupted the current task such that it shouldn’t continue.  Typically this isn’t used unless there is some sensor being read by the task that would indicate that the task cannot continue.
-* ```public boolean hasCompleted()```  
-  This function is called by the driver to check whether the particular task should complete.  Often this is based on either the amount of time has elapsed since the task began, or it could be based on some sensor condition being met.
+##### Define task class, member variables, and constructor
+```java
+public class RaiseElevatorTask extends ControlTaskBase implements IMechanism
+{
+  private ElevatorMechanism elevator;
+
+  public RaiseElevatorTask()
+  {
+  }
+```
+
+At the top of the class, you should declare any member variables that you need.  Some of these may be initialized in the constructor, whereas others will be initialized in the begin function.
+
+##### Define task begin function
+```java
+  public void begin()
+  {
+    this.elevator = this.getInjector().getInstance(ElevatorMechanism.class);
+  }
+```
+
+The begin function is called at the very beginning of the task, and can be used to set some initial state and retrieve any mechanism that we need to reference.
+
+##### Define task update function
+```java
+  public void update()
+  {
+    this.setDigitalOperationState(Operation.ElevatorRaise, true);
+  }
+```
+
+The update function is called every ~20ms and should update the relevant operations.
+
+##### Define task end function
+```java
+  public void end()
+  {
+    this.setDigitalOperationState(Operation.ElevatorRaise, false);
+  }
+```
+
+The end function is called when the task has ended.  The end function resets the operations that were used to their default value and should clear any state that needs to be cleared.
+
+##### Define task hasCompleted function
+```java
+  public boolean hasCompleted()
+  {
+    return this.elevatorMechanism.isRaised();
+  }
+```
+
+The hasCompleted function is called by the driver to check whether the particular task should complete.  Often this is based on either the amount of time has elapsed since the task began, or it could be based on some sensor condition being met.
 
 #### Adding Macros
 To add a new Macro, you should add a new MacroOperation to the MacroOperation enumeration, and a new MacroOperationDecription to the MacroSchema within ButtonMap.

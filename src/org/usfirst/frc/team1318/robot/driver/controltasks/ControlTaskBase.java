@@ -38,11 +38,6 @@ public abstract class ControlTaskBase implements IControlTask
     public abstract void update();
 
     /**
-     * Stops the current task gracefully (but unexpectedly).
-     */
-    public abstract void stop();
-
-    /**
      * Ends the current task, called when it (or a master task) has completed.
      */
     public abstract void end();
@@ -57,7 +52,20 @@ public abstract class ControlTaskBase implements IControlTask
      * Checks whether this task should be stopped, or whether it should continue being processed.
      * @return true if we should cancel this task (and stop performing any subsequent tasks), otherwise false (to keep processing this task)
      */
-    public abstract boolean shouldCancel();
+    public boolean shouldCancel()
+    {
+        // if a task needs to be able to cancel itself, it should override this function
+        return false;
+    }
+
+    /**
+     * Stops the current task gracefully (but unexpectedly).
+     */
+    public void stop()
+    {
+        // if a task needs to have separate stop/end semantics, it should override this function
+        this.end();
+    }
 
     /**
      * Sets the interrupt for the operation state for a given analog operation to the provided value 

@@ -104,18 +104,6 @@ public class SequentialTask extends ControlTaskBase implements IControlTask
     }
 
     /**
-     * Cancel the current task and clear control changes
-     */
-    @Override
-    public void stop()
-    {
-        if (this.currentTask != null)
-        {
-            this.currentTask.stop();
-        }
-    }
-
-    /**
      * End the current task and reset control changes appropriately
      */
     @Override

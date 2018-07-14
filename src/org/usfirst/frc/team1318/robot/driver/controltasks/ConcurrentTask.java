@@ -119,18 +119,6 @@ public class ConcurrentTask extends ControlTaskBase implements IControlTask
     }
 
     /**
-     * Cancel the current task and clear control changes
-     */
-    @Override
-    public void stop()
-    {
-        for (int i = 0; i < this.tasks.length; i++)
-        {
-            this.tasks[i].stop();
-        }
-    }
-
-    /**
      * End the current task and reset control changes appropriately
      */
     @Override

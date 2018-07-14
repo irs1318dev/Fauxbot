@@ -32,29 +32,11 @@ public class WaitForeverTask extends ControlTaskBase implements IControlTask
     }
 
     /**
-     * Cancel the current task and clear control changes
-     */
-    @Override
-    public void stop()
-    {
-    }
-
-    /**
      * End the current task and reset control changes appropriately
      */
     @Override
     public void end()
     {
-    }
-
-    /**
-     * Checks whether this task should be stopped, or whether it should continue being processed.
-     * @return true if we should cancel this task (and stop performing any subsequent tasks), otherwise false (to keep processing this task)
-     */
-    @Override
-    public boolean shouldCancel()
-    {
-        return false;
     }
 
     /**
