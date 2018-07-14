@@ -20,9 +20,9 @@ import org.usfirst.frc.team1318.robot.driver.DriveTrainButtonMap;
 import org.usfirst.frc.team1318.robot.driver.ElevatorButtonMap;
 import org.usfirst.frc.team1318.robot.driver.GarageDoorButtonMap;
 import org.usfirst.frc.team1318.robot.driver.common.IButtonMap;
-import org.usfirst.frc.team1318.robot.drivetrain.DriveTrainMechanism;
-import org.usfirst.frc.team1318.robot.elevator.ElevatorMechanism;
-import org.usfirst.frc.team1318.robot.garagedoor.GarageDoorMechanism;
+import org.usfirst.frc.team1318.robot.mechanisms.DriveTrainMechanism;
+import org.usfirst.frc.team1318.robot.mechanisms.ElevatorMechanism;
+import org.usfirst.frc.team1318.robot.mechanisms.GarageDoorMechanism;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;

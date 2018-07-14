@@ -32,26 +32,6 @@ public class DriveTrainButtonMap implements IButtonMap
     public static Map<Operation, OperationDescription> OperationSchema = new HashMap<Operation, OperationDescription>()
     {
         {
-            put(
-                Operation.DriveTrainTurn,
-                new AnalogOperationDescription(
-                    UserInputDevice.Driver,
-                    AnalogAxis.X,
-                    ElectronicsConstants.INVERT_X_AXIS,
-                    TuningConstants.DEAD_ZONE));
-            put(
-                Operation.DriveTrainMoveForward,
-                new AnalogOperationDescription(
-                    UserInputDevice.Driver,
-                    AnalogAxis.Y,
-                    ElectronicsConstants.INVERT_Y_AXIS,
-                    TuningConstants.DEAD_ZONE));
-            put(
-                Operation.ResetPower,
-                new DigitalOperationDescription(
-                    UserInputDevice.Driver,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_2,
-                    ButtonType.Click));
         }
     };
 

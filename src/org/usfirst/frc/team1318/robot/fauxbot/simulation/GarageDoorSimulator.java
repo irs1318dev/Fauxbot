@@ -9,7 +9,7 @@ import javax.xml.ws.spi.Provider;
 
 import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.fauxbot.IRealWorldSimulator;
-import org.usfirst.frc.team1318.robot.garagedoor.GarageDoorMechanism;
+import org.usfirst.frc.team1318.robot.mechanisms.GarageDoorMechanism;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
