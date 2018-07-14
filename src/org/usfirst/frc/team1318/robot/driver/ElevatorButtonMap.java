@@ -28,6 +28,36 @@ public class ElevatorButtonMap implements IButtonMap
     public static Map<Operation, OperationDescription> OperationSchema = new HashMap<Operation, OperationDescription>()
     {
         {
+            put(
+                Operation.ElevatorOneButton,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
+                    ButtonType.Click));
+            put(
+                Operation.ElevatorTwoButton,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
+                    ButtonType.Click));
+            put(
+                Operation.ElevatorThreeButton,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_MIDDLE_LEFT_BUTTON,
+                    ButtonType.Click));
+            put(
+                Operation.ElevatorFourButton,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_MIDDLE_RIGHT_BUTTON,
+                    ButtonType.Click));
+            put(
+                Operation.ElevatorFiveButton,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
+                    ButtonType.Click));
         }
     };
 

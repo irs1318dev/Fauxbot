@@ -28,6 +28,12 @@ public class GarageDoorButtonMap implements IButtonMap
     public static Map<Operation, OperationDescription> OperationSchema = new HashMap<Operation, OperationDescription>()
     {
         {
+            put(
+                Operation.GarageDoorButton,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
+                    ButtonType.Click));
         }
     };
 
