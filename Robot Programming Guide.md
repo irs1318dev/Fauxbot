@@ -53,6 +53,7 @@
       4. [Write mechanism update function](#write-mechanism-update-function)
       5. [Write mechanism stop function](#write-mechanism-stop-function)
       6. [Write mechanism setDriver function](#write-mechanism-setdriver-function)
+      7. [Write any getter functions](#write-any-getter-functions)
    4. [Writing Macros and Autonomous Routines](#writing-macros-and-autonomous-routines)
       1. [Writing Tasks](#writing-tasks)
          1. [Define task class, member variables, and constructor](#define-task-class-member-variables-and-constructor)
@@ -61,7 +62,7 @@
          4. [Define task end function](#define-task-end-function)
          5. [Define task hasCompleted function](#define-task-hascompleted-function)
       2. [Adding Macros](#adding-macros)
-      3. [Composing Tasks into Routines](#composing-tasks-into-routines)
+      3. [Composing Tasks together](#composing-tasks-together)
          1. [SequentialTask.Sequence()](#sequentialtasksequence)
          2. [ConcurrentTask.AnyTasks()](#concurrenttaskanytasks)
          3. [ConcurrentTask.AllTasks()](#concurrenttaskalltasks)
@@ -226,7 +227,7 @@ After following the steps for [Installing Eclipse](https://wpilib.screenstepsliv
 ### Making Simple Operation changes
 To add a new action that the robot can take with a mechanism, first open the Operation enum (Operation.java) and add a new value to the list in that file.  We try to keep the various operations organized, so we keep them listed in a different section for each Mechanism.  The operation should be named starting with the mechanism (e.g. "DriveTrain", "Intake", etc.), and then a description of the action (e.g. "Turn", "RaiseArm", etc.).  Remember that Operations are a single, simple thing that is done by the robot.  Any more complex action that we want the robot to take will be a Macro which composes these Operations together (which we will talk about later).
 
-Next, you will open the ButtonMap.java file and add another mapping into the OperationSchema that describes the Operation that you just added.  There are two types of operations - Analog or Digital.  Analog operations represent things that are double (decimal) values, typically between -1.0 and 1.0.  Digital operations represent things that are Boolean values (true or false).  Each type, Analog or Digital, has their own type of Description.
+Next, you will open the ButtonMap.java file and add another mapping into the OperationSchema that describes the Operation that you just added.  There are two types of operations - Analog or Digital.  Analog operations represent things that are done to a certain extend, using double (decimal) values typically between -1.0 and 1.0.  Digital operations represent things that are either done or not done, using Boolean values (true or false).  Each type of Operation, Analog or Digital, has their own Description.
 
 ```java
 put(
@@ -238,7 +239,8 @@ put(
         TuningConstants.DRIVETRAIN_Y_DEAD_ZONE));
 ```
 
-The Analog description takes parameters describing the User Input Device (Driver or CoDriver joystick) and the axis of the joystick (X, Y, Throttle, etc.).
+The Analog description takes parameters describing the User Input Device (Driver or CoDriver joystick) and the axis of the joystick (X, Y, Throttle, etc.).  It also includes the ability to invert the axis (so that the "forward" direction matches positive) and the ability to provie a dead zone (as joysticks are often imperfect at mesauring the middle).
+
 ```java
 put(
     Operation.IntakeRaiseArm,
@@ -248,10 +250,10 @@ put(
         ButtonType.Simple));
 ```
 
-The Digital description takes arguments describing the User Input Device, the button on the joystick, and the type of button (Simple, Toggle, or Click).
+The Digital description takes arguments describing the User Input Device, the button on the joystick, and the type of button (Simple, Toggle, or Click).  Simple buttons are typically used for continuous actions (such as running an intake), Toggle actions are typically used for macros, and Click actions are typically used for single-shot actions (such as extending an arm).
 
 ### Writing a new Mechanism
-Mechanisms handle the interactions with the actuators (e.g. motors, pneumatic solenoids) and sensors (e.g. Encoders, Limit Switches) of each part of the robot, controlling them based on the operations from the Driver.  A mechanism is a class that implements the IMechanism interface with a name based on the name of that portion of the robot (e.g. DriveTrain, Intake) combined with "Mechanism", such as ThingMechanism.  It should be placed within the mechanisms folder with the other mechanisms and managers.
+Mechanisms handle the interactions with the actuators (e.g. motors, pneumatic solenoids) and sensors (e.g. encoders, limit switches) of each part of the robot, controlling them based on the operations from the Driver.  A mechanism is a class that implements the IMechanism interface with a name based on the name of that portion of the robot (e.g. DriveTrain, Intake) combined with "Mechanism", such as ThingMechanism.  It should be placed within the mechanisms folder with the other mechanisms and managers.
 
 #### Define mechanism class and member variables
 ```java
@@ -278,15 +280,15 @@ public class ThingMechanism implements IMechanism
   private boolean someState;
 ```
 
-At the top of the class, you should have a list of the definitions of your different actuators and sensors (see the "```private final ISomeActuator nameOfActuator;```" and "```private final ISomeSensor nameOfSensor;```").  These will be initialized in the constructor (a special function, as will be described below.  After the set of actuators and sensors are defined, you will also need to define the logger ("```private IDashboardLogger logger;```"), the driver ("```private Driver driver;```"), anything that will be read from the sensors ("```private boolean someSetting;```"), and any state that needs to be kept for the operation of the mechanism ("```private boolean someState;```").
+At the top of the class, you should have a list of the definitions of your different actuators and sensors ("```private final ISomeActuator nameOfActuator;```" and "```private final ISomeSensor nameOfSensor;```").  These will be initialized in the constructor.  After the set of actuators and sensors are defined, you will also need to define the logger ("```private IDashboardLogger logger;```"), the driver ("```private Driver driver;```"), anything that will be read from the sensors ("```private boolean someSetting;```"), and any state that needs to be kept for the operation of the mechanism ("```private boolean someState;```").
 
 #### Write mechanism constructor
 ```java
   @Inject
   public ThingMechanism(IWpilibProvider provider, IDashboardLogger logger)
   {
-    this.nameOfSensor = provider.GetSomeSensor(ElectronicsConstants.SOME_SENSOR_CHANNEL);
-    this.nameOfActuator = provider.GetSomeActuator(ElectronicsConstants.SOME_ACTUATOR_CHANNEL);
+    this.nameOfSensor = provider.GetSomeSensor(ElectronicsConstants.THING_NAMEOFSENSOR_PWM_CHANNEL);
+    this.nameOfActuator = provider.GetSomeActuator(ElectronicsConstants.THING_NAMEOFACTUATOR_PWM_CHANNEL);
 
     this.logger = logger;
 
@@ -296,7 +298,7 @@ At the top of the class, you should have a list of the definitions of your diffe
   ...
 ```
 
-After defining all of the class's variables, you will define a constructor named like "```public ThingMechanism(IWpilibProvider provider, IDashboardLogger logger)```".  Since 2017 we’ve made use of Google’s Guice to control dependency injection, which is the reason why the special @Inject markup is required.  You will then set the value for each actuator and sensor you defined at the top in the constructor by calling the corresponding function on the IWpilibProvider that is passed into the constructor.  These functions will take some number of arguments based on how the actuators/sensors are physically plugged together in the robot.  These arguments should be placed as constants in the ElectronicsConstants file.  We don’t necessarily know in advance how the robot plugs together, so they can be initialized with a value of -1 until we do.  After initializing the sensors and actuators, you should set the logger as provided and the settings and states to their default values.
+After defining all of the class's variables, you will define a constructor named like "```public ThingMechanism(IWpilibProvider provider, IDashboardLogger logger)```".  Since 2017 we’ve made use of Google’s Guice to control dependency injection, which is the reason why the special @Inject markup is required.  You will then set the value for each actuator and sensor you defined at the top in the constructor by calling the corresponding function on the IWpilibProvider that is passed into the constructor by Guice.  These functions will take some number of arguments based on how the actuators/sensors are physically plugged together in the robot (such as CAN Ids, DIO channel, Analog channel, PCM channel, or PWM channel).  These arguments should be placed as constants in the ElectronicsConstants file with names such as THING_NAMEOFACTUATOR_PWM_CHANNEL.  We don’t necessarily know in advance how the robot plugs together, so they can be initialized with a value of -1 until we do.  After initializing the sensors and actuators, you should set the logger as provided and the settings and states to their default values.
 
 #### Write mechanism readSensors function
 ```java
@@ -317,11 +319,17 @@ The readSensors function reads from the relevant sensors for that mechanism, sto
   {
     boolean shouldThingAction = this.driver.getDigital(Operation.ThingAction);
 
-    this.nameOfActuator.set(shouldThingAction);
+    double thingActionAmount = 0.0;
+    if (shouldThingAction)
+    {
+      thingActionAmount = TuningConstants.THING_ACTION_AMOUNT;
+    }
+
+    this.nameOfActuator.set(thingActionAmount);
   }
 ```
 
-The update function examines the inputs from the Driver, and then calculates the various outputs to use applies them to the outputs for the relevant actuators.  For some mechanisms, the logic will be very simple - reading an operation and applying it to an actuator.  Other mechanisms will involve some internal state and information from the most recent readings from the sensors in order to determine what the actuator should do.
+The update function examines the inputs from the Driver, and then calculates the various outputs to use applies them to the outputs for the relevant actuators.  For some mechanisms, the logic will be very simple - reading an operation and applying it to an actuator.  Other mechanisms will involve some internal state and information from the most recent readings from the sensors in order to determine what the actuator should do.  Note that there will often be a "degree" to which something should be done that we don't know in advance.  For example, if we are intaking a ball we may want to carefully choose the correct strength to run the motor at.  Because we don't know this value in advance and will discover it experimentally, we should put such values into the TuningConstants file as a constant with a guess for the value.
 
 #### Write mechanism stop function
 ```java
@@ -332,7 +340,7 @@ The update function examines the inputs from the Driver, and then calculates the
   }
 ```
 
-The stop function tells each of the actuators to stop moving.  This typically means setting any Motor to 0.0 and any DoubleSolenoid to kOff.  It is called when the robot is being disabled, and it is very important to stop everything to ensure that the robot is safe.
+The stop function tells each of the actuators to stop moving.  This typically means setting any Motor to 0.0 and any DoubleSolenoid to kOff.  It is called when the robot is being disabled, and it is very important to stop everything to ensure that the robot is safe to be around.
 
 #### Write mechanism setDriver function
 ```java
@@ -343,13 +351,23 @@ The stop function tells each of the actuators to stop moving.  This typically me
   }
 ```
 
-Sets the driver to use in this class (the implementation of this function should basically just contain "this.driver = driver;").  It is called when the robot is entering either the autonomous or teleop state, so it can also be used to reset the state of the mechanism if that is needed.
+Sets the driver to use in this class (the implementation of this function should basically just be "```this.driver = driver;```").  It is called when the robot is entering either the autonomous or teleop mode, so it can also be used to reset the state of the mechanism if that is needed.
+
+#### Write any getter functions
+```java
+  public boolean getSomeSetting()
+  {
+    return this.someSetting;
+  }
+```
+
+When there are sensors being read, often we will want to incorporate the data that they return into the running of tasks as a part of macros and autonomous routines.  In order to support that, we must add getter functions so that the tasks can access the values that were read from the sensors.  These functions just simply return the value that was read during the readSensors function.
 
 ### Writing Macros and Autonomous Routines
 Macros and Autonomous routines both involve control tasks.  These tasks control the robot through setting Operations.  For more advanced tasks, they can read the current state of the robot by running the functions that expose sensors on the Mechanism.
 
-#### Writing Tasks
-Tasks are used to control operations or groups of operations that run until a certain condition is met.  A task is a class that implements the IControlTask interface, and typically extends from the ControlTaskBase class. Tasks are named based on the sort of action they perform (e.g. RaiseElevator) combined with "Task", such as RaiseElevatorTask.  It should be placed within the controltasks folder with the other mechanisms and managers.
+#### Writing Control Tasks
+Tasks are used to control operations or groups of operations that run until a certain condition is met.  A task is a class that implements the IControlTask interface, and typically extends from the ControlTaskBase or TimedTask class.  Tasks are named based on the sort of action they perform (e.g. RaiseElevator) combined with "Task", such as RaiseElevatorTask.  It should be placed within the controltasks folder (which is within the driver folder) with the other tasks.
 
 ##### Define task class, member variables, and constructor
 ```java
@@ -362,7 +380,7 @@ public class RaiseElevatorTask extends ControlTaskBase implements IMechanism
   }
 ```
 
-At the top of the class, you should declare any member variables that you need.  Some of these may be initialized in the constructor, whereas others will be initialized in the begin function.
+At the top of the class, you should declare any member variables that you need.  Some of these member variables may be initialized in the constructor, such as when your task has parameters like a time duration, whereas other member variables will be initialized in the begin function.  Note that the constructor could be called well before the task actually starts, which is why we have the begin function below.
 
 ##### Define task begin function
 ```java
@@ -372,7 +390,7 @@ At the top of the class, you should declare any member variables that you need. 
   }
 ```
 
-The begin function is called at the very beginning of the task, and can be used to set some initial state and retrieve any mechanism that we need to reference.
+The begin function is called at the very beginning of the task, and can be used to set some initial state and retrieve any mechanism that we need to reference.  Note that this function is called right before hasCompleted and update are called for the first time.
 
 ##### Define task update function
 ```java
@@ -420,10 +438,10 @@ put(
             Operation.ThingAction,
         }));
 ```
-The MacroOperationDescription requires arguments describing the user input device to use, the button that triggers the macro, a constructor for the task that should be used within the macro, and a list of the different operations that this macro uses.
+The MacroOperationDescription requires arguments describing the user input device to use, the button that triggers the macro, tge type of button to use (either ```Simple``` or ```Toggle```), a supplier for the task that should be used within the macro (```() -> new SomeTask()```), and a list of the different operations that this macro uses.
 
-#### Composing Tasks into Routines
-Tasks can be grouped together in interesting ways to describe more complex tasks.  By having tasks happen in a certain order and sometimes simultaneously, you can end up with a routine that performs interesting things.  Some particular tasks you can utilize include:
+#### Composing Tasks together
+Tasks can be grouped together in interesting ways to describe more complex tasks.  By having tasks happen in a certain order and sometimes simultaneously, you can end up with a routine that performs interesting things.  To do this, you can utilize SequentialTask and ConcurrentTask.
 
 ##### SequentialTask.Sequence()
 Sequential task starts and completes each task in the order they are listed.
@@ -445,7 +463,7 @@ ConcurrentTask.AnyTasks(
   new DriveForwardTask(3.5));
 ```
 
-The example above is a pair of two tasks that will execute at the same time, completing when either 3 seconds has elapsed or once the robot has driven 3.5 inches forward.
+The example above is a pair of two tasks that will execute at the same time, completing when either 3 seconds has elapsed OR once the robot has driven 3.5 inches forward.
 
 ##### ConcurrentTask.AllTasks()
 Concurrent AllTasks starts all of the tasks at the same time and completes when all of them have considered themselves to be completed.
@@ -456,7 +474,7 @@ ConcurrentTask.AllTasks(
   new DriveForwardTask(3.5));
 ```
 
-The example above is a pair of two tasks that will execute at the same time, completing when the task has taken 3 seconds AND has driven 3.5 inches forward.
+The example above is a pair of two tasks that will execute at the same time, completing when the task has taken 3 seconds AND the robot has driven 3.5 inches forward.
 
 ## Advanced Topics
 ### PID Controllers
