@@ -1,0 +1,32 @@
+plugins {
+    id "java"
+    id "application"
+}
+
+repositories {
+    mavenCentral()
+}
+
+// Defining my dependencies. In this case, WPILib (+ friends), CTRE Phoenix (Talon SRX)
+// and NavX.
+dependencies {
+    compile group: 'javax.inject', name: 'javax.inject', version: '1'
+    compile "com.google.guava:guava:21.0"
+    compile "com.google.inject:guice:4.1.0:no_aop"
+
+    testCompile "org.mockito:mockito-all:1.10.19"
+    testCompile "junit:junit:4.12"
+}
+
+mainClassName = 'frc.team1318.robot.fauxbot.Fauxbot'
+
+// Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
+// in order to make them all available at runtime. Also adding the manifest so WPILib
+// knows where to look for our Robot Class.
+version = '1.0'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Fauxbot',
+                   'Implementation-Version': version
+    }
+}
