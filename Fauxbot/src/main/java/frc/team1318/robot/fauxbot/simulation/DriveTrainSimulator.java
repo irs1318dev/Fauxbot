@@ -1,29 +1,18 @@
 package frc.team1318.robot.fauxbot.simulation;
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.ws.spi.Provider;
-
 import frc.team1318.robot.ElectronicsConstants;
-import frc.team1318.robot.fauxbot.Fauxbot;
 import frc.team1318.robot.fauxbot.IRealWorldSimulator;
-import frc.team1318.robot.fauxbot.simulation.GarageDoorSimulator.GarageState;
-import frc.team1318.robot.mechanisms.GarageDoorMechanism;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.MotorBase;
-import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.ActuatorBase;
 import edu.wpi.first.wpilibj.ActuatorManager;
-import edu.wpi.first.wpilibj.SensorManager;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 @Singleton

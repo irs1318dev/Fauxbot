@@ -8,10 +8,10 @@ public class FauxbotRunner implements Runnable
     private final MechanismManager mechanisms;
     private final Driver driver;
     private final IRealWorldSimulator simulator;
-    private final Fauxbot fauxbot;
+    private final FauxbotApplication fauxbot;
     private boolean stop;
 
-    public FauxbotRunner(MechanismManager mechanisms, Driver driver, IRealWorldSimulator simulator, Fauxbot fauxbot)
+    public FauxbotRunner(MechanismManager mechanisms, Driver driver, IRealWorldSimulator simulator, FauxbotApplication fauxbot)
     {
         this.mechanisms = mechanisms;
         this.driver = driver;

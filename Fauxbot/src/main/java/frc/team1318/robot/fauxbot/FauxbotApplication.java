@@ -6,7 +6,6 @@ import frc.team1318.robot.ElectronicsConstants;
 import frc.team1318.robot.RobotModule;
 import frc.team1318.robot.common.MechanismManager;
 import frc.team1318.robot.common.wpilib.ITimer;
-import frc.team1318.robot.driver.ButtonMap;
 import frc.team1318.robot.driver.MacroOperation;
 import frc.team1318.robot.driver.Operation;
 import frc.team1318.robot.driver.common.Driver;
@@ -20,6 +19,7 @@ import frc.team1318.robot.driver.common.descriptions.OperationType;
 import frc.team1318.robot.driver.common.descriptions.UserInputDevice;
 import frc.team1318.robot.driver.common.states.AnalogOperationState;
 import frc.team1318.robot.driver.common.user.UserDriver;
+import frc.team1318.robot.fauxbot.*;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -54,7 +54,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class Fauxbot extends Application
+public class FauxbotApplication extends Application
 {
     private final FauxbotRunner runner;
     private final Thread runnerThread;
@@ -71,7 +71,7 @@ public class Fauxbot extends Application
 
     private Canvas canvas;
 
-    public Fauxbot()
+    public FauxbotApplication()
     {
         super();
 

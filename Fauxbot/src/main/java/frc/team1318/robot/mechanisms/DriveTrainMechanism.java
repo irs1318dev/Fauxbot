@@ -5,7 +5,6 @@ import javax.inject.Singleton;
 import frc.team1318.robot.ElectronicsConstants;
 import frc.team1318.robot.TuningConstants;
 import frc.team1318.robot.common.IMechanism;
-import frc.team1318.robot.common.wpilib.IDigitalInput;
 import frc.team1318.robot.common.wpilib.IMotor;
 import frc.team1318.robot.common.wpilib.IWpilibProvider;
 import frc.team1318.robot.driver.Operation;

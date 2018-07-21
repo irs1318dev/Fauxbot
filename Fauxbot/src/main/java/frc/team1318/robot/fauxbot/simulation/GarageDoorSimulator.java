@@ -1,15 +1,10 @@
 package frc.team1318.robot.fauxbot.simulation;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.ws.spi.Provider;
-
-import frc.team1318.robot.ElectronicsConstants;
 import frc.team1318.robot.fauxbot.IRealWorldSimulator;
-import frc.team1318.robot.mechanisms.GarageDoorMechanism;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

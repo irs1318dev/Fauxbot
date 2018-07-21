@@ -214,15 +214,24 @@ The [NavX MXP](http://www.pdocs.kauailabs.com/navx-mxp/software/) has a library 
 
 ## Instructions
 ### Setting up your Environment
-After following the steps for [Installing Eclipse](https://wpilib.screenstepslive.com/s/currentCS/m/java/l/599681-installing-eclipse-c-java), you will need to do the following:
-1. Create a new Robot project in Eclipse to set up environment variables (File --> New --> Project, select "Robot Java Project", select "Iterative Robot", and enter your team number).  Once you have created the project, right-click it and delete it.
-2. Copy all of the files from the [Robot Libraries](https://github.com/irs1318dev/RobotLibraries) repository into the corresponding library directory (on Windows, C:\Users\<username>\wpilib\user\java\lib).
-3. Get the code onto your local machine.
-   a. Copy the repository's URL.  In GitHub, find the repository you are interested in, click the "Clone or download" button, and then copy the text (e.g. "https://github.com/irs1318dev/irs1318_general.git").
-   b. In Eclipse, go to the "Git" perspective (Window --> Perspective --> Open Perspective --> other..., Git).
-   c. Click the "Clone a git repository and add the clone to this view" button.  It should auto-fill the URL you copied above.
-   d. Follow through the wizard, being sure to enable the "Import all existing Eclipse projects after clone finishes".
-   e. Switch back to the Java perspective.  Your project should now appear.
+To prepare your computer for Robot programming with our team, you will need to follow the following steps:
+1. Installing everything:
+   1. Install Java SDK.  In FRC, we currently must use Java 8.  Install the appropriate version of the [Java SE SDK (JDK)](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) for your operating system.  For Windows, we typically recommend the x64 version (Windows x64).
+   2. Install Git.  Our team uses Git for source control.  Git is commonly used in industry to help many people collaborate on the same software project.  Install the appropriate version of [Git](https://git-scm.com/downloads) for your operating system.
+   3. Install Visual Studio Code.  Starting in the 2019 season, VS Code is the supported development environment for FRC.  Install the appropriate version of [VS Code](https://code.visualstudio.com/download) for your operating system.
+   4. Install the Java Extension Pack for VS Code.  Navigate to the [Java Extension Pack](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack) in the VS Code Marketplace and click Install.  It should prompt you asking to allow it to open VS Code and install the extension.  If that doesn't work, open VS Code and go to the Extensions area.  By default, Extensions can be opened by clicking the bottom button of the icons on the top left of the window.  If you can't find it, you can instead go to View --> Extensions, or press CTRL+Shift+X (on Windows).  Then, search for the "Java Extension Pack" in the Marketplace and click "Install".
+   5. Install GitHub Desktop (optional).  Our team uses GitHub as the host for our source control system, so if you are more comfortable having a GUI for interacting with it, then GitHub Desktop will be the best supported.  Install the appropriate version of [GitHub Desktop](https://desktop.github.com/) for your operating system.
+2. Get the code onto your local machine.
+   1. Copy the repository's URL.  In GitHub, find the repository you are interested in, click the "Clone or download" button, and then copy the text (e.g. "https://github.com/irs1318dev/irs1318_general.git").
+   2. Using commandline:
+      1. Open a commandline window.  On Windows, search for "cmd" or "Command Prompt".  Navigate within your directory structure to a directory where you'd like to keep your source files (e.g. "cd C:\git\").
+      2. Run the following git command to clone the repository to your local machine: "git clone https://github.com/irs1318dev/irs1318_general.git"
+      3. Once the repository has been cloned, navigate into the main directory (e.g. "cd C:\git\irs1318_general\irs1318_general") and tell Gradle to build the code in the directory (type "gradlew build").  If gradle hasn't been installed yet, this should trigger it to be installed.
+      4. Open VS Code for this project.  In the main directory, type "code .".  This will tell VS Code to open with a reference to the folder you are currently exploring within cmd.
+    3. Using GitHub Desktop:
+      1. Open GitHub Desktop.  For the best experience, you will need a GitHub user account that has been added to the irs1318dev group.  If you haven't done that, consider doing that first.
+      2. Go to File --> Clone Repository.  If you have been added to the irs1318dev group, you can select the repository you want (e.g. "irs1318dev/irs1318_general") from a list of repositories under the GitHub.com tab.  Otherwise, go to the the URL tab and enter the repository you want (e.g. "irs1318dev/irs1318_general") in the text box.  Then choose a local path where this repository will be cloned (e.g. "C:\git\irs1318_general") and click the clone button.
+      3. Open VS Code for this project.  Open VS Code and open the folder where code is located by going to File --> Open Folder, and selecting the folder within the one where the repository was cloned (e.g. "C:\git\irs1318_general\irs1318_general").
 
 ### Making Simple Operation changes
 To add a new action that the robot can take with a mechanism, first open the Operation enum (Operation.java) and add a new value to the list in that file.  We try to keep the various operations organized, so we keep them listed in a different section for each Mechanism.  The operation should be named starting with the mechanism (e.g. "DriveTrain", "Intake", etc.), and then a description of the action (e.g. "Turn", "RaiseArm", etc.).  Remember that Operations are a single, simple thing that is done by the robot.  Any more complex action that we want the robot to take will be a Macro which composes these Operations together (which we will talk about later).
