@@ -50,12 +50,6 @@ public class GarageDoorButtonMap implements IButtonMap
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
                     ButtonType.Toggle));*/
-            put(
-                Operation.GarageDoorButton,
-                new DigitalOperationDescription(
-                    UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
-                    ButtonType.Click));
         }
     };
 
