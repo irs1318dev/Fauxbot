@@ -21,6 +21,12 @@ public class ElevatorButtonMap implements IButtonMap
     private static Map<Shift, ShiftDescription> ShiftButtons = new HashMap<Shift, ShiftDescription>()
     {
         {
+            /** Example Shift entry:
+            put(
+                Shift.Debug,
+                new ShiftDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON));*/
         }
     };
 
@@ -28,6 +34,22 @@ public class ElevatorButtonMap implements IButtonMap
     public static Map<Operation, OperationDescription> OperationSchema = new HashMap<Operation, OperationDescription>()
     {
         {
+            /** Example Analog operation entry:
+            put(
+                Operation.SomeAnalogOperation,
+                new AnalogOperationDescription(
+                    UserInputDevice.Driver,
+                    AnalogAxis.X,
+                    ElectronicsConstants.INVERT_X_AXIS,
+                    TuningConstants.DRIVETRAIN_X_DEAD_ZONE));*/
+            
+            /** Example Digital operation entry:
+            put(
+                Operation.SomeDigitalOperation,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
+                    ButtonType.Toggle));*/
             put(
                 Operation.ElevatorOneButton,
                 new DigitalOperationDescription(
@@ -65,6 +87,19 @@ public class ElevatorButtonMap implements IButtonMap
     public static Map<MacroOperation, MacroOperationDescription> MacroSchema = new HashMap<MacroOperation, MacroOperationDescription>()
     {
         {
+            /** Example Macro operation entry:
+            put(
+                MacroOperation.SomeMacroOperation,
+                new MacroOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_STICK_THUMB_BUTTON,
+                    ButtonType.Simple,
+                    () -> new SequentialTask(),
+                    new Operation[]
+                    {
+                        Operation.SomeAnalogOperation,
+                        Operation.SomeDigitalOperation,
+                    }));*/
         }
     };
 

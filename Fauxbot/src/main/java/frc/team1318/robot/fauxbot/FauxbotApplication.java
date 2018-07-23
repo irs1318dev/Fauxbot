@@ -19,7 +19,6 @@ import frc.team1318.robot.driver.common.descriptions.OperationType;
 import frc.team1318.robot.driver.common.descriptions.UserInputDevice;
 import frc.team1318.robot.driver.common.states.AnalogOperationState;
 import frc.team1318.robot.driver.common.user.UserDriver;
-import frc.team1318.robot.fauxbot.*;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
