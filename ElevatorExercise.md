@@ -31,7 +31,7 @@ The Fourth Floor button tells the Elevator that it should move to the height of 
 The Fifth Floor button tells the Elevator that it should move to the height of the Fifth Floor (200.0).
 
 ### Updating State
-There's no specific state diagram for the Elevator
+There's no specific state diagram for the Elevator.  Whenever the user presses one of the buttons, the elevator mechanism should note the new desired height.  It will use that desired height in addition to the current height read from the encoder to provide to a PID controller (PIDHandler class) to calculate the output to send to the motor.
 
 ## Links
 [Robot Programming Guide](/Robot%20Programming%20Guide.md)
