@@ -7,5 +7,8 @@ In order to get started with Fauxbot, you should first follow the [steps in Robo
 
 If you are using Eclipse, note that for Fauxbot you will also need to install the e(fx)clipse plugin in order to work with JavaFX.  To do so, go to Help --> Install New Software..., then select to work with "--All Available Sites--", filter for "e(fx)clipse", and select the e(fx)clipse plugin.  Follow the wizard and restart Eclipse when you are done.
 
+## Exercises
+There are currently 2 main Fauxbot exercises, GarageDoor and Elevator.  In order to start working on one, please switch branches to the corresponding branch (GarageDoorExercise or ElevatorExercise).
+
 ## Links
 [Robot Programming Guide](/Robot%20Programming%20Guide.md)
