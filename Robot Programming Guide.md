@@ -45,8 +45,9 @@
       6. [Mockito](#mockito)
 4. [Instructions](#instructions)
    1. [Setting up your Environment](#setting-up-your-environment)
-   2. [Making Simple Operation changes](#making-simple-operation-changes)
-   3. [Writing a new Mechanism](#writing-a-new-mechanism)
+   2. [Simple CMD operations and Git usage](#simple-cmd-operations-and-git-usage)
+   3. [Making Simple Operation changes](#making-simple-operation-changes)
+   4. [Writing a new Mechanism](#writing-a-new-mechanism)
       1. [Define mechanism class and member variables](#define-mechanism-class-and-member-variables)
       2. [Write mechanism constructor](#write-mechanism-constructor)
       3. [Write mechanism readSensors function](#write-mechanism-readsensors-function)
@@ -54,7 +55,7 @@
       5. [Write mechanism stop function](#write-mechanism-stop-function)
       6. [Write mechanism setDriver function](#write-mechanism-setdriver-function)
       7. [Write any getter functions](#write-any-getter-functions)
-   4. [Writing Macros and Autonomous Routines](#writing-macros-and-autonomous-routines)
+   5. [Writing Macros and Autonomous Routines](#writing-macros-and-autonomous-routines)
       1. [Writing Tasks](#writing-tasks)
          1. [Define task class, member variables, and constructor](#define-task-class-member-variables-and-constructor)
          2. [Define task begin function](#define-task-begin-function)
@@ -233,6 +234,29 @@ To prepare your computer for Robot programming with our team, you will need to f
        1. Open GitHub Desktop.  For the best experience, you will need a GitHub user account that has been added to the irs1318dev group.  If you haven't done that, consider doing that first.
        2. Go to File --> Clone Repository.  If you have been added to the irs1318dev group, you can select the repository you want (e.g. "irs1318dev/irs1318_general") from a list of repositories under the GitHub.com tab.  Otherwise, go to the the URL tab and enter the repository you want (e.g. "irs1318dev/irs1318_general") in the text box.  Then choose a local path where this repository will be cloned (e.g. "C:\git\irs1318_general") and click the clone button.
        3. Open VS Code for this project.  Open VS Code and open the folder where code is located by going to File --> Open Folder, and selecting the folder within the one where the repository was cloned (e.g. "C:\git\irs1318_general\irs1318_general").
+
+### Simple Command Line operations and Git usage
+Starting in the 2019 season, there's a stronger need to use the command-line than in previous years.  Command line interfaces are used often in real world Engineering and Software Development, so learning it is very useful.
+
+#### Opening CMD and Navigating to a directory in Windows
+(Note that these instructions are different in Mac/Unix/Linux - please use the internet to figure out specific instructions for your non-Windows operating system.)  Press the start button (or the Windows key on your keyboard) and type "cmd" and open Command Prompt.  This will open Command Prompt (cmd) scoped to your user home directory (typically "```C:\Users\username\```").
+
+You will need to navigate around in order to do anything useful.  To look at the contents of your current directory, type "```dir```".  To navigate to another directory, use the change directory command ("```cd```") and type "```cd directory```".  While using this command, you can use "```..```" to reference the directory above your current scope, and "```.```" to reference the current directory.  You can also use a full name of the directory, such as "```cd C:\Users\username\git\```" to navigate to that directory.
+
+#### Simple git operations in Command Prompt
+1. "```git status```" command will tell you all of the files that are different than what has been committed.
+2. "```git checkout -- filename```" command will get rid of any changes to the specified file in your working directory and replace it with the last-committed version of that file.
+3. "```git add -A```" command will add all of the currently-changed files to be staged and ready to commit.
+4. "```git commit -m "message"```" command will commit all of the currently staged changes with the provided message.
+5. "```git push```" command will push commits from your lcoal repository to the remote repository.
+6. "```git branch```" command will show you what branches currently exist for the current repository.
+7. "```git pull```" command will update your local repository with changes that have been pushed to the remote repository.
+8. "```git checkout branchname```" command will switch your working directory to look at a different branch.
+9. "```git clone https://github.com/irs1318dev/Fauxbot.git```" command will clone the repository tracked at the provided url, creating a local copy that you can use to make changes.
+
+For more information about Git in command prompt, look here:
+[GitHub's git cheat-sheet](https://services.github.com/on-demand/downloads/github-git-cheat-sheet/)
+[GitHub's Git Handbook](https://guides.github.com/introduction/git-handbook/)
 
 ### Making Simple Operation changes
 To add a new action that the robot can take with a mechanism, first open the Operation enum (Operation.java) and add a new value to the list in that file.  We try to keep the various operations organized, so we keep them listed in a different section for each Mechanism.  The operation should be named starting with the mechanism (e.g. "DriveTrain", "Intake", etc.), and then a description of the action (e.g. "Turn", "RaiseArm", etc.).  Remember that Operations are a single, simple thing that is done by the robot.  Any more complex action that we want the robot to take will be a Macro which composes these Operations together (which we will talk about later).
