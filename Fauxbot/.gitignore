@@ -3,3 +3,7 @@
 /.vscode/
 /build/
 /bin/
+/out/
+*.iml
+*.ipr
+*.iws
