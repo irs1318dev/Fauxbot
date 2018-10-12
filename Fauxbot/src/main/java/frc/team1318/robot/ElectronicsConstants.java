@@ -45,5 +45,5 @@ public class ElectronicsConstants
    //================================================== Drive Train =======================================================
 
     public static final int DRIVETRAIN_LEFT_MOTOR_CAN_ID = 0;
-    public static final int DRIVETRAIN_RIGHT_MOTOR_PWM_CHANNEL = 1; 
+    public static final int DRIVETRAIN_RIGHT_MOTOR_CAN_ID = 1; 
 }

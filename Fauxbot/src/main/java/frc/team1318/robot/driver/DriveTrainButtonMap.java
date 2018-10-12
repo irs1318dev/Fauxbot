@@ -54,27 +54,20 @@ public class DriveTrainButtonMap implements IButtonMap
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
                     ButtonType.Toggle));*/
-
             put(
-                Operation.DriveTrainTurn,
+                Operation.DriveTrainLeft,
                 new AnalogOperationDescription(
                     UserInputDevice.Driver,
                     AnalogAxis.X,
                     ElectronicsConstants.INVERT_X_AXIS,
                     TuningConstants.DEAD_ZONE));
             put(
-                Operation.DriveTrainMoveForward,
+                Operation.DriveTrainRight,
                 new AnalogOperationDescription(
                     UserInputDevice.Driver,
                     AnalogAxis.Y,
                     ElectronicsConstants.INVERT_Y_AXIS,
                     TuningConstants.DEAD_ZONE));
-            put(
-                Operation.ResetPower,
-                new DigitalOperationDescription(
-                    UserInputDevice.Driver,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_2,
-                    ButtonType.Click));
         }
     };
 
