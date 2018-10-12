@@ -1,6 +1,6 @@
 package frc.team1318.robot.fauxbot;
 
-import frc.team1318.robot.fauxbot.simulation.ElevatorSimulator;
+import frc.team1318.robot.fauxbot.simulation.*;
 
 import com.google.inject.AbstractModule;
 
