@@ -13,9 +13,9 @@ import frc.team1318.robot.common.wpilib.ITimer;
 import frc.team1318.robot.common.wpilib.IWpilibProvider;
 import frc.team1318.robot.common.wpilib.TimerWrapper;
 import frc.team1318.robot.common.wpilib.WpilibProvider;
-import frc.team1318.robot.driver.GarageDoorButtonMap;
-import frc.team1318.robot.driver.common.IButtonMap;
-import frc.team1318.robot.mechanisms.GarageDoorMechanism;
+import frc.team1318.robot.driver.*;
+import frc.team1318.robot.driver.common.*;
+import frc.team1318.robot.mechanisms.*;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
