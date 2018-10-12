@@ -13,13 +13,9 @@ import frc.team1318.robot.common.wpilib.ITimer;
 import frc.team1318.robot.common.wpilib.IWpilibProvider;
 import frc.team1318.robot.common.wpilib.TimerWrapper;
 import frc.team1318.robot.common.wpilib.WpilibProvider;
-import frc.team1318.robot.driver.DriveTrainButtonMap;
-import frc.team1318.robot.driver.ElevatorButtonMap;
-import frc.team1318.robot.driver.GarageDoorButtonMap;
-import frc.team1318.robot.driver.common.IButtonMap;
-import frc.team1318.robot.mechanisms.DriveTrainMechanism;
-import frc.team1318.robot.mechanisms.ElevatorMechanism;
-import frc.team1318.robot.mechanisms.GarageDoorMechanism;
+import frc.team1318.robot.driver.*;
+import frc.team1318.robot.driver.common.*;
+import frc.team1318.robot.mechanisms.*;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
@@ -33,8 +29,8 @@ public class RobotModule extends AbstractModule
     {
         this.bind(IWpilibProvider.class).to(WpilibProvider.class);
         this.bind(ITimer.class).to(TimerWrapper.class);
-        this.bind(IButtonMap.class).to(GarageDoorButtonMap.class);
-        //this.bind(IButtonMap.class).to(DriveTrainButtonMap.class);
+        //this.bind(IButtonMap.class).to(GarageDoorButtonMap.class);
+        this.bind(IButtonMap.class).to(ForkliftButtonMap.class);
         //this.bind(IButtonMap.class).to(ElevatorButtonMap.class);
     }
 
@@ -43,8 +39,8 @@ public class RobotModule extends AbstractModule
     public MechanismManager getMechanismManager(Injector injector)
     {
         List<IMechanism> mechanismList = new ArrayList<>();
-        mechanismList.add(injector.getInstance(GarageDoorMechanism.class));
-        //mechanismList.add(injector.getInstance(DriveTrainMechanism.class));
+        //mechanismList.add(injector.getInstance(GarageDoorMechanism.class));
+        mechanismList.add(injector.getInstance(ForkliftMechanism.class));
         //mechanismList.add(injector.getInstance(ElevatorMechanism.class));
         return new MechanismManager(mechanismList);
     }

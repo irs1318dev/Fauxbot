@@ -19,7 +19,7 @@ import frc.team1318.robot.driver.common.descriptions.ShiftDescription;
 import frc.team1318.robot.driver.common.descriptions.UserInputDevice;
 
 @Singleton
-public class DriveTrainButtonMap implements IButtonMap
+public class ForkliftButtonMap implements IButtonMap
 {
     @SuppressWarnings("serial")
     private static Map<Shift, ShiftDescription> ShiftButtons = new HashMap<Shift, ShiftDescription>()
@@ -55,19 +55,31 @@ public class DriveTrainButtonMap implements IButtonMap
                     UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
                     ButtonType.Toggle));*/
             put(
-                Operation.DriveTrainLeft,
+                Operation.ForkliftDriveLeft,
                 new AnalogOperationDescription(
                     UserInputDevice.Driver,
                     AnalogAxis.X,
                     ElectronicsConstants.INVERT_X_AXIS,
                     TuningConstants.DEAD_ZONE));
             put(
-                Operation.DriveTrainRight,
+                Operation.ForkliftDriveRight,
                 new AnalogOperationDescription(
                     UserInputDevice.Driver,
                     AnalogAxis.Y,
                     ElectronicsConstants.INVERT_Y_AXIS,
                     TuningConstants.DEAD_ZONE));
+            put(
+                Operation.ForkliftUp,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
+                    ButtonType.Click));
+            put(
+                Operation.ForkliftDown,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
+                    ButtonType.Click));
         }
     };
 
@@ -94,18 +106,18 @@ public class DriveTrainButtonMap implements IButtonMap
     @Override
     public Map<Shift, ShiftDescription> getShiftMap()
     {
-        return DriveTrainButtonMap.ShiftButtons;
+        return ForkliftButtonMap.ShiftButtons;
     }
 
     @Override
     public Map<Operation, OperationDescription> getOperationSchema()
     {
-        return DriveTrainButtonMap.OperationSchema;
+        return ForkliftButtonMap.OperationSchema;
     }
 
     @Override
     public Map<MacroOperation, MacroOperationDescription> getMacroOperationSchema()
     {
-        return DriveTrainButtonMap.MacroSchema;
+        return ForkliftButtonMap.MacroSchema;
     }
 }

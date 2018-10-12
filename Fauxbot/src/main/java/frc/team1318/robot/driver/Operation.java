@@ -5,9 +5,9 @@ public enum Operation
     // GarageDoor operations:
     GarageDoorButton,
 
-    // DriveTrain operations: 
-    DriveTrainLeft, DriveTrainRight,
-    
+    // Forklift operations: 
+    ForkliftDriveLeft, ForkliftDriveRight, ForkliftUp, ForkliftDown,
+
     // Elevator operations:
     ElevatorOneButton, ElevatorTwoButton, ElevatorThreeButton, ElevatorFourButton, ElevatorFiveButton,
 }

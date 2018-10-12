@@ -42,6 +42,21 @@ public class DoubleSolenoid extends ActuatorBase
         }
     }
 
+    public Value get()
+    {
+        if (this.currentValueProperty.get() > 0.0)
+        {
+            return Value.kForward;
+        }
+
+        if (this.currentValueProperty.get() < 0.0)
+        {
+            return Value.kReverse;
+        }
+
+        return Value.kOff;
+    }
+
     public DoubleProperty getProperty()
     {
         return this.currentValueProperty;

@@ -59,9 +59,12 @@ public class ElevatorSimulator implements IRealWorldSimulator
     @Inject
     public ElevatorSimulator()
     {
-        try{
+        try
+        {
             elevatorPersonInputStream = new FileInputStream(this.getClass().getResource("/images/stickFigure.png").getPath());
-        }catch(Exception e){
+        }
+        catch (Exception e)
+        {
             System.out.println("ERROR: INVALID IMAGE");             
         }
         
@@ -134,7 +137,7 @@ public class ElevatorSimulator implements IRealWorldSimulator
     public void draw(Canvas canvas)
     {
         double elevatorHeightRatio = this.currentElevatorHeight / (ElevatorSimulator.ElevatorMaxHeight - ElevatorSimulator.ElevatorMinHeight);
-                
+
         double canvasHeight = canvas.getHeight();
         double canvasWidth = canvas.getWidth();
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -156,18 +159,17 @@ public class ElevatorSimulator implements IRealWorldSimulator
             gc.strokeLine(ElevatorSimulator.ElevatorCarWidth, (1 - ratio) * canvasHeight, canvasWidth, (1 - ratio) * canvasHeight); 
         }
 
-            // draw the elevator car:
-            gc.setStroke(elevatorCarColor);
-            gc.setLineWidth(1.0);
-            gc.strokeRect(
-                0.0,
-                (1.0 - elevatorHeightRatio) * canvasHeight - ElevatorSimulator.ElevatorCarHeight,
-                ElevatorSimulator.ElevatorCarWidth,
-                ElevatorSimulator.ElevatorCarHeight);
-            
-            // draw the elevator rider:
-            gc.drawImage(ElevatorPerson, 0.0, (1.0 - elevatorHeightRatio) * canvasHeight - ElevatorSimulator.ElevatorCarHeight, 
-                         ElevatorSimulator.ElevatorCarWidth,  ElevatorSimulator.ElevatorCarHeight);
-        
+        // draw the elevator car:
+        gc.setStroke(elevatorCarColor);
+        gc.setLineWidth(1.0);
+        gc.strokeRect(
+            0.0,
+            (1.0 - elevatorHeightRatio) * canvasHeight - ElevatorSimulator.ElevatorCarHeight,
+            ElevatorSimulator.ElevatorCarWidth,
+            ElevatorSimulator.ElevatorCarHeight);
+
+        // draw the elevator rider:
+        gc.drawImage(ElevatorPerson, 0.0, (1.0 - elevatorHeightRatio) * canvasHeight - ElevatorSimulator.ElevatorCarHeight, 
+                        ElevatorSimulator.ElevatorCarWidth,  ElevatorSimulator.ElevatorCarHeight);
     }
 }

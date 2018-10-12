@@ -42,8 +42,11 @@ public class ElectronicsConstants
     public static final int ELEVATOR_ENCODER_DIGITAL_CHANNEL_A = 0;
     public static final int ELEVATOR_ENCODER_DIGITAL_CHANNEL_B = 1;
     
-   //================================================== Drive Train =======================================================
+   //================================================== Forklift =======================================================
 
-    public static final int DRIVETRAIN_LEFT_MOTOR_CAN_ID = 0;
-    public static final int DRIVETRAIN_RIGHT_MOTOR_CAN_ID = 1; 
+    public static final int FORKLIFT_DRIVE_LEFT_MOTOR_CAN_ID = 0;
+    public static final int FORKLIFT_DRIVE_RIGHT_MOTOR_CAN_ID = 1; 
+
+    public static final int FORKLIFT_LIFTER_FORWARD_PCM_CHANNEL = 7;
+    public static final int FORKLIFT_LIFTER_BACKWARD_PCM_CHANNEL = 8;
 }
