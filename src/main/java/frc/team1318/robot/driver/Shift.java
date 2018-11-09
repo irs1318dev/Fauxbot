@@ -4,4 +4,5 @@ public enum Shift
 {
     None,
     Any,
+    Debug,
 }

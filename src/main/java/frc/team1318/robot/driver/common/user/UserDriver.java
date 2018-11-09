@@ -7,8 +7,8 @@ import java.util.Set;
 
 import frc.team1318.robot.ElectronicsConstants;
 import frc.team1318.robot.common.SetHelper;
-import frc.team1318.robot.common.wpilib.IJoystick;
-import frc.team1318.robot.common.wpilib.IWpilibProvider;
+import frc.team1318.robot.common.robotprovider.IJoystick;
+import frc.team1318.robot.common.robotprovider.IRobotProvider;
 import frc.team1318.robot.driver.MacroOperation;
 import frc.team1318.robot.driver.Operation;
 import frc.team1318.robot.driver.Shift;
@@ -45,7 +45,7 @@ public class UserDriver extends Driver
     public UserDriver(
         Injector injector,
         IButtonMap buttonMap,
-        IWpilibProvider provider)
+        IRobotProvider provider)
     {
         super(injector, buttonMap);
 

@@ -4,9 +4,7 @@ import javax.inject.Singleton;
 
 import frc.team1318.robot.ElectronicsConstants;
 import frc.team1318.robot.common.IMechanism;
-import frc.team1318.robot.common.wpilib.IDigitalInput;
-import frc.team1318.robot.common.wpilib.IMotor;
-import frc.team1318.robot.common.wpilib.IWpilibProvider;
+import frc.team1318.robot.common.robotprovider.*;
 import frc.team1318.robot.driver.Operation;
 import frc.team1318.robot.driver.common.Driver;
 
@@ -28,7 +26,7 @@ public class GarageDoorMechanism implements IMechanism
     private boolean isThroughBeamSensorBroken;
 
     @Inject
-    public GarageDoorMechanism(IWpilibProvider provider)
+    public GarageDoorMechanism(IRobotProvider provider)
     {
         this.motor = provider.getTalon(ElectronicsConstants.GARAGEDOOR_MOTOR_DIGITAL_CHANNEL);
         this.throughBeamSensor = provider.getDigitalInput(ElectronicsConstants.GARAGEDOOR_THROUGHBEAMSENSOR_DIGITAL_CHANNEL);

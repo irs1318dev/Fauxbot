@@ -2,9 +2,7 @@ package frc.team1318.robot.driver;
 
 import frc.team1318.robot.ElectronicsConstants;
 import frc.team1318.robot.TuningConstants;
-import frc.team1318.robot.common.IDashboardLogger;
-import frc.team1318.robot.common.wpilib.IDigitalInput;
-import frc.team1318.robot.common.wpilib.IWpilibProvider;
+import frc.team1318.robot.common.robotprovider.*;
 import frc.team1318.robot.driver.common.IControlTask;
 import frc.team1318.robot.driver.controltasks.WaitTask;
 
@@ -25,7 +23,7 @@ public class AutonomousRoutineSelector
     @Inject
     public AutonomousRoutineSelector(
         IDashboardLogger logger,
-        IWpilibProvider provider)
+        IRobotProvider provider)
     {
         // initialize robot parts that are used to select autonomous routine (e.g. dipswitches) here...
         this.logger = logger;

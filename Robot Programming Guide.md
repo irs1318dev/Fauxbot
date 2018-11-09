@@ -45,7 +45,7 @@
       6. [Mockito](#mockito)
 4. [Instructions](#instructions)
    1. [Setting up your Environment](#setting-up-your-environment)
-   2. [Simple CMD operations and Git usage](#simple-cmd-operations-and-git-usage)
+   2. [Simple Command Line operations and Git usage](#simple-command-line-operations-and-git-usage)
    3. [Making Simple Operation changes](#making-simple-operation-changes)
    4. [Writing a new Mechanism](#writing-a-new-mechanism)
       1. [Define mechanism class and member variables](#define-mechanism-class-and-member-variables)
@@ -224,7 +224,12 @@ To prepare your computer for Robot programming with our team, you will need to f
    5. Install the WPILib Extension for Visual Studio Code.   Currently only an Alpha build is available.  To install, Download the latest alpha release from the [GitHub Releases](https://github.com/wpilibsuite/vscode-wpilib/releases) page for the extension.  Within VS Code, open the Extensions area, click the elipses ("..."), select "Install from VSIX", and select the vsix you downloaded earlier.  You will need to reload VS Code in order for the extension to be available.
    6. Install GitHub Desktop (optional).  Our team uses GitHub as the host for our source control system, so if you are more comfortable having a GUI for interacting with it, then GitHub Desktop will be the best supported.  Install the appropriate version of [GitHub Desktop](https://desktop.github.com/) for your operating system.
 2. Configuring things:
-   1. Git uses VIM as the default text editor for commit messages.  If you are not very familiar with VIM usage, it is recommended to change to a more normal windowed application as VIM can be very confusing for beginners.  I would recommend switching to use VS Code as your editor and default diff tool.
+   1. MAC ONLY: Add "code" to your path:
+      1. Open VS Code.
+      2. Open the Command Palette by pressing Command + P.
+      3. Type "```>```", and then enter the word "path".
+      4. Select the option that looks like "```Shell Command: Install 'code' command in PATH```".
+   2. Git uses VIM as the default text editor for commit messages.  If you are not very familiar with VIM usage, it is recommended to change to a more normal windowed application as VIM can be very confusing for beginners.  I would recommend switching to use VS Code as your editor and default diff tool.
       1. Use VS Code as your default text editor by running ```git config --global core.editor "code --wait"``` from a Command Prompt window.
       2. Modify your Global settings by running ```git config --global -e```, and then adding the following entries to the end of the file:
       ```

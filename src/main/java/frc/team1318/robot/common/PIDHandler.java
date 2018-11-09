@@ -1,6 +1,7 @@
 package frc.team1318.robot.common;
 
-import frc.team1318.robot.common.wpilib.ITimer;
+import frc.team1318.robot.common.robotprovider.IDashboardLogger;
+import frc.team1318.robot.common.robotprovider.ITimer;
 
 /**
  * This class is a PID handler with a feed-forward handler and a complementary filter.

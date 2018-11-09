@@ -3,12 +3,10 @@ package frc.team1318.robot.driver.common.states;
 import java.util.Set;
 
 import frc.team1318.robot.TuningConstants;
-import frc.team1318.robot.common.wpilib.IJoystick;
+import frc.team1318.robot.common.robotprovider.AnalogAxis;
+import frc.team1318.robot.common.robotprovider.IJoystick;
 import frc.team1318.robot.driver.Shift;
-import frc.team1318.robot.driver.common.buttons.AnalogAxis;
 import frc.team1318.robot.driver.common.descriptions.AnalogOperationDescription;
-
-import edu.wpi.first.wpilibj.Joystick.AxisType;
 
 /**
  * The state of the current analog operation.
@@ -72,7 +70,7 @@ public class AnalogOperationState extends OperationState
         }
 
         IJoystick relevantJoystick;
-        AxisType relevantAxis;
+        AnalogAxis relevantAxis;
         switch (description.getUserInputDevice())
         {
             case None:
@@ -102,7 +100,7 @@ public class AnalogOperationState extends OperationState
         double oldValue = this.currentValue;
         if (relevantJoystick != null)
         {
-            relevantAxis = AnalogOperationState.fromAxis(description.getUserInputDeviceAxis());
+            relevantAxis = description.getUserInputDeviceAxis();
             if (relevantAxis == null)
             {
                 return false;
@@ -148,38 +146,6 @@ public class AnalogOperationState extends OperationState
         }
 
         this.interruptValue = value;
-    }
-
-    public static AxisType fromAxis(AnalogAxis axis)
-    {
-        switch (axis)
-        {
-            case None:
-                return null;
-
-            case X:
-                return AxisType.kX;
-
-            case Y:
-                return AxisType.kY;
-
-            case Z:
-                return AxisType.kZ;
-
-            case Twist:
-                return AxisType.kTwist;
-
-            case Throttle:
-                return AxisType.kThrottle;
-
-            default:
-                if (TuningConstants.THROW_EXCEPTIONS)
-                {
-                    throw new RuntimeException("unknown axis type " + axis);
-                }
-
-                return null;
-        }
     }
 
     /**

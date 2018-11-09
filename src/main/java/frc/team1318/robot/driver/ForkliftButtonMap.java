@@ -7,9 +7,9 @@ import javax.inject.Singleton;
 
 import frc.team1318.robot.ElectronicsConstants;
 import frc.team1318.robot.TuningConstants;
+import frc.team1318.robot.common.robotprovider.*;
 import frc.team1318.robot.driver.common.IButtonMap;
 import frc.team1318.robot.driver.common.UserInputDeviceButton;
-import frc.team1318.robot.driver.common.buttons.AnalogAxis;
 import frc.team1318.robot.driver.common.buttons.ButtonType;
 import frc.team1318.robot.driver.common.descriptions.AnalogOperationDescription;
 import frc.team1318.robot.driver.common.descriptions.DigitalOperationDescription;

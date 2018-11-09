@@ -1,7 +1,7 @@
 package frc.team1318.robot.driver.common.descriptions;
 
 import frc.team1318.robot.driver.Shift;
-import frc.team1318.robot.driver.common.buttons.AnalogAxis;
+import frc.team1318.robot.common.robotprovider.AnalogAxis;
 
 /**
  * Describes an operation that will give a double value (typically between -1 and 1).

@@ -3,7 +3,7 @@ package frc.team1318.robot.driver.common.states;
 import java.util.Set;
 
 import frc.team1318.robot.TuningConstants;
-import frc.team1318.robot.common.wpilib.IJoystick;
+import frc.team1318.robot.common.robotprovider.IJoystick;
 import frc.team1318.robot.driver.Shift;
 import frc.team1318.robot.driver.common.UserInputDeviceButton;
 import frc.team1318.robot.driver.common.buttons.ClickButton;

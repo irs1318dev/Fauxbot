@@ -4,10 +4,7 @@ import javax.inject.Singleton;
 
 import frc.team1318.robot.ElectronicsConstants;
 import frc.team1318.robot.common.IMechanism;
-import frc.team1318.robot.common.wpilib.DoubleSolenoidValue;
-import frc.team1318.robot.common.wpilib.IDoubleSolenoid;
-import frc.team1318.robot.common.wpilib.IMotor;
-import frc.team1318.robot.common.wpilib.IWpilibProvider;
+import frc.team1318.robot.common.robotprovider.*;
 import frc.team1318.robot.driver.Operation;
 import frc.team1318.robot.driver.common.Driver;
 
@@ -23,7 +20,7 @@ public class ForkliftMechanism implements IMechanism
     private Driver driver;
 
     @Inject
-    public ForkliftMechanism(IWpilibProvider provider)
+    public ForkliftMechanism(IRobotProvider provider)
     {
         this.leftMotor = provider.getTalon(ElectronicsConstants.FORKLIFT_DRIVE_LEFT_MOTOR_CAN_ID);
         this.rightMotor = provider.getTalon(ElectronicsConstants.FORKLIFT_DRIVE_RIGHT_MOTOR_CAN_ID);

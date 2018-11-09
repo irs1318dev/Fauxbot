@@ -5,7 +5,7 @@ import frc.team1318.robot.TuningConstants;
 import frc.team1318.robot.common.IMechanism;
 import frc.team1318.robot.common.wpilib.IDigitalInput;
 import frc.team1318.robot.common.wpilib.IMotor;
-import frc.team1318.robot.common.wpilib.IWpilibProvider;
+import frc.team1318.robot.common.wpilib.IRobotProvider;
 import frc.team1318.robot.driver.Driver;
 import frc.team1318.robot.driver.Operation;
 
@@ -19,7 +19,7 @@ public class DriveTrainMechanism implements IMechanism
 
     // Component Code
         @Inject
-        public DriveTrainMechanism(IWpilibProvider provider)
+        public DriveTrainMechanism(IRobotProvider provider)
         {
             this.leftMotor = provider.getTalon(ElectronicsConstants.DRIVETRAIN_LEFT_MOTOR_CHANNEL);
             this.rightMotor = provider.getTalon(ElectronicsConstants.DRIVETRAIN_RIGHT_MOTOR_CHANNEL);

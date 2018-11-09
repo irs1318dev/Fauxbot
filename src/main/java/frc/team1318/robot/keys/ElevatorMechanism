@@ -8,7 +8,7 @@ import frc.team1318.robot.common.PIDHandler;
 import frc.team1318.robot.common.wpilib.IEncoder;
 import frc.team1318.robot.common.wpilib.IMotor;
 import frc.team1318.robot.common.wpilib.ITimer;
-import frc.team1318.robot.common.wpilib.IWpilibProvider;
+import frc.team1318.robot.common.wpilib.IRobotProvider;
 import frc.team1318.robot.driver.Driver;
 import frc.team1318.robot.driver.Operation;
 
@@ -25,7 +25,7 @@ public class ElevatorMechanism implements IMechanism
 
     @Inject
     public ElevatorMechanism(
-        IWpilibProvider provider,
+        IRobotProvider provider,
         IDashboardLogger logger,
         ITimer timer)
     {

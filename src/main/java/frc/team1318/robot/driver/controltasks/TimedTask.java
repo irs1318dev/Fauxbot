@@ -1,8 +1,7 @@
 package frc.team1318.robot.driver.controltasks;
 
 import frc.team1318.robot.driver.common.IControlTask;
-
-import edu.wpi.first.wpilibj.Timer;
+import frc.team1318.robot.common.robotprovider.ITimer;
 
 /**
  * Abstract class defining a task that lasts only for a certain duration.
@@ -11,7 +10,7 @@ import edu.wpi.first.wpilibj.Timer;
 public abstract class TimedTask extends ControlTaskBase implements IControlTask
 {
     protected final double duration;
-    protected final Timer timer;
+    protected ITimer timer;
     protected Double startTime;
 
     /**
@@ -21,7 +20,6 @@ public abstract class TimedTask extends ControlTaskBase implements IControlTask
     protected TimedTask(double duration)
     {
         this.duration = duration;
-        this.timer = new Timer();
         this.startTime = null;
     }
 
@@ -31,6 +29,8 @@ public abstract class TimedTask extends ControlTaskBase implements IControlTask
     @Override
     public void begin()
     {
+        this.getInjector().getInstance(ITimer.class);
+
         this.timer.start();
         this.startTime = this.timer.get();
     }

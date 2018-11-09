@@ -4,7 +4,7 @@ import frc.team1318.robot.ElectronicsConstants;
 import frc.team1318.robot.common.IMechanism;
 import frc.team1318.robot.common.wpilib.IDigitalInput;
 import frc.team1318.robot.common.wpilib.IMotor;
-import frc.team1318.robot.common.wpilib.IWpilibProvider;
+import frc.team1318.robot.common.wpilib.IRobotProvider;
 import frc.team1318.robot.driver.Driver;
 import frc.team1318.robot.driver.Operation;
 
@@ -21,7 +21,7 @@ public class GarageDoorMechanism implements IMechanism
     private GarageDoorState state;
 
     @Inject
-    public GarageDoorMechanism(IWpilibProvider provider)
+    public GarageDoorMechanism(IRobotProvider provider)
     {
         this.motor = provider.getTalon(ElectronicsConstants.GARAGEDOOR_MOTOR_CHANNEL);
         this.throughBeamSensor = provider.getDigitalInput(ElectronicsConstants.GARAGEDOOR_THROUGHBEAMSENSOR_CHANNEL);

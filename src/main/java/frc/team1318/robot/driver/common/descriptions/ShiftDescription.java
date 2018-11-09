@@ -1,7 +1,7 @@
 package frc.team1318.robot.driver.common.descriptions;
 
 import frc.team1318.robot.TuningConstants;
-import frc.team1318.robot.common.wpilib.IJoystick;
+import frc.team1318.robot.common.robotprovider.IJoystick;
 import frc.team1318.robot.driver.common.UserInputDeviceButton;
 
 public class ShiftDescription
