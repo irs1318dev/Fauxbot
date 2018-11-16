@@ -46,8 +46,10 @@
 4. [Instructions](#instructions)
    1. [Setting up your Environment](#setting-up-your-environment)
    2. [Simple Command Line operations and Git usage](#simple-command-line-operations-and-git-usage)
-   3. [Making Simple Operation changes](#making-simple-operation-changes)
-   4. [Writing a new Mechanism](#writing-a-new-mechanism)
+   3. [Your normal end-to-end git workflow](#your-normal-end-to-end-git-workflow)
+   4. [So you started coding before creating a topic branch](#so-you-started-coding-before-creating-a-topic-branch)
+   5. [Making Simple Operation changes](#making-simple-operation-changes)
+   6. [Writing a new Mechanism](#writing-a-new-mechanism)
       1. [Define mechanism class and member variables](#define-mechanism-class-and-member-variables)
       2. [Write mechanism constructor](#write-mechanism-constructor)
       3. [Write mechanism readSensors function](#write-mechanism-readsensors-function)
@@ -55,7 +57,7 @@
       5. [Write mechanism stop function](#write-mechanism-stop-function)
       6. [Write mechanism setDriver function](#write-mechanism-setdriver-function)
       7. [Write any getter functions](#write-any-getter-functions)
-   5. [Writing Macros and Autonomous Routines](#writing-macros-and-autonomous-routines)
+   7. [Writing Macros and Autonomous Routines](#writing-macros-and-autonomous-routines)
       1. [Writing Tasks](#writing-tasks)
          1. [Define task class, member variables, and constructor](#define-task-class-member-variables-and-constructor)
          2. [Define task begin function](#define-task-begin-function)
@@ -281,6 +283,28 @@ You will need to navigate around in order to do anything useful.  To look at the
 For more information about Git in command prompt, look here:
 [GitHub's git cheat-sheet](https://services.github.com/on-demand/downloads/github-git-cheat-sheet/)
 [GitHub's Git Handbook](https://guides.github.com/introduction/git-handbook/)
+
+### Your normal end-to-end git workflow
+When working with branches, you will typically follow a workflow like below:
+
+1. Switch to master branch.  Run "```git checkout master```".  This will fail if you have pending changes.  If you don't have any pending changes that you care about, you can run "```git clean -d -f```".  If that doesn't solve the problem, run "```git stash```".  If you have changes that you cared about from a previous topic branch, see step 5 and come back here after step 7 or 8.  If you started making changes before following these steps, look at the [So you started coding before creating a topic branch](#so-you-started-coding-before-creating-a-topic-branch) section below.
+2. Get the latest changes that exist on the server onto your local machine.  Run "```git pull```".
+3. Create and switch to a topic branch for your change.  Your topic branch should have a name based on what you're trying to work on.  Run "```git checkout -b topicbranchname```" (don't forget to repalce "topicbranchname"!).
+4. Make changes to your code.
+5. Commit all of your changes to your local topic branch.  Run "```git commit -a -m "description of my change"```".
+6. Repeat steps 4 and 5 as necessary.
+7. Share your changes with the world. Run "```git push```".  You will probably get a message saying that your topic branch isn't being tracked upstream.  You can either copy and paste the message that it gives you, or run something like "```git push --set-upstream origin topicbranchname```" (don't forget to repalce "topicbranchname"!).
+8. Go to [https://www.github.com/irs1318dev] and create a Pull Request to merge your changes into master.  If you can't figure that out, ask Will.
+
+### So you started coding before creating a topic branch
+If you started coding in "the wrong branch", usually you can recover from it as long as you don't have changes from that topic branch mixed in.  You can do something like:
+
+1. Stash your changes.  Run "```git stash```".
+2. Switch to master branch.  Run "```git checkout master```".
+3. Get the latest changes that exist on the server onto your local machine.  Run "```git pull```".
+4. Create and switch to a topic branch for your change.  Your topic branch should have a name based on what you're trying to work on.  Run "```git checkout -b topicbranchname```" (don't forget to repalce "topicbranchname"!).
+5. Retrieve your changes from the stash.  Run "```git stash pop```".
+6. Continue making changes to your code.  Follow steps 5-8 in the section above ([Your normal end-to-end git workflow](#your-normal-end-to-end-git-workflow)).
 
 ### Making Simple Operation changes
 To add a new action that the robot can take with a mechanism, first open the Operation enum (Operation.java) and add a new value to the list in that file.  We try to keep the various operations organized, so we keep them listed in a different section for each Mechanism.  The operation should be named starting with the mechanism (e.g. "DriveTrain", "Intake", etc.), and then a description of the action (e.g. "Turn", "RaiseArm", etc.).  Remember that Operations are a single, simple thing that is done by the robot.  Any more complex action that we want the robot to take will be a Macro which composes these Operations together (which we will talk about later).
