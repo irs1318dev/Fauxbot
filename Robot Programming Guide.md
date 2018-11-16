@@ -253,12 +253,17 @@ To prepare your computer for Robot programming with our team, you will need to f
    2. Using commandline:
       1. Open a commandline window.  On Windows, search for "cmd" or "Command Prompt".  Navigate within your directory structure to a directory where you'd like to keep your source files (e.g. "```cd C:\Users\username\git\```").
       2. Run the following git command to clone the repository to your local machine: "```git clone https://github.com/irs1318dev/Fauxbot.git```"
-      3. Once the repository has been cloned, navigate into the main directory (e.g. "```cd C:\Users\username\git\Fauxbot\Fauxbot```") and tell Gradle to build the code in the directory (type "```gradlew build```").  If gradle hasn't been installed yet, this should trigger it to be installed.
+      3. Once the repository has been cloned, navigate into the main directory (e.g. "```cd C:\Users\username\git\Fauxbot```") and tell Gradle to build the code in the directory (type "```gradlew build```").  If gradle hasn't been installed yet, this should trigger it to be installed.
       4. Open VS Code for this project.  In the main directory, type "```code .```".  This will tell VS Code to open with a reference to the folder you are currently exploring within cmd.
     3. Using GitHub Desktop:
        1. Open GitHub Desktop.  For the best experience, you will need a GitHub user account that has been added to the irs1318dev group.  If you haven't done that, consider doing that first.
        2. Go to File --> Clone Repository.  If you have been added to the irs1318dev group, you can select the repository you want (e.g. "irs1318dev/Fauxbot") from a list of repositories under the GitHub.com tab.  Otherwise, go to the the URL tab and enter the repository you want (e.g. "irs1318dev/Fauxbot") in the text box.  Then choose a local path where this repository will be cloned (e.g. "C:\Users\username\git\Fauxbot") and click the clone button.
-       3. Open VS Code for this project.  Open VS Code and open the folder where code is located by going to File --> Open Folder, and selecting the folder within the one where the repository was cloned (e.g. "C:\Users\username\git\Fauxbot\Fauxbot").
+       3. Open VS Code for this project.  Open VS Code and open the folder where code is located by going to File --> Open Folder, and selecting the folder within the one where the repository was cloned (e.g. "C:\Users\username\git\Fauxbot").
+
+If you have issues building the code using gradle for the first time, it may be one of the following issues:
+1. Insufficient disk space.  If you get a message talking about not being able to copy a file or create a directory, it may be a disk space issue.  Please clear some space so you have enough to build.
+2. Insufficient permissions to run gradlew.  On Mac/Linux, gradlew is blocked from running by default.  To allow it, run "```chmod +x gradlew```" and then run "```chmod 755 gradlew```".
+3. Needing slashes/etc.  On Mac/Linux or in a Powershell window, you may need to run gradlew in a special way.  On Mac/Linux, you may need to run gradlew as "```./gradlew```".  In Powershell, you may need to run gradlew as "```.\gradlew```".
 
 ### Simple Command Line operations and Git usage
 Starting in the 2019 season, there's a stronger need to use the command-line than in previous years.  Command line interfaces are used often in real world Engineering and Software Development, so learning it is very useful.
