@@ -23,15 +23,15 @@ public class FauxbotDoubleSolenoid extends FauxbotActuatorBase implements IDoubl
 
     public void set(DoubleSolenoidValue value)
     {
-        if (value == DoubleSolenoidValue.kOff)
+        if (value == DoubleSolenoidValue.Off)
         {
             this.currentValueProperty.set(0.0);
         }
-        else if (value == DoubleSolenoidValue.kForward)
+        else if (value == DoubleSolenoidValue.Forward)
         {
             this.currentValueProperty.set(1.0);
         }
-        else if (value == DoubleSolenoidValue.kReverse)
+        else if (value == DoubleSolenoidValue.Reverse)
         {
             this.currentValueProperty.set(-1.0);
         }
@@ -41,15 +41,15 @@ public class FauxbotDoubleSolenoid extends FauxbotActuatorBase implements IDoubl
     {
         if (this.currentValueProperty.get() > 0.0)
         {
-            return DoubleSolenoidValue.kForward;
+            return DoubleSolenoidValue.Forward;
         }
 
         if (this.currentValueProperty.get() < 0.0)
         {
-            return DoubleSolenoidValue.kReverse;
+            return DoubleSolenoidValue.Reverse;
         }
 
-        return DoubleSolenoidValue.kOff;
+        return DoubleSolenoidValue.Off;
     }
 
     public DoubleProperty getProperty()
