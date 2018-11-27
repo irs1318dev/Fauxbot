@@ -45,11 +45,11 @@ public class ForkliftMechanism implements IMechanism
 
         if (this.driver.getDigital(Operation.ForkliftUp))
         {
-            this.lifter.set(DoubleSolenoidValue.kForward);
+            this.lifter.set(DoubleSolenoidValue.Forward);
         }
         else if (this.driver.getDigital(Operation.ForkliftDown))
         {
-            this.lifter.set(DoubleSolenoidValue.kReverse);
+            this.lifter.set(DoubleSolenoidValue.Reverse);
         }
     }
 
@@ -58,7 +58,7 @@ public class ForkliftMechanism implements IMechanism
     {
         this.leftMotor.set(0.0);
         this.rightMotor.set(0.0);
-        this.lifter.set(DoubleSolenoidValue.kOff);
+        this.lifter.set(DoubleSolenoidValue.Off);
     }
 
     @Override
