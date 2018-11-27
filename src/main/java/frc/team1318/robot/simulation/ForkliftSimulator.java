@@ -117,7 +117,7 @@ public class ForkliftSimulator implements IRealWorldSimulator
         if (lifterActuator != null && lifterActuator instanceof FauxbotDoubleSolenoid)
         {
             FauxbotDoubleSolenoid lifterSolenoid = (FauxbotDoubleSolenoid)lifterActuator;
-            this.forkliftUp = lifterSolenoid.get() == DoubleSolenoidValue.kForward;
+            this.forkliftUp = lifterSolenoid.get() == DoubleSolenoidValue.Forward;
         }
     }
 
