@@ -35,7 +35,7 @@ public class ElevatorMechanism implements IMechanism
         this.driver = null;
 
         this.requestedFloor = Floor.One;
-        this.pid = new PIDHandler(1.0, 0.0, 0.0, 0.0, 1.0, -1.0, 1.0, "elevator", logger, timer);
+        this.pid = new PIDHandler(1.0, 0.0, 0.1, 0.0, 1.0, -1.0, 1.0, "elevator", logger, timer);
     }
     
     @Override

@@ -3,6 +3,7 @@ package frc.team1318.robot.simulation;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Calendar;
 
 import frc.team1318.robot.IRealWorldSimulator;
 import frc.team1318.robot.common.robotprovider.*;
@@ -42,6 +43,12 @@ public class ElevatorSimulator implements IRealWorldSimulator
     private static final double ElevatorMinHeight = 0.0;
     private static final double ElevatorMaxHeight = 250.0;
 
+    private static final double MotorStrength = 700.0;
+    private static final double Gravity = -386.0;
+
+    private static final double ElevatorMinVelocity = -20.0;
+    private static final double ElevatorMaxVelocity = 20.0;
+
     private static final double[] FloorHeightPercentages = new double[] { 0.0, 0.2, 0.4, 0.6, 0.8 };
     private static final double PercentageAllowance = 0.01;
     private static final double ElevatorCarWidth = 15.0;
@@ -49,7 +56,10 @@ public class ElevatorSimulator implements IRealWorldSimulator
 
     private FileInputStream elevatorPersonInputStream;
     private Image elevatorPerson;
-    private double currentElevatorHeight;
+
+    private double prevHeight;
+    private double prevTime;
+    private double prevVelocity;
 
     @Inject
     public ElevatorSimulator()
@@ -62,9 +72,12 @@ public class ElevatorSimulator implements IRealWorldSimulator
         {
             System.out.println("ERROR: INVALID IMAGE");             
         }
-        
+
         this.elevatorPerson = new Image(this.elevatorPersonInputStream);
-        this.currentElevatorHeight = 0.0;
+
+        this.prevHeight = 0.0;
+        this.prevTime = 0.0;
+        this.prevVelocity = 0.0;
     }
 
     public String getSensorName(FauxbotSensorConnection connection)
@@ -109,28 +122,52 @@ public class ElevatorSimulator implements IRealWorldSimulator
 
     public void update()
     {
+        double currTime = Calendar.getInstance().getTime().getTime() / 1000.0;
+        double currHeight = this.prevHeight;
+        double currVelocity = this.prevVelocity;
+
+        double motorPower = 0.0;
         FauxbotActuatorBase actuator = FauxbotActuatorManager.get(ElevatorSimulator.MotorChannel);
         if (actuator != null && actuator instanceof FauxbotMotorBase)
         {
             FauxbotMotorBase motor = (FauxbotMotorBase)actuator;
-            double motorPower = motor.get();
-            this.currentElevatorHeight += motorPower;
+            motorPower = motor.get();
         }
 
-        if (this.currentElevatorHeight > ElevatorSimulator.ElevatorMaxHeight)
+        double dt = currTime - this.prevTime;
+
+        currVelocity += motorPower * ElevatorSimulator.MotorStrength * dt + ElevatorSimulator.Gravity * dt;
+        currHeight += (currVelocity * dt);
+
+        if (currVelocity > ElevatorSimulator.ElevatorMaxVelocity)
         {
-            this.currentElevatorHeight = ElevatorSimulator.ElevatorMaxHeight;
+            currVelocity = ElevatorSimulator.ElevatorMaxVelocity;
         }
-        else if (this.currentElevatorHeight < ElevatorSimulator.ElevatorMinHeight)
+        else if (currVelocity < ElevatorSimulator.ElevatorMinVelocity)
         {
-            this.currentElevatorHeight = ElevatorSimulator.ElevatorMinHeight;
+            currVelocity = ElevatorSimulator.ElevatorMinVelocity;
         }
+
+        if (this.prevHeight > ElevatorSimulator.ElevatorMaxHeight)
+        {
+            currHeight = ElevatorSimulator.ElevatorMaxHeight;
+            currVelocity = 0.0;
+        }
+        else if (this.prevHeight < ElevatorSimulator.ElevatorMinHeight)
+        {
+            currHeight = ElevatorSimulator.ElevatorMinHeight;
+            currVelocity = 0.0;
+        }
+
+        this.prevHeight = currHeight;
+        this.prevTime = currTime;
+        this.prevVelocity = currVelocity;
 
         FauxbotSensorBase sensor = FauxbotSensorManager.get(ElevatorSimulator.EncoderAChannel);
         if (sensor != null && sensor instanceof FauxbotEncoder)
         {
             FauxbotEncoder encoder = (FauxbotEncoder)sensor;
-            encoder.set(this.currentElevatorHeight);
+            encoder.set(this.prevHeight);
         }
     }
 
@@ -140,7 +177,7 @@ public class ElevatorSimulator implements IRealWorldSimulator
      */
     public void draw(Canvas canvas)
     {
-        double elevatorHeightRatio = this.currentElevatorHeight / (ElevatorSimulator.ElevatorMaxHeight - ElevatorSimulator.ElevatorMinHeight);
+        double elevatorHeightRatio = this.prevHeight / (ElevatorSimulator.ElevatorMaxHeight - ElevatorSimulator.ElevatorMinHeight);
 
         double canvasHeight = canvas.getHeight();
         double canvasWidth = canvas.getWidth();
@@ -173,7 +210,7 @@ public class ElevatorSimulator implements IRealWorldSimulator
             ElevatorSimulator.ElevatorCarHeight);
 
         // draw the elevator rider:
-        gc.drawImage(elevatorPerson, 0.0, (1.0 - elevatorHeightRatio) * canvasHeight - ElevatorSimulator.ElevatorCarHeight, 
+        gc.drawImage(this.elevatorPerson, 0.0, (1.0 - elevatorHeightRatio) * canvasHeight - ElevatorSimulator.ElevatorCarHeight, 
                         ElevatorSimulator.ElevatorCarWidth,  ElevatorSimulator.ElevatorCarHeight);
     }
 }
