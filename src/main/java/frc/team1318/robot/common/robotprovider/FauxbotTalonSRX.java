@@ -1,16 +1,29 @@
 package frc.team1318.robot.common.robotprovider;
 
+import frc.team1318.robot.common.PIDHandler;
+
 public class FauxbotTalonSRX extends FauxbotAdvancedMotorBase implements ITalonSRX
 {
     private FauxbotEncoder innerEncoder;
+    private PIDHandler pidHandler;
+
+    private TalonSRXControlMode currentMode;
+    private double kp;
+    private double ki;
+    private double kd;
+    private double kf;
 
     public FauxbotTalonSRX(int deviceNumber)
     {
         super(deviceNumber);
+
+        this.currentMode = TalonSRXControlMode.PercentOutput;
     }
 
     public void setControlMode(TalonSRXControlMode mode)
     {
+        this.currentMode = mode;
+        this.resetPID();
     }
 
     public void setSensorType(TalonSRXFeedbackDevice feedbackDevice)
@@ -39,6 +52,11 @@ public class FauxbotTalonSRX extends FauxbotAdvancedMotorBase implements ITalonS
 
     public void setPIDF(double p, double i, double d, double f, int slotId)
     {
+        this.kp = p;
+        this.ki = i;
+        this.kd = d;
+        this.kf = f;
+        this.resetPID();
     }
 
     public void setMotionMagicPIDF(double p, double i, double d, double f, int velocity, int acceleration, int slotId)
@@ -47,6 +65,41 @@ public class FauxbotTalonSRX extends FauxbotAdvancedMotorBase implements ITalonS
 
     public void setPIDF(double p, double i, double d, double f, int izone, double closeLoopRampRate, int slotId)
     {
+        this.kp = p;
+        this.ki = i;
+        this.kd = d;
+        this.kf = f;
+        this.resetPID();
+    }
+
+    @Override
+    public void set(double newValue)
+    {
+        if (this.currentMode == TalonSRXControlMode.Follower)
+        {
+            FauxbotActuatorBase actuator = FauxbotActuatorManager.get(new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.CAN, (int)newValue));
+            if (actuator != null && actuator instanceof FauxbotAdvancedMotorBase)
+            {
+                FauxbotAdvancedMotorBase advancedMotor = (FauxbotAdvancedMotorBase)actuator;
+                this.currentPowerProperty.bind(advancedMotor.currentPowerProperty);
+            }
+            else
+            {
+                throw new RuntimeException("expected a different actuator type " + actuator == null ? "null" : actuator.toString());
+            }
+        }
+        else if (this.currentMode == TalonSRXControlMode.Velocity)
+        {
+            super.set(this.pidHandler.calculateVelocity(newValue, innerEncoder.getRate()));
+        }
+        else if (this.currentMode == TalonSRXControlMode.Position)
+        {
+            super.set(this.pidHandler.calculatePosition(newValue, innerEncoder.get()));
+        }
+        else
+        {
+            super.set(newValue);
+        }
     }
 
     public void setForwardLimitSwitch(boolean enabled, boolean normallyOpen)
@@ -103,5 +156,18 @@ public class FauxbotTalonSRX extends FauxbotAdvancedMotorBase implements ITalonS
     public TalonSRXLimitSwitchStatus getLimitSwitchStatus()
     {
         return null;
+    }
+
+    private void resetPID()
+    {
+        if (this.currentMode == TalonSRXControlMode.Position ||
+            this.currentMode == TalonSRXControlMode.Velocity)
+        {
+            this.pidHandler = new PIDHandler(this.kp, this.ki, this.kd, this.kf, 1.0, -1.0, 1.0, new FauxbotTimer());
+        }
+        else
+        {
+            this.pidHandler = null;
+        }
     }
 }
