@@ -36,7 +36,7 @@ public class FauxbotEncoder extends FauxbotSensorBase implements IEncoder
 
     public double getRate()
     {
-        return this.valueProperty.get();
+        return this.currRate;
     }
 
     public double getDistance()
