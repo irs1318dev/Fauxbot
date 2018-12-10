@@ -81,7 +81,8 @@ public class FauxbotTalonSRX extends FauxbotAdvancedMotorBase implements ITalonS
             if (actuator != null && actuator instanceof FauxbotAdvancedMotorBase)
             {
                 FauxbotAdvancedMotorBase advancedMotor = (FauxbotAdvancedMotorBase)actuator;
-                this.currentPowerProperty.bind(advancedMotor.currentPowerProperty);
+                advancedMotor.currentPowerProperty.addListener(
+                    (observable, oldValue, value) -> { this.currentPowerProperty.set((Double)value); });
             }
             else
             {
@@ -163,7 +164,9 @@ public class FauxbotTalonSRX extends FauxbotAdvancedMotorBase implements ITalonS
         if (this.currentMode == TalonSRXControlMode.Position ||
             this.currentMode == TalonSRXControlMode.Velocity)
         {
-            this.pidHandler = new PIDHandler(this.kp, this.ki, this.kd, this.kf, 1.0, -1.0, 1.0, new FauxbotTimer());
+            ITimer timer = new FauxbotTimer();
+            timer.start();
+            this.pidHandler = new PIDHandler(this.kp, this.ki, this.kd, this.kf, 1.0, -4096.0, 4096.0, timer);
         }
         else
         {
