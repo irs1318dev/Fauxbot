@@ -15,6 +15,7 @@ public class FauxbotEncoder extends FauxbotSensorBase implements IEncoder
     {
         this.valueProperty = new SimpleDoubleProperty(0.0);
         this.timer = new FauxbotTimer();
+        this.timer.start();
         this.distancePerPulse = 1.0;
         this.prevTime = this.timer.get();
         this.currRate = 0.0;
@@ -27,6 +28,7 @@ public class FauxbotEncoder extends FauxbotSensorBase implements IEncoder
     {
         this.valueProperty = new SimpleDoubleProperty(0.0);
         this.timer = new FauxbotTimer();
+        this.timer.start();
         this.distancePerPulse = 1.0;
         this.prevTime = this.timer.get();
         this.currRate = 0.0;
