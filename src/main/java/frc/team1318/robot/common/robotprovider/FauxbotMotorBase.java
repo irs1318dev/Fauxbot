@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public class FauxbotMotorBase extends FauxbotActuatorBase implements IMotor
 {
-    private final DoubleProperty currentPowerProperty;
+    protected final DoubleProperty currentPowerProperty;
 
     public FauxbotMotorBase()
     {
