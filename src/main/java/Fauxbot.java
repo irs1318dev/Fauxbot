@@ -1,6 +1,6 @@
 import java.io.IOException;
 
-import frc.team1318.robot.FauxbotApplication;
+import frc.robot.FauxbotApplication;
 
 import javafx.application.Application;;
 

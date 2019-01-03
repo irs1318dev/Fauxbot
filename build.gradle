@@ -49,3 +49,7 @@ jar {
                    'Implementation-Version': version
     }
 }
+
+wrapper {
+    gradleVersion = '5.0'
+}
