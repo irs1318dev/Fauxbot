@@ -219,26 +219,19 @@ The [NavX MXP](http://www.pdocs.kauailabs.com/navx-mxp/software/) has a library 
 ### Setting up your Environment
 To prepare your computer for Robot programming with our team, you will need to follow the following steps:
 1. Installing everything:
-   1. Install Java SDK.  In FRC, we previously used Java 8, but for 2019 we are going to be using Java 11.  Install the appropriate version of the [Java 11 SDK (JDK)](https://www.oracle.com/technetwork/java/javase/downloads/index.html) and/or the [Java 8 SE SDK (JDK)](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) for your operating system.  For Windows, we typically recommend the x64 version (Windows x64).
-   2. Install Git.  Our team uses Git for source control.  Git is commonly used in industry to help many people collaborate on the same software project.  Install the appropriate version of [Git](https://git-scm.com/downloads) for your operating system.  You can use all of the default options in the installer.
-   3. Install Visual Studio Code.  Starting in the 2019 season, VS Code is the supported development environment for FRC.  Install the appropriate version of [VS Code](https://code.visualstudio.com/download) for your operating system.
-   4. Install the Java Extension Pack for VS Code.  Navigate to the [Java Extension Pack](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack) in the VS Code Marketplace and click Install.  It should prompt you asking to allow it to open VS Code and install the extension.  If that doesn't work, open VS Code and go to the Extensions area.  By default, Extensions can be opened by clicking the bottom button of the icons on the top left of the window.  If you can't find it, you can instead go to View --> Extensions, or press CTRL+Shift+X (on Windows).  Then, search for the "Java Extension Pack" in the Marketplace and click "Install".
-   5. Install the WPILib Extension for Visual Studio Code.   Currently only an Alpha build is available.  To install, Download the latest alpha release from the [GitHub Releases](https://github.com/wpilibsuite/vscode-wpilib/releases) page for the extension.  Within VS Code, open the Extensions area, click the elipses ("..."), select "Install from VSIX", and select the vsix you downloaded earlier.  You will need to reload VS Code in order for the extension to be available.
-   6. Install GitHub Desktop (optional).  Our team uses GitHub as the host for our source control system, so if you are more comfortable having a GUI for interacting with it, then GitHub Desktop will be the best supported.  Install the appropriate version of [GitHub Desktop](https://desktop.github.com/) for your operating system.
+   1. Install development environment.  Run the [WPILib installer](https://github.com/wpilibsuite/allwpilib/releases) to install VS Code, the JDK, WPILib, and other dependencies.  Be sure to select the version appropriate for your operating system.
+   2. Install NAVX vendor library.  Run the [KuauiLabs navX-MXP Java installer](https://pdocs.kauailabs.com/navx-mxp/software/roborio-libraries/java/).  Be sure to select the version appropriate for your operating system.
+   3. Install CTRE Phoenix vendor library.  Run the [CTRE Phoenix installer](http://www.ctr-electronics.com/control-system/hro.html#product_tabs_technical_resources).  Be sure to select the version appropriate for your operating system.
+   4. Install GitHub Desktop (optional).  Our team uses GitHub as the host for our source control system, so if you are more comfortable having a GUI for interacting with it, then GitHub Desktop will be the best supported.  Install the appropriate version of [GitHub Desktop](https://desktop.github.com/) for your operating system.
 2. Configuring things:
-   1. MAC ONLY: Add "code" to your path:
-      1. Open VS Code.
-      2. Open the Command Palette by pressing Command + P.
-      3. Type "```>```", and then enter the word "path".
-      4. Select the option that looks like "```Shell Command: Install 'code' command in PATH```".
-   2. Git uses VIM as the default text editor for commit messages.  If you are not very familiar with VIM usage, it is recommended to change to a more normal windowed application as VIM can be very confusing for beginners.  I would recommend switching to use VS Code as your editor and default diff tool.
+   1. Git uses VIM as the default text editor for commit messages.  If you are not very familiar with VIM usage, it is recommended to change to a more normal windowed application as VIM can be very confusing for beginners.  I would recommend switching to use VS Code as your editor and default diff tool.
       1. Use VS Code as your default text editor by running ```git config --global core.editor "code --wait"``` from a Command Prompt window.
       2. Modify your Global settings by running ```git config --global -e```, and then adding the following entries to the end of the file:
       ```
       [diff]
         tool = vscode
       [difftool "vscode"]
-        cmd = code --wait --diff \"$LOCAL\" \"$REMOTE\"
+        cmd = frccode2019 --wait --diff \"$LOCAL\" \"$REMOTE\"
       ```
    2. VS Code's Java extension sometimes needs extra hints to find where the Java JDK was installed.  To do this, you will need to add an environment variable on Windows (sorry, don't know what to do for Mac). 
       1. In Windows 10, press start and type "environment" in the search bar.
@@ -249,16 +242,16 @@ To prepare your computer for Robot programming with our team, you will need to f
       6. Click ok to close the Environment Variables and System Properties windows.
       7. Restart your computer.
 3. Get the code onto your local machine.
-   1. Copy the repository's URL.  In GitHub, find the repository you are interested in, click the "Clone or download" button, and then copy the text (e.g. "https://github.com/irs1318dev/Fauxbot.git").
+   1. Copy the repository's URL.  In GitHub, find the repository you are interested in, click the "Clone or download" button, and then copy the text (e.g. "https://github.com/irs1318dev/irs1318_general.git").
    2. Using commandline:
       1. Open a commandline window.  On Windows, search for "cmd" or "Command Prompt".  Navigate within your directory structure to a directory where you'd like to keep your source files (e.g. "```cd C:\Users\username\git\```").
-      2. Run the following git command to clone the repository to your local machine: "```git clone https://github.com/irs1318dev/Fauxbot.git```"
-      3. Once the repository has been cloned, navigate into the main directory (e.g. "```cd C:\Users\username\git\Fauxbot```") and tell Gradle to build the code in the directory (type "```gradlew build```").  If gradle hasn't been installed yet, this should trigger it to be installed.
-      4. Open VS Code for this project.  In the main directory, type "```code .```".  This will tell VS Code to open with a reference to the folder you are currently exploring within cmd.
+      2. Run the following git command to clone the repository to your local machine: "```git clone https://github.com/irs1318dev/irs1318_general.git```"
+      3. Once the repository has been cloned, navigate into the main directory (e.g. "```cd C:\Users\username\git\irs1318_general```") and tell Gradle to build the code in the directory (type "```gradlew build```").  If gradle hasn't been installed yet, this should trigger it to be installed.
+      4. Open VS Code for this project.  In the main directory, type "```frccode2019 .```".  This will tell VS Code to open with a reference to the folder you are currently exploring within cmd.
     3. Using GitHub Desktop:
        1. Open GitHub Desktop.  For the best experience, you will need a GitHub user account that has been added to the irs1318dev group.  If you haven't done that, consider doing that first.
-       2. Go to File --> Clone Repository.  If you have been added to the irs1318dev group, you can select the repository you want (e.g. "irs1318dev/Fauxbot") from a list of repositories under the GitHub.com tab.  Otherwise, go to the the URL tab and enter the repository you want (e.g. "irs1318dev/Fauxbot") in the text box.  Then choose a local path where this repository will be cloned (e.g. "C:\Users\username\git\Fauxbot") and click the clone button.
-       3. Open VS Code for this project.  Open VS Code and open the folder where code is located by going to File --> Open Folder, and selecting the folder within the one where the repository was cloned (e.g. "C:\Users\username\git\Fauxbot").
+       2. Go to File --> Clone Repository.  If you have been added to the irs1318dev group, you can select the repository you want (e.g. "irs1318dev/irs1318_general") from a list of repositories under the GitHub.com tab.  Otherwise, go to the the URL tab and enter the repository you want (e.g. "irs1318dev/irs1318_general") in the text box.  Then choose a local path where this repository will be cloned (e.g. "C:\Users\username\git\irs1318_general") and click the clone button.
+       3. Open VS Code for this project.  Open VS Code and open the folder where code is located by going to File --> Open Folder, and selecting the folder within the one where the repository was cloned (e.g. "C:\Users\username\git\irs1318_general").
 
 If you have issues building the code using gradle for the first time, it may be one of the following issues:
 1. Insufficient disk space.  If you get a message talking about not being able to copy a file or create a directory, it may be a disk space issue.  Please clear some space so you have enough to build.
@@ -283,7 +276,7 @@ You will need to navigate around in order to do anything useful.  To look at the
 7. "```git branch -c master branchname```" command will create a new topic branch off of the master branch.
 8. "```git pull```" command will update your local repository with changes that have been pushed to the remote repository.
 9. "```git checkout branchname```" command will switch your working directory to look at a different branch.
-10. "```git clone https://github.com/irs1318dev/Fauxbot.git```" command will clone the repository tracked at the provided url, creating a local copy that you can use to make changes.
+10. "```git clone https://github.com/irs1318dev/irs1318_general.git```" command will clone the repository tracked at the provided url, creating a local copy that you can use to make changes.
 
 For more information about Git in command prompt, look here:
 [GitHub's git cheat-sheet](https://services.github.com/on-demand/downloads/github-git-cheat-sheet/)
