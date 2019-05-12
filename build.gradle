@@ -1,52 +1,15 @@
-plugins {
-    id "java"
-    id "application"
-    id "idea"
-}
+subprojects {
+    apply plugin: "java"
+ 
+    repositories {
+        mavenCentral()
+    }
 
-repositories {
-    mavenCentral()
-}
-
-def currentOS = org.gradle.internal.os.OperatingSystem.current()
-def platform
-if (currentOS.isWindows()) {
-    platform = 'win'
-} else if (currentOS.isLinux()) {
-    platform = 'linux'
-} else if (currentOS.isMacOsX()) {
-    platform = 'mac'
-}
-
-// Defining my dependencies. In this case, javax.inject, Guava, Guice, JavaFX
-dependencies {
-    compile "org.openpnp:opencv:3.2.0-1"
-    compile "javax.inject:javax.inject:1"
-    compile "com.google.guava:guava:21.0"
-    compile "com.google.inject:guice:4.1.0:no_aop"
-    compile "org.openjfx:javafx-base:11:${platform}"
-    compile "org.openjfx:javafx-graphics:11:${platform}"
-    compile "org.openjfx:javafx-controls:11:${platform}"
-
-    testCompile "org.mockito:mockito-all:1.10.19"
-    testImplementation "org.junit.jupiter:junit-jupiter-api:5.1.0"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.1.0"
-}
-
-test {
-    useJUnitPlatform()
-}
-
-mainClassName = 'Fauxbot'
-
-// Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
-// in order to make them all available at runtime. Also adding the manifest so WPILib
-// knows where to look for our Robot Class.
-version = '1.0'
-jar {
-    manifest {
-        attributes 'Implementation-Title': 'Fauxbot',
-                   'Implementation-Version': version
+    dependencies
+    {
+        compile group: 'javax.inject', name: 'javax.inject', version: '1'
+        compile "com.google.guava:guava:21.0"
+        compile "com.google.inject:guice:4.1.0:no_aop"
     }
 }
 
