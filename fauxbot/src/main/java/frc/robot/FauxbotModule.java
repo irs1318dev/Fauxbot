@@ -12,15 +12,14 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
 
-public class FauxbotModule extends AbstractModule
+public abstract class FauxbotModule extends AbstractModule
 {
     @Override
     protected void configure()
     {
-        this.bind(IRealWorldSimulator.class).to(ForkliftSimulator.class);
         this.bind(IRobotProvider.class).to(FauxbotProvider.class);
         this.bind(ITimer.class).to(FauxbotTimer.class);
-        this.bind(IButtonMap.class).to(ForkliftButtonMap.class);
+        this.bind(IButtonMap.class).to(ButtonMap.class);
     }
 
     @Singleton

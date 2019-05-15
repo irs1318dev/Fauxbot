@@ -18,7 +18,7 @@ public class RobotModule extends AbstractModule
     {
         this.bind(IRobotProvider.class).to(RobotProvider.class);
         this.bind(ITimer.class).to(TimerWrapper.class);
-        this.bind(IButtonMap.class).to(ForkliftButtonMap.class);
+        this.bind(IButtonMap.class).to(ButtonMap.class);
     }
 
     @Singleton

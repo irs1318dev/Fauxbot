@@ -5,17 +5,14 @@ import java.util.Map;
 
 import javax.inject.Singleton;
 
-import frc.robot.driver.common.IButtonMap;
-import frc.robot.driver.common.UserInputDeviceButton;
-import frc.robot.driver.common.buttons.ButtonType;
-import frc.robot.driver.common.descriptions.DigitalOperationDescription;
-import frc.robot.driver.common.descriptions.MacroOperationDescription;
-import frc.robot.driver.common.descriptions.OperationDescription;
-import frc.robot.driver.common.descriptions.ShiftDescription;
-import frc.robot.driver.common.descriptions.UserInputDevice;
+import frc.robot.*;
+import frc.robot.common.robotprovider.*;
+import frc.robot.driver.common.*;
+import frc.robot.driver.common.buttons.*;
+import frc.robot.driver.common.descriptions.*;
 
 @Singleton
-public class ElevatorButtonMap implements IButtonMap
+public class ButtonMap implements IButtonMap
 {
     @SuppressWarnings("serial")
     private static Map<Shift, ShiftDescription> ShiftButtons = new HashMap<Shift, ShiftDescription>()
@@ -50,6 +47,7 @@ public class ElevatorButtonMap implements IButtonMap
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
                     ButtonType.Toggle));*/
+            /*
             put(
                 Operation.ElevatorOneButton,
                 new DigitalOperationDescription(
@@ -79,7 +77,40 @@ public class ElevatorButtonMap implements IButtonMap
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
+                    ButtonType.Click));*/
+            put(
+                Operation.ForkliftDriveLeft,
+                new AnalogOperationDescription(
+                    UserInputDevice.Driver,
+                    AnalogAxis.X,
+                    ElectronicsConstants.INVERT_X_AXIS,
+                    TuningConstants.DEAD_ZONE));
+            put(
+                Operation.ForkliftDriveRight,
+                new AnalogOperationDescription(
+                    UserInputDevice.Driver,
+                    AnalogAxis.Y,
+                    ElectronicsConstants.INVERT_Y_AXIS,
+                    TuningConstants.DEAD_ZONE));
+            put(
+                Operation.ForkliftUp,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
                     ButtonType.Click));
+            put(
+                Operation.ForkliftDown,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
+                    ButtonType.Click));
+            /*
+            put(
+                Operation.GarageDoorButton,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
+                    ButtonType.Click));*/
         }
     };
 
@@ -106,18 +137,18 @@ public class ElevatorButtonMap implements IButtonMap
     @Override
     public Map<Shift, ShiftDescription> getShiftMap()
     {
-        return ElevatorButtonMap.ShiftButtons;
+        return ButtonMap.ShiftButtons;
     }
 
     @Override
     public Map<Operation, OperationDescription> getOperationSchema()
     {
-        return ElevatorButtonMap.OperationSchema;
+        return ButtonMap.OperationSchema;
     }
 
     @Override
     public Map<MacroOperation, MacroOperationDescription> getMacroOperationSchema()
     {
-        return ElevatorButtonMap.MacroSchema;
+        return ButtonMap.MacroSchema;
     }
 }

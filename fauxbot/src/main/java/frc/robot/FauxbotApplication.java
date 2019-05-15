@@ -13,61 +13,135 @@ import frc.robot.driver.common.UserInputDeviceButton;
 import frc.robot.driver.common.buttons.ButtonType;
 import frc.robot.driver.common.descriptions.*;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Slider;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
+import javafx.application.*;
+import javafx.beans.binding.*;
+import javafx.beans.value.*;
+import javafx.geometry.*;
+import javafx.scene.*;
+import javafx.scene.canvas.*;
+import javafx.scene.control.*;
+import javafx.scene.input.*;
+import javafx.scene.layout.*;
+import javafx.scene.text.*;
+import javafx.stage.*;
 
 public class FauxbotApplication extends Application
 {
-    private final FauxbotRunner runner;
-    private final Thread runnerThread;
+    public enum Simulation
+    {
+        Forklift,
+        Elevator,
+        GarageDoor,
+    }
 
-    private final IRealWorldSimulator simulator;
+    private Stage primaryStage;
 
-    private final CoreRobot<FauxbotModule> robot;
+    private FauxbotRunner runner;
+    private Thread runnerThread;
+
+    private IRealWorldSimulator simulator;
+
+    private CoreRobot<FauxbotModule> robot;
+    private Simulation desiredSimulation;
 
     private Canvas canvas;
-
-    public FauxbotApplication()
-    {
-        super();
-
-        this.robot = new CoreRobot<FauxbotModule>(new FauxbotModule());
-
-        this.simulator = this.robot.getInjector().getInstance(IRealWorldSimulator.class);
-        this.runner = new FauxbotRunner(this.robot, this);
-        this.runnerThread = new Thread(this.runner);
-    }
 
     @Override
     public void start(Stage primaryStage) throws Exception
     {
+        this.primaryStage = primaryStage;
+        this.primaryStage.setTitle("Fauxbot");
+
+        VBox vBox = new VBox();
+        vBox.setSpacing(10);
+        vBox.setAlignment(Pos.CENTER);
+        vBox.setPadding(new Insets(10, 10, 10, 10));
+
+        String fontDefault = "Arial";
+
+        Label simulationTitle = new Label("Select Simulation");
+        simulationTitle.setFont(Font.font(fontDefault, FontWeight.NORMAL, 30));
+        simulationTitle.setMaxWidth(Double.MAX_VALUE);
+        simulationTitle.setAlignment(Pos.CENTER);
+
+        HBox hBox = new HBox();
+        hBox.setSpacing(10);
+        hBox.setAlignment(Pos.CENTER);
+        ToggleGroup simulationGroup = new ToggleGroup();
+        RadioButton forkliftButton = new RadioButton("Forklift");
+        forkliftButton.setUserData(Simulation.Forklift);
+        forkliftButton.setToggleGroup(simulationGroup);
+        forkliftButton.setSelected(true);
+        this.desiredSimulation = Simulation.Forklift;
+
+        RadioButton elevatorButton = new RadioButton("Elevator");
+        elevatorButton.setUserData(Simulation.Elevator);
+        elevatorButton.setToggleGroup(simulationGroup);
+
+        RadioButton garageDoorButton = new RadioButton("GarageDoor");
+        garageDoorButton.setUserData(Simulation.GarageDoor);
+        garageDoorButton.setToggleGroup(simulationGroup);
+        hBox.getChildren().addAll(forkliftButton, elevatorButton, garageDoorButton);
+
+        simulationGroup.selectedToggleProperty().addListener(
+            (ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) ->
+            {
+                this.desiredSimulation = (Simulation)newValue.getUserData(); 
+            });
+
+        Button startSimulationButton = new Button("Start Simulation");
+        startSimulationButton.setOnMouseClicked(
+            (MouseEvent event) ->
+            {
+                Scene simulationScene = this.prepareScene();
+                this.primaryStage.setScene(simulationScene);
+                this.primaryStage.show();
+            });
+
+        vBox.getChildren().addAll(simulationTitle, hBox, startSimulationButton);
+
+        Scene scene = new Scene(vBox, 605, 200);
+        this.primaryStage.setScene(scene);
+        this.primaryStage.show();
+    }
+
+    public Scene prepareScene()
+    {
+        String simulationName = null;
+        FauxbotModule desiredModule = null;;
+        switch (this.desiredSimulation)
+        {
+            case Elevator:
+                simulationName = "Elevator Simulation";
+                desiredModule = new ElevatorFauxbotModule();
+                break;
+
+            case Forklift:
+                simulationName = "Forklift Simulation";
+                desiredModule = new ForkliftFauxbotModule();
+                break;
+            
+            case GarageDoor:
+                simulationName = "GarageDoor Simulation";
+                desiredModule = new GarageDoorFauxbotModule();
+                break;
+        }
+
+        this.robot = new CoreRobot<FauxbotModule>(desiredModule);
+
+        this.simulator = this.robot.getInjector().getInstance(IRealWorldSimulator.class);
+        this.runner = new FauxbotRunner(this.robot, this);
+        this.runnerThread = new Thread(this.runner);
         this.robot.robotInit();
 
         IButtonMap buttonMap = this.robot.getInjector().getInstance(IButtonMap.class);
 
-        primaryStage.setTitle("Fauxbot");
+        String fontDefault = "Arial";
+
+        Label simulationTitle = new Label(simulationName);
+        simulationTitle.setFont(Font.font(fontDefault, FontWeight.NORMAL, 30));
+        simulationTitle.setMaxWidth(Double.MAX_VALUE);
+        simulationTitle.setAlignment(Pos.CENTER);
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -76,28 +150,29 @@ public class FauxbotApplication extends Application
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         int rowCount = 0;
-        String fontDefault = "Arial";
 
         Text modeTitle = new Text("Mode");
         modeTitle.setFont(Font.font(fontDefault, FontWeight.NORMAL, 20));
         grid.add(modeTitle, 0, rowCount, 1, 1);
 
+        HBox hBox = new HBox();
+        hBox.setSpacing(10);
+
         ToggleGroup modeGroup = new ToggleGroup();
         RadioButton autonomousButton = new RadioButton("Autonomous");
         autonomousButton.setUserData(FauxbotRunner.RobotMode.Autonomous);
         autonomousButton.setToggleGroup(modeGroup);
-        grid.add(autonomousButton, 1, rowCount, 1, 1);
 
         RadioButton disabledButton = new RadioButton("Disabled");
         disabledButton.setUserData(FauxbotRunner.RobotMode.Disabled);
         disabledButton.setToggleGroup(modeGroup);
         disabledButton.setSelected(true);
-        grid.add(disabledButton, 2, rowCount, 1, 1);
 
         RadioButton teleopButton = new RadioButton("Teleop");
         teleopButton.setUserData(FauxbotRunner.RobotMode.Teleop);
         teleopButton.setToggleGroup(modeGroup);
-        grid.add(teleopButton, 3, rowCount, 1, 1);
+        hBox.getChildren().addAll(autonomousButton, disabledButton, teleopButton);
+        grid.add(hBox, 1, rowCount, 3, 1);
 
         modeGroup.selectedToggleProperty().addListener(
             new ChangeListener<Toggle>()
@@ -382,7 +457,7 @@ public class FauxbotApplication extends Application
         this.canvas = new Canvas(200, 200);
         grid.add(this.canvas, 2, 2, 2, rowCount);
 
-        Parent root = grid;
+        Parent root = new VBox(10, simulationTitle, grid);
         int width = 605;
         int height;
         if (rowCount < 5)
@@ -395,17 +470,16 @@ public class FauxbotApplication extends Application
         }
         else
         {
-            root = new ScrollPane(grid);
+            root = new ScrollPane(root);
             height = 500;
         }
 
         Scene scene = new Scene(root, width, height);
 
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
         // start the runner:
         this.runnerThread.start();
+
+        return scene;
     }
 
     public void refresh()
@@ -420,8 +494,14 @@ public class FauxbotApplication extends Application
     @Override
     public void stop() throws Exception
     {
-        this.runner.stop();
-        this.runnerThread.join(500);
+        if (this.runner != null)
+        {
+            this.runner.stop();
+            if (this.runnerThread != null)
+            {
+                this.runnerThread.join(500);
+            }
+        }
     }
 
     public static void main(String[] args) throws InterruptedException, IOException
