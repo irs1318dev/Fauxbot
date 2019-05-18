@@ -90,11 +90,4 @@ public class FauxbotRunner implements Runnable
     {
         this.stop = true;
     }
-
-    public enum RobotMode
-    {
-        Disabled,
-        Autonomous,
-        Teleop,
-    }
 }

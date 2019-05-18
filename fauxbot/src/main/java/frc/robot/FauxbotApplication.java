@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import frc.robot.ElectronicsConstants;
 import frc.robot.FauxbotModule;
-import frc.robot.FauxbotRunner.RobotMode;
+import frc.robot.RobotMode;
 import frc.robot.common.robotprovider.*;
 import frc.robot.driver.MacroOperation;
 import frc.robot.driver.Operation;
@@ -27,13 +27,6 @@ import javafx.stage.*;
 
 public class FauxbotApplication extends Application
 {
-    public enum Simulation
-    {
-        Forklift,
-        Elevator,
-        GarageDoor,
-    }
-
     private Stage primaryStage;
 
     private FauxbotRunner runner;
@@ -67,21 +60,27 @@ public class FauxbotApplication extends Application
         HBox hBox = new HBox();
         hBox.setSpacing(10);
         hBox.setAlignment(Pos.CENTER);
+
         ToggleGroup simulationGroup = new ToggleGroup();
-        RadioButton forkliftButton = new RadioButton("Forklift");
-        forkliftButton.setUserData(Simulation.Forklift);
-        forkliftButton.setToggleGroup(simulationGroup);
-        forkliftButton.setSelected(true);
-        this.desiredSimulation = Simulation.Forklift;
+        Simulation[] allSimulationValues = Simulation.values();
+        RadioButton[] simulationButtons = new RadioButton[allSimulationValues.length];
+        for (int i = 0; i < allSimulationValues.length; i++)
+        {
+            Simulation value = allSimulationValues[i];
 
-        RadioButton elevatorButton = new RadioButton("Elevator");
-        elevatorButton.setUserData(Simulation.Elevator);
-        elevatorButton.setToggleGroup(simulationGroup);
+            RadioButton button = new RadioButton(value.toString());
+            button.setUserData(value);
+            button.setToggleGroup(simulationGroup);
+            simulationButtons[i] = button;
 
-        RadioButton garageDoorButton = new RadioButton("GarageDoor");
-        garageDoorButton.setUserData(Simulation.GarageDoor);
-        garageDoorButton.setToggleGroup(simulationGroup);
-        hBox.getChildren().addAll(forkliftButton, elevatorButton, garageDoorButton);
+            if (i == 0)
+            {
+                this.desiredSimulation = value;
+                button.setSelected(true);
+            }
+        }
+
+        hBox.getChildren().addAll(simulationButtons);
 
         simulationGroup.selectedToggleProperty().addListener(
             (ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) ->
@@ -159,19 +158,24 @@ public class FauxbotApplication extends Application
         hBox.setSpacing(10);
 
         ToggleGroup modeGroup = new ToggleGroup();
-        RadioButton autonomousButton = new RadioButton("Autonomous");
-        autonomousButton.setUserData(FauxbotRunner.RobotMode.Autonomous);
-        autonomousButton.setToggleGroup(modeGroup);
+        RobotMode[] allModeValues = RobotMode.values();
+        RadioButton[] modeButtons = new RadioButton[allModeValues.length];
+        for (int i = 0; i < allModeValues.length; i++)
+        {
+            RobotMode value = allModeValues[i];
 
-        RadioButton disabledButton = new RadioButton("Disabled");
-        disabledButton.setUserData(FauxbotRunner.RobotMode.Disabled);
-        disabledButton.setToggleGroup(modeGroup);
-        disabledButton.setSelected(true);
+            RadioButton button = new RadioButton(value.toString());
+            button.setUserData(value);
+            button.setToggleGroup(modeGroup);
+            modeButtons[i] = button;
 
-        RadioButton teleopButton = new RadioButton("Teleop");
-        teleopButton.setUserData(FauxbotRunner.RobotMode.Teleop);
-        teleopButton.setToggleGroup(modeGroup);
-        hBox.getChildren().addAll(autonomousButton, disabledButton, teleopButton);
+            if (value == RobotMode.Disabled)
+            {
+                button.setSelected(true);
+            }
+        }
+
+        hBox.getChildren().addAll(modeButtons);
         grid.add(hBox, 1, rowCount, 3, 1);
 
         modeGroup.selectedToggleProperty().addListener(
@@ -185,14 +189,20 @@ public class FauxbotApplication extends Application
 
         rowCount++;
 
-        Text buttonsTitle = new Text("Buttons");
-        buttonsTitle.setFont(Font.font(fontDefault, FontWeight.NORMAL, 20));
-        grid.add(buttonsTitle, 0, rowCount++, 2, 1);
+        boolean firstOperation = true;
         for (Operation op : Operation.values())
         {
             OperationDescription description = buttonMap.getOperationSchema().getOrDefault(op, null);
             if (description != null)
             {
+                if (firstOperation)
+                {
+                    Text buttonsTitle = new Text("Buttons");
+                    buttonsTitle.setFont(Font.font(fontDefault, FontWeight.NORMAL, 20));
+                    grid.add(buttonsTitle, 0, rowCount++, 2, 1);
+                    firstOperation = false;
+                }
+
                 int joystickPort = -1;
                 if (description.getUserInputDevice() == UserInputDevice.Driver)
                 {
@@ -267,19 +277,28 @@ public class FauxbotApplication extends Application
             }
         }
 
-        // add a spacer:
-        rowCount++;
+        if (!firstOperation)
+        {
+            // if there were any buttons in the list, add a spacer:
+            rowCount++;
+        }
 
+        boolean firstMacro = true;
         if (MacroOperation.values().length > 0)
         {
-            Text macrosTitle = new Text("Macros");
-            macrosTitle.setFont(Font.font(fontDefault, FontWeight.NORMAL, 20));
-            grid.add(macrosTitle, 0, rowCount++, 2, 1);
             for (MacroOperation op : MacroOperation.values())
             {
                 MacroOperationDescription description = buttonMap.getMacroOperationSchema().getOrDefault(op, null);
                 if (description != null)
                 {
+                    if (firstMacro)
+                    {
+                        Text macrosTitle = new Text("Macros");
+                        macrosTitle.setFont(Font.font(fontDefault, FontWeight.NORMAL, 20));
+                        grid.add(macrosTitle, 0, rowCount++, 2, 1);
+                        firstMacro = false;
+                    }
+
                     int joystickPort = -1;
                     if (description.getUserInputDevice() == UserInputDevice.Driver)
                     {
@@ -337,19 +356,27 @@ public class FauxbotApplication extends Application
                 }
             }
 
-            // add a spacer:
-            rowCount++;
+            if (!firstMacro)
+            {
+                // if there were any macros in the list, add a spacer:
+                rowCount++;
+            }
         }
 
-        Text sensorsTitle = new Text("Sensors");
-        sensorsTitle.setFont(Font.font(fontDefault, FontWeight.NORMAL, 20));
-        grid.add(sensorsTitle, 0, rowCount++, 2, 1);
-
+        boolean firstSensor = true;
         for (FauxbotSensorConnection connection : FauxbotSensorManager.sensorMap.keySet())
         {
             FauxbotSensorBase sensor = FauxbotSensorManager.get(connection);
             if (sensor != null)
             {
+                if (firstSensor)
+                {
+                    Text sensorsTitle = new Text("Sensors");
+                    sensorsTitle.setFont(Font.font(fontDefault, FontWeight.NORMAL, 20));
+                    grid.add(sensorsTitle, 0, rowCount++, 2, 1);
+                    firstSensor = false;
+                }
+
                 String sensorName = this.simulator.getSensorName(connection) + ":";
 
                 int thisRowIndex = rowCount;
@@ -393,17 +420,26 @@ public class FauxbotApplication extends Application
             }
         }
 
-        // add a spacer:
-        rowCount++;
+        if (!firstSensor)
+        {
+            // if there were any sensors in the list, add a spacer:
+            rowCount++;
+        }
 
-        Text motorsTitle = new Text("Actuators");
-        motorsTitle.setFont(Font.font(fontDefault, FontWeight.NORMAL, 20));
-        grid.add(motorsTitle, 0, rowCount++, 2, 1);
+        boolean firstActuator = true;
         for (FauxbotActuatorConnection connection : FauxbotActuatorManager.actuatorMap.keySet())
         {
             FauxbotActuatorBase actuator = FauxbotActuatorManager.get(connection);
             if (actuator != null)
             {
+                if (firstActuator)
+                {
+                    Text motorsTitle = new Text("Actuators");
+                    motorsTitle.setFont(Font.font(fontDefault, FontWeight.NORMAL, 20));
+                    grid.add(motorsTitle, 0, rowCount++, 2, 1);
+                    firstActuator = false;
+                }
+
                 String motorName = this.simulator.getActuatorName(connection) + ":";
 
                 int thisRowIndex = rowCount;
@@ -462,11 +498,11 @@ public class FauxbotApplication extends Application
         int height;
         if (rowCount < 5)
         {
-            height = 200;
+            height = 250;
         }
-        else if (rowCount < 15)
+        else if (rowCount < 8)
         {
-            height = 200 + (rowCount - 5) * 30;
+            height = 250 + (rowCount - 5) * 30;
         }
         else
         {
