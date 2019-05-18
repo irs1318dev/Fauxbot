@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>irs1318_general</name>
-	<comment>Project irs1318_general created by Buildship.</comment>
+	<name>fauxbot</name>
+	<comment>Project fauxbot created by Buildship.</comment>
 	<projects>
+		<project>core</project>
+		<project>fauxbot</project>
+		<project>robot</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

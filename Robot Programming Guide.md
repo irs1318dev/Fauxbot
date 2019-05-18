@@ -242,16 +242,16 @@ To prepare your computer for Robot programming with our team, you will need to f
       6. Click ok to close the Environment Variables and System Properties windows.
       7. Restart your computer.
 3. Get the code onto your local machine.
-   1. Copy the repository's URL.  In GitHub, find the repository you are interested in, click the "Clone or download" button, and then copy the text (e.g. "https://github.com/irs1318dev/irs1318_general.git").
+   1. Copy the repository's URL.  In GitHub, find the repository you are interested in, click the "Clone or download" button, and then copy the text (e.g. "https://github.com/irs1318dev/Fauxbot.git").
    2. Using commandline:
       1. Open a commandline window.  On Windows, search for "cmd" or "Command Prompt".  Navigate within your directory structure to a directory where you'd like to keep your source files (e.g. "```cd C:\Users\username\git\```").
-      2. Run the following git command to clone the repository to your local machine: "```git clone https://github.com/irs1318dev/irs1318_general.git```"
-      3. Once the repository has been cloned, navigate into the main directory (e.g. "```cd C:\Users\username\git\irs1318_general```") and tell Gradle to build the code in the directory (type "```gradlew build```").  If gradle hasn't been installed yet, this should trigger it to be installed.
+      2. Run the following git command to clone the repository to your local machine: "```git clone https://github.com/irs1318dev/Fauxbot.git```"
+      3. Once the repository has been cloned, navigate into the main directory (e.g. "```cd C:\Users\username\git\Fauxbot```") and tell Gradle to build the code in the directory (type "```gradlew build```").  If gradle hasn't been installed yet, this should trigger it to be installed.
       4. Open VS Code for this project.  In the main directory, type "```frccode2019 .```".  This will tell VS Code to open with a reference to the folder you are currently exploring within cmd.
     3. Using GitHub Desktop:
        1. Open GitHub Desktop.  For the best experience, you will need a GitHub user account that has been added to the irs1318dev group.  If you haven't done that, consider doing that first.
-       2. Go to File --> Clone Repository.  If you have been added to the irs1318dev group, you can select the repository you want (e.g. "irs1318dev/irs1318_general") from a list of repositories under the GitHub.com tab.  Otherwise, go to the the URL tab and enter the repository you want (e.g. "irs1318dev/irs1318_general") in the text box.  Then choose a local path where this repository will be cloned (e.g. "C:\Users\username\git\irs1318_general") and click the clone button.
-       3. Open VS Code for this project.  Open VS Code and open the folder where code is located by going to File --> Open Folder, and selecting the folder within the one where the repository was cloned (e.g. "C:\Users\username\git\irs1318_general").
+       2. Go to File --> Clone Repository.  If you have been added to the irs1318dev group, you can select the repository you want (e.g. "irs1318dev/Fauxbot") from a list of repositories under the GitHub.com tab.  Otherwise, go to the the URL tab and enter the repository you want (e.g. "irs1318dev/Fauxbot") in the text box.  Then choose a local path where this repository will be cloned (e.g. "C:\Users\username\git\Fauxbot") and click the clone button.
+       3. Open VS Code for this project.  Open VS Code and open the folder where code is located by going to File --> Open Folder, and selecting the folder within the one where the repository was cloned (e.g. "C:\Users\username\git\Fauxbot").
 
 If you have issues building the code using gradle for the first time, it may be one of the following issues:
 1. Insufficient disk space.  If you get a message talking about not being able to copy a file or create a directory, it may be a disk space issue.  Please clear some space so you have enough to build.
@@ -276,7 +276,7 @@ You will need to navigate around in order to do anything useful.  To look at the
 7. "```git branch -c master branchname```" command will create a new topic branch off of the master branch.
 8. "```git pull```" command will update your local repository with changes that have been pushed to the remote repository.
 9. "```git checkout branchname```" command will switch your working directory to look at a different branch.
-10. "```git clone https://github.com/irs1318dev/irs1318_general.git```" command will clone the repository tracked at the provided url, creating a local copy that you can use to make changes.
+10. "```git clone https://github.com/irs1318dev/Fauxbot.git```" command will clone the repository tracked at the provided url, creating a local copy that you can use to make changes.
 
 For more information about Git in command prompt, look here:
 [GitHub's git cheat-sheet](https://services.github.com/on-demand/downloads/github-git-cheat-sheet/)
