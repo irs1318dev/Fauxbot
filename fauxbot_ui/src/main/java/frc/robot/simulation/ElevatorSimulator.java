@@ -80,6 +80,7 @@ public class ElevatorSimulator implements IRealWorldSimulator
         this.prevVelocity = 0.0;
     }
 
+    @Override
     public String getSensorName(FauxbotSensorConnection connection)
     {
         if (this.sensorNameMap.containsKey(connection))
@@ -90,16 +91,19 @@ public class ElevatorSimulator implements IRealWorldSimulator
         return "Sensor " + connection;
     }
 
+    @Override
     public double getSensorMin(FauxbotSensorConnection connection)
     {
         return ElevatorSimulator.ElevatorMinHeight;
     }
 
+    @Override
     public double getSensorMax(FauxbotSensorConnection connection)
     {
         return ElevatorSimulator.ElevatorMaxHeight;
     }
 
+    @Override
     public String getActuatorName(FauxbotActuatorConnection connection)
     {
         if (this.motorNameMap.containsKey(connection))
@@ -110,16 +114,19 @@ public class ElevatorSimulator implements IRealWorldSimulator
         return "Motor " + connection;
     }
 
+    @Override
     public double getMotorMin(FauxbotActuatorConnection connection)
     {
         return -1.0;
     }
 
+    @Override
     public double getMotorMax(FauxbotActuatorConnection connection)
     {
         return 1.0;
     }
 
+    @Override
     public void update()
     {
         double currTime = Calendar.getInstance().getTime().getTime() / 1000.0;
@@ -175,6 +182,7 @@ public class ElevatorSimulator implements IRealWorldSimulator
      * Draw a frame of animation based on the current state of the simulation.
      * Remember that (0, 0) is at the top left!
      */
+    @Override
     public void draw(Canvas canvas)
     {
         double elevatorHeightRatio = this.prevHeight / (ElevatorSimulator.ElevatorMaxHeight - ElevatorSimulator.ElevatorMinHeight);
