@@ -65,21 +65,25 @@ public class ForkliftSimulator implements IRealWorldSimulator
         }
     }
 
+    @Override
     public String getSensorName(FauxbotSensorConnection connection)
     {
         return "Sensor " + connection;
     }
 
+    @Override
     public double getSensorMin(FauxbotSensorConnection connection)
     {
         return -1.0;
     }
 
+    @Override
     public double getSensorMax(FauxbotSensorConnection connection)
     {
         return 1.0;
     }
 
+    @Override
     public String getActuatorName(FauxbotActuatorConnection connection)
     {
         if (this.actuatorNameMap.containsKey(connection))
@@ -90,16 +94,19 @@ public class ForkliftSimulator implements IRealWorldSimulator
         return "Motor " + connection;
     }
 
+    @Override
     public double getMotorMin(FauxbotActuatorConnection connection)
     {
         return -1.0;
     }
 
+    @Override
     public double getMotorMax(FauxbotActuatorConnection connection)
     {
         return 1.0;
     }
 
+    @Override
     public void update()
     {
         FauxbotActuatorBase leftDriveActuator = FauxbotActuatorManager.get(ForkliftSimulator.LeftMotorConnection);
