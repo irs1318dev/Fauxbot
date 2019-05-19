@@ -26,6 +26,12 @@ public class RobotProvider implements IRobotProvider
     }
 
     @Override
+    public ISparkMax getSparkMax(int deviceID, SparkMaxMotorType motorType)
+    {
+        return new SparkMaxWrapper(deviceID, motorType);
+    }
+
+    @Override
     public ICompressor getCompressor()
     {
         return new CompressorWrapper();
