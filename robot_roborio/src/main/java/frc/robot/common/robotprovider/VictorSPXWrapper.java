@@ -58,10 +58,10 @@ public class VictorSPXWrapper implements IVictorSPX
         this.wrappedObject.setInverted(invert);
     }
 
-    public void setNeutralMode(TalonSRXNeutralMode neutralMode)
+    public void setNeutralMode(MotorNeutralMode neutralMode)
     {
         NeutralMode mode;
-        if (neutralMode == TalonSRXNeutralMode.Brake)
+        if (neutralMode == MotorNeutralMode.Brake)
         {
             mode = NeutralMode.Brake;
         }

@@ -10,8 +10,9 @@ import frc.robot.vision.VisionCalculations;
 public class TestProvider implements IRobotProvider
 {
     private HashMap<Integer, IAnalogInput> analogInputMap = new HashMap<Integer, IAnalogInput>();
-    private HashMap<Integer, ITalonSRX> canTalonMap = new HashMap<Integer, ITalonSRX>();
-    private HashMap<Integer, IVictorSPX> canVictorMap = new HashMap<Integer, IVictorSPX>();
+    private HashMap<Integer, ITalonSRX> talonSrxMap = new HashMap<Integer, ITalonSRX>();
+    private HashMap<Integer, IVictorSPX> victorSpxMap = new HashMap<Integer, IVictorSPX>();
+    private HashMap<Integer, ISparkMax> sparkMaxMap = new HashMap<Integer, ISparkMax>();
     private HashMap<Integer, ICompressor> compressorMap = new HashMap<Integer, ICompressor>();
     private HashMap<Integer, IDigitalInput> digitalInputMap = new HashMap<Integer, IDigitalInput>();
     private HashMap<Integer, HashMap<Integer, IDoubleSolenoid>> doubleSolenoidModuleMap = new HashMap<Integer, HashMap<Integer, IDoubleSolenoid>>();
@@ -37,23 +38,34 @@ public class TestProvider implements IRobotProvider
     @Override
     public ITalonSRX getTalonSRX(int deviceNumber)
     {
-        if (!this.canTalonMap.containsKey(deviceNumber))
+        if (!this.talonSrxMap.containsKey(deviceNumber))
         {
-            this.canTalonMap.put(deviceNumber, mock(ITalonSRX.class));
+            this.talonSrxMap.put(deviceNumber, mock(ITalonSRX.class));
         }
 
-        return this.canTalonMap.get(deviceNumber);
+        return this.talonSrxMap.get(deviceNumber);
     }
 
     @Override
     public IVictorSPX getVictorSPX(int deviceNumber)
     {
-        if (!this.canVictorMap.containsKey(deviceNumber))
+        if (!this.victorSpxMap.containsKey(deviceNumber))
         {
-            this.canVictorMap.put(deviceNumber, mock(IVictorSPX.class));
+            this.victorSpxMap.put(deviceNumber, mock(IVictorSPX.class));
         }
 
-        return this.canVictorMap.get(deviceNumber);
+        return this.victorSpxMap.get(deviceNumber);
+    }
+
+    @Override
+    public ISparkMax getSparkMax(int deviceID, SparkMaxMotorType motorType)
+    {
+        if (!this.sparkMaxMap.containsKey(deviceID))
+        {
+            this.sparkMaxMap.put(deviceID, mock(ISparkMax.class));
+        }
+
+        return this.sparkMaxMap.get(deviceID);
     }
 
     @Override

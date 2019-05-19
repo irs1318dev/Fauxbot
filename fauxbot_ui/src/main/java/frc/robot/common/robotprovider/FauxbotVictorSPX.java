@@ -19,7 +19,7 @@ public class FauxbotVictorSPX extends FauxbotAdvancedMotorBase implements IVicto
     {
     }
 
-    public void setNeutralMode(TalonSRXNeutralMode neutralMode)
+    public void setNeutralMode(MotorNeutralMode neutralMode)
     {
     }
 

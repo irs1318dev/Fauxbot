@@ -131,7 +131,7 @@ public class FauxbotTalonSRX extends FauxbotAdvancedMotorBase implements ITalonS
     {
     }
 
-    public void setNeutralMode(TalonSRXNeutralMode neutralMode)
+    public void setNeutralMode(MotorNeutralMode neutralMode)
     {
     }
 
