@@ -1,0 +1,98 @@
+import org.gradle.internal.os.OperatingSystem
+
+plugins
+{
+    id "java"
+    id "eclipse"
+    id "edu.wpi.first.GradleRIO" version "2019.4.1"
+}
+
+def ROBOT_CLASS = "frc.robot.Robot"
+def ROBOT_MAIN_CLASS = "frc.robot.Main"
+
+// Define my targets (RoboRIO) and artifacts (deployable files)
+// This is added by GradleRIO's backing project EmbeddedTools.
+deploy {
+    targets {
+        roboRIO("roborio") {
+            // Team number is loaded either from the .wpilib/wpilib_preferences.json
+            // or from command line. If not found an exception will be thrown.
+            // You can use getTeamOrDefault(team) instead of getTeamNumber if you
+            // want to store a team number in this file.
+            team = frc.getTeamNumber()
+        }
+    }
+    artifacts {
+        frcJavaArtifact('frcJava') {
+            targets << "roborio"
+            // Debug can be overridden by command line, for use with VSCode
+            debug = frc.getDebugOrDefault(false)
+        }
+        // Built in artifact to deploy arbitrary files to the roboRIO.
+        fileTreeArtifact('frcStaticFileDeploy') {
+            // The directory below is the local directory to deploy
+            files = fileTree(dir: 'src/main/deploy')
+            // Deploy to RoboRIO target, into /home/lvuser/deploy
+            targets << "roborio"
+            directory = '/home/lvuser/deploy'
+        }
+    }
+}
+
+// Set this to true to enable desktop support.
+def includeDesktopSupport = false
+
+repositories
+{
+    mavenCentral()
+    mavenLocal()
+    gradlePluginPortal()
+    String frcYear = '2019'
+    File frcHome
+    if (OperatingSystem.current().isWindows()) {
+        String publicFolder = System.getenv('PUBLIC')
+        if (publicFolder == null) {
+            publicFolder = "C:\\Users\\Public"
+        }
+        frcHome = new File(publicFolder, "frc${frcYear}")
+    } else {
+        def userFolder = System.getProperty("user.home")
+        frcHome = new File(userFolder, "frc${frcYear}")
+    }
+    def frcHomeMaven = new File(frcHome, 'maven')
+    maven {
+        name 'frcHome'
+        url frcHomeMaven
+    }
+}
+
+// Defining my dependencies. In this case, WPILib (+ friends), CTRE Toolsuite (Talon SRX)
+// and NavX.
+dependencies {
+    compile project(':core_robot')
+
+    compile wpi.deps.wpilib()
+    compile wpi.deps.vendor.java()
+    nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
+    nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
+
+    compile group: 'javax.inject', name: 'javax.inject', version: '1'
+    compile "com.google.guava:guava:21.0"
+    compile "com.google.inject:guice:4.1.0:no_aop"
+
+    testCompile "org.mockito:mockito-all:1.10.19"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.1.0"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.1.0"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
+// in order to make them all available at runtime. Also adding the manifest so WPILib
+// knows where to look for our Robot Class.
+jar {
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
+}

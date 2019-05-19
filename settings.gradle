@@ -24,6 +24,6 @@ pluginManagement {
     }
 }
 
-include 'core'
-include 'robot'
-include 'fauxbot'
+include 'core_robot'
+include 'robot_roborio'
+include 'fauxbot_ui'
