@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.simulation;
 
 public enum Simulation
 {

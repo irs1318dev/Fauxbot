@@ -12,6 +12,7 @@ import frc.robot.driver.common.IButtonMap;
 import frc.robot.driver.common.UserInputDeviceButton;
 import frc.robot.driver.common.buttons.ButtonType;
 import frc.robot.driver.common.descriptions.*;
+import frc.robot.simulation.*;
 
 import javafx.application.*;
 import javafx.beans.binding.*;

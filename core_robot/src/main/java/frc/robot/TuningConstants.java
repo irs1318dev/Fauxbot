@@ -5,6 +5,7 @@ import java.util.*;
 import com.google.inject.Injector;
 
 import frc.robot.common.*;
+import frc.robot.mechanisms.*;
 
 /**
  * All constants related to tuning the operation of the robot.
@@ -20,7 +21,9 @@ public class TuningConstants
     public static List<IMechanism> GetActiveMechanisms(Injector injector)
     {
         List<IMechanism> mechanismList = new ArrayList<IMechanism>();
-        //mechanismList.add(injector.getInstance(SomeMechanism.class));
+        //mechanismList.add(injector.getInstance(ElevatorMechanism.class));
+        mechanismList.add(injector.getInstance(ForkliftMechanism.class));
+        //mechanismList.add(injector.getInstance(GarageDoorMechanism.class));
         return mechanismList;
     }
 
