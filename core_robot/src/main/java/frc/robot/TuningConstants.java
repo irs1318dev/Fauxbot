@@ -5,7 +5,6 @@ import java.util.*;
 import com.google.inject.Injector;
 
 import frc.robot.common.*;
-import frc.robot.mechanisms.*;
 
 /**
  * All constants related to tuning the operation of the robot.
