@@ -1,0 +1,15 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Fauxbot Debug",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "Fauxbot",
+            "args": "",
+            "projectName": "fauxbot_ui"
+        }
+    ]
+}

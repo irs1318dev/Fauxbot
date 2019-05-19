@@ -1,0 +1,60 @@
+plugins
+{
+    id "java"
+    id "application"
+    id "org.openjfx.javafxplugin" version "0.0.7"
+}
+
+repositories
+{
+    mavenCentral()
+    mavenLocal()
+    gradlePluginPortal()
+}
+
+def currentOS = org.gradle.internal.os.OperatingSystem.current()
+def platform
+if (currentOS.isWindows()) {
+    platform = 'win'
+} else if (currentOS.isLinux()) {
+    platform = 'linux'
+} else if (currentOS.isMacOsX()) {
+    platform = 'mac'
+}
+
+// Defining my dependencies. In this case, javax.inject, Guava, Guice, JavaFX
+dependencies
+{
+    compile project(':core_robot')
+
+    compile "javax.inject:javax.inject:1"
+    compile "com.google.guava:guava:21.0"
+    compile "com.google.inject:guice:4.1.0:no_aop"
+
+    implementation "org.openpnp:opencv:3.4.2-1"
+
+    testCompile "org.mockito:mockito-all:1.10.19"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.1.0"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.1.0"
+}
+
+javafx {
+    version = "11"
+    modules = [ "javafx.controls", "javafx.graphics" ]
+}
+
+test {
+    useJUnitPlatform()
+    workingDir = ".."
+}
+
+mainClassName = 'Fauxbot'
+
+// Setting up my Jar File.
+version = '1.0'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Fauxbot',
+                   'Implementation-Version': version
+    }
+}

@@ -1,0 +1,27 @@
+{
+	"folders": [
+		{
+			"path": "core_robot"
+		},
+		{
+			"path": "fauxbot_ui"
+		},
+		{
+			"path": "robot_roborio"
+		}
+	],
+	"settings": {
+		"java.configuration.updateBuildConfiguration": "interactive"
+	},
+	"launch": {
+		"configurations": [
+			{
+				"type": "java",
+				"name": "CodeLens (Launch) - Fauxbot",
+				"request": "launch",
+				"mainClass": "Fauxbot",
+				"projectName": "fauxbot_ui"
+			}
+		]
+	}
+}
