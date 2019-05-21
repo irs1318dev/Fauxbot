@@ -7,4 +7,8 @@ public enum Operation
     // Forklift operations:
 
     // Elevator operations:
+
+    // Printer operations:
+
+    // Shooter operations:
 }

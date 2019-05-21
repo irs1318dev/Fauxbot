@@ -76,4 +76,10 @@ public class FauxbotEncoder extends FauxbotSensorBase implements IEncoder
     {
         return this.valueProperty;
     }
+
+    public void setRate(double value)
+    {
+        this.currRate = value;
+        this.valueProperty.set(value);
+    }
 }
