@@ -3,6 +3,7 @@ package frc.robot.mechanisms;
 import javax.inject.Singleton;
 
 import frc.robot.ElectronicsConstants;
+import frc.robot.TuningConstants;
 import frc.robot.common.IMechanism;
 import frc.robot.common.robotprovider.*;
 import frc.robot.driver.Operation;
@@ -98,11 +99,11 @@ public class GarageDoorMechanism implements IMechanism
                 break;
 
             case Opening:
-                this.motor.set(1.0);
+                this.motor.set(TuningConstants.GARAGEDOOR_OPENING_POWER);
                 break;
 
             case Closing:
-                this.motor.set(-1.0);
+                this.motor.set(TuningConstants.GARAGEDOOR_CLOSING_POWER);
                 break;
         }
     }

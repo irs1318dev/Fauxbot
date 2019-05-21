@@ -125,6 +125,16 @@ public class FauxbotApplication extends Application
                 simulationName = "GarageDoor Simulation";
                 desiredModule = new GarageDoorFauxbotModule();
                 break;
+
+            case Shooter:
+                simulationName = "Shooter Simulation";
+                desiredModule = new ShooterFauxbotModule();
+                break;
+
+            case Printer:
+                simulationName = "Printer Simulation";
+                desiredModule = new PrinterFauxbotModule();
+                break;
         }
 
         this.robot = new CoreRobot<FauxbotModule>(desiredModule);

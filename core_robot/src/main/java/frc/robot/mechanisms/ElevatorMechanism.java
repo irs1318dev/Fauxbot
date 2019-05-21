@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import frc.robot.ElectronicsConstants;
 import frc.robot.HardwareConstants;
+import frc.robot.TuningConstants;
 import frc.robot.common.IMechanism;
 import frc.robot.common.PIDHandler;
 import frc.robot.common.robotprovider.*;
@@ -35,7 +36,17 @@ public class ElevatorMechanism implements IMechanism
         this.driver = null;
 
         this.requestedFloor = Floor.One;
-        this.pid = new PIDHandler(1.0, 0.0, 0.1, 0.0, 1.0, -1.0, 1.0, "elevator", logger, timer);
+        this.pid = new PIDHandler(
+            TuningConstants.ELEVATOR_MOTOR_KP,
+            TuningConstants.ELEVATOR_MOTOR_KI,
+            TuningConstants.ELEVATOR_MOTOR_KD,
+            TuningConstants.ELEVATOR_MOTOR_KF,
+            TuningConstants.ELEVATOR_MOTOR_KS,
+            TuningConstants.ELEVATOR_MOTOR_MIN_POWER,
+            TuningConstants.ELEVATOR_MOTOR_MAX_POWER,
+            "elevator",
+            logger,
+            timer);
     }
     
     @Override

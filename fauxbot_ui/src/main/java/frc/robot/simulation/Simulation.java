@@ -5,4 +5,6 @@ public enum Simulation
     Forklift,
     Elevator,
     GarageDoor,
+    Shooter,
+    Printer,
 }

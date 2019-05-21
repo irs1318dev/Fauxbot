@@ -47,7 +47,6 @@ public class ButtonMap implements IButtonMap
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
                     ButtonType.Toggle));*/
-
             /*
             put(
                 Operation.ElevatorOneButton,
@@ -78,8 +77,9 @@ public class ButtonMap implements IButtonMap
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
-                    ButtonType.Click));*/
-
+                    ButtonType.Click));
+            */
+            /*
             put(
                 Operation.ForkliftDriveLeft,
                 new AnalogOperationDescription(
@@ -106,14 +106,63 @@ public class ButtonMap implements IButtonMap
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
                     ButtonType.Click));
-
+            */
             /*
             put(
                 Operation.GarageDoorButton,
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
-                    ButtonType.Click));*/
+                    ButtonType.Click));
+            */
+            /*
+            put(
+                Operation.PrinterMoveX,
+                new AnalogOperationDescription(
+                    UserInputDevice.Driver,
+                    AnalogAxis.X,
+                    ElectronicsConstants.INVERT_X_AXIS,
+                    0.0));
+            put(
+                Operation.PrinterMoveY,
+                new AnalogOperationDescription(
+                    UserInputDevice.Driver,
+                    AnalogAxis.Y,
+                    ElectronicsConstants.INVERT_Y_AXIS,
+                    0.0));
+            put(
+                Operation.PrinterPenDown,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
+                    ButtonType.Click));
+            put(
+                Operation.PrinterPenUp,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
+                    ButtonType.Click));
+            */
+
+            put(
+                Operation.ShooterAngle,
+                new AnalogOperationDescription(
+                    UserInputDevice.Driver,
+                    AnalogAxis.X,
+                    ElectronicsConstants.INVERT_X_AXIS,
+                    TuningConstants.DEAD_ZONE));
+            put(
+                Operation.ShooterSpin,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
+                    ButtonType.Toggle));
+            put(
+                Operation.ShooterFire,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
+                    ButtonType.Click));
         }
     };
 

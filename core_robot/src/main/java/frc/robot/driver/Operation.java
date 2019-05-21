@@ -17,4 +17,15 @@ public enum Operation
     ElevatorThreeButton,
     ElevatorFourButton,
     ElevatorFiveButton,
+
+    // Printer operations:
+    PrinterMoveX,
+    PrinterMoveY,
+    PrinterPenDown,
+    PrinterPenUp,
+
+    // Shooter operations:
+    ShooterAngle,
+    ShooterSpin,
+    ShooterFire,
 }

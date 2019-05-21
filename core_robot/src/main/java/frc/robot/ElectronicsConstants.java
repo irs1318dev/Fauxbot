@@ -37,7 +37,7 @@ public class ElectronicsConstants
 
     public static final int ELEVATOR_ENCODER_DIGITAL_CHANNEL_A = 0;
     public static final int ELEVATOR_ENCODER_DIGITAL_CHANNEL_B = 1;
-    
+
    //================================================== Forklift =======================================================
 
     public static final int FORKLIFT_DRIVE_LEFT_MOTOR_CAN_ID = 0;
@@ -45,4 +45,20 @@ public class ElectronicsConstants
 
     public static final int FORKLIFT_LIFTER_FORWARD_PCM_CHANNEL = 7;
     public static final int FORKLIFT_LIFTER_BACKWARD_PCM_CHANNEL = 8;
+
+    //================================================== Shooter =======================================================
+
+    public static final int SHOOTER_ANGLE_MOTOR_CAN_ID = 0;
+    public static final int SHOOTER_FLY_WHEEL_MOTOR_CAN_ID = 1;
+
+    public static final int SHOOTER_KICKER_FORWARD_PCM_CHANNEL = 7;
+    public static final int SHOOTER_KICKER_BACKWARD_PCM_CHANNEL = 8;
+
+    //================================================== Printer =======================================================
+
+    public static final int PRINTER_X_MOTOR_CAN_ID = 0;
+    public static final int PRINTER_Y_MOTOR_CAN_ID = 1; 
+
+    public static final int PRINTER_PEN_FORWARD_PCM_CHANNEL = 7;
+    public static final int PRINTER_PEN_BACKWARD_PCM_CHANNEL = 8;
 }
