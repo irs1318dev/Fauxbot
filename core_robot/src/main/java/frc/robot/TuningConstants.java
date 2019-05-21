@@ -20,15 +20,7 @@ public class TuningConstants
     public static List<IMechanism> GetActiveMechanisms(Injector injector)
     {
         List<IMechanism> mechanismList = new ArrayList<IMechanism>();
-<<<<<<< HEAD
         //mechanismList.add(injector.getInstance(SomeMechanism.class));
-=======
-        //mechanismList.add(injector.getInstance(ElevatorMechanism.class));
-        //mechanismList.add(injector.getInstance(ForkliftMechanism.class));
-        //mechanismList.add(injector.getInstance(GarageDoorMechanism.class));
-        mechanismList.add(injector.getInstance(ShooterMechanism.class));
-        //mechanismList.add(injector.getInstance(PrinterMechanism.class));
->>>>>>> ReferenceImplementation
         return mechanismList;
     }
 
