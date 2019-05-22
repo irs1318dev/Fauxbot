@@ -223,10 +223,13 @@ public class ShooterSimulator implements IRealWorldSimulator
         if (!this.prevKick && currKick)
         {
             double angle = currAngle * Math.PI / 180.0;
-            this.ballHorizontalVelocity = Math.cos(angle) * currWheelVelocity / 2.0;
-            this.ballVerticalVelocity = Math.sin(angle) * currWheelVelocity / 2.0;
-            this.ballDistance = 20.0;
-            this.ballHeight = 20.0;
+            this.ballHorizontalVelocity = Math.cos(angle) * currWheelVelocity;
+            this.ballVerticalVelocity = Math.sin(angle) * currWheelVelocity;
+
+            // have the starting location be where the front edge of the hood meets the fly-wheel 
+            double angleRad = (this.prevAngle + 90.0) * Math.PI / 180.0;
+            this.ballDistance = 11 + 7.5 * Math.cos(angleRad) - 2.5;
+            this.ballHeight = 11 + 7.5 * Math.sin(angleRad) + 2.5;
         }
         else if (this.ballHorizontalVelocity < 0.0 ||
             this.ballDistance > 200.0)
@@ -288,6 +291,7 @@ public class ShooterSimulator implements IRealWorldSimulator
         gc.strokeArc(1, canvasHeight - 21, 20, 20, this.prevAngle + 90.0, 90.0, ArcType.OPEN);
 
         // draw the ball
+        gc.setStroke(Color.RED);
         gc.setFill(Color.RED);
         if (this.ballDistance != 0.0 && this.ballHeight != 0.0)
         {
