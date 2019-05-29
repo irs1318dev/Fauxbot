@@ -15,6 +15,7 @@ import com.google.inject.Inject;
 @Singleton
 public class ShooterMechanism implements IMechanism
 {
+    private final IDashboardLogger logger;
     private final ITalonSRX angleMotor;
     private final ITalonSRX flyWheelMotor;
     private final IDoubleSolenoid kicker;
@@ -22,8 +23,10 @@ public class ShooterMechanism implements IMechanism
     private Driver driver;
 
     @Inject
-    public ShooterMechanism(IRobotProvider provider)
+    public ShooterMechanism(IDashboardLogger logger, IRobotProvider provider)
     {
+        this.logger = logger;
+
         this.angleMotor = provider.getTalonSRX(ElectronicsConstants.SHOOTER_ANGLE_MOTOR_CAN_ID);
         this.angleMotor.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
         this.angleMotor.setControlMode(TalonSRXControlMode.Position);
@@ -52,6 +55,8 @@ public class ShooterMechanism implements IMechanism
     @Override
     public void readSensors()
     {
+        this.logger.logNumber("shooter", "angle", this.angleMotor.getPosition());
+        this.logger.logNumber("shooter", "wheelSpeed", this.flyWheelMotor.getVelocity());
     }
 
     @Override
