@@ -256,7 +256,7 @@ public class ShooterSimulator implements IRealWorldSimulator
         if (angleSensor != null && angleSensor instanceof FauxbotEncoder)
         {
             FauxbotEncoder angleEncoder = (FauxbotEncoder)angleSensor;
-            angleEncoder.set(this.prevAngle);
+            angleEncoder.set((int)this.prevAngle);
         }
 
         FauxbotSensorBase wheelSensor = FauxbotSensorManager.get(ShooterSimulator.FlyWheelEncoderConnection);

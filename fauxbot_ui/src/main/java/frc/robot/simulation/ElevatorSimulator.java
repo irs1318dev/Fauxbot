@@ -174,7 +174,7 @@ public class ElevatorSimulator implements IRealWorldSimulator
         if (sensor != null && sensor instanceof FauxbotEncoder)
         {
             FauxbotEncoder encoder = (FauxbotEncoder)sensor;
-            encoder.set(this.prevHeight);
+            encoder.set((int)this.prevHeight);
         }
     }
 

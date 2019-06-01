@@ -103,11 +103,11 @@ public class FauxbotTalonSRX extends FauxbotAdvancedMotorBase implements ITalonS
         }
         else if (this.currentMode == TalonSRXControlMode.Velocity)
         {
-            super.set(this.pidHandler.calculateVelocity(newValue, innerEncoder.getRate()));
+            super.set(this.pidHandler.calculateVelocity(newValue, this.innerEncoder.getRate()));
         }
         else if (this.currentMode == TalonSRXControlMode.Position)
         {
-            super.set(this.pidHandler.calculatePosition(newValue, innerEncoder.get()));
+            super.set(this.pidHandler.calculatePosition(newValue, this.innerEncoder.get()));
         }
         else
         {
@@ -158,7 +158,7 @@ public class FauxbotTalonSRX extends FauxbotAdvancedMotorBase implements ITalonS
 
     public double getVelocity()
     {
-        return 0.0;
+        return (double)this.innerEncoder.getRate();
     }
 
     public double getError()

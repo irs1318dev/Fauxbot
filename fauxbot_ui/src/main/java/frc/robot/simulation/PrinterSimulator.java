@@ -250,14 +250,14 @@ public class PrinterSimulator implements IRealWorldSimulator
         if (xSensor != null && xSensor instanceof FauxbotEncoder)
         {
             FauxbotEncoder xEncoder = (FauxbotEncoder)xSensor;
-            xEncoder.set(this.prevX);
+            xEncoder.set((int)this.prevX);
         }
 
         FauxbotSensorBase ySensor = FauxbotSensorManager.get(PrinterSimulator.YEncoderConnection);
         if (ySensor != null && ySensor instanceof FauxbotEncoder)
         {
             FauxbotEncoder yEncoder = (FauxbotEncoder)ySensor;
-            yEncoder.set(this.prevY);
+            yEncoder.set((int)this.prevY);
         }
     }
 
