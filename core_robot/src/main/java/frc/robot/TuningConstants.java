@@ -51,17 +51,17 @@ public class TuningConstants
 
     //================================================== Shooter ==============================================================
 
-    public static final double SHOOTER_SPIN_SPEED = 100.0;
+    public static final double SHOOTER_SPIN_SPEED = 200.0;
 
 	public static final double SHOOTER_ANGLE_MOTOR_KP = 0.5;
 	public static final double SHOOTER_ANGLE_MOTOR_KI = 0.0;
 	public static final double SHOOTER_ANGLE_MOTOR_KD = 0.0;
     public static final double SHOOTER_ANGLE_MOTOR_KF = 0.0;
 
-	public static final double SHOOTER_FLY_WHEEL_MOTOR_KP = 0.1;
+	public static final double SHOOTER_FLY_WHEEL_MOTOR_KP = 0.2;
 	public static final double SHOOTER_FLY_WHEEL_MOTOR_KI = 0.0;
 	public static final double SHOOTER_FLY_WHEEL_MOTOR_KD = 0.0;
-    public static final double SHOOTER_FLY_WHEEL_MOTOR_KF = 0.005;
+    public static final double SHOOTER_FLY_WHEEL_MOTOR_KF = 0.0025;
 
     //================================================== Printer ==============================================================
 
