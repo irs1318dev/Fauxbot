@@ -189,19 +189,87 @@ public class PIDHandler
             }
             else
             {
-                this.integral += error;// * this.dt;
+                this.integral += error; // * this.dt;
             }
 
             // calculate derivative
-            double derivative = (error - this.prevError);// / this.dt;
+            double derivative = (error - this.prevError); // / this.dt;
 
             // store error
             this.prevError = error;
 
-            double result = this.kp * error +      // proportional
-                this.ki * this.integral +   // integral
-                this.kd * derivative + // derivative
-                this.kf * setpoint;    // feed-forward
+            double result = this.kp * error +   // proportional
+                this.ki * this.integral +       // integral
+                this.kd * derivative +          // derivative
+                this.kf * setpoint;             // feed-forward
+
+            if (this.maxOutput != null && result > this.maxOutput)
+            {
+                result = this.maxOutput;
+            }
+            else if (this.minOutput != null && result < this.minOutput)
+            {
+                result = this.minOutput;
+            }
+
+            // apply complementary filter to slow ramp-up/ramp-down
+            this.outputFilter.update(result);
+            this.output = this.outputFilter.getValue();
+            this.prevMeasuredValue = measuredValue;
+        }
+
+        return this.output;
+    }
+
+    /**
+     * Calculate the desired output value based on the setpoint and measured value.
+     * measuredValue should be in the same unit as the setpoint, typically a rate of change of something over time.
+     * This method should be called in a loop and fed feedback data and setpoint changes
+     * 
+     * @param setpoint describes the goal velocity value
+     * @param measuredValue describes the measured value
+     * 
+     * @return output value to be used
+     */
+    public double calculateVelocity(double setpoint, double measuredValue)
+    {
+        // update dt
+        double curTime = this.timer.get();
+        double dt = curTime - this.prevTime;
+
+        // To prevent division by zero and over-aggressive measurement, output updates at a max of 100 Hz
+        if (dt >= PIDHandler.MinTimeStep)
+        {
+            this.prevTime = curTime;
+
+            this.errorFilter.update(this.ks * setpoint - measuredValue);
+            double error = this.errorFilter.getValue();
+
+            // calculate integral, limiting it based on MaxOutput/MinOutput
+            double potentialI = this.ki * (this.integral + error * dt);
+            if (this.maxOutput != null && potentialI > this.maxOutput)
+            {
+                this.integral = this.maxOutput / this.ki;
+            }
+            else if (this.minOutput != null && potentialI < this.minOutput)
+            {
+                this.integral = this.minOutput / this.ki;
+            }
+            else
+            {
+                this.integral += error * dt;
+            }
+
+            // calculate derivative
+            double derivative = (error - this.prevError) / dt;
+
+            // store error
+            this.prevError = error;
+
+            double result = this.kp * error +   // proportional
+                this.ki * this.integral +       // integral
+                this.kd * derivative +          // derivative
+                this.kf * setpoint;             // feed-forward
 
             if (this.maxOutput != null && result > this.maxOutput)
             {
@@ -223,15 +291,16 @@ public class PIDHandler
 
     /**
      * Calculate the desired output value based on the history, setpoint, and measured value.
-     * measuredValue should be in the same unit as the setpoint, basically a positive or negative percentage 
-     * between -1 and 1.  This method should be called in a loop and fed feedback data and setpoint changes
+     * measuredValue should be in a different unit than the setpoint, where the setpoint is the rate of change
+     * of something over time, whereas the measured value is of the current "something" that is changing.
+     * This method should be called in a loop and fed feedback data and setpoint changes
      * 
      * @param setpoint describes the goal velocity value
      * @param measuredValue describes the measured value, where the measured value is the ticks on the encoder
      * 
      * @return output value to be used
      */
-    public double calculateVelocity(double setpoint, double measuredValue)
+    public double calculateVelocityByTicks(double setpoint, double measuredValue)
     {
         // update dt
         double curTime = this.timer.get();
@@ -275,10 +344,10 @@ public class PIDHandler
             // store error
             this.prevError = error;
 
-            double result = this.kp * error +      // proportional
-                this.ki * this.integral +   // integral
-                this.kd * derivative + // derivative
-                this.kf * setpoint;    // feed-forward
+            double result = this.kp * error +   // proportional
+                this.ki * this.integral +       // integral
+                this.kd * derivative +          // derivative
+                this.kf * setpoint;             // feed-forward
 
             if (this.maxOutput != null && result > this.maxOutput)
             {
