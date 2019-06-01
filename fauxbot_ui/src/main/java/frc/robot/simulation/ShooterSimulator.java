@@ -51,14 +51,14 @@ public class ShooterSimulator implements IRealWorldSimulator
     private static final double AngleMotorPower = 40.0;
     private static final double AngleSlowRatio = 1.0; // friction?
     private static final double AngleMinAbsoluteVelocity = 0.1;
-    private static final double FlyWheelMotorPower = 80.0;
-    private static final double FlyWheelSlowRatio = 0.1; // friction?
+    private static final double FlyWheelMotorPower = 300.0;
+    private static final double FlyWheelSlowRatio = 1.0; // friction?
     private static final double FlyWheelMinAbsoluteVelocity = 0.1;
 
     private static final double AngleMinVelocity = -22.5;
     private static final double AngleMaxVelocity = 22.5;
-    private static final double FlyWheelMinVelocity = -200.0;
-    private static final double FlyWheelMaxVelocity = 200.0;
+    private static final double FlyWheelMinVelocity = 0.0;
+    private static final double FlyWheelMaxVelocity = 400.0;
 
     private static final double GravityAcceleration = 384.0;
 
@@ -102,7 +102,7 @@ public class ShooterSimulator implements IRealWorldSimulator
             return ShooterSimulator.AngleMinPosition;
         }
 
-        return 0.0;
+        return ShooterSimulator.FlyWheelMinVelocity;
     }
 
     @Override
