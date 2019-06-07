@@ -254,7 +254,7 @@ public class FauxbotApplication extends Application
                             {
                                 CheckBox operationCheckBox = new CheckBox();
                                 grid.add(operationCheckBox, 1, thisRowIndex);
-                                if (button != UserInputDeviceButton.JOYSTICK_POV)
+                                if (button != UserInputDeviceButton.POV)
                                 {
                                     Bindings.bindBidirectional(joystick.getButtonProperty(button.Value), operationCheckBox.selectedProperty());
                                 }
@@ -281,7 +281,7 @@ public class FauxbotApplication extends Application
                             analogSlider.setShowTickMarks(true);
 
                             grid.add(analogSlider, 1, thisRowIndex);
-                            Bindings.bindBidirectional(joystick.getAxisProperty(analogDescription.getUserInputDeviceAxis()), analogSlider.valueProperty());
+                            Bindings.bindBidirectional(joystick.getAxisProperty(analogDescription.getUserInputDeviceAxis().Value), analogSlider.valueProperty());
                         }
                     }
                 }

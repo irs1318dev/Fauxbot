@@ -129,13 +129,13 @@ public class DigitalOperationState extends OperationState
             // find the appropriate button and grab the value from the relevant joystick
             relevantButton = description.getUserInputDeviceButton();
 
-            if (relevantButton == UserInputDeviceButton.JOYSTICK_POV)
+            if (relevantButton == UserInputDeviceButton.POV)
             {
                 buttonPressed = relevantJoystick.getPOV() == description.getUserInputDevicePovValue();
             }
             else if (relevantButton == UserInputDeviceButton.ANALOG_AXIS_RANGE)
             {
-                double value = relevantJoystick.getAxis(description.getUserInputDeviceAxis());
+                double value = relevantJoystick.getAxis(description.getUserInputDeviceAxis().Value);
                 buttonPressed =
                     value >= description.getUserInputDeviceRangeMin() &&
                     value <= description.getUserInputDeviceRangeMax();

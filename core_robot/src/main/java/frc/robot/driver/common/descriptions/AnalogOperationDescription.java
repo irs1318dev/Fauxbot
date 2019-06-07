@@ -1,7 +1,7 @@
 package frc.robot.driver.common.descriptions;
 
 import frc.robot.driver.Shift;
-import frc.robot.common.robotprovider.AnalogAxis;
+import frc.robot.driver.common.AnalogAxis;
 
 /**
  * Describes an operation that will give a double value (typically between -1 and 1).
@@ -63,7 +63,7 @@ public class AnalogOperationDescription extends OperationDescription
     {
         super(OperationType.Analog, UserInputDevice.Sensor, Shift.Any);
 
-        this.userInputDeviceAxis = AnalogAxis.None;
+        this.userInputDeviceAxis = AnalogAxis.NONE;
         this.shouldInvert = false;
         this.deadZone = 0.0;
 

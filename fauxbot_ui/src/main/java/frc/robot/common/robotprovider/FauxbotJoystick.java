@@ -13,13 +13,13 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class FauxbotJoystick implements IJoystick
 {
     private final Map<Integer, BooleanProperty> buttons;
-    private final Map<AnalogAxis, DoubleProperty> axes;
+    private final Map<Integer, DoubleProperty> axes;
     private IntegerProperty povProperty;
 
     public FauxbotJoystick(int port)
     {
         this.buttons = new HashMap<Integer, BooleanProperty>();
-        this.axes = new HashMap<AnalogAxis, DoubleProperty>();
+        this.axes = new HashMap<Integer, DoubleProperty>();
         this.povProperty = new SimpleIntegerProperty();
 
         FauxbotJoystickManager.set(port, this);
@@ -43,9 +43,9 @@ public class FauxbotJoystick implements IJoystick
         return this.povProperty.get();
     }
 
-    public double getAxis(AnalogAxis relevantAxis)
+    public double getAxis(int relevantAxis)
     {
-        if (relevantAxis == AnalogAxis.None || !this.axes.containsKey(relevantAxis))
+        if (!this.axes.containsKey(relevantAxis))
         {
             return 0.0;
         }
@@ -63,7 +63,7 @@ public class FauxbotJoystick implements IJoystick
         return this.buttons.get(buttonNumber);
     }
 
-    public DoubleProperty getAxisProperty(AnalogAxis relevantAxis)
+    public DoubleProperty getAxisProperty(int relevantAxis)
     {
         if (!this.axes.containsKey(relevantAxis))
         {
