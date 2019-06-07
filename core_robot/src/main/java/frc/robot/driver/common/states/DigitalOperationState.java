@@ -129,7 +129,7 @@ public class DigitalOperationState extends OperationState
             // find the appropriate button and grab the value from the relevant joystick
             relevantButton = description.getUserInputDeviceButton();
 
-            if (relevantButton == UserInputDeviceButton.JOYSTICK_POV)
+            if (relevantButton == UserInputDeviceButton.POV)
             {
                 buttonPressed = relevantJoystick.getPOV() == description.getUserInputDevicePovValue();
             }
