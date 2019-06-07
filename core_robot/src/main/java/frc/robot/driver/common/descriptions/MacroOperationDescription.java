@@ -140,7 +140,7 @@ public class MacroOperationDescription extends OperationDescription
         this(
             true,
             userInputDevice,
-            UserInputDeviceButton.JOYSTICK_POV,
+            UserInputDeviceButton.POV,
             povValue,
             AnalogAxis.None,
             0.0,
@@ -173,7 +173,7 @@ public class MacroOperationDescription extends OperationDescription
         this(
             true,
             userInputDevice,
-            UserInputDeviceButton.JOYSTICK_POV,
+            UserInputDeviceButton.POV,
             povValue,
             AnalogAxis.None,
             0.0,
@@ -208,7 +208,7 @@ public class MacroOperationDescription extends OperationDescription
         this(
             true,
             userInputDevice,
-            UserInputDeviceButton.JOYSTICK_POV,
+            UserInputDeviceButton.POV,
             povValue,
             AnalogAxis.None,
             0.0,

@@ -5,7 +5,7 @@ package frc.robot.driver.common;
  * 
  * Button guide:
  * -----------------------
- * Logitech Xtreme 3D Pro
+ * Logitech Xtreme 3D Pro:
  * 1 - stick trigger
  * 2 - stick thumb button
  * 3 - stick bottom left
@@ -18,8 +18,36 @@ package frc.robot.driver.common;
  * 10 - base middle right
  * 11 - base bottom left
  * 12 - base bottom right
- * POV (hat): -1 when not pressed, 0-360.  0 is forward/up, 90 is right, 180 is back/down, 270 is left.
+ * POV - hat (-1 when not pressed, 0-360.  0 is forward/up, 90 is right, 180 is back/down, 270 is left)
  * -----------------------
+ * XBox One Controller:
+ * 1 - A
+ * 2 - B
+ * 3 - X
+ * 4 - Y
+ * 5 - LB (left button)
+ * 6 - RB (right button)
+ * 7 - Select
+ * 8 - Start
+ * 9 - LS (left stick)
+ * 10 - RS (right stick)
+ * POV - hat (-1 when not pressed, 0-360.  0 is forward/up, 90 is right, 180 is back/down, 270 is left)
+ * -----------------------
+ * PS4 Controller:
+ * 1 - Square
+ * 2 - X
+ * 3 - Circle (O)
+ * 4 - Triangle
+ * 5 - LB (left button/L1)
+ * 6 - RB (right button/R1)
+ * 7 - ???
+ * 8 - ???
+ * 9 - Share
+ * 10 - Options
+ * 11 - LS (left stick)
+ * 12 - RS (right stick)
+ * 13 - Playstation
+ * POV - hat (-1 when not pressed, 0-360.  0 is forward/up, 90 is right, 180 is back/down, 270 is left)
  * 
  */
 public enum UserInputDeviceButton
@@ -27,7 +55,7 @@ public enum UserInputDeviceButton
     // None - represents non-button:
     NONE(-1),
 
-    // Joystick constants:
+    // Joystick (Logitech Xtreme 3D Pro) constants:
     JOYSTICK_STICK_TRIGGER_BUTTON(1),
     JOYSTICK_STICK_THUMB_BUTTON(2),
     JOYSTICK_STICK_BOTTOM_LEFT_BUTTON(3),
@@ -40,7 +68,31 @@ public enum UserInputDeviceButton
     JOYSTICK_BASE_MIDDLE_RIGHT_BUTTON(10),
     JOYSTICK_BASE_BOTTOM_LEFT_BUTTON(11),
     JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON(12),
-    JOYSTICK_POV(13),
+
+    // XBox One controller constants:
+    XBONE_A_BUTTON(1),
+    XBONE_B_BUTTON(2),
+    XBONE_X_BUTTON(3),
+    XBONE_Y_BUTTON(4),
+    XBONE_LEFT_BUTTON(5), // LB
+    XBONE_RIGHT_BUTTON(6), // RB
+    XBONE_SELECT_BUTTON(7),
+    XBONE_START_BUTTON(8),
+    XBONE_LEFT_STICK_BUTTON(9), // LS
+    XBONE_RIGHT_STICK_BUTTON(10), // RS
+
+    // Playstation 4 controller constants:
+    PS4_SQUARE_BUTTON(1),
+    PS4_X_BUTTON(2),
+    PS4_CIRCLE_BUTTON(3),
+    PS4_TRIANGLE_BUTTON(4),
+    PS4_LEFT_BUTTON(5), // LB
+    PS4_RIGHT_BUTTON(6), // RB
+    PS4_SHARE_BUTTON(9),
+    PS4_OPTIONS_BUTTON(10),
+    PS4_LEFT_STICK_BUTTON(11), // LS
+    PS4_RIGHT_STICK_BUTTON(12), // RS
+    PS4_PLAYSTATION_BUTTON(13),
 
     // Button Pad button constants:
     BUTTON_PAD_BUTTON_1(1),
@@ -61,6 +113,7 @@ public enum UserInputDeviceButton
     BUTTON_PAD_BUTTON_16(16),
 
     // Other - Some specified analog axis within a certain range
+    POV(24),
     ANALOG_AXIS_RANGE(25);
 
     public final int Value;

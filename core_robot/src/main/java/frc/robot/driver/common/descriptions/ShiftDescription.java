@@ -59,7 +59,7 @@ public class ShiftDescription
             // find the appropriate button and grab the value from the relevant joystick
             relevantButton = this.getUserInputDeviceButton();
 
-            if (relevantButton == UserInputDeviceButton.JOYSTICK_POV)
+            if (relevantButton == UserInputDeviceButton.POV)
             {
                 if (TuningConstants.THROW_EXCEPTIONS)
                 {

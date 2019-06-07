@@ -95,7 +95,7 @@ public class DigitalOperationDescription extends OperationDescription
     {
         this(
             userInputDevice,
-            UserInputDeviceButton.JOYSTICK_POV,
+            UserInputDeviceButton.POV,
             povValue,
             AnalogAxis.None,
             0.0,
