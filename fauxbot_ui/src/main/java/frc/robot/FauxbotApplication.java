@@ -281,7 +281,7 @@ public class FauxbotApplication extends Application
                             analogSlider.setShowTickMarks(true);
 
                             grid.add(analogSlider, 1, thisRowIndex);
-                            Bindings.bindBidirectional(joystick.getAxisProperty(analogDescription.getUserInputDeviceAxis()), analogSlider.valueProperty());
+                            Bindings.bindBidirectional(joystick.getAxisProperty(analogDescription.getUserInputDeviceAxis().Value), analogSlider.valueProperty());
                         }
                     }
                 }

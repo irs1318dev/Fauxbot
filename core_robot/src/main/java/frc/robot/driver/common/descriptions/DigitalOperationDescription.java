@@ -1,6 +1,6 @@
 package frc.robot.driver.common.descriptions;
 
-import frc.robot.common.robotprovider.AnalogAxis;
+import frc.robot.driver.common.AnalogAxis;
 import frc.robot.driver.Shift;
 import frc.robot.driver.common.UserInputDeviceButton;
 import frc.robot.driver.common.buttons.ButtonType;
@@ -54,7 +54,7 @@ public class DigitalOperationDescription extends OperationDescription
             userInputDevice,
             userInputDeviceButton,
             -1,
-            AnalogAxis.None,
+            AnalogAxis.NONE,
             0.0,
             0.0,
             DigitalSensor.None,
@@ -97,7 +97,7 @@ public class DigitalOperationDescription extends OperationDescription
             userInputDevice,
             UserInputDeviceButton.POV,
             povValue,
-            AnalogAxis.None,
+            AnalogAxis.NONE,
             0.0,
             0.0,
             DigitalSensor.None,
@@ -171,7 +171,7 @@ public class DigitalOperationDescription extends OperationDescription
             UserInputDevice.Sensor,
             UserInputDeviceButton.NONE,
             -1,
-            AnalogAxis.None,
+            AnalogAxis.NONE,
             0.0,
             0.0,
             sensor,

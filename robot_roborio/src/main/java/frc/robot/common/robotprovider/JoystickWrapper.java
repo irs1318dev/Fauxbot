@@ -1,7 +1,6 @@
 package frc.robot.common.robotprovider;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
 
 public class JoystickWrapper implements IJoystick
 {
@@ -12,26 +11,9 @@ public class JoystickWrapper implements IJoystick
         this.wrappedObject = new Joystick(port);
     }
 
-    @SuppressWarnings("deprecation")
-    public double getAxis(AnalogAxis relevantAxis)
+    public double getAxis(int relevantAxis)
     {
-        switch (relevantAxis)
-        {
-            case X:
-                return this.wrappedObject.getAxis(AxisType.kX);
-            case Y:
-                return this.wrappedObject.getAxis(AxisType.kY);
-            case Z:
-                return this.wrappedObject.getAxis(AxisType.kZ);
-            case Twist:
-                return this.wrappedObject.getAxis(AxisType.kTwist);
-            case Throttle:
-                return this.wrappedObject.getAxis(AxisType.kThrottle);
-
-            case None:
-            default:
-                return 0.0;
-        }
+        return this.wrappedObject.getRawAxis(relevantAxis);
     }
 
     public int getPOV()

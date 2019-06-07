@@ -2,7 +2,7 @@ package frc.robot.driver.common.descriptions;
 
 import java.util.function.Supplier;
 
-import frc.robot.common.robotprovider.AnalogAxis;
+import frc.robot.driver.common.AnalogAxis;
 import frc.robot.driver.Operation;
 import frc.robot.driver.Shift;
 import frc.robot.driver.common.IControlTask;
@@ -43,7 +43,7 @@ public class MacroOperationDescription extends OperationDescription
             userInputDevice,
             userInputDeviceButton,
             -1,
-            AnalogAxis.None,
+            AnalogAxis.NONE,
             0.0,
             0.0,
             DigitalSensor.None,
@@ -76,7 +76,7 @@ public class MacroOperationDescription extends OperationDescription
             userInputDevice,
             userInputDeviceButton,
             -1,
-            AnalogAxis.None,
+            AnalogAxis.NONE,
             0.0,
             0.0,
             DigitalSensor.None,
@@ -111,7 +111,7 @@ public class MacroOperationDescription extends OperationDescription
             userInputDevice,
             userInputDeviceButton,
             -1,
-            AnalogAxis.None,
+            AnalogAxis.NONE,
             0.0,
             0.0,
             DigitalSensor.None,
@@ -142,7 +142,7 @@ public class MacroOperationDescription extends OperationDescription
             userInputDevice,
             UserInputDeviceButton.POV,
             povValue,
-            AnalogAxis.None,
+            AnalogAxis.NONE,
             0.0,
             0.0,
             DigitalSensor.None,
@@ -175,7 +175,7 @@ public class MacroOperationDescription extends OperationDescription
             userInputDevice,
             UserInputDeviceButton.POV,
             povValue,
-            AnalogAxis.None,
+            AnalogAxis.NONE,
             0.0,
             0.0,
             DigitalSensor.None,
@@ -210,7 +210,7 @@ public class MacroOperationDescription extends OperationDescription
             userInputDevice,
             UserInputDeviceButton.POV,
             povValue,
-            AnalogAxis.None,
+            AnalogAxis.NONE,
             0.0,
             0.0,
             DigitalSensor.None,
@@ -385,7 +385,7 @@ public class MacroOperationDescription extends OperationDescription
             UserInputDevice.Sensor,
             UserInputDeviceButton.NONE,
             0,
-            AnalogAxis.None,
+            AnalogAxis.NONE,
             0.0,
             0.0,
             sensor,

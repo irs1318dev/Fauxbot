@@ -36,7 +36,7 @@ public class ButtonMap implements IButtonMap
                 Operation.SomeAnalogOperation,
                 new AnalogOperationDescription(
                     UserInputDevice.Driver,
-                    AnalogAxis.X,
+                    AnalogAxis.JOYSTICK_X,
                     ElectronicsConstants.INVERT_X_AXIS,
                     TuningConstants.DRIVETRAIN_X_DEAD_ZONE));*/
             
@@ -84,14 +84,14 @@ public class ButtonMap implements IButtonMap
                 Operation.ForkliftDriveLeft,
                 new AnalogOperationDescription(
                     UserInputDevice.Driver,
-                    AnalogAxis.X,
+                    AnalogAxis.JOYSTICK_X,
                     ElectronicsConstants.INVERT_X_AXIS,
                     TuningConstants.DEAD_ZONE));
             put(
                 Operation.ForkliftDriveRight,
                 new AnalogOperationDescription(
                     UserInputDevice.Driver,
-                    AnalogAxis.Y,
+                    AnalogAxis.JOYSTICK_Y,
                     ElectronicsConstants.INVERT_Y_AXIS,
                     TuningConstants.DEAD_ZONE));
             put(
@@ -120,14 +120,14 @@ public class ButtonMap implements IButtonMap
                 Operation.PrinterMoveX,
                 new AnalogOperationDescription(
                     UserInputDevice.Driver,
-                    AnalogAxis.X,
+                    AnalogAxis.JOYSTICK_X,
                     ElectronicsConstants.INVERT_X_AXIS,
                     0.0));
             put(
                 Operation.PrinterMoveY,
                 new AnalogOperationDescription(
                     UserInputDevice.Driver,
-                    AnalogAxis.Y,
+                    AnalogAxis.JOYSTICK_Y,
                     ElectronicsConstants.INVERT_Y_AXIS,
                     0.0));
             put(
@@ -148,7 +148,7 @@ public class ButtonMap implements IButtonMap
                 Operation.ShooterAngle,
                 new AnalogOperationDescription(
                     UserInputDevice.Driver,
-                    AnalogAxis.X,
+                    AnalogAxis.JOYSTICK_X,
                     ElectronicsConstants.INVERT_X_AXIS,
                     TuningConstants.DEAD_ZONE));
             put(

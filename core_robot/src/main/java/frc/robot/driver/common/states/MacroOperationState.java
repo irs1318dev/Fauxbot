@@ -148,7 +148,7 @@ public class MacroOperationState extends OperationState implements IMacroOperati
             }
             else if (relevantButton == UserInputDeviceButton.ANALOG_AXIS_RANGE)
             {
-                double value = relevantJoystick.getAxis(description.getUserInputDeviceAxis());
+                double value = relevantJoystick.getAxis(description.getUserInputDeviceAxis().Value);
                 buttonPressed =
                     value >= description.getUserInputDeviceRangeMin() &&
                     value <= description.getUserInputDeviceRangeMax();
