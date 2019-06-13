@@ -231,7 +231,7 @@ To prepare your computer for Robot programming with our team, you will need to f
       [diff]
         tool = vscode
       [difftool "vscode"]
-        cmd = frccode2019 --wait --diff \"$LOCAL\" \"$REMOTE\"
+        cmd = code --wait --diff \"$LOCAL\" \"$REMOTE\"
       ```
    2. VS Code's Java extension sometimes needs extra hints to find where the Java JDK was installed.  To do this, you will need to add an environment variable on Windows (sorry, don't know what to do for Mac). 
       1. In Windows 10, press start and type "environment" in the search bar.
@@ -247,7 +247,7 @@ To prepare your computer for Robot programming with our team, you will need to f
       1. Open a commandline window.  On Windows, search for "cmd" or "Command Prompt".  Navigate within your directory structure to a directory where you'd like to keep your source files (e.g. "```cd C:\Users\username\git\```").
       2. Run the following git command to clone the repository to your local machine: "```git clone https://github.com/irs1318dev/Fauxbot.git```"
       3. Once the repository has been cloned, navigate into the main directory (e.g. "```cd C:\Users\username\git\Fauxbot```") and tell Gradle to build the code in the directory (type "```gradlew build```").  If gradle hasn't been installed yet, this should trigger it to be installed.
-      4. Open VS Code for this project.  In the main directory, type "```frccode2019 .```".  This will tell VS Code to open with a reference to the folder you are currently exploring within cmd.
+      4. Open VS Code for this project.  In the main directory, type "```code irs1318_fauxbot.code-workspace```".  This will tell VS Code to open with a reference to the folder you are currently exploring within cmd.
     3. Using GitHub Desktop:
        1. Open GitHub Desktop.  For the best experience, you will need a GitHub user account that has been added to the irs1318dev group.  If you haven't done that, consider doing that first.
        2. Go to File --> Clone Repository.  If you have been added to the irs1318dev group, you can select the repository you want (e.g. "irs1318dev/Fauxbot") from a list of repositories under the GitHub.com tab.  Otherwise, go to the the URL tab and enter the repository you want (e.g. "irs1318dev/Fauxbot") in the text box.  Then choose a local path where this repository will be cloned (e.g. "C:\Users\username\git\Fauxbot") and click the clone button.
