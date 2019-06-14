@@ -36,7 +36,7 @@ public class ButtonMap implements IButtonMap
                 Operation.SomeAnalogOperation,
                 new AnalogOperationDescription(
                     UserInputDevice.Driver,
-                    AnalogAxis.X,
+                    AnalogAxis.JOYSTICK_X,
                     ElectronicsConstants.INVERT_X_AXIS,
                     TuningConstants.DRIVETRAIN_X_DEAD_ZONE));*/
             

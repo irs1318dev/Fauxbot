@@ -2,7 +2,7 @@ package frc.robot.common.robotprovider;
 
 public interface IJoystick
 {
-    double getAxis(AnalogAxis relevantAxis);
+    double getAxis(int relevantAxis);
 
     int getPOV();
 

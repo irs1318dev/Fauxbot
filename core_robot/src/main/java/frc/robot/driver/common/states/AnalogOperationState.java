@@ -3,7 +3,7 @@ package frc.robot.driver.common.states;
 import java.util.Set;
 
 import frc.robot.TuningConstants;
-import frc.robot.common.robotprovider.AnalogAxis;
+import frc.robot.driver.common.AnalogAxis;
 import frc.robot.common.robotprovider.IJoystick;
 import frc.robot.driver.Shift;
 import frc.robot.driver.common.descriptions.AnalogOperationDescription;
@@ -106,7 +106,7 @@ public class AnalogOperationState extends OperationState
                 return false;
             }
 
-            newValue = relevantJoystick.getAxis(relevantAxis);
+            newValue = relevantJoystick.getAxis(relevantAxis.Value);
             if (description.getShouldInvert())
             {
                 newValue *= -1.0;
