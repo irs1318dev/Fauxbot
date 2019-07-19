@@ -22,6 +22,8 @@ import com.google.inject.Injector;
  */
 public class Driver
 {
+    private static final String LogName = "driver";
+
     private final IDashboardLogger logger;
 
     protected final Injector injector;
@@ -114,7 +116,7 @@ public class Driver
      */
     public void update()
     {
-        this.logger.logBoolean("driver", "isAuto", this.isAutonomous);
+        this.logger.logBoolean(Driver.LogName, "isAuto", this.isAutonomous);
 
         // keep track of macros that were running before we checked user input...
         Set<MacroOperation> previouslyActiveMacroOperations = new HashSet<MacroOperation>();
@@ -239,10 +241,16 @@ public class Driver
         }
 
         // second, run all of the active macros (which could add interrupts that were cleared in the previous phase)...
+        // while we're doing that, grab the names of the macros for logging
+        int i = 0;
+        String[] macroStrings = new String[activeMacroOperations.size()];
         for (MacroOperation macroOperation : activeMacroOperations)
         {
+            macroStrings[i++] = macroOperation.toString();
             this.macroStateMap.get(macroOperation).run();
         }
+
+        this.logger.logString(Driver.LogName, "activeMacros", String.join(", ", macroStrings));
     }
 
     /**
