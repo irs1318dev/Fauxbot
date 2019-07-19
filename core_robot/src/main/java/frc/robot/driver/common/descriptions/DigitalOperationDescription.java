@@ -11,6 +11,9 @@ import frc.robot.driver.common.buttons.ButtonType;
  */
 public class DigitalOperationDescription extends OperationDescription
 {
+    public static final DigitalOperationDescription simple =
+        new DigitalOperationDescription(UserInputDevice.None, UserInputDeviceButton.NONE, ButtonType.Simple);
+
     private final UserInputDeviceButton userInputDeviceButton;
     private final int userInputDevicePovValue;
     private final AnalogAxis userInputDeviceAxis;

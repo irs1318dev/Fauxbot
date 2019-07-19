@@ -1,10 +1,10 @@
 package frc.robot.driver;
 
-public enum Operation
+public enum DigitalOperation implements IOperation
 {
     // GarageDoor operations:
 
-    // Forklift operations:
+    // Forklift operations: 
 
     // Elevator operations:
 

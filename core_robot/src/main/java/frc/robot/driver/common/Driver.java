@@ -25,7 +25,7 @@ public class Driver
     private final IDashboardLogger logger;
 
     protected final Injector injector;
-    protected final Map<Operation, OperationState> operationStateMap;
+    protected final Map<IOperation, OperationState> operationStateMap;
     
     private final IJoystick joystickDriver;
     private final IJoystick joystickCoDriver;
@@ -54,11 +54,25 @@ public class Driver
         this.logger = logger;
         this.injector = injector;
 
-        Map<Operation, OperationDescription> operationSchema = buttonMap.getOperationSchema();
-        this.operationStateMap = new HashMap<Operation, OperationState>(operationSchema.size());
-        for (Operation operation : operationSchema.keySet())
+        Map<AnalogOperation, AnalogOperationDescription> analogOperationSchema = buttonMap.getAnalogOperationSchema();
+        Map<DigitalOperation, DigitalOperationDescription> digitalOperationSchema = buttonMap.getDigitalOperationSchema();
+
+        DigitalOperation[] digitalOperations = DigitalOperation.values();
+        AnalogOperation[] analogOperations = AnalogOperation.values();
+
+        this.operationStateMap = new HashMap<IOperation, OperationState>(analogOperations.length + digitalOperations.length);
+        for (DigitalOperation operation : digitalOperations)
         {
-            this.operationStateMap.put(operation, OperationState.createFromDescription(operationSchema.get(operation)));
+            this.operationStateMap.put(
+                operation,
+                new DigitalOperationState(digitalOperationSchema.getOrDefault(operation, DigitalOperationDescription.simple)));
+        }
+
+        for (AnalogOperation operation : analogOperations)
+        {
+            this.operationStateMap.put(
+                operation,
+                new AnalogOperationState(analogOperationSchema.getOrDefault(operation, AnalogOperationDescription.simple)));
         }
 
         this.routineSelector = injector.getInstance(AutonomousRoutineSelector.class);
@@ -135,9 +149,9 @@ public class Driver
 
         // check user inputs for various operations (non-macro) and keep track of:
         // operations that were interrupted already, and operations that were modified by user input in this update
-        Set<Operation> modifiedOperations = new HashSet<Operation>();
-        Set<Operation> interruptedOperations = new HashSet<Operation>();
-        for (Operation operation : this.operationStateMap.keySet())
+        Set<IOperation> modifiedOperations = new HashSet<IOperation>();
+        Set<IOperation> interruptedOperations = new HashSet<IOperation>();
+        for (IOperation operation : this.operationStateMap.keySet())
         {
             OperationState opState = this.operationStateMap.get(operation);
             boolean receivedInput = opState.checkInput(this.joystickDriver, this.joystickCoDriver, this.activeShifts);
@@ -155,7 +169,7 @@ public class Driver
         // check user inputs for various macro operations
         // also keep track of modified and active macro operations, and how macro operations and operations link together
         Set<MacroOperation> activeMacroOperations = new HashSet<MacroOperation>();
-        Map<Operation, Set<MacroOperation>> activeMacroOperationMap = new HashMap<Operation, Set<MacroOperation>>();
+        Map<IOperation, Set<MacroOperation>> activeMacroOperationMap = new HashMap<IOperation, Set<MacroOperation>>();
         for (MacroOperation macroOperation : this.macroStateMap.keySet())
         {
             IMacroOperationState macroState = this.macroStateMap.get(macroOperation);
@@ -165,7 +179,7 @@ public class Driver
             {
                 activeMacroOperations.add(macroOperation);
 
-                for (Operation affectedOperation : macroState.getMacroCancelOperations())
+                for (IOperation affectedOperation : macroState.getMacroCancelOperations())
                 {
                     Set<MacroOperation> relevantMacroOperations = activeMacroOperationMap.get(affectedOperation);
                     if (relevantMacroOperations == null)
@@ -184,7 +198,7 @@ public class Driver
         // 2. have not been usurped by a new macro (i.e. that was started in this round)
         // 3. are new macros that do not overlap with other new macros
         Set<MacroOperation> macroOperationsToCancel = new HashSet<MacroOperation>();
-        for (Operation operation : activeMacroOperationMap.keySet())
+        for (IOperation operation : activeMacroOperationMap.keySet())
         {
             Set<MacroOperation> relevantMacroOperations = activeMacroOperationMap.get(operation);
             if (modifiedOperations.contains(operation))
@@ -278,7 +292,7 @@ public class Driver
      * @param digitalOperation to get
      * @return the current value of the digital operation
      */
-    public boolean getDigital(Operation digitalOperation)
+    public boolean getDigital(DigitalOperation digitalOperation)
     {
         OperationState state = this.operationStateMap.get(digitalOperation);
         if (!(state instanceof DigitalOperationState))
@@ -300,7 +314,7 @@ public class Driver
      * @param analogOperation to get
      * @return the current value of the analog operation
      */
-    public double getAnalog(Operation analogOperation)
+    public double getAnalog(AnalogOperation analogOperation)
     {
         OperationState state = this.operationStateMap.get(analogOperation);
         if (!(state instanceof AnalogOperationState))

@@ -11,6 +11,7 @@ import frc.robot.driver.common.buttons.IButton;
 import frc.robot.driver.common.buttons.SimpleButton;
 import frc.robot.driver.common.buttons.ToggleButton;
 import frc.robot.driver.common.descriptions.DigitalOperationDescription;
+import frc.robot.driver.common.descriptions.UserInputDevice;
 
 /**
  * The state of the current digital operation.
@@ -89,6 +90,12 @@ public class DigitalOperationState extends OperationState
     {
         DigitalOperationDescription description = (DigitalOperationDescription)this.getDescription();
 
+        UserInputDevice userInputDevice = description.getUserInputDevice();
+        if (userInputDevice == UserInputDevice.None)
+        {
+            return false;
+        }
+
         Shift requiredShift = description.getRequiredShift();
         if (!activeShifts.contains(requiredShift))
         {
@@ -98,11 +105,8 @@ public class DigitalOperationState extends OperationState
 
         IJoystick relevantJoystick;
         UserInputDeviceButton relevantButton;
-        switch (description.getUserInputDevice())
+        switch (userInputDevice)
         {
-            case None:
-                return false;
-
             case Driver:
                 relevantJoystick = driver;
                 break;

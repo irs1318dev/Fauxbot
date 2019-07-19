@@ -28,7 +28,7 @@ public class ButtonMap implements IButtonMap
     };
 
     @SuppressWarnings("serial")
-    public static Map<Operation, OperationDescription> OperationSchema = new HashMap<Operation, OperationDescription>()
+    public static Map<AnalogOperation, AnalogOperationDescription> AnalogOperationSchema = new HashMap<AnalogOperation, AnalogOperationDescription>()
     {
         {
             /** Example Analog operation entry:
@@ -39,10 +39,16 @@ public class ButtonMap implements IButtonMap
                     AnalogAxis.JOYSTICK_X,
                     ElectronicsConstants.INVERT_X_AXIS,
                     TuningConstants.DRIVETRAIN_X_DEAD_ZONE));*/
-            
+        }
+    };
+
+    @SuppressWarnings("serial")
+    public static Map<DigitalOperation, DigitalOperationDescription> DigitalOperationSchema = new HashMap<DigitalOperation, DigitalOperationDescription>()
+    {
+        {
             /** Example Digital operation entry:
             put(
-                Operation.SomeDigitalOperation,
+                DigitalOperation.SomeDigitalOperation,
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
@@ -77,9 +83,15 @@ public class ButtonMap implements IButtonMap
     }
 
     @Override
-    public Map<Operation, OperationDescription> getOperationSchema()
+    public Map<AnalogOperation, AnalogOperationDescription> getAnalogOperationSchema()
     {
-        return ButtonMap.OperationSchema;
+        return ButtonMap.AnalogOperationSchema;
+    }
+
+    @Override
+    public Map<DigitalOperation, DigitalOperationDescription> getDigitalOperationSchema()
+    {
+        return ButtonMap.DigitalOperationSchema;
     }
 
     @Override
