@@ -9,6 +9,9 @@ import frc.robot.driver.common.AnalogAxis;
  */
 public class AnalogOperationDescription extends OperationDescription
 {
+    public static final AnalogOperationDescription simple =
+        new AnalogOperationDescription(UserInputDevice.None, AnalogAxis.NONE, false, 0.0);
+
     private final AnalogAxis userInputDeviceAxis;
     private final boolean shouldInvert;
     private final double deadZone;

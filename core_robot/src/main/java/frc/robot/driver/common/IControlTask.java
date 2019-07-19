@@ -2,7 +2,7 @@ package frc.robot.driver.common;
 
 import java.util.Map;
 
-import frc.robot.driver.Operation;
+import frc.robot.driver.IOperation;
 import frc.robot.driver.common.states.OperationState;
 
 import com.google.inject.Injector;
@@ -18,7 +18,7 @@ public interface IControlTask
      * @param operationStateMap indicating the mapping of an operation to its current state
      * @param injector used to retrieve components to utilize for making any decisions
      */
-    public void initialize(Map<Operation, OperationState> operationStateMap, Injector injector);
+    public void initialize(Map<IOperation, OperationState> operationStateMap, Injector injector);
 
     /**
      * Begin the current task.

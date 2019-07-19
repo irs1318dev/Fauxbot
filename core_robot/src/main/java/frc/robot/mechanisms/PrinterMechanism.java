@@ -7,7 +7,7 @@ import frc.robot.HardwareConstants;
 import frc.robot.TuningConstants;
 import frc.robot.common.IMechanism;
 import frc.robot.common.robotprovider.*;
-import frc.robot.driver.Operation;
+import frc.robot.driver.*;
 import frc.robot.driver.common.Driver;
 
 import com.google.inject.Inject;
@@ -57,19 +57,19 @@ public class PrinterMechanism implements IMechanism
     @Override
     public void update()
     {
-        double xPosition = (this.driver.getAnalog(Operation.PrinterMoveX) + 1.0) / 2.0;
+        double xPosition = (this.driver.getAnalog(AnalogOperation.PrinterMoveX) + 1.0) / 2.0;
         xPosition = xPosition * (HardwareConstants.PRINTER_MAX_X - HardwareConstants.PRINTER_MIN_X) + HardwareConstants.PRINTER_MIN_X;
-        double yPosition = (this.driver.getAnalog(Operation.PrinterMoveY) + 1.0) / 2.0;
+        double yPosition = (this.driver.getAnalog(AnalogOperation.PrinterMoveY) + 1.0) / 2.0;
         yPosition = yPosition * (HardwareConstants.PRINTER_MAX_Y - HardwareConstants.PRINTER_MIN_Y) + HardwareConstants.PRINTER_MIN_Y;
 
         this.xMotor.set(xPosition);
         this.yMotor.set(yPosition);
 
-        if (this.driver.getDigital(Operation.PrinterPenDown))
+        if (this.driver.getDigital(DigitalOperation.PrinterPenDown))
         {
             this.pen.set(DoubleSolenoidValue.Forward);
         }
-        else if (this.driver.getDigital(Operation.PrinterPenUp))
+        else if (this.driver.getDigital(DigitalOperation.PrinterPenUp))
         {
             this.pen.set(DoubleSolenoidValue.Reverse);
         }

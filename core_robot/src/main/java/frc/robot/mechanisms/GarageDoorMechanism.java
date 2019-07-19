@@ -6,7 +6,7 @@ import frc.robot.ElectronicsConstants;
 import frc.robot.TuningConstants;
 import frc.robot.common.IMechanism;
 import frc.robot.common.robotprovider.*;
-import frc.robot.driver.Operation;
+import frc.robot.driver.*;
 import frc.robot.driver.common.Driver;
 
 import com.google.inject.Inject;
@@ -53,7 +53,7 @@ public class GarageDoorMechanism implements IMechanism
     @Override
     public void update()
     {
-        boolean buttonPressed = this.driver.getDigital(Operation.GarageDoorButton);
+        boolean buttonPressed = this.driver.getDigital(DigitalOperation.GarageDoorButton);
         if (this.state == GarageDoorState.Closed)
         {
             if (buttonPressed)

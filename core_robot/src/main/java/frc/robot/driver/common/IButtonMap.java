@@ -2,16 +2,13 @@ package frc.robot.driver.common;
 
 import java.util.Map;
 
-import frc.robot.driver.MacroOperation;
-import frc.robot.driver.Operation;
-import frc.robot.driver.Shift;
-import frc.robot.driver.common.descriptions.MacroOperationDescription;
-import frc.robot.driver.common.descriptions.OperationDescription;
-import frc.robot.driver.common.descriptions.ShiftDescription;
+import frc.robot.driver.*;
+import frc.robot.driver.common.descriptions.*;
 
 public interface IButtonMap
 {
     Map<Shift, ShiftDescription> getShiftMap();
-    Map<Operation, OperationDescription> getOperationSchema();
+    Map<AnalogOperation, AnalogOperationDescription> getAnalogOperationSchema();
+    Map<DigitalOperation, DigitalOperationDescription> getDigitalOperationSchema();
     Map<MacroOperation, MacroOperationDescription> getMacroOperationSchema();
 }

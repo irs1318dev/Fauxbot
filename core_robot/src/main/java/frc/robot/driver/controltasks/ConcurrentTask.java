@@ -2,7 +2,7 @@ package frc.robot.driver.controltasks;
 
 import java.util.Map;
 
-import frc.robot.driver.Operation;
+import frc.robot.driver.IOperation;
 import frc.robot.driver.common.IControlTask;
 import frc.robot.driver.common.states.OperationState;
 
@@ -47,7 +47,7 @@ public class ConcurrentTask extends ControlTaskBase implements IControlTask
      * @param injector used to retrieve the components to utilize for making any decisions
      */
     @Override
-    public void initialize(Map<Operation, OperationState> operationStateMap, Injector injector)
+    public void initialize(Map<IOperation, OperationState> operationStateMap, Injector injector)
     {
         super.initialize(operationStateMap, injector);
         for (IControlTask task : this.tasks)

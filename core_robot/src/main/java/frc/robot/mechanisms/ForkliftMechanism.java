@@ -5,7 +5,7 @@ import javax.inject.Singleton;
 import frc.robot.ElectronicsConstants;
 import frc.robot.common.IMechanism;
 import frc.robot.common.robotprovider.*;
-import frc.robot.driver.Operation;
+import frc.robot.driver.*;
 import frc.robot.driver.common.Driver;
 
 import com.google.inject.Inject;
@@ -37,17 +37,17 @@ public class ForkliftMechanism implements IMechanism
     @Override
     public void update()
     {
-        double leftPower = this.driver.getAnalog(Operation.ForkliftDriveLeft);
-        double rightPower = this.driver.getAnalog(Operation.ForkliftDriveRight);
+        double leftPower = this.driver.getAnalog(AnalogOperation.ForkliftDriveLeft);
+        double rightPower = this.driver.getAnalog(AnalogOperation.ForkliftDriveRight);
 
         this.leftMotor.set(leftPower);
         this.rightMotor.set(rightPower);
 
-        if (this.driver.getDigital(Operation.ForkliftUp))
+        if (this.driver.getDigital(DigitalOperation.ForkliftUp))
         {
             this.lifter.set(DoubleSolenoidValue.Forward);
         }
-        else if (this.driver.getDigital(Operation.ForkliftDown))
+        else if (this.driver.getDigital(DigitalOperation.ForkliftDown))
         {
             this.lifter.set(DoubleSolenoidValue.Reverse);
         }

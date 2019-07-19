@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Set;
 
 import frc.robot.common.robotprovider.IJoystick;
-import frc.robot.driver.Operation;
+import frc.robot.driver.IOperation;
 import frc.robot.driver.Shift;
 import frc.robot.driver.common.IControlTask;
 
@@ -14,7 +14,7 @@ import frc.robot.driver.common.IControlTask;
  */
 public class AutonomousOperationState extends OperationState implements IMacroOperationState
 {
-    private final Map<Operation, OperationState> operationStateMap;
+    private final Map<IOperation, OperationState> operationStateMap;
 
     private IControlTask task;
 
@@ -25,7 +25,7 @@ public class AutonomousOperationState extends OperationState implements IMacroOp
 
     public AutonomousOperationState(
         IControlTask task,
-        Map<Operation, OperationState> operationStateMap)
+        Map<IOperation, OperationState> operationStateMap)
     {
         super(null);
 
@@ -71,16 +71,16 @@ public class AutonomousOperationState extends OperationState implements IMacroOp
         return false;
     }
 
-    public Operation[] getMacroCancelOperations()
+    public IOperation[] getMacroCancelOperations()
     {
         return this.getAffectedOperations();
     }
 
-    public Operation[] getAffectedOperations()
+    public IOperation[] getAffectedOperations()
     {
-        Set<Operation> keys = this.operationStateMap.keySet();
-        Operation[] keyArray = new Operation[keys.size()];
-        return (Operation[])keys.toArray(keyArray);
+        Set<IOperation> keys = this.operationStateMap.keySet();
+        IOperation[] keyArray = new IOperation[keys.size()];
+        return (IOperation[])keys.toArray(keyArray);
     }
 
     public boolean getIsActive()
@@ -92,7 +92,7 @@ public class AutonomousOperationState extends OperationState implements IMacroOp
     {
         if (this.shouldEnd)
         {
-            for (Operation operation : this.getAffectedOperations())
+            for (IOperation operation : this.getAffectedOperations())
             {
                 this.operationStateMap.get(operation).setIsInterrupted(false);
             }
@@ -111,7 +111,7 @@ public class AutonomousOperationState extends OperationState implements IMacroOp
                     this.task = null;
                 }
 
-                for (Operation operation : this.getAffectedOperations())
+                for (IOperation operation : this.getAffectedOperations())
                 {
                     this.operationStateMap.get(operation).setIsInterrupted(false);
                 }
@@ -121,7 +121,7 @@ public class AutonomousOperationState extends OperationState implements IMacroOp
 
             if (!this.hasBegun)
             {
-                for (Operation operation : this.getAffectedOperations())
+                for (IOperation operation : this.getAffectedOperations())
                 {
                     this.operationStateMap.get(operation).setIsInterrupted(true);
                 }
@@ -160,7 +160,7 @@ public class AutonomousOperationState extends OperationState implements IMacroOp
         this.task.stop();
         this.task = null;
 
-        for (Operation operation : this.getAffectedOperations())
+        for (IOperation operation : this.getAffectedOperations())
         {
             this.operationStateMap.get(operation).setIsInterrupted(false);
         }

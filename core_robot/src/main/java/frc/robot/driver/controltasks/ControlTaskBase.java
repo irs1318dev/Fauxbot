@@ -2,7 +2,7 @@ package frc.robot.driver.controltasks;
 
 import java.util.Map;
 
-import frc.robot.driver.Operation;
+import frc.robot.driver.IOperation;
 import frc.robot.driver.common.IControlTask;
 import frc.robot.driver.common.states.AnalogOperationState;
 import frc.robot.driver.common.states.DigitalOperationState;
@@ -12,7 +12,7 @@ import com.google.inject.Injector;
 
 public abstract class ControlTaskBase implements IControlTask
 {
-    private Map<Operation, OperationState> operationStateMap;
+    private Map<IOperation, OperationState> operationStateMap;
     private Injector injector;
 
     /**
@@ -21,7 +21,7 @@ public abstract class ControlTaskBase implements IControlTask
      * @param components to utilize for making any decisions
      */
     @Override
-    public void initialize(Map<Operation, OperationState> operationStateMap, Injector injector)
+    public void initialize(Map<IOperation, OperationState> operationStateMap, Injector injector)
     {
         this.operationStateMap = operationStateMap;
         this.injector = injector;
@@ -72,7 +72,7 @@ public abstract class ControlTaskBase implements IControlTask
      * @param operation to set the interrupt state for
      * @param value to set as the interrupt
      */
-    protected void setAnalogOperationState(Operation operation, double value)
+    protected void setAnalogOperationState(IOperation operation, double value)
     {
         OperationState operationState = this.operationStateMap.get(operation);
         ((AnalogOperationState)operationState).setInterruptState(value);
@@ -83,7 +83,7 @@ public abstract class ControlTaskBase implements IControlTask
      * @param operation to set the interrupt state for
      * @param value to set as the interrupt
      */
-    protected void setDigitalOperationState(Operation operation, boolean value)
+    protected void setDigitalOperationState(IOperation operation, boolean value)
     {
         OperationState operationState = this.operationStateMap.get(operation);
         ((DigitalOperationState)operationState).setInterruptState(value);
@@ -94,7 +94,7 @@ public abstract class ControlTaskBase implements IControlTask
      * @param operation to set the interrupt state for
      * @return value to set for the operation
      */
-    protected double getAnalogOperationState(Operation operation)
+    protected double getAnalogOperationState(IOperation operation)
     {
         OperationState operationState = this.operationStateMap.get(operation);
         return ((AnalogOperationState)operationState).getState();
@@ -105,7 +105,7 @@ public abstract class ControlTaskBase implements IControlTask
      * @param operation to set the interrupt state for
      * @return value to set for the operation
      */
-    protected boolean getDigitalOperationState(Operation operation)
+    protected boolean getDigitalOperationState(IOperation operation)
     {
         OperationState operationState = this.operationStateMap.get(operation);
         return ((DigitalOperationState)operationState).getState();
@@ -124,7 +124,7 @@ public abstract class ControlTaskBase implements IControlTask
      * Gets the Operation State Map
      * @return the operation state map
      */
-    protected Map<Operation, OperationState> getOperationStateMap()
+    protected Map<IOperation, OperationState> getOperationStateMap()
     {
         return this.operationStateMap;
     }

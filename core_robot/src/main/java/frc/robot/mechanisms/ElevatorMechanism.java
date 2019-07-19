@@ -8,7 +8,7 @@ import frc.robot.TuningConstants;
 import frc.robot.common.IMechanism;
 import frc.robot.common.PIDHandler;
 import frc.robot.common.robotprovider.*;
-import frc.robot.driver.Operation;
+import frc.robot.driver.DigitalOperation;
 import frc.robot.driver.common.Driver;
 
 import com.google.inject.Inject;
@@ -59,23 +59,23 @@ public class ElevatorMechanism implements IMechanism
     @Override
     public void update()
     {
-        if (this.driver.getDigital(Operation.ElevatorOneButton))
+        if (this.driver.getDigital(DigitalOperation.ElevatorOneButton))
         {
             this.requestedFloor = Floor.One;
         }
-        else if (this.driver.getDigital(Operation.ElevatorTwoButton))
+        else if (this.driver.getDigital(DigitalOperation.ElevatorTwoButton))
         {
             this.requestedFloor = Floor.Two;
         }
-        else if (this.driver.getDigital(Operation.ElevatorThreeButton))
+        else if (this.driver.getDigital(DigitalOperation.ElevatorThreeButton))
         {
             this.requestedFloor = Floor.Three;
         }
-        else if (this.driver.getDigital(Operation.ElevatorFourButton))
+        else if (this.driver.getDigital(DigitalOperation.ElevatorFourButton))
         {
             this.requestedFloor = Floor.Four;
         }
-        else if (this.driver.getDigital(Operation.ElevatorFiveButton))
+        else if (this.driver.getDigital(DigitalOperation.ElevatorFiveButton))
         {
             this.requestedFloor = Floor.Five;
         }

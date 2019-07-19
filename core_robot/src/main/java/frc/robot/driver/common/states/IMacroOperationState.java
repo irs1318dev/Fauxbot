@@ -1,6 +1,6 @@
 package frc.robot.driver.common.states;
 
-import frc.robot.driver.Operation;
+import frc.robot.driver.IOperation;
 
 /**
  * The state of the current macro operation.
@@ -8,9 +8,9 @@ import frc.robot.driver.Operation;
  */
 public interface IMacroOperationState extends IOperationState
 {
-    public Operation[] getMacroCancelOperations();
+    public IOperation[] getMacroCancelOperations();
 
-    public Operation[] getAffectedOperations();
+    public IOperation[] getAffectedOperations();
 
     public boolean getIsActive();
 

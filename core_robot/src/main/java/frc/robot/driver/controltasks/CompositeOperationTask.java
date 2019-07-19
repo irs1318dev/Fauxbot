@@ -1,7 +1,7 @@
 package frc.robot.driver.controltasks;
 
 import frc.robot.TuningConstants;
-import frc.robot.driver.Operation;
+import frc.robot.driver.IOperation;
 import frc.robot.driver.common.IControlTask;
 
 /**
@@ -10,8 +10,8 @@ import frc.robot.driver.common.IControlTask;
  */
 public abstract class CompositeOperationTask extends TimedTask implements IControlTask
 {
-    private final Operation toPerform;
-    private final Operation[] possibleOperations;
+    private final IOperation toPerform;
+    private final IOperation[] possibleOperations;
 
     /**
      * Initializes a new CompositeOperationTask
@@ -19,7 +19,7 @@ public abstract class CompositeOperationTask extends TimedTask implements IContr
      * @param toPerform the operation to perform by setting to true for duration
      * @param possibleOperations to set of linked operations that should be set to false for duration
      */
-    protected CompositeOperationTask(double duration, Operation toPerform, Operation[] possibleOperations)
+    protected CompositeOperationTask(double duration, IOperation toPerform, IOperation[] possibleOperations)
     {
         super(duration);
         if (TuningConstants.THROW_EXCEPTIONS)
@@ -27,7 +27,7 @@ public abstract class CompositeOperationTask extends TimedTask implements IContr
             // if we are cool with throwing exceptions (testing), check if toPerform is in
             // the possibleOperations set and throw an exception if it is not
             boolean containsToPerform = false;
-            for (Operation op : possibleOperations)
+            for (IOperation op : possibleOperations)
             {
                 if (op == toPerform)
                 {
@@ -53,7 +53,7 @@ public abstract class CompositeOperationTask extends TimedTask implements IContr
     public void begin()
     {
         super.begin();
-        for (Operation op : this.possibleOperations)
+        for (IOperation op : this.possibleOperations)
         {
             this.setDigitalOperationState(op, op == toPerform);
         }
@@ -65,7 +65,7 @@ public abstract class CompositeOperationTask extends TimedTask implements IContr
     @Override
     public void update()
     {
-        for (Operation op : this.possibleOperations)
+        for (IOperation op : this.possibleOperations)
         {
             this.setDigitalOperationState(op, op == toPerform);
         }
@@ -78,7 +78,7 @@ public abstract class CompositeOperationTask extends TimedTask implements IContr
     public void end()
     {
         super.end();
-        for (Operation op : this.possibleOperations)
+        for (IOperation op : this.possibleOperations)
         {
             this.setDigitalOperationState(op, false);
         }

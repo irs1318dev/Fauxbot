@@ -28,7 +28,7 @@ public class ButtonMap implements IButtonMap
     };
 
     @SuppressWarnings("serial")
-    public static Map<Operation, OperationDescription> OperationSchema = new HashMap<Operation, OperationDescription>()
+    public static Map<AnalogOperation, AnalogOperationDescription> AnalogOperationSchema = new HashMap<AnalogOperation, AnalogOperationDescription>()
     {
         {
             /** Example Analog operation entry:
@@ -39,41 +39,88 @@ public class ButtonMap implements IButtonMap
                     AnalogAxis.JOYSTICK_X,
                     ElectronicsConstants.INVERT_X_AXIS,
                     TuningConstants.DRIVETRAIN_X_DEAD_ZONE));*/
-            
+
+            /*
+            put(
+                AnalogOperation.ForkliftDriveLeft,
+                new AnalogOperationDescription(
+                    UserInputDevice.Driver,
+                    AnalogAxis.JOYSTICK_X,
+                    ElectronicsConstants.INVERT_X_AXIS,
+                    TuningConstants.DEAD_ZONE));
+            put(
+                AnalogOperation.ForkliftDriveRight,
+                new AnalogOperationDescription(
+                    UserInputDevice.Driver,
+                    AnalogAxis.JOYSTICK_Y,
+                    ElectronicsConstants.INVERT_Y_AXIS,
+                    TuningConstants.DEAD_ZONE));
+            */
+            /*
+            put(
+                AnalogOperation.PrinterMoveX,
+                new AnalogOperationDescription(
+                    UserInputDevice.Driver,
+                    AnalogAxis.JOYSTICK_X,
+                    ElectronicsConstants.INVERT_X_AXIS,
+                    0.0));
+            put(
+                AnalogOperation.PrinterMoveY,
+                new AnalogOperationDescription(
+                    UserInputDevice.Driver,
+                    AnalogAxis.JOYSTICK_Y,
+                    ElectronicsConstants.INVERT_Y_AXIS,
+                    0.0));
+            */
+
+            put(
+                AnalogOperation.ShooterAngle,
+                new AnalogOperationDescription(
+                    UserInputDevice.Driver,
+                    AnalogAxis.JOYSTICK_X,
+                    ElectronicsConstants.INVERT_X_AXIS,
+                    TuningConstants.DEAD_ZONE));
+        }
+    };
+
+    @SuppressWarnings("serial")
+    public static Map<DigitalOperation, DigitalOperationDescription> DigitalOperationSchema = new HashMap<DigitalOperation, DigitalOperationDescription>()
+    {
+        {
             /** Example Digital operation entry:
             put(
-                Operation.SomeDigitalOperation,
+                DigitalOperation.SomeDigitalOperation,
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
                     ButtonType.Toggle));*/
             /*
             put(
-                Operation.ElevatorOneButton,
+                DigitalOperation.ElevatorOneButton,
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
                     ButtonType.Click));
             put(
-                Operation.ElevatorTwoButton,
+                DigitalOperation.ElevatorTwoButton,
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
                     ButtonType.Click));
             put(
-                Operation.ElevatorThreeButton,
+                DigitalOperation.ElevatorThreeButton,
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_MIDDLE_LEFT_BUTTON,
                     ButtonType.Click));
             put(
-                Operation.ElevatorFourButton,
+                DigitalOperation.ElevatorFourButton,
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_MIDDLE_RIGHT_BUTTON,
                     ButtonType.Click));
             put(
-                Operation.ElevatorFiveButton,
+                DigitalOperation.ElevatorFiveButton,
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
@@ -81,27 +128,13 @@ public class ButtonMap implements IButtonMap
             */
             /*
             put(
-                Operation.ForkliftDriveLeft,
-                new AnalogOperationDescription(
-                    UserInputDevice.Driver,
-                    AnalogAxis.JOYSTICK_X,
-                    ElectronicsConstants.INVERT_X_AXIS,
-                    TuningConstants.DEAD_ZONE));
-            put(
-                Operation.ForkliftDriveRight,
-                new AnalogOperationDescription(
-                    UserInputDevice.Driver,
-                    AnalogAxis.JOYSTICK_Y,
-                    ElectronicsConstants.INVERT_Y_AXIS,
-                    TuningConstants.DEAD_ZONE));
-            put(
-                Operation.ForkliftUp,
+                DigitalOperation.ForkliftUp,
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
                     ButtonType.Click));
             put(
-                Operation.ForkliftDown,
+                DigitalOperation.ForkliftDown,
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
@@ -109,7 +142,7 @@ public class ButtonMap implements IButtonMap
             */
             /*
             put(
-                Operation.GarageDoorButton,
+                DigitalOperation.GarageDoorButton,
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
@@ -117,27 +150,13 @@ public class ButtonMap implements IButtonMap
             */
             /*
             put(
-                Operation.PrinterMoveX,
-                new AnalogOperationDescription(
-                    UserInputDevice.Driver,
-                    AnalogAxis.JOYSTICK_X,
-                    ElectronicsConstants.INVERT_X_AXIS,
-                    0.0));
-            put(
-                Operation.PrinterMoveY,
-                new AnalogOperationDescription(
-                    UserInputDevice.Driver,
-                    AnalogAxis.JOYSTICK_Y,
-                    ElectronicsConstants.INVERT_Y_AXIS,
-                    0.0));
-            put(
-                Operation.PrinterPenDown,
+                DigitalOperation.PrinterPenDown,
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
                     ButtonType.Click));
             put(
-                Operation.PrinterPenUp,
+                DigitalOperation.PrinterPenUp,
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
@@ -145,20 +164,13 @@ public class ButtonMap implements IButtonMap
             */
 
             put(
-                Operation.ShooterAngle,
-                new AnalogOperationDescription(
-                    UserInputDevice.Driver,
-                    AnalogAxis.JOYSTICK_X,
-                    ElectronicsConstants.INVERT_X_AXIS,
-                    TuningConstants.DEAD_ZONE));
-            put(
-                Operation.ShooterSpin,
+                DigitalOperation.ShooterSpin,
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
                     ButtonType.Toggle));
             put(
-                Operation.ShooterFire,
+                DigitalOperation.ShooterFire,
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
@@ -193,9 +205,15 @@ public class ButtonMap implements IButtonMap
     }
 
     @Override
-    public Map<Operation, OperationDescription> getOperationSchema()
+    public Map<AnalogOperation, AnalogOperationDescription> getAnalogOperationSchema()
     {
-        return ButtonMap.OperationSchema;
+        return ButtonMap.AnalogOperationSchema;
+    }
+
+    @Override
+    public Map<DigitalOperation, DigitalOperationDescription> getDigitalOperationSchema()
+    {
+        return ButtonMap.DigitalOperationSchema;
     }
 
     @Override

@@ -7,7 +7,7 @@ import frc.robot.HardwareConstants;
 import frc.robot.TuningConstants;
 import frc.robot.common.IMechanism;
 import frc.robot.common.robotprovider.*;
-import frc.robot.driver.Operation;
+import frc.robot.driver.*;
 import frc.robot.driver.common.Driver;
 
 import com.google.inject.Inject;
@@ -62,12 +62,12 @@ public class ShooterMechanism implements IMechanism
     @Override
     public void update()
     {
-        double desiredAngle = this.driver.getAnalog(Operation.ShooterAngle);
+        double desiredAngle = this.driver.getAnalog(AnalogOperation.ShooterAngle);
         desiredAngle = ((desiredAngle + 1.0) / 2.0) * (HardwareConstants.SHOOTER_MAX_ANGLE - HardwareConstants.SHOOTER_MIN_ANGLE) + HardwareConstants.SHOOTER_MIN_ANGLE;
         this.angleMotor.set(desiredAngle);
 
         double spinSpeed = 0.0;
-        if (this.driver.getDigital(Operation.ShooterSpin))
+        if (this.driver.getDigital(DigitalOperation.ShooterSpin))
         {
             spinSpeed = TuningConstants.SHOOTER_SPIN_SPEED;
         }
@@ -75,7 +75,7 @@ public class ShooterMechanism implements IMechanism
         this.flyWheelMotor.set(spinSpeed);
 
         boolean kick = false;
-        if (this.driver.getDigital(Operation.ShooterFire))
+        if (this.driver.getDigital(DigitalOperation.ShooterFire))
         {
             kick = true;
         }

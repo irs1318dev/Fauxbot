@@ -3,7 +3,7 @@ package frc.robot.driver.common.descriptions;
 import java.util.function.Supplier;
 
 import frc.robot.driver.common.AnalogAxis;
-import frc.robot.driver.Operation;
+import frc.robot.driver.IOperation;
 import frc.robot.driver.Shift;
 import frc.robot.driver.common.IControlTask;
 import frc.robot.driver.common.UserInputDeviceButton;
@@ -20,8 +20,8 @@ public class MacroOperationDescription extends OperationDescription
     private final DigitalSensor sensor;
     private final ButtonType buttonType;
     private final Supplier<IControlTask> taskSupplier;
-    private final Operation[] affectedOperations;
-    private final Operation[] macroCancelOperations;
+    private final IOperation[] affectedOperations;
+    private final IOperation[] macroCancelOperations;
 
     /**
      * Initializes a new MacroOperationDescription based on a user interaction
@@ -36,7 +36,7 @@ public class MacroOperationDescription extends OperationDescription
         UserInputDeviceButton userInputDeviceButton,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
-        Operation[] affectedOperations)
+        IOperation[] affectedOperations)
     {
         this(
             true,
@@ -69,7 +69,7 @@ public class MacroOperationDescription extends OperationDescription
         Shift requiredShift,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
-        Operation[] affectedOperations)
+        IOperation[] affectedOperations)
     {
         this(
             true,
@@ -103,8 +103,8 @@ public class MacroOperationDescription extends OperationDescription
         Shift requiredShift,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
-        Operation[] affectedOperations,
-        Operation[] macroCancelOperations)
+        IOperation[] affectedOperations,
+        IOperation[] macroCancelOperations)
     {
         this(
             true,
@@ -135,7 +135,7 @@ public class MacroOperationDescription extends OperationDescription
         int povValue,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
-        Operation[] affectedOperations)
+        IOperation[] affectedOperations)
     {
         this(
             true,
@@ -168,7 +168,7 @@ public class MacroOperationDescription extends OperationDescription
         Shift requiredShift,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
-        Operation[] affectedOperations)
+        IOperation[] affectedOperations)
     {
         this(
             true,
@@ -202,8 +202,8 @@ public class MacroOperationDescription extends OperationDescription
         Shift requiredShift,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
-        Operation[] affectedOperations,
-        Operation[] macroCancelOperations)
+        IOperation[] affectedOperations,
+        IOperation[] macroCancelOperations)
     {
         this(
             true,
@@ -238,7 +238,7 @@ public class MacroOperationDescription extends OperationDescription
         double axisRangeMaxValue,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
-        Operation[] affectedOperations)
+        IOperation[] affectedOperations)
     {
         this(
             true,
@@ -274,8 +274,8 @@ public class MacroOperationDescription extends OperationDescription
         double axisRangeMaxValue,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
-        Operation[] affectedOperations,
-        Operation[] macroCancelOperations)
+        IOperation[] affectedOperations,
+        IOperation[] macroCancelOperations)
     {
         this(
             true,
@@ -311,7 +311,7 @@ public class MacroOperationDescription extends OperationDescription
         Shift requiredShift,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
-        Operation[] affectedOperations)
+        IOperation[] affectedOperations)
     {
         this(
             true,
@@ -348,8 +348,8 @@ public class MacroOperationDescription extends OperationDescription
         Shift requiredShift,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
-        Operation[] affectedOperations,
-        Operation[] macroCancelOperations)
+        IOperation[] affectedOperations,
+        IOperation[] macroCancelOperations)
     {
         this(
             true,
@@ -378,7 +378,7 @@ public class MacroOperationDescription extends OperationDescription
         DigitalSensor sensor,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
-        Operation[] affectedOperations)
+        IOperation[] affectedOperations)
     {
         this(
             true,
@@ -421,8 +421,8 @@ public class MacroOperationDescription extends OperationDescription
         Shift requiredShift,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
-        Operation[] affectedOperations,
-        Operation[] macroCancelOperations)
+        IOperation[] affectedOperations,
+        IOperation[] macroCancelOperations)
     {
         super(OperationType.None, userInputDevice, requiredShift);
 
@@ -484,7 +484,7 @@ public class MacroOperationDescription extends OperationDescription
         return this.taskSupplier.get();
     }
 
-    public Operation[] getMacroCancelOperations()
+    public IOperation[] getMacroCancelOperations()
     {
         if (this.macroCancelOperations != null)
         {
@@ -494,7 +494,7 @@ public class MacroOperationDescription extends OperationDescription
         return this.affectedOperations;
     }
 
-    public Operation[] getAffectedOperations()
+    public IOperation[] getAffectedOperations()
     {
         return this.affectedOperations;
     }

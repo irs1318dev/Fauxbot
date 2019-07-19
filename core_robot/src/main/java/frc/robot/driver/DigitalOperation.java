@@ -1,13 +1,11 @@
 package frc.robot.driver;
 
-public enum Operation
+public enum DigitalOperation implements IOperation
 {
     // GarageDoor operations:
     GarageDoorButton,
 
     // Forklift operations: 
-    ForkliftDriveLeft,
-    ForkliftDriveRight,
     ForkliftUp,
     ForkliftDown,
 
@@ -19,13 +17,10 @@ public enum Operation
     ElevatorFiveButton,
 
     // Printer operations:
-    PrinterMoveX,
-    PrinterMoveY,
     PrinterPenDown,
     PrinterPenUp,
 
     // Shooter operations:
-    ShooterAngle,
     ShooterSpin,
     ShooterFire,
 }
