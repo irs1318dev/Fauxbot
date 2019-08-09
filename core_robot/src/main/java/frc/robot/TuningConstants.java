@@ -5,6 +5,7 @@ import java.util.*;
 import com.google.inject.Injector;
 
 import frc.robot.common.*;
+import frc.robot.mechanisms.GarageDoorMechanism;
 
 /**
  * All constants related to tuning the operation of the robot.
@@ -20,6 +21,7 @@ public class TuningConstants
     public static List<IMechanism> GetActiveMechanisms(Injector injector)
     {
         List<IMechanism> mechanismList = new ArrayList<IMechanism>();
+        mechanismList.add(injector.getInstance(GarageDoorMechanism.class));
         //mechanismList.add(injector.getInstance(SomeMechanism.class));
         return mechanismList;
     }
@@ -33,7 +35,7 @@ public class TuningConstants
 
     public static final double GARAGE_DOOR_OPENING_POWER = 1.0;
     public static final double GARAGE_DOOR_CLOSING_POWER = -1.0;
-    
+
     //================================================== Elevator ==============================================================
 
     //================================================== Shooter ==============================================================
