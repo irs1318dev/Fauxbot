@@ -46,13 +46,12 @@ public class ButtonMap implements IButtonMap
     public static Map<DigitalOperation, DigitalOperationDescription> DigitalOperationSchema = new HashMap<DigitalOperation, DigitalOperationDescription>()
     {
         {
-            /** Example Digital operation entry:
             put(
-                DigitalOperation.SomeDigitalOperation,
+                DigitalOperation.GarageDoorButton,
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
-                    ButtonType.Toggle));*/
+                    ButtonType.Click));
         }
     };
 
