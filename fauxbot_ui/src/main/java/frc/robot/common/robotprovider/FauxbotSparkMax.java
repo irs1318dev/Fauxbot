@@ -13,12 +13,14 @@ public class FauxbotSparkMax extends FauxbotAdvancedMotorBase implements ISparkM
     private double kd;
     private double kf;
     private SparkMaxMotorType motorType;
+    private int currentSlot;
 
     public FauxbotSparkMax(int deviceID, SparkMaxMotorType motorType)
     {
         super(deviceID);
 
         this.currentMode = SparkMaxControlMode.PercentOutput;
+        this.currentSlot = 0;
         this.motorType = motorType;
         this.innerEncoder = new FauxbotEncoder(new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.CAN, this.connection.getPort()));
     }
@@ -79,6 +81,11 @@ public class FauxbotSparkMax extends FauxbotAdvancedMotorBase implements ISparkM
         {
             super.set(newValue);
         }
+    }
+
+    public void setSelectedSlot(int slotId)
+    {
+        this.currentSlot = slotId;
     }
 
     public void setForwardLimitSwitch(boolean enabled, boolean normallyOpen)
