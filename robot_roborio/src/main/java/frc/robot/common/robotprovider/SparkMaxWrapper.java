@@ -198,12 +198,21 @@ public class SparkMaxWrapper implements ISparkMax
 
     public void setPosition(double position)
     {
-        this.wrappedObject.setEncPosition(position);
+        if (this.wrappedEncoder == null)
+        {
+            this.wrappedEncoder = this.wrappedObject.getEncoder();
+            if (this.wrappedEncoder == null)
+            {
+                return;
+            }
+        }
+
+        this.wrappedEncoder.setPosition(position);
     }
 
     public void reset()
     {
-        this.wrappedObject.setEncPosition(0);
+        this.setPosition(0.0);
     }
 
     public double getPosition()
