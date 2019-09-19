@@ -87,109 +87,109 @@ RoboRIO is the name of the computing device that is used to control the robot.  
 
 ### Actuators
 #### Motors (Talons, Jaguars, Victors)
-Electric motors are typically used to provide movement for the robot.  They provide a rotational force that is dependent on the current setting on them and the amount of voltage that is available.  Motors are useful when a certain amount of motion is needed or when there are motions that need to happen at different speeds (as opposed to all-or-nothing).  Motors are used in places such as drive trains, elevators, and intakes.  In WPILib, they are controlled using a double value (rational number) between -1.0 and 1.0.  Since 2018, we have typically used the Talon SRX which can incorporate the abilities of a motor, an encoder, a top/bottom limit switch, and a PID controller.
+Electric motors are typically used to provide movement for the robot.  They provide a rotational force that is dependent on the current setting on them and the amount of voltage that is available.  Motors are useful when a certain amount of motion is needed or when there are motions that need to happen at different speeds (as opposed to all-or-nothing).  Motors are used in places such as drive trains, elevators, and intakes.  In WPILib, they are controlled using a double value (rational number) between -1.0 and 1.0.  Since 2018, we have typically used the Talon SRX which can incorporate the abilities of a motor, an encoder, a top/bottom limit switch, and a PID controller.  In 2020, we are thinking of using the Spark MAX along with NEO brushless motors.
 
 #### Pistons/Pneumatic Cylinders (DoubleSolenoids)
-Pneumatic cylinders are also used to provide movement for components on the robot.  They provide a lateral force and are controlled very simply by a set of 2 valves (solenoids) that change where air pressure is directed in order to move the rod within the cylinder.  There are 3 settings: "off" which means that no air pressure is applied through either valve, "forward" which means that air pressure is applied through one valve, and "reverse" which means that air pressure is applied through the other valve.  Forward and Reverse typically correlates to whether the piston is actively pushing out or actively pulling in, but it depends on how the pneumatics are set up.  Due to the way that they work, pneumatics controlled by solenoids trigger all-or-nothing movements.  Solenoids are often used in "shooters", such as the kicker on the 2016 robot.  In WPILib, they are controlled using settings of Value.kOff, Value.kForward, and Value.kReverse.
+Pneumatic cylinders are also used to provide movement for components on the robot.  They provide a linear force and are controlled very simply by a set of 2 valves (solenoids) that change where air pressure is directed in order to move the rod within the cylinder.  There are 3 settings: "off" which means that no air pressure is applied through either valve, "forward" which means that air pressure is applied through one valve, and "reverse" which means that air pressure is applied through the other valve.  Forward and Reverse typically correlates to whether the piston is actively pushing out or actively pulling in, but it depends on how the pneumatics are set up.  Due to the way that they work, pneumatics controlled by solenoids trigger all-or-nothing movements.  Solenoids are often used in "shooters" such as the kicker on the 2016 robot, or for controlling the position of an intake such as on the 2019 robot.  In WPILib, they are controlled using settings of Value.kOff, Value.kForward, and Value.kReverse.
 
 ### Sensors
 #### Limit Switches
 Limit switches are simple switches that are used to sense when two things are physically touching.  They are simple electronic devices that complete a circuit (or break a circuit) when the switch is pressed, and break a circuit (or complete it) when released.  In WPILib, you would use a DigitalInput, which returns a true or false based on whether the limit switch is pressed or not.
 
 #### Encoders
-Encoders are used to measure the amount that an axle has rotated.  There are different types of encoders, but we typically use a quadrature encoder.  These encoders can detect the amount of rotation and the direction in which the axle has rotated.  Each encoder has a rating for how many "pulses" or ticks it receives in a complete rotation of the axle.  Using some simple math based on the sizes of the wheels (and gears), you can calculate how far something has travelled.  In WPILib, you would use an Encoder object, which returns the number of ticks/pulses, the distance (based on the distance per pulse), or the velocity (if you trust the timer on the robot).
+Encoders are used to measure the amount that an axle has rotated.  There are different types of encoders (optical, magnetic).  We typically use a quadrature encoder, which can detect the amount of rotation and the direction in which the axle has rotated.  Each encoder has a rating for how many "pulses" or ticks it receives in a complete rotation of the axle.  Using some simple math based on the sizes of the wheels (and gears), you can calculate how far something has travelled.  In WPILib, you would use an Encoder object, which returns the number of ticks/pulses, the distance (based on the distance per pulse), or the velocity (if you trust the timer on the robot).  In some scenarios, such as when using a Talon SRX or Spark MAX motor controller, the encoder plugs into the motor controller and is instead used as a part of controlling the motor.
 
 #### Through-Beam Sensors
-Through-Beam Sensors are simple infrared sensors and lights that are used to sense whether there is anything between the light and sensor.  They are often used in the real world at the bottom of a garage door to detect if anything is under the garage door so it doesn’t get crushed.  This can be used on a robot to sense whether something is in a given spot.  We used one on the 2015 robot to detect whether any tote was contained within the intake in a proper place to be picked up by the robot’s elevator.  In WPILib, you would use an AnalogInput, which returns a double value (rational number) which indicates how many volts were detected by the infrared sensor.  This value will differ based on the through-beam sensor, so you can tell through experimentation whether it is tripped or not.
+Through-Beam Sensors are simple infrared sensors and lights that are used to sense whether there is anything between the light and sensor.  They are often used in the real world at the bottom of a garage door to detect if anything is under the garage door so it doesn’t get crushed.  This can be used on a robot to sense whether something is in a given location.  We often use them on robots to detect whether the game piece has been successfully picked up.  In WPILib, you would use an AnalogInput, which returns a double value (rational number) which indicates how many volts were detected by the infrared sensor.  This value will differ based on the through-beam sensor, so you can tell through experimentation whether it is tripped or not for a given value range.
 
 #### Distance Sensors
-There are various types of distance sensors, which can use either sound or light to sense how far away the robot is from something else.  In WPILib, you would use an AnalogInput, which would return a double value (rational number) which indicates how many volts were detected by the sensor.  This value will differ based on the sensor and its placement, so you can tell through experimentation what the values mean.
+There are various types of distance sensors, which can use either sound or light to sense how far away the robot is from something else.  In WPILib, you would use an AnalogInput, which would return a double value (rational number) which indicates how many volts were detected by the sensor.  This value will differ based on the sensor and its placement, so you can tell through experimentation what the values mean.  It is also possible to use a more complex sensor that would need to have code written for it to use I2C or another protocol to let the RoboRIO communicate with the sensor.
 
 ### Other
 #### Logger
 A Logger is something that takes information that is used and outputs it to some other form - as output either on the driver station console, in the smart-dashboard, or into a file on the RoboRIO.  We typically want to log all sensor information and most output information so that we can be sure that the robot is doing what we tell it to do.  If the robot is not doing what we are telling it to, this makes it easier to determine whether the problem is a hardware problem (electronics, mechanical) or a software problem.
 
 #### LED Lights
-We also often use LED lights as an indicator of some kind, or in association with a Vision system that takes advantage of retro-reflective tape.  These are usually controlled with a DigitalOutput in WPILib.
+We also often use LED lights as an indicator of some kind, or in association with a Vision system that takes advantage of retro-reflective tape.  These can be controlled a number of different ways, using DigitalOutput, a Solenoid slot on the PCM, a Relay, or even a Motor controller in WPILib.
 
 ### User Input Devices
 #### Joysticks
-The joystick is a normal computer joystick, much like you’d find for playing a flight simulator game.  The ones that we have used for the past few years is the Logitech Xtreme 3D Pro, which has 12 buttons, the primary X and Y axis, a Throttle axis, and a directional hat.  Our team typically uses a joystick for the driver’s input method.
+The joystick is a normal computer joystick, much like you’d find for playing a flight simulator game.  The ones that we have used for the past few years is the Logitech Xtreme 3D Pro, which has 12 buttons, the primary X and Y axis, a Throttle axis, and a directional hat.  Our team has historically used a joystick for the Driver’s primary input method.
 
 #### Button Pads
-The button pad is a normal computer button pad.  The ones that we use are a gaming button pad which has 12 buttons.  Our team often uses these for the co-driver’s input method.
+The button pads we use are PC gaming button pads which have 12 buttons.  Our team often uses these for the Co-Driver’s input method, or as a secondary driver input method.
+
+#### Controllers
+Another controller type is an Xbox 360, Xbox One, PS4 controller, or a 3rd-party controller that has USB input.  This is an alternative that can be used by a Driver and/or Operator of the robot if the control scheme is preferable based on that year's challenge.
 
 #### Dip Switches
-Dip Switches are simple toggle switches which are used to switch between different modes.  Our team typically uses them to allow us to select which of several different pre-programmed autonomous routines to use without having to change anything within the code or rely on the smart dashboard.
+Dip Switches are simple toggle switches which are used to switch between different modes on the Robot.  Our team has used them to allow us to select which of several different pre-programmed autonomous routines to use without having to change anything within the code or rely on the smart dashboard.  In 2019, we started using the Smart Dashboard to choose the autonomous (sandstorm) routine, though this may change going forward.
 
 ### Modes
-During each match, the first portion is a part called autonomous mode, where the robot drives itself.  The next portion is called teleop mode, where a user drives the robot.
+During each match, the first portion is usually a part called autonomous mode, where the robot drives itself.  The next portion is called teleop mode, where a user drives the robot.
 
 ## Robot Code Design
 ### Robot.java
-The "main loop" of the robot is in Robot.java, which has a few entry points from the WPILib infrastructure which our code depends on.  Robot.java typically stays exactly the same from year to year.
+The "main loop" of the robot is in CoreRobot.java (and Robot.java), which has a few entry points from the WPILib infrastructure which our code depends on.  CoreRobot.java typically stays exactly the same from year to year.
 
 The entry points for code execution comes from WPILib at the following times:
 * When the robot is first turned on (robotInit)
-  * In robotInit, we initialize the mechanisms that the robot will use.
-When the robot is enabled in teleop mode (teleopInit)
-  * In teleopInit, we initialize the driver as a UserDriver and then run generalInit.  In generalInit we apply the driver to each of the mechanisms.
+  * In robotInit, we initialize the mechanisms, logger, timer, and driver that the robot will use.
+* When the robot is enabled in teleop mode (teleopInit)
+  * In teleopInit, we run generalInit.  In generalInit we apply the driver to each of the mechanisms and ensure that the timer has been started.
 * When the robot is enabled in autonomous mode (autonomousInit).
-  * In autonomousInit, we initialize the driver as an AutonomousDriver, and then call generalInit.
+  * In autonomousInit, we tell the driver that it is beginning autonomous mode, and then call generalInit.
 * When the robot is disabled (disableInit).
-  * In disabledInit, we call the stop function for each of our mechanisms and the driver.
+  * In disabledInit, we call the stop function for each of our mechanisms, the timer, and the driver.
 * Every ~20ms while the robot is enabled in teleop mode (teleopPeriodic).
   * In teleopPeriodic, we simply call our "generalPeriodic" function because we have structured our code to be the same for our teleop and autonomous modes.  In generalPeriodic, we first call the readSensor function for each of our mechanisms, then call update on the driver that is being used in the current mode, and finally call the update function for each of our mechanisms.
 * Every ~20ms while the robot is enabled in autonomous mode (autonomousPeriodic).
   * In autonomousPeriodic, we again call "generalPeriodic".
 
 ### Mechanisms
-Mechanism classes handle the reading of all of the sensors and control of all of the actuators on each mechanism of the robot.  There is one Mechanism class for each individual part of the robot, named using the pattern "ThingMechanism" (where "Thing" is the name of the mechanism, like "DriveTrain").  Mechanisms read from all of the Sensors and translate the Operations from the Driver into the functions that need to be called on the individual Actuators.  This typically involves some math and logic to convert the data from the operations into the particular actions that need to happen.  For example, when using a typical Tank drivetrain, the DriveTrain Mechanism calculates the speed settings to apply to the left and right motors based on the DriveForward operation and the Turn operation.  Also, there may be other concerns to take care of, such as how to respond based on the presence or absence of a setting from another operation or a sensor.
+Mechanism classes handle the reading of all of the sensors and control of all of the actuators on each mechanism of the robot.  There is one Mechanism class for each individual part of the robot, named using the pattern "ThingMechanism" (where "Thing" is the name of the mechanism, like "DriveTrain").  Mechanisms read from all of the Sensors and translate the Operations from the Driver into the functions that need to be called on the individual Actuators.  This typically involves some math and logic to convert the data from the operations into the particular actions that need to happen.  For example, when using a typical Tank drivetrain, the DriveTrain Mechanism calculates the speed settings to apply to the left and right motors based on the DriveTrainMoveForward operation and the DriveTrainTurn operation.  Also, there may be other concerns to take care of, such as how to respond based on the presence or absence of a setting from another operation or a sensor.
 
-The Mechanisms implement the IMechanism interface which has the definitions of functions that every Mechanism must implement.  In the mechanism, the readSensor and update functions are the most important, and are called every ~20 milliseconds.  The readSensors function reads the current values from all of the sensors and stores them locally in member variables on the object.  The update function calculates what should be applied to the output devices based on the current Operations and the data read from the sensors.  It is important that these functions execute quickly, so anything that depends on a certain length of time elapsing should be calculated between separate runs of update and not involve any sleep operation.  Therefore, most actions that take multiple iterations of the update function belong in a macro instead of being hard-coded into the Mechanism.
+The Mechanisms implement the IMechanism interface which has the definitions of functions that every Mechanism must implement.  In the mechanism, the readSensor and update functions are the most important, and are called every ~20 milliseconds.  The readSensors function reads the current values from all of the sensors and stores them locally in member variables for that ThingMechanism object.  The update function calculates what should be applied to the output devices based on the current Operations and the data read from the sensors.  It is important that these functions execute quickly, so anything that depends on a certain length of time elapsing should be calculated between separate runs of update and not involve any long-running loops or sleeps.  Therefore, most actions that take multiple iterations of the update function belong in a macro instead of being hard-coded into the Mechanism, though it is also possible for there to be state kept in member variables to help keep track of what that mechanism should be doing.
 
 ### ElectronicsConstants
-ElectroincsConstants is a class that holds constant values for all of the physical connections (PWM channels, Digital IO channels, Analog IO channels, CAN ids, etc.) that are needed to be known in order to control the correct output device and read the correct sensors.  We keep this information in a separate class (and all in a single file) so that there is only one place to update if the Electronics sub-team needs to re-run the wiring, or in case there are wiring differences between the practice robot and the competition robot.
+ElectroincsConstants is a class that holds constant values describing all of the physical connections (PWM channels, Digital IO channels, Analog IO channels, CAN ids, etc.) that are needed to be known in order to control the correct output device and read the correct sensors.  We keep this information in a separate class (and all in a single file) so that there is only one place to update if the Electronics sub-team needs to re-run the wiring, or in case there are wiring differences between the practice robot and the competition robot.
 
 ### Driver
-The Driver is the actor that controls the robots.  The Driver triggers different Operations to occur based on the intent of the current actor that is controlling the robot.  There are two types of Driver - the UserDriver and the AutonomousDriver.
+The Driver is the actor that controls the robots.  The Driver triggers different Operations to occur based on the intent of the current actor that is controlling the robot.
 
 #### Operation
 An Operation is a single basic action that the robot can perform.  There are typically many operations for each mechanism.  These operations should be thought of as the most basic ways of controlling each mechanism.  Operations are also the building blocks on top of which we will build out Macros and Autonomous Routines.  Operations can be either Analog or Digital.
 
 ##### Analog Operations
-Analog operations are typically operations that happen to a certain extent and are controlled by an axis on the joystick during teleop mode (e.g. the drivetrain is controlled by pushing forward along the Y axis of the joystick).  Analog operations are expected to return a double value (rational number, usually between -1.0 and 1.0).
+Analog operations are typically operations that happen to a certain extent and are controlled by an axis on the joystick during teleop mode (e.g. the drivetrain is controlled by pushing forward along the Y axis of the joystick).  Analog operations are related to double values (rational number, usually between -1.0 and 1.0).
 
 ##### Digital Operations
-Digital operations are operations that are either happening or not happening and are controlled by a button on the joystick or button pad during teleop mode (e.g. a trigger on the joystick to cause a "shoot" action).  Digital operations are expected to return a boolean value (true or false).
+Digital operations are operations that are either happening or not happening and are controlled by a button on the joystick or button pad during teleop mode (e.g. a trigger on the joystick to cause a "shoot" action).  Digital operations are related to boolean values (true or false).
 
 There are three main types of digital operations 
 * Simple: which is "true" whenever the button is actively being pressed, and "false" (off) otherwise.  A simple button would typically be used for spinning an intake roller while trying to pick up a ball.
-* Toggle: which is "true" from the time that it is first pressed until the next time it is pressed, and then false until it is pressed again.  A toggle button could be used for enabling the vision system, though we often use a click button instead.
-* Click: which is true the first time we run an update after each time the button is pressed, and false until the button has been released and pressed again).  A click button would typically be used for shooting a ball or lifting an arm.
+* Toggle: which is "true" from the time that it is first pressed until the next time it is pressed, and then false until it is pressed again.  A toggle button is typically used for running a macro.  A toggle could also be used for enabling the vision system, though we often use a click button instead to avoid confusion as to which mode the robot is in.
+* Click: which is true the first time we run an update after each time the button is pressed, and false until the button has been released and pressed again.  A click button would typically be used for shooting a ball or lifting an arm.
 
-#### Tasks
+#### ControlTasks
 Tasks are used to control operations or groups of operations that run until a certain condition is met.  They are used within Macros and Autonomous Routines and can be composed together to perform complex actions.  Tasks themselves should aim to be relatively simple and only accomplish on thing if possible - this helps prevent code duplication later.  An example of a single task is "DriveDistanceTask", which drives forward for a specified distance, or "DriveTimedTask" which drives forward for a specified length of time.
 
 Tasks implement the IControlTask interface, and typically extend from the ControlTaskBase class.  Tasks apply settings to one or more operations.  Every ~20ms, the update function is called to update the settings based on the criteria defined in the task.  Before running update, the hasCompleted function is called to check whether the task should end.
 
-#### UserDriver
-The UserDriver represents the driver and co-driver operating the robot using joysticks and button pads.  The user driver is in charge of reading from the joysticks and button pads, and then using the ButtonMap schema to translate the individual actions taken on the joystick into Operations and Macro Operations.  The UserDriver is used during Teleop mode.
+#### ButtonMap
+The ButtonMap contains the mapping of various joystick/controller buttons and axes to the corresponding digital and analog operations.  The Driver is in charge of reading from the joysticks and button pads during the teleop mode, and it uses the ButtonMap schema to translate the individual actions taken on the joystick into DigitalOperations, AnalogOperations, and Macro Operations.
 
 ##### Macros
-Macros are groupings of different Operations that need to happen in a certain order and with certain conditions between the various operations.  This is typically done by defining a bunch of individual "tasks" that perform one operation until it has completed, and then composing them together using different types of logic.  One example of a macro would be the extending of the "murder arm" from the 2015 robot.  The murder arm macro could involve 3 operations: extending the arm, opening the rake, and then lowering the arm, each separated by a time delay to ensure that the arm was able to extend before opening the rake.  Another example of a macro from 2018 would be the climb macro, which moved the robot forwards a few inches, raised the elevator to the desired height for the hook to be level with the climbing bar, and then moved the robot backwards so that the hook was placed over the bar.
+Macros are groupings of different Operations that need to happen in a certain order and with certain conditions between the various operations.  This is typically done by defining a bunch of individual "tasks" that perform one operation until it has completed, and then composing them together using different types of logic.  One example of a macro from 2019 would be the climb macro, which moved the robot forwards, engaged the arms, rotated the cam, drove forward, and finally lifted the elevator and reset the arms and cam.  Another example of a macro from 2019 would be the Vision-based alignment and approach of the rocket and cargo ship.
 
 ##### Shifts
-Sometimes there aren't enough buttons on the joystick in order to accomodate the number of operations and macros that we want to have available to the Driver.  We have the ability to define "shifts" that allow the same button to mean different things depending on when another button is pressed.  These shifts are described in the ButtonMap along with the Operations.
+Sometimes there aren't enough buttons on the joystick in order to accomodate the number of operations and macros that we want to have available to the Driver.  We have the ability to define "shifts" that allow the same button to mean different things depending on when another button is pressed.  These shifts are described in the ButtonMap along with the AnalogOperations, DigitalOperations, and Macro Operations.
 
-#### AutonomousDriver
-The AutonomousDriver runs the autonomous routine and translates that routine into the set of Operations so that the correct Operations happen at the correct times.  The AutonomousDriver is used during Autonomous mode.
-
-##### Autonomous Routines
-Autonomous routines are designed very similarly to macros, except that they are triggered automatically by the autonomous driver instead of by buttons on the joystick.
+#### Autonomous Routines
+Autonomous routines are designed very similarly to macros, except that they are triggered automatically by the Driver when the autonomous mode starts instead of by buttons on the joystick.
 
 ### TuningConstants
-In order to simplify tuning the settings of the robot, we often store settings that we will likely want to change as constants in the TuningConstants class.  Settings that may need to be tuned include things like the speed at which to run an intake, or the speed at which to turn when the joystick is in a certain position.  These settings are usually things that are hard to know in advance, and the appropriate settings are discovered by testing the robot.  There are many things that aren’t known in advance by the software team, so putting all of these things in TuningConstants in an orderly fashion can help speed up the tuning process of the robot.
+In order to simplify tuning the settings of the robot, we store any "magic numbers" that we will likely want to change as constants in the TuningConstants class.  Settings that may need to be tuned include things like the speed at which to run an intake, or the speed at which to turn when the joystick is in a certain position.  These settings are usually things that are hard to know in advance, and the appropriate settings are discovered by testing the robot.  There are many things that aren’t known in advance by the software team, so putting all of these things in TuningConstants in an orderly fashion can help speed up the tuning process of the robot and prevent bugs.
 
 ### HardwareConstants
 Similar to the ElectronicsConstants and TuningConstants, we also store some facts about the dimensions of the robot and the different parts of the robot as constants in the HardwareConstants class.  This tends to include things like the diameter of the wheels and the width of the robot, which may be useful for calculations that need to be made during autonomous mode or for differential odometry (which calculates the robot’s position and orientation on the field as compared to the starting position/orientation by using the encoders).
@@ -198,13 +198,16 @@ Similar to the ElectronicsConstants and TuningConstants, we also store some fact
 The robot code makes use of a number of external libraries in order to make programming the robot more straightforward.
 
 #### Guice
-[Guice](https://github.com/google/guice) (pronounced "juice") is a dependency injection library, which is responsible for the various "@Inject" and "@Singleton" markup that is seen throughout the code.  The purpose of Guice is to make it easier to plug together the entire system in such a way that it is still unit-testable.
+[Guice](https://github.com/google/guice) (pronounced "juice") is a dependency injection library, which is responsible for the various "@Inject" and "@Singleton" markup that is seen throughout the code.  The purpose of Guice is to make it easier to plug together the entire system in such a way that it is still unit-testable.  You will need to use the @Singleton and @Inject markup when writing a mechanism.
 
 #### OpenCV
 [OpenCV](https://opencv.org/) is a computer vision library that is used for fast and efficient processing of images.  We use OpenCV functions to capture images, manipulate them (undistort, HSV filtering), write them, and discover important parts of them (find contours).
 
 #### CTRE Phoenix
-[CTRE Phoenix](https://github.com/CrossTheRoadElec/Phoenix-Documentation) is a library that provides the ability to communicate with and control the Talon SRX and Victor SR over CAN.  We use CTRE Phoenix to control the majority of our Talon SRXs so that we can run PID on the Talon SRX itself for a faster update rate.
+[CTRE Phoenix](https://github.com/CrossTheRoadElec/Phoenix-Documentation) is a library that provides the ability to communicate with and control various motors using the Talon SRX and Victor SPX over CAN.  We use CTRE Phoenix to control the majority of our Talon SRXs so that we can run PID on the Talon SRX itself for a faster update rate.
+
+#### Spark MAX API
+The [Spark MAX](http://www.revrobotics.com/sparkmax-software/) has a library that provides the ability to communicate with and control various motors using the Spark MAX over CAN.  We use the Spark MAX to control the majority of our NEO Motors so that we can use these brushless motors and run PID on the Spark MAX itself for a fast update rate.
 
 #### NavX MXP
 The [NavX MXP](http://www.pdocs.kauailabs.com/navx-mxp/software/) has a library that is used to interact with the NavX MXP.  The NavX uses its Gyroscope and Accelerometers in order to provide orientation measurements for field positioning purposes.
@@ -219,12 +222,14 @@ The [NavX MXP](http://www.pdocs.kauailabs.com/navx-mxp/software/) has a library 
 ### Setting up your Environment
 To prepare your computer for Robot programming with our team, you will need to follow the following steps:
 1. Installing everything:
-   1. Install development environment.  Run the [WPILib installer](https://github.com/wpilibsuite/allwpilib/releases) to install VS Code, the JDK, WPILib, and other dependencies.  Be sure to select the version appropriate for your operating system.
-   2. Install NAVX vendor library.  Run the [KuauiLabs navX-MXP Java installer](https://pdocs.kauailabs.com/navx-mxp/software/roborio-libraries/java/).  Be sure to select the version appropriate for your operating system.
-   3. Install CTRE Phoenix vendor library.  Run the [CTRE Phoenix installer](http://www.ctr-electronics.com/control-system/hro.html#product_tabs_technical_resources).  Be sure to select the version appropriate for your operating system.
-   4. Install GitHub Desktop (optional).  Our team uses GitHub as the host for our source control system, so if you are more comfortable having a GUI for interacting with it, then GitHub Desktop will be the best supported.  Install the appropriate version of [GitHub Desktop](https://desktop.github.com/) for your operating system.
+   1. Install development environment.  Run the [WPILib installer](https://github.com/wpilibsuite/allwpilib/releases) to install WPI's special version of VS Code, the JDK, WPILib, and other dependencies.  Be sure to select the version appropriate for your operating system.
+   2. Install regular VS Code.  Run the [VS Code Installer](https://code.visualstudio.com/) to install the regular version of VS Code.  Be sure to select the version appropriate for your operating system.
+   3. Install NAVX MXP UI (optional).  Run the [KuauiLabs navX-MXP installer](https://pdocs.kauailabs.com/navx-mxp/software/navx-mxp-ui/).  Be sure to select the version appropriate for your operating system.
+   4. Install CTRE Phoenix (optional).  Run the [CTRE Phoenix installer](http://www.ctr-electronics.com/control-system/hro.html#product_tabs_technical_resources).  Be sure to select the version appropriate for your operating system.
+   5. Install Spark MAX client application (optional).  Run the [Spark MAX Client installer](http://www.revrobotics.com/sparkmax-software/#spark-max-client-application).  Be sure to select the version appropriate for your operating system.
+   6. Install GitHub Desktop (optional).  Our team uses GitHub as the host for our source control system, so if you are more comfortable having a GUI for interacting with it, then GitHub Desktop will be the best supported.  Install the appropriate version of [GitHub Desktop](https://desktop.github.com/) for your operating system.
 2. Configuring things:
-   1. Git uses VIM as the default text editor for commit messages.  If you are not very familiar with VIM usage, it is recommended to change to a more normal windowed application as VIM can be very confusing for beginners.  I would recommend switching to use VS Code as your editor and default diff tool.
+   1. Git uses VIM as the default text editor for commit messages.  Most people not very familiar with VIM usage, so it is strongly recommended to change to a more normal windowed application as VIM can be very confusing for beginners.  I would recommend switching to use VS Code as your editor and default diff tool.
       1. Use VS Code as your default text editor by running ```git config --global core.editor "code --wait"``` from a Command Prompt window.
       2. Modify your Global settings by running ```git config --global -e```, and then adding the following entries to the end of the file:
       ```
@@ -305,13 +310,13 @@ If you started coding in "the wrong branch", usually you can recover from it as 
 6. Continue making changes to your code.  Follow steps 5-8 in the section above ([Your normal end-to-end git workflow](#your-normal-end-to-end-git-workflow)).
 
 ### Making Simple Operation changes
-To add a new action that the robot can take with a mechanism, first open the Operation enum (Operation.java) and add a new value to the list in that file.  We try to keep the various operations organized, so we keep them listed in a different section for each Mechanism.  The operation should be named starting with the mechanism (e.g. "DriveTrain", "Intake", etc.), and then a description of the action (e.g. "Turn", "RaiseArm", etc.).  Remember that Operations are a single, simple thing that is done by the robot.  Any more complex action that we want the robot to take will be a Macro which composes these Operations together (which we will talk about later).
+To add a new action that the robot can take with a mechanism, first open the AnalogOperation or DigitalOperation enum (AnalogOperation.java or DigitalOperation.java) and add a new value to the list in that file.  We try to keep the various operations organized, so we keep them listed in a different section for each Mechanism.  The operation should be named starting with the mechanism (e.g. "DriveTrain", "Intake", etc.), and then a description of the action (e.g. "Turn", "RaiseArm", etc.).  Remember that Analog/Digital Operations are a single, simple thing that is done by the robot.  Any more complex action that we want the robot to take will be a Macro which composes these Analog/Digital Operations together (which we will talk about later).
 
-Next, you will open the ButtonMap.java file and add another mapping into the OperationSchema that describes the Operation that you just added.  There are two types of operations - Analog or Digital.  Analog operations represent things that are done to a certain extend, using double (decimal) values typically between -1.0 and 1.0.  Digital operations represent things that are either done or not done, using Boolean values (true or false).  Each type of Operation, Analog or Digital, has their own Description.
+Next, you will open the ButtonMap.java file and add another mapping into the AnalogOperationSchema/DigitalOperationSchema that describes the AnalogOperation/DigitalOperation that you just added.  Remember that Analog Operations represent things that are done to a certain extent, using double (decimal) values typically between -1.0 and 1.0.  Digital Operations represent things that are either done or not done, using Boolean values (true or false).  Each type of Operation, Analog or Digital, has their own corresponding type of Description.
 
 ```java
 put(
-    Operation.DriveTrainTurn,
+    AnalogOperation.DriveTrainTurn,
     new AnalogOperationDescription(
         UserInputDevice.Driver,
         AnalogAxis.X,
@@ -319,11 +324,11 @@ put(
         TuningConstants.DRIVETRAIN_Y_DEAD_ZONE));
 ```
 
-The Analog description takes parameters describing the User Input Device (Driver or CoDriver joystick) and the axis of the joystick (X, Y, Throttle, etc.).  It also includes the ability to invert the axis (so that the "forward" direction matches positive) and the ability to provie a dead zone (as joysticks are often imperfect at mesauring the middle).
+The Analog description takes parameters describing the User Input Device (Driver or CoDriver/Operator joystick) and the axis of the joystick (X, Y, Throttle, etc.).  It also includes the ability to invert the axis (so that the "forward" direction matches positive) and the ability to provie a dead zone (as joysticks are often imperfect at mesauring the middle).
 
 ```java
 put(
-    Operation.IntakeRaiseArm,
+    DigitalOperation.IntakeRaiseArm,
     new DigitalOperationDescription(
         UserInputDevice.Driver,
         UserInputDeviceButton.JOYSTICK_STICK_BOTTOM_RIGHT_BUTTON,
@@ -397,7 +402,7 @@ The readSensors function reads from the relevant sensors for that mechanism, sto
   @Override
   public void update()
   {
-    boolean shouldThingAction = this.driver.getDigital(Operation.ThingAction);
+    boolean shouldThingAction = this.driver.getDigital(DigitalOperation.ThingAction);
 
     double thingActionAmount = 0.0;
     if (shouldThingAction)
@@ -444,7 +449,7 @@ Sets the driver to use in this class (the implementation of this function should
 When there are sensors being read, often we will want to incorporate the data that they return into the running of tasks as a part of macros and autonomous routines.  In order to support that, we must add getter functions so that the tasks can access the values that were read from the sensors.  These functions just simply return the value that was read during the readSensors function.
 
 ### Writing Macros and Autonomous Routines
-Macros and Autonomous routines both involve control tasks.  These tasks control the robot through setting Operations.  For more advanced tasks, they can read the current state of the robot by running the functions that expose sensors on the Mechanism.
+Macros and Autonomous routines both involve control tasks.  These tasks control the robot through setting Analog/Digital Operations.  For more advanced tasks, they can read the current state of the robot by running the functions that expose values that are read from sensors on the Mechanism.
 
 #### Writing Control Tasks
 Tasks are used to control operations or groups of operations that run until a certain condition is met.  A task is a class that implements the IControlTask interface, and typically extends from the ControlTaskBase or TimedTask class.  Tasks are named based on the sort of action they perform (e.g. RaiseElevator) combined with "Task", such as RaiseElevatorTask.  It should be placed within the controltasks folder (which is within the driver folder) with the other tasks.
@@ -476,7 +481,7 @@ The begin function is called at the very beginning of the task, and can be used 
 ```java
   public void update()
   {
-    this.setDigitalOperationState(Operation.ElevatorRaise, true);
+    this.setDigitalOperationState(DigitalOperation.ElevatorRaise, true);
   }
 ```
 
@@ -486,7 +491,7 @@ The update function is called every ~20ms and should update the relevant operati
 ```java
   public void end()
   {
-    this.setDigitalOperationState(Operation.ElevatorRaise, false);
+    this.setDigitalOperationState(DigitalOperation.ElevatorRaise, false);
   }
 ```
 
@@ -515,7 +520,7 @@ put(
         () -> new SomeTask(),
         new Operation[]
         {
-            Operation.ThingAction,
+            DigitalOperation.ThingAction,
         }));
 ```
 The MacroOperationDescription requires arguments describing the user input device to use, the button that triggers the macro, tge type of button to use (either ```Simple``` or ```Toggle```), a supplier for the task that should be used within the macro (```() -> new SomeTask()```), and a list of the different operations that this macro uses.
