@@ -146,7 +146,6 @@ public class ButtonMap implements IButtonMap
             ButtonType.Click),
     };
 
-    @SuppressWarnings("serial")
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
     {
         /** Example Macro operation entry:
