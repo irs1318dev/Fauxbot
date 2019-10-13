@@ -2,11 +2,13 @@ package frc.robot.driver.common.descriptions;
 
 import frc.robot.TuningConstants;
 import frc.robot.common.robotprovider.IJoystick;
+import frc.robot.driver.Shift;
 import frc.robot.driver.common.AnalogAxis;
 import frc.robot.driver.common.UserInputDeviceButton;
 
 public class ShiftDescription
 {
+    private final Shift shift;
     private final UserInputDevice userInputDevice;
     private final UserInputDeviceButton userInputDeviceButton;
     private final int userInputDevicePovValue;
@@ -14,26 +16,28 @@ public class ShiftDescription
     private final double userInputDeviceAxisRangeMin;
     private final double userInputDeviceAxisRangeMax;
 
-    public ShiftDescription(UserInputDevice userInputDevice, UserInputDeviceButton userInputDeviceButton)
+    public ShiftDescription(Shift shift, UserInputDevice userInputDevice, UserInputDeviceButton userInputDeviceButton)
     {
-        this(userInputDevice, userInputDeviceButton, -1, AnalogAxis.NONE, 0.0, 0.0);
+        this(shift, userInputDevice, userInputDeviceButton, -1, AnalogAxis.NONE, 0.0, 0.0);
     }
 
-    public ShiftDescription(UserInputDevice userInputDevice, int povValue)
+    public ShiftDescription(Shift shift, UserInputDevice userInputDevice, int povValue)
     {
-        this(userInputDevice, UserInputDeviceButton.POV, povValue, AnalogAxis.NONE, 0.0, 0.0);
+        this(shift, userInputDevice, UserInputDeviceButton.POV, povValue, AnalogAxis.NONE, 0.0, 0.0);
     }
 
     public ShiftDescription(
+        Shift shift,
         UserInputDevice userInputDevice,
         AnalogAxis analogAxis,
         double axisRangeMinValue,
         double axisRangeMaxValue)
     {
-        this(userInputDevice, UserInputDeviceButton.ANALOG_AXIS_RANGE, -1, analogAxis, axisRangeMinValue, axisRangeMaxValue);
+        this(shift, userInputDevice, UserInputDeviceButton.ANALOG_AXIS_RANGE, -1, analogAxis, axisRangeMinValue, axisRangeMaxValue);
     }
 
     private ShiftDescription(
+        Shift shift,
         UserInputDevice userInputDevice,
         UserInputDeviceButton userInputDeviceButton,
         int povValue,
@@ -41,12 +45,18 @@ public class ShiftDescription
         double axisRangeMinValue,
         double axisRangeMaxValue)
     {
+        this.shift = shift;
         this.userInputDevice = userInputDevice;
         this.userInputDeviceButton = userInputDeviceButton;
         this.userInputDevicePovValue = povValue;
         this.userInputDeviceAxis = analogAxis;
         this.userInputDeviceAxisRangeMin = axisRangeMinValue;
         this.userInputDeviceAxisRangeMax = axisRangeMaxValue;
+    }
+
+    public Shift getShift()
+    {
+        return this.shift;
     }
 
     public UserInputDevice getUserInputDevice()

@@ -1,15 +1,12 @@
 package frc.robot;
 
 import java.io.IOException;
-import java.util.Map;
 
 import frc.robot.ElectronicsConstants;
 import frc.robot.FauxbotModule;
 import frc.robot.RobotMode;
 import frc.robot.common.robotprovider.*;
-import frc.robot.driver.*;
-import frc.robot.driver.common.IButtonMap;
-import frc.robot.driver.common.UserInputDeviceButton;
+import frc.robot.driver.common.*;
 import frc.robot.driver.common.buttons.ButtonType;
 import frc.robot.driver.common.descriptions.*;
 import frc.robot.simulation.*;
@@ -122,8 +119,8 @@ public class FauxbotApplication extends Application
                 simulationName = "Forklift Simulation";
                 desiredModule = new ForkliftFauxbotModule();
                 break;
-            
-            case GarageDoor:
+
+                case GarageDoor:
                 simulationName = "GarageDoor Simulation";
                 desiredModule = new GarageDoorFauxbotModule();
                 break;
@@ -203,18 +200,14 @@ public class FauxbotApplication extends Application
         rowCount++;
 
         this.firstOperation = true;
-        Map<DigitalOperation, DigitalOperationDescription> digitalOperationSchema = buttonMap.getDigitalOperationSchema();
-        for (DigitalOperation op : DigitalOperation.values())
+        for (DigitalOperationDescription description : buttonMap.getDigitalOperationSchema())
         {
-            DigitalOperationDescription description = digitalOperationSchema.getOrDefault(op, null);
-            rowCount = this.addDescriptionMarkup(op, description, grid, fontDefault, rowCount);
+            rowCount = this.addDescriptionMarkup(description, grid, fontDefault, rowCount);
         }
 
-        Map<AnalogOperation, AnalogOperationDescription> analogOperationSchema = buttonMap.getAnalogOperationSchema();
-        for (AnalogOperation op : AnalogOperation.values())
+        for (AnalogOperationDescription description : buttonMap.getAnalogOperationSchema())
         {
-            AnalogOperationDescription description = analogOperationSchema.getOrDefault(op, null);
-            rowCount = this.addDescriptionMarkup(op, description, grid, fontDefault, rowCount);
+            rowCount = this.addDescriptionMarkup(description, grid, fontDefault, rowCount);
         }
 
         if (!this.firstOperation)
@@ -224,11 +217,11 @@ public class FauxbotApplication extends Application
         }
 
         boolean firstMacro = true;
-        if (MacroOperation.values().length > 0)
+        MacroOperationDescription[] macroDescriptions = buttonMap.getMacroOperationSchema();
+        if (macroDescriptions != null && macroDescriptions.length > 0)
         {
-            for (MacroOperation op : MacroOperation.values())
+            for (MacroOperationDescription description : macroDescriptions)
             {
-                MacroOperationDescription description = buttonMap.getMacroOperationSchema().getOrDefault(op, null);
                 if (description != null)
                 {
                     if (firstMacro)
@@ -257,7 +250,7 @@ public class FauxbotApplication extends Application
                             int thisRowIndex = rowCount;
                             rowCount++;
 
-                            Label operationNameLabel = new Label(op.toString());
+                            Label operationNameLabel = new Label(description.getOperation().toString());
                             grid.add(operationNameLabel, 0, thisRowIndex);
 
                             int buttonNumber = description.getUserInputDeviceButton().Value;
@@ -459,7 +452,6 @@ public class FauxbotApplication extends Application
     }
 
     private int addDescriptionMarkup(
-        IOperation op,
         OperationDescription description,
         GridPane grid,
         String fontDefault,
@@ -496,7 +488,7 @@ public class FauxbotApplication extends Application
                 int thisRowIndex = rowCount;
                 rowCount++;
 
-                Label operationNameLabel = new Label(op.toString());
+                Label operationNameLabel = new Label(description.getOperation().toString());
                 grid.add(operationNameLabel, 0, thisRowIndex);
 
                 if (description.getType() == OperationType.Digital)

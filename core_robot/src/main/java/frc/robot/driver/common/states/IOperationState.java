@@ -1,7 +1,5 @@
 package frc.robot.driver.common.states;
 
-import java.util.Set;
-
 import frc.robot.common.robotprovider.IJoystick;
 import frc.robot.driver.Shift;
 
@@ -30,5 +28,5 @@ public interface IOperationState
      * @param activeShifts to update from
      * @return true if there was any active user input that triggered a state change
      */
-    public boolean checkInput(IJoystick driver, IJoystick coDriver, Set<Shift> activeShifts);
+    public boolean checkInput(IJoystick driver, IJoystick coDriver, Shift activeShifts);
 }
