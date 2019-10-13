@@ -15,7 +15,7 @@ import frc.robot.common.*;
 public class TuningConstants
 {
     public static final boolean COMPETITION_ROBOT = false;
-    public static final boolean THROW_EXCEPTIONS = !TuningConstants.COMPETITION_ROBOT;
+    public static boolean THROW_EXCEPTIONS = !TuningConstants.COMPETITION_ROBOT;
 
     public static List<IMechanism> GetActiveMechanisms(Injector injector)
     {

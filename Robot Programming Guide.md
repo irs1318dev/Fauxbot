@@ -166,7 +166,7 @@ Analog operations are typically operations that happen to a certain extent and a
 ##### Digital Operations
 Digital operations are operations that are either happening or not happening and are controlled by a button on the joystick or button pad during teleop mode (e.g. a trigger on the joystick to cause a "shoot" action).  Digital operations are related to boolean values (true or false).
 
-There are three main types of digital operations 
+There are three main types of digital operations:
 * Simple: which is "true" whenever the button is actively being pressed, and "false" (off) otherwise.  A simple button would typically be used for spinning an intake roller while trying to pick up a ball.
 * Toggle: which is "true" from the time that it is first pressed until the next time it is pressed, and then false until it is pressed again.  A toggle button is typically used for running a macro.  A toggle could also be used for enabling the vision system, though we often use a click button instead to avoid confusion as to which mode the robot is in.
 * Click: which is true the first time we run an update after each time the button is pressed, and false until the button has been released and pressed again.  A click button would typically be used for shooting a ball or lifting an arm.
@@ -224,10 +224,11 @@ To prepare your computer for Robot programming with our team, you will need to f
 1. Installing everything:
    1. Install development environment.  Run the [WPILib installer](https://github.com/wpilibsuite/allwpilib/releases) to install WPI's special version of VS Code, the JDK, WPILib, and other dependencies.  Be sure to select the version appropriate for your operating system.
    2. Install regular VS Code.  Run the [VS Code Installer](https://code.visualstudio.com/) to install the regular version of VS Code.  Be sure to select the version appropriate for your operating system.
-   3. Install NAVX MXP UI (optional).  Run the [KuauiLabs navX-MXP installer](https://pdocs.kauailabs.com/navx-mxp/software/navx-mxp-ui/).  Be sure to select the version appropriate for your operating system.
-   4. Install CTRE Phoenix (optional).  Run the [CTRE Phoenix installer](http://www.ctr-electronics.com/control-system/hro.html#product_tabs_technical_resources).  Be sure to select the version appropriate for your operating system.
-   5. Install Spark MAX client application (optional).  Run the [Spark MAX Client installer](http://www.revrobotics.com/sparkmax-software/#spark-max-client-application).  Be sure to select the version appropriate for your operating system.
-   6. Install GitHub Desktop (optional).  Our team uses GitHub as the host for our source control system, so if you are more comfortable having a GUI for interacting with it, then GitHub Desktop will be the best supported.  Install the appropriate version of [GitHub Desktop](https://desktop.github.com/) for your operating system.
+   3. Install Git.  Run the [Git installer](https://git-scm.com/downloads) to install the Git client.  Be sure to select the version appropriate for your operating system.
+   4. Install GitHub Desktop (optional).  Our team uses GitHub as the host for our source control system, so if you are more comfortable having a GUI for interacting with it, then GitHub Desktop will be the best supported.  Install the appropriate version of [GitHub Desktop](https://desktop.github.com/) for your operating system.
+   5. Install NAVX MXP UI (optional).  Run the [KuauiLabs navX-MXP installer](https://pdocs.kauailabs.com/navx-mxp/software/navx-mxp-ui/).  I believe that this is Windows-only.
+   6. Install CTRE Phoenix (optional).  Run the [CTRE Phoenix installer](http://www.ctr-electronics.com/control-system/hro.html#product_tabs_technical_resources).  I believe that this is Windows-only.
+   7. Install Spark MAX client application (optional).  Run the [Spark MAX Client installer](http://www.revrobotics.com/sparkmax-software/#spark-max-client-application).  I believe that this is Windows-only.
 2. Configuring things:
    1. Git uses VIM as the default text editor for commit messages.  Most people not very familiar with VIM usage, so it is strongly recommended to change to a more normal windowed application as VIM can be very confusing for beginners.  I would recommend switching to use VS Code as your editor and default diff tool.
       1. Use VS Code as your default text editor by running ```git config --global core.editor "code --wait"``` from a Command Prompt window.
@@ -238,7 +239,7 @@ To prepare your computer for Robot programming with our team, you will need to f
       [difftool "vscode"]
         cmd = code --wait --diff \"$LOCAL\" \"$REMOTE\"
       ```
-   2. VS Code's Java extension sometimes needs extra hints to find where the Java JDK was installed.  To do this, you will need to add an environment variable on Windows (sorry, don't know what to do for Mac). 
+   2. VS Code's Java extension sometimes needs extra hints to find where the Java JDK was installed.  To do this, you will need to add an environment variable on Windows (sorry, don't know what to do for Mac).
       1. In Windows 10, press start and type "environment" in the search bar.
       2. Click the option that says "Edit the system environment variables".  
       3. Click the "Environment Variables..." button at the bottom of the window.
@@ -251,8 +252,8 @@ To prepare your computer for Robot programming with our team, you will need to f
    2. Using commandline:
       1. Open a commandline window.  On Windows, search for "cmd" or "Command Prompt".  Navigate within your directory structure to a directory where you'd like to keep your source files (e.g. "```cd C:\Users\username\git\```").
       2. Run the following git command to clone the repository to your local machine: "```git clone https://github.com/irs1318dev/Fauxbot.git```"
-      3. Once the repository has been cloned, navigate into the main directory (e.g. "```cd C:\Users\username\git\Fauxbot```") and tell Gradle to build the code in the directory (type "```gradlew build```").  If gradle hasn't been installed yet, this should trigger it to be installed.
-      4. Open VS Code for this project.  In the main directory, type "```code irs1318_fauxbot.code-workspace```".  This will tell VS Code to open with a reference to the folder you are currently exploring within cmd.
+      3. Once the repository has been cloned, navigate into the main directory (e.g. "```cd C:\Users\username\git\Fauxbot```") and tell Gradle to build the code in the directory (type "```gradlew build```").  If gradle hasn't been installed yet, this should trigger it to be installed.  If you are running MacOS or Linux, instead run gradle wrapper with a dot and forward slash in front of it ("```./gradlew```").  If you are running in PowerShell instead of Command Prompt, instead run gradle wrapper with a dot and a backslash in front of it ("```.\gradlew```").
+      4. Open VS Code for this project.  In the main directory, type "```code irs1318_Fauxbot.code-workspace```".  This will tell VS Code to open with a reference to the folder you are currently exploring within cmd.
     3. Using GitHub Desktop:
        1. Open GitHub Desktop.  For the best experience, you will need a GitHub user account that has been added to the irs1318dev group.  If you haven't done that, consider doing that first.
        2. Go to File --> Clone Repository.  If you have been added to the irs1318dev group, you can select the repository you want (e.g. "irs1318dev/Fauxbot") from a list of repositories under the GitHub.com tab.  Otherwise, go to the the URL tab and enter the repository you want (e.g. "irs1318dev/Fauxbot") in the text box.  Then choose a local path where this repository will be cloned (e.g. "C:\Users\username\git\Fauxbot") and click the clone button.
@@ -261,7 +262,7 @@ To prepare your computer for Robot programming with our team, you will need to f
 If you have issues building the code using gradle for the first time, it may be one of the following issues:
 1. Insufficient disk space.  If you get a message talking about not being able to copy a file or create a directory, it may be a disk space issue.  Please clear some space so you have enough to build.
 2. Insufficient permissions to run gradlew.  On Mac/Linux, gradlew is blocked from running by default.  To allow it, run "```chmod +x gradlew```" and then run "```chmod 755 gradlew```".
-3. Needing slashes/etc.  On Mac/Linux or in a Powershell window, you may need to run gradlew in a special way.  On Mac/Linux, you may need to run gradlew as "```./gradlew```".  In Powershell, you may need to run gradlew as "```.\gradlew```".
+3. Forgetting slashes/etc.  On Mac/Linux or in a Powershell window, you may need to run gradlew in a special way.  On Mac/Linux, you may need to run gradlew as "```./gradlew```".  In Powershell, you may need to run gradlew as "```.\gradlew```".
 
 ### Simple Command Line operations and Git usage
 Starting in the 2019 season, there's a stronger need to use the command-line than in previous years.  Command line interfaces are used often in real world Engineering and Software Development, so learning it is very useful.
@@ -315,24 +316,22 @@ To add a new action that the robot can take with a mechanism, first open the Ana
 Next, you will open the ButtonMap.java file and add another mapping into the AnalogOperationSchema/DigitalOperationSchema that describes the AnalogOperation/DigitalOperation that you just added.  Remember that Analog Operations represent things that are done to a certain extent, using double (decimal) values typically between -1.0 and 1.0.  Digital Operations represent things that are either done or not done, using Boolean values (true or false).  Each type of Operation, Analog or Digital, has their own corresponding type of Description.
 
 ```java
-put(
-    AnalogOperation.DriveTrainTurn,
     new AnalogOperationDescription(
+        AnalogOperation.DriveTrainTurn,
         UserInputDevice.Driver,
         AnalogAxis.X,
         ElectronicsConstants.INVERT_Y_AXIS,
-        TuningConstants.DRIVETRAIN_Y_DEAD_ZONE));
+        TuningConstants.DRIVETRAIN_Y_DEAD_ZONE),
 ```
 
 The Analog description takes parameters describing the User Input Device (Driver or CoDriver/Operator joystick) and the axis of the joystick (X, Y, Throttle, etc.).  It also includes the ability to invert the axis (so that the "forward" direction matches positive) and the ability to provie a dead zone (as joysticks are often imperfect at mesauring the middle).
 
 ```java
-put(
-    DigitalOperation.IntakeRaiseArm,
     new DigitalOperationDescription(
+        DigitalOperation.IntakeRaiseArm,
         UserInputDevice.Driver,
         UserInputDeviceButton.JOYSTICK_STICK_BOTTOM_RIGHT_BUTTON,
-        ButtonType.Simple));
+        ButtonType.Simple),
 ```
 
 The Digital description takes arguments describing the User Input Device, the button on the joystick, and the type of button (Simple, Toggle, or Click).  Simple buttons are typically used for continuous actions (such as running an intake), Toggle actions are typically used for macros, and Click actions are typically used for single-shot actions (such as extending an arm).
@@ -511,9 +510,8 @@ The hasCompleted function is called by the driver to check whether the particula
 To add a new Macro, you should add a new MacroOperation to the MacroOperation enumeration, and a new MacroOperationDecription to the MacroSchema within ButtonMap.
 
 ```java
-put(
-    MacroOperation.SomeMacro,
     new MacroOperationDescription(
+        MacroOperation.SomeMacro,
         UserInputDevice.Driver,
         UserInputDeviceButton.JOYSTICK_STICK_THUMB_BUTTON,
         ButtonType.Toggle,
@@ -521,7 +519,7 @@ put(
         new Operation[]
         {
             DigitalOperation.ThingAction,
-        }));
+        }),
 ```
 The MacroOperationDescription requires arguments describing the user input device to use, the button that triggers the macro, tge type of button to use (either ```Simple``` or ```Toggle```), a supplier for the task that should be used within the macro (```() -> new SomeTask()```), and a list of the different operations that this macro uses.
 

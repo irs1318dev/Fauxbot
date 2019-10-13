@@ -1,7 +1,5 @@
 package frc.robot.driver.common.states;
 
-import java.util.Set;
-
 import frc.robot.TuningConstants;
 import frc.robot.common.robotprovider.IJoystick;
 import frc.robot.driver.Shift;
@@ -86,7 +84,7 @@ public class DigitalOperationState extends OperationState
      * @return true if there was any active user input that triggered a state change
      */
     @Override
-    public boolean checkInput(IJoystick driver, IJoystick coDriver, Set<Shift> activeShifts)
+    public boolean checkInput(IJoystick driver, IJoystick coDriver, Shift activeShifts)
     {
         DigitalOperationDescription description = (DigitalOperationDescription)this.getDescription();
 
@@ -96,11 +94,16 @@ public class DigitalOperationState extends OperationState
             return false;
         }
 
-        Shift requiredShift = description.getRequiredShift();
-        if (!activeShifts.contains(requiredShift))
+        Shift relevantShifts = description.getRelevantShifts();
+        Shift requiredShifts = description.getRequiredShifts();
+        if (relevantShifts != null && requiredShifts != null)
         {
-            this.button.updateState(false);
-            return false;
+            Shift relevantActiveShifts = Shift.Intersect(relevantShifts, activeShifts);
+            if (relevantActiveShifts.hasFlag(requiredShifts))
+            {
+                this.button.updateState(false);
+                return false;
+            }
         }
 
         IJoystick relevantJoystick;

@@ -66,7 +66,7 @@ public class AutonomousOperationState extends OperationState implements IMacroOp
      * @return true if there was any active user input that triggered a state change
      */
     @Override
-    public boolean checkInput(IJoystick driver, IJoystick coDriver, Set<Shift> activeShifts)
+    public boolean checkInput(IJoystick driver, IJoystick coDriver, Shift activeShifts)
     {
         return false;
     }

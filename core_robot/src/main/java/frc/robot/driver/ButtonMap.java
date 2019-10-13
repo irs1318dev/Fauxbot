@@ -1,8 +1,5 @@
 package frc.robot.driver;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.inject.Singleton;
 
 import frc.robot.*;
@@ -14,88 +11,72 @@ import frc.robot.driver.common.descriptions.*;
 @Singleton
 public class ButtonMap implements IButtonMap
 {
-    @SuppressWarnings("serial")
-    private static Map<Shift, ShiftDescription> ShiftButtons = new HashMap<Shift, ShiftDescription>()
+    private static ShiftDescription[] ShiftButtons = new ShiftDescription[]
     {
-        {
-            /** Example Shift entry:
-            put(
-                Shift.Debug,
-                new ShiftDescription(
-                    UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON));*/
-        }
+        // Example Shift entry:
+        new ShiftDescription(
+            Shift.Debug,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON),
     };
 
-    @SuppressWarnings("serial")
-    public static Map<AnalogOperation, AnalogOperationDescription> AnalogOperationSchema = new HashMap<AnalogOperation, AnalogOperationDescription>()
+    public static AnalogOperationDescription[] AnalogOperationSchema = new AnalogOperationDescription[]
     {
-        {
-            /** Example Analog operation entry:
-            put(
+        /** Example Analog operation entry:
+        new AnalogOperationDescription(
+            Operation.SomeAnalogOperation,
+            UserInputDevice.Driver,
+            AnalogAxis.JOYSTICK_X,
+            ElectronicsConstants.INVERT_X_AXIS,
+            TuningConstants.DRIVETRAIN_X_DEAD_ZONE),*/
+    };
+
+    public static DigitalOperationDescription[] DigitalOperationSchema = new DigitalOperationDescription[]
+    {
+        /** Example Digital operation entry:
+        new DigitalOperationDescription(
+            DigitalOperation.SomeDigitalOperation,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
+            ButtonType.Toggle),*/
+    };
+
+    public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
+    {
+        /** Example Macro operation entry:
+        new MacroOperationDescription(
+            MacroOperation.SomeMacroOperation,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.JOYSTICK_STICK_THUMB_BUTTON,
+            ButtonType.Simple,
+            () -> new SequentialTask(),
+            new Operation[]
+            {
                 Operation.SomeAnalogOperation,
-                new AnalogOperationDescription(
-                    UserInputDevice.Driver,
-                    AnalogAxis.JOYSTICK_X,
-                    ElectronicsConstants.INVERT_X_AXIS,
-                    TuningConstants.DRIVETRAIN_X_DEAD_ZONE));*/
-        }
-    };
-
-    @SuppressWarnings("serial")
-    public static Map<DigitalOperation, DigitalOperationDescription> DigitalOperationSchema = new HashMap<DigitalOperation, DigitalOperationDescription>()
-    {
-        {
-            /** Example Digital operation entry:
-            put(
-                DigitalOperation.SomeDigitalOperation,
-                new DigitalOperationDescription(
-                    UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
-                    ButtonType.Toggle));*/
-        }
-    };
-
-    @SuppressWarnings("serial")
-    public static Map<MacroOperation, MacroOperationDescription> MacroSchema = new HashMap<MacroOperation, MacroOperationDescription>()
-    {
-        {
-            /** Example Macro operation entry:
-            put(
-                MacroOperation.SomeMacroOperation,
-                new MacroOperationDescription(
-                    UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_STICK_THUMB_BUTTON,
-                    ButtonType.Simple,
-                    () -> new SequentialTask(),
-                    new Operation[]
-                    {
-                        Operation.SomeAnalogOperation,
-                        Operation.SomeDigitalOperation,
-                    }));*/
-        }
+                Operation.SomeDigitalOperation,
+            }),*/
     };
 
     @Override
-    public Map<Shift, ShiftDescription> getShiftMap()
+    public ShiftDescription[] getShiftSchema()
     {
         return ButtonMap.ShiftButtons;
     }
 
     @Override
-    public Map<AnalogOperation, AnalogOperationDescription> getAnalogOperationSchema()
+    public AnalogOperationDescription[] getAnalogOperationSchema()
     {
         return ButtonMap.AnalogOperationSchema;
     }
 
     @Override
-    public Map<DigitalOperation, DigitalOperationDescription> getDigitalOperationSchema()
+    public DigitalOperationDescription[] getDigitalOperationSchema()
     {
         return ButtonMap.DigitalOperationSchema;
     }
 
     @Override
-    public Map<MacroOperation, MacroOperationDescription> getMacroOperationSchema()
+    public MacroOperationDescription[] getMacroOperationSchema()
     {
         return ButtonMap.MacroSchema;
     }

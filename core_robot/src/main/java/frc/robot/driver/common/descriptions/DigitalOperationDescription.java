@@ -1,7 +1,8 @@
 package frc.robot.driver.common.descriptions;
 
-import frc.robot.driver.common.AnalogAxis;
+import frc.robot.driver.DigitalOperation;
 import frc.robot.driver.Shift;
+import frc.robot.driver.common.AnalogAxis;
 import frc.robot.driver.common.UserInputDeviceButton;
 import frc.robot.driver.common.buttons.ButtonType;
 
@@ -9,11 +10,8 @@ import frc.robot.driver.common.buttons.ButtonType;
  * Describes an operation that will give a boolean (true or false) value.
  * 
  */
-public class DigitalOperationDescription extends OperationDescription
+public class DigitalOperationDescription extends OperationDescription<DigitalOperation>
 {
-    public static final DigitalOperationDescription simple =
-        new DigitalOperationDescription(UserInputDevice.None, UserInputDeviceButton.NONE, ButtonType.Simple);
-
     private final UserInputDeviceButton userInputDeviceButton;
     private final int userInputDevicePovValue;
     private final AnalogAxis userInputDeviceAxis;
@@ -23,37 +21,41 @@ public class DigitalOperationDescription extends OperationDescription
     private final DigitalSensor sensor;
 
     /**
-     * Initializes a new DigitalOperationDescription based on a user interaction
-     * @param userInputDevice which device will perform the operation (driver or codriver joystick) 
-     * @param userInputDeviceButton the button on the device that performs the operation
-     * @param buttonType the behavior type to use for the operation
+     * Initializes a new DigitalOperationDescription without any user interaction
+     * @param operation the digital operation being described
      */
     public DigitalOperationDescription(
-        UserInputDevice userInputDevice,
-        UserInputDeviceButton userInputDeviceButton,
-        ButtonType buttonType)
+        DigitalOperation operation)
     {
         this(
-            userInputDevice,
-            userInputDeviceButton,
-            Shift.Any,
-            buttonType);
+            operation,
+            UserInputDevice.None,
+            UserInputDeviceButton.NONE,
+            -1,
+            AnalogAxis.NONE,
+            0.0,
+            0.0,
+            DigitalSensor.None,
+            null,
+            null,
+            ButtonType.Simple);
     }
 
     /**
      * Initializes a new DigitalOperationDescription based on a user interaction
+     * @param operation the digital operation being described
      * @param userInputDevice which device will perform the operation (driver or codriver joystick) 
      * @param userInputDeviceButton the button on the device that performs the operation
-     * @param requiredShift the shift button that must be applied to perform macro
      * @param buttonType the behavior type to use for the operation
      */
     public DigitalOperationDescription(
+        DigitalOperation operation,
         UserInputDevice userInputDevice,
         UserInputDeviceButton userInputDeviceButton,
-        Shift requiredShift,
         ButtonType buttonType)
     {
         this(
+            operation,
             userInputDevice,
             userInputDeviceButton,
             -1,
@@ -61,42 +63,57 @@ public class DigitalOperationDescription extends OperationDescription
             0.0,
             0.0,
             DigitalSensor.None,
-            requiredShift,
+            null,
+            null,
             buttonType);
     }
 
     /**
-     * Initializes a new DigitalOperationDescription based on a user interaction on the POV
-     * @param userInputDevice which device will indicate the operation (driver or codriver joystick) 
-     * @param povValue the value of the POV (hat) used to perform the operation
+     * Initializes a new DigitalOperationDescription based on a user interaction
+     * @param operation the digital operation being described
+     * @param userInputDevice which device will perform the operation (driver or codriver joystick) 
+     * @param userInputDeviceButton the button on the device that performs the operation
+     * @param relevantShifts the shifts that should be considered when checking if we should perform the operation
+     * @param requiredShifts the shift button(s) that must be applied to perform operation
      * @param buttonType the behavior type to use for the operation
      */
     public DigitalOperationDescription(
+        DigitalOperation operation,
         UserInputDevice userInputDevice,
-        int povValue,
+        UserInputDeviceButton userInputDeviceButton,
+        Shift relevantShifts,
+        Shift requiredShifts,
         ButtonType buttonType)
     {
         this(
+            operation,
             userInputDevice,
-            povValue,
-            Shift.Any,
+            userInputDeviceButton,
+            -1,
+            AnalogAxis.NONE,
+            0.0,
+            0.0,
+            DigitalSensor.None,
+            relevantShifts,
+            requiredShifts,
             buttonType);
     }
 
     /**
      * Initializes a new DigitalOperationDescription based on a user interaction on the POV
+     * @param operation the digital operation being described
      * @param userInputDevice which device will indicate the operation (driver or codriver joystick) 
      * @param povValue the value of the POV (hat) used to perform the operation
-     * @param requiredShift the shift button that must be applied to perform macro
      * @param buttonType the behavior type to use for the operation
      */
     public DigitalOperationDescription(
+        DigitalOperation operation,
         UserInputDevice userInputDevice,
         int povValue,
-        Shift requiredShift,
         ButtonType buttonType)
     {
         this(
+            operation,
             userInputDevice,
             UserInputDeviceButton.POV,
             povValue,
@@ -104,52 +121,61 @@ public class DigitalOperationDescription extends OperationDescription
             0.0,
             0.0,
             DigitalSensor.None,
-            requiredShift,
+            null,
+            null,
             buttonType);
     }
 
     /**
-     * Initializes a new DigitalOperationDescription based on a user interaction on an axis
-     * @param userInputDevice which device will indicate the operation (driver or codriver joystick)
-     * @param analogAxis the analog axis used to perform the operation
-     * @param axisRangeMinValue the min value of the range that triggers the operation
-     * @param axisRangeMaxValue the max value of the range that triggers the operation
+     * Initializes a new DigitalOperationDescription based on a user interaction on the POV
+     * @param operation the digital operation being described
+     * @param userInputDevice which device will indicate the operation (driver or codriver joystick) 
+     * @param povValue the value of the POV (hat) used to perform the operation
+     * @param relevantShifts the shifts that should be considered when checking if we should perform the operation
+     * @param requiredShifts the shift button(s) that must be applied to perform operation
      * @param buttonType the behavior type to use for the operation
      */
     public DigitalOperationDescription(
+        DigitalOperation operation,
         UserInputDevice userInputDevice,
-        AnalogAxis analogAxis,
-        double axisRangeMinValue,
-        double axisRangeMaxValue,
+        int povValue,
+        Shift relevantShifts,
+        Shift requiredShifts,
         ButtonType buttonType)
     {
         this(
+            operation,
             userInputDevice,
-            analogAxis,
-            axisRangeMinValue,
-            axisRangeMaxValue,
-            Shift.Any,
+            UserInputDeviceButton.POV,
+            povValue,
+            AnalogAxis.NONE,
+            0.0,
+            0.0,
+            DigitalSensor.None,
+            relevantShifts,
+            requiredShifts,
             buttonType);
     }
 
     /**
      * Initializes a new DigitalOperationDescription based on a user interaction on an axis
+     * @param operation the digital operation being described
      * @param userInputDevice which device will indicate the operation (driver or codriver joystick)
      * @param analogAxis the analog axis used to perform the operation
      * @param axisRangeMinValue the min value of the range that triggers the operation
      * @param axisRangeMaxValue the max value of the range that triggers the operation
-     * @param requiredShift the shift button that must be applied to perform macro
      * @param buttonType the behavior type to use for the operation
      */
     public DigitalOperationDescription(
+        DigitalOperation operation,
         UserInputDevice userInputDevice,
         AnalogAxis analogAxis,
         double axisRangeMinValue,
         double axisRangeMaxValue,
-        Shift requiredShift,
         ButtonType buttonType)
     {
         this(
+            operation,
             userInputDevice,
             UserInputDeviceButton.ANALOG_AXIS_RANGE,
             -1,
@@ -157,20 +183,59 @@ public class DigitalOperationDescription extends OperationDescription
             axisRangeMinValue,
             axisRangeMaxValue,
             DigitalSensor.None,
-            requiredShift,
+            null,
+            null,
+            buttonType);
+    }
+
+    /**
+     * Initializes a new DigitalOperationDescription based on a user interaction on an axis
+     * @param operation the digital operation being described
+     * @param userInputDevice which device will indicate the operation (driver or codriver joystick)
+     * @param analogAxis the analog axis used to perform the operation
+     * @param axisRangeMinValue the min value of the range that triggers the operation
+     * @param axisRangeMaxValue the max value of the range that triggers the operation
+     * @param relevantShifts the shifts that should be considered when checking if we should perform the operation
+     * @param requiredShifts the shift button(s) that must be applied to perform operation
+     * @param buttonType the behavior type to use for the operation
+     */
+    public DigitalOperationDescription(
+        DigitalOperation operation,
+        UserInputDevice userInputDevice,
+        AnalogAxis analogAxis,
+        double axisRangeMinValue,
+        double axisRangeMaxValue,
+        Shift relevantShifts,
+        Shift requiredShifts,
+        ButtonType buttonType)
+    {
+        this(
+            operation,
+            userInputDevice,
+            UserInputDeviceButton.ANALOG_AXIS_RANGE,
+            -1,
+            analogAxis,
+            axisRangeMinValue,
+            axisRangeMaxValue,
+            DigitalSensor.None,
+            relevantShifts,
+            requiredShifts,
             buttonType);
     }
 
     /**
      * Initializes a new DigitalOperationDescription based on a sensor
+     * @param operation the digital operation being described
      * @param sensor the sensor that triggers the operation
      * @param buttonType the behavior type to use for the operation
      */
     public DigitalOperationDescription(
+        DigitalOperation operation,
         DigitalSensor sensor,
         ButtonType buttonType)
     {
         this(
+            operation,
             UserInputDevice.Sensor,
             UserInputDeviceButton.NONE,
             -1,
@@ -178,11 +243,13 @@ public class DigitalOperationDescription extends OperationDescription
             0.0,
             0.0,
             sensor,
-            Shift.Any,
+            null,
+            null,
             buttonType);
     }
 
     private DigitalOperationDescription(
+        DigitalOperation operation,
         UserInputDevice userInputDevice,
         UserInputDeviceButton userInputDeviceButton,
         int povValue,
@@ -190,10 +257,11 @@ public class DigitalOperationDescription extends OperationDescription
         double axisRangeMinValue,
         double axisRangeMaxValue,
         DigitalSensor sensor,
-        Shift requiredShift,
+        Shift relevantShifts,
+        Shift requiredShifts,
         ButtonType buttonType)
     {
-        super(OperationType.Digital, userInputDevice, requiredShift);
+        super(operation, OperationType.Digital, userInputDevice, relevantShifts, requiredShifts);
 
         this.userInputDeviceButton = userInputDeviceButton;
         this.userInputDevicePovValue = povValue;
