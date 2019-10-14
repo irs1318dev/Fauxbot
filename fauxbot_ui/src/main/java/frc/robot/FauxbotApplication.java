@@ -44,6 +44,9 @@ public class FauxbotApplication extends Application
     {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Fauxbot");
+ 
+        // throw exceptions in our simulation if there's anything unexpected...
+        TuningConstants.THROW_EXCEPTIONS = true;
 
         VBox vBox = new VBox();
         vBox.setSpacing(10);

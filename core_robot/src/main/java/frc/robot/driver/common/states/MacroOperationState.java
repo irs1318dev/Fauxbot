@@ -56,7 +56,7 @@ public class MacroOperationState extends OperationState implements IMacroOperati
             default:
                 if (TuningConstants.THROW_EXCEPTIONS)
                 {
-                    throw new RuntimeException("unexpected button type " + description.getButtonType().toString());
+                    throw new RuntimeException("Unexpected button type " + description.getButtonType().toString());
                 }
 
                 this.button = null;
@@ -138,7 +138,7 @@ public class MacroOperationState extends OperationState implements IMacroOperati
             default:
                 if (TuningConstants.THROW_EXCEPTIONS)
                 {
-                    throw new RuntimeException("unexpected user input device " + description.getUserInputDevice().toString());
+                    throw new RuntimeException("Unexpected user input device " + description.getUserInputDevice().toString());
                 }
 
                 return false;

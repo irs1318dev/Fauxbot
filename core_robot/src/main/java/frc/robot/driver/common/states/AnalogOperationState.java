@@ -97,7 +97,7 @@ public class AnalogOperationState extends OperationState
             default:
                 if (TuningConstants.THROW_EXCEPTIONS)
                 {
-                    throw new RuntimeException("unexpected user input device " + description.getUserInputDevice().toString());
+                    throw new RuntimeException("Unexpected user input device " + description.getUserInputDevice().toString());
                 }
 
                 return false;
@@ -148,7 +148,7 @@ public class AnalogOperationState extends OperationState
         {
             if (TuningConstants.THROW_EXCEPTIONS)
             {
-                throw new RuntimeException("cannot set interrupt state for non-interrupted analog operations");
+                throw new RuntimeException("Cannot set interrupt state for non-interrupted analog operations (" + this.getDescription().getOperation().toString() + ")");
             }
         }
 
