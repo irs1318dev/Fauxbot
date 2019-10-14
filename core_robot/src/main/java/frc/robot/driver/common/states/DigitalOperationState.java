@@ -44,7 +44,7 @@ public class DigitalOperationState extends OperationState
             default:
                 if (TuningConstants.THROW_EXCEPTIONS)
                 {
-                    throw new RuntimeException("unexpected button type " + description.getButtonType().toString());
+                    throw new RuntimeException("Unexpected button type " + description.getButtonType().toString());
                 }
 
                 this.button = null;
@@ -124,7 +124,7 @@ public class DigitalOperationState extends OperationState
             default:
                 if (TuningConstants.THROW_EXCEPTIONS)
                 {
-                    throw new RuntimeException("unexpected user input device " + description.getUserInputDevice().toString());
+                    throw new RuntimeException("Unexpected user input device " + description.getUserInputDevice().toString());
                 }
 
                 return false;
@@ -183,7 +183,7 @@ public class DigitalOperationState extends OperationState
         {
             if (TuningConstants.THROW_EXCEPTIONS)
             {
-                throw new RuntimeException("cannot set interrupt state for non-interrupted digital operations");
+                throw new RuntimeException("Cannot set interrupt state for non-interrupted digital operations (" + this.getDescription().getOperation().toString() + ")");
             }
         }
 

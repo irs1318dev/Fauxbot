@@ -168,7 +168,7 @@ public class FauxbotTalonSRX extends FauxbotAdvancedMotorBase implements ITalonS
 
     public TalonSRXLimitSwitchStatus getLimitSwitchStatus()
     {
-        return null;
+        return new TalonSRXLimitSwitchStatus(false, false);
     }
 
     private void resetPID()
