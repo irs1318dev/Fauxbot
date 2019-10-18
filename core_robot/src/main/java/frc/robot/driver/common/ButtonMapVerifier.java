@@ -2,9 +2,14 @@ package frc.robot.driver.common;
 
 import java.util.HashMap;
 
-import frc.robot.*;
-import frc.robot.driver.*;
-import frc.robot.driver.common.descriptions.*;
+import frc.robot.TuningConstants;
+import frc.robot.driver.Shift;
+import frc.robot.driver.common.descriptions.AnalogOperationDescription;
+import frc.robot.driver.common.descriptions.DigitalOperationDescription;
+import frc.robot.driver.common.descriptions.MacroOperationDescription;
+import frc.robot.driver.common.descriptions.OperationDescription;
+import frc.robot.driver.common.descriptions.ShiftDescription;
+import frc.robot.driver.common.descriptions.UserInputDevice;
 
 public class ButtonMapVerifier
 {
@@ -15,6 +20,7 @@ public class ButtonMapVerifier
         ButtonMapVerifier.instance.VerifyInternal(buttonMap);
     }
 
+    @SuppressWarnings(value="")
     private void VerifyInternal(IButtonMap buttonMap)
     {
         if (TuningConstants.THROW_EXCEPTIONS)
@@ -202,6 +208,27 @@ public class ButtonMapVerifier
             this.button = button;
             this.pov = pov;
             this.axis = axis;
+        }
+
+        @Override
+        public int hashCode()
+        {
+            return this.device.hashCode() ^ this.button.hashCode() ^ this.pov ^ this.axis.hashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj)
+        {
+            if (!(obj instanceof ButtonCombination))
+            {
+                return false;
+            }
+
+            ButtonCombination other = (ButtonCombination)obj;
+            return this.device == other.device &&
+                this.button == other.button &&
+                this.pov == other.pov &&
+                this.axis == other.axis;
         }
     }
 }

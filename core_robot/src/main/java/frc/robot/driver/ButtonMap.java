@@ -3,7 +3,6 @@ package frc.robot.driver;
 import javax.inject.Singleton;
 
 import frc.robot.*;
-import frc.robot.common.robotprovider.*;
 import frc.robot.driver.common.*;
 import frc.robot.driver.common.buttons.*;
 import frc.robot.driver.common.descriptions.*;

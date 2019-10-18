@@ -1,6 +1,5 @@
 package frc.robot.vision.pipelines;
 
-import frc.robot.*;
 import frc.robot.common.robotprovider.*;
 import frc.robot.vision.*;
 import frc.robot.vision.common.*;

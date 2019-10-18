@@ -10,7 +10,7 @@ import frc.robot.driver.common.IControlTask;
 import frc.robot.driver.common.UserInputDeviceButton;
 import frc.robot.driver.common.buttons.ButtonType;
 
-public class MacroOperationDescription extends OperationDescription<MacroOperation>
+public class MacroOperationDescription extends OperationDescription
 {
     private final boolean clearInterrupt;
     private final UserInputDeviceButton userInputDeviceButton;

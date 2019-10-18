@@ -6,9 +6,9 @@ public class VisionConstants
     public static final boolean DEBUG = true;
     public static final boolean DEBUG_PRINT_OUTPUT = false;
     public static final boolean DEBUG_PRINT_ANALYZER_DATA = false;
-    public static final int DEBUG_FPS_AVERAGING_INTERVAL = 25;
     public static final boolean DEBUG_OUTPUT_FRAMES = false;
     public static final boolean DEBUG_SAVE_FRAMES = false;
+    public static final int DEBUG_FPS_AVERAGING_INTERVAL = 25;
     public static final int DEBUG_FRAME_OUTPUT_GAP = 20; // the number of frames to wait between saving debug image output
     public static final String DEBUG_OUTPUT_FOLDER = "/home/lvuser/vision/";
     public static final String BASE_PATH = "C:\\Users\\james\\IdeaProjects2018\\irs1318_2019\\";

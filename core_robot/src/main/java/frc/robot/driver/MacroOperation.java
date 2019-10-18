@@ -1,6 +1,6 @@
 package frc.robot.driver;
 
-public enum MacroOperation
+public enum MacroOperation implements IOperation
 {
     AutonomousRoutine,
 }

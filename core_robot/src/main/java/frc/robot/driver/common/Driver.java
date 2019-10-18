@@ -5,16 +5,32 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+
 import frc.robot.ElectronicsConstants;
 import frc.robot.TuningConstants;
 import frc.robot.common.SetHelper;
-import frc.robot.common.robotprovider.*;
-import frc.robot.driver.*;
-import frc.robot.driver.common.descriptions.*;
-import frc.robot.driver.common.states.*;
-
-import com.google.inject.Inject;
-import com.google.inject.Injector;
+import frc.robot.common.robotprovider.IDashboardLogger;
+import frc.robot.common.robotprovider.IJoystick;
+import frc.robot.common.robotprovider.IRobotProvider;
+import frc.robot.driver.AnalogOperation;
+import frc.robot.driver.AutonomousRoutineSelector;
+import frc.robot.driver.DigitalOperation;
+import frc.robot.driver.IOperation;
+import frc.robot.driver.MacroOperation;
+import frc.robot.driver.PathManager;
+import frc.robot.driver.Shift;
+import frc.robot.driver.common.descriptions.AnalogOperationDescription;
+import frc.robot.driver.common.descriptions.DigitalOperationDescription;
+import frc.robot.driver.common.descriptions.MacroOperationDescription;
+import frc.robot.driver.common.descriptions.ShiftDescription;
+import frc.robot.driver.common.states.AnalogOperationState;
+import frc.robot.driver.common.states.AutonomousOperationState;
+import frc.robot.driver.common.states.DigitalOperationState;
+import frc.robot.driver.common.states.IMacroOperationState;
+import frc.robot.driver.common.states.MacroOperationState;
+import frc.robot.driver.common.states.OperationState;
 
 /**
  * Driver that represents something that operates the robot.  This is either autonomous or teleop/user driver.
@@ -108,7 +124,7 @@ public class Driver
         for (MacroOperationDescription description : macroSchema)
         {
             this.macroStateMap.put(
-                description.getOperation(),
+                (MacroOperation)description.getOperation(),
                 new MacroOperationState(
                     description,
                     this.operationStateMap,
