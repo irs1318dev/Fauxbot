@@ -8,7 +8,7 @@ import frc.robot.driver.common.AnalogAxis;
  * Describes an operation that will give a double value (typically between -1 and 1).
  * 
  */
-public class AnalogOperationDescription extends OperationDescription<AnalogOperation>
+public class AnalogOperationDescription extends OperationDescription
 {
     private final AnalogAxis userInputDeviceAxis;
     private final boolean shouldInvert;

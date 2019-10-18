@@ -1,11 +1,14 @@
 package frc.robot.driver;
 
-import frc.robot.common.robotprovider.*;
-import frc.robot.driver.common.IControlTask;
-import frc.robot.driver.controltasks.*;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import frc.robot.common.robotprovider.IDashboardLogger;
+import frc.robot.common.robotprovider.IDriverStation;
+import frc.robot.common.robotprovider.IRobotProvider;
+import frc.robot.common.robotprovider.ISendableChooser;
+import frc.robot.driver.common.IControlTask;
+import frc.robot.driver.controltasks.WaitTask;
 
 @Singleton
 public class AutonomousRoutineSelector
@@ -60,7 +63,9 @@ public class AutonomousRoutineSelector
     {
         StartPosition startPosition = this.positionChooser.getSelected();
         AutoRoutine routine = this.routineChooser.getSelected();
-
+        this.logger.logString(AutonomousRoutineSelector.LogName, "selected", startPosition.toString() + "." + routine.toString());
+        this.logger.logString(AutonomousRoutineSelector.LogName, "gameMessage", this.driverStation.getGameSpecificMessage());
+ 
         return AutonomousRoutineSelector.GetFillerRoutine();
     }
 

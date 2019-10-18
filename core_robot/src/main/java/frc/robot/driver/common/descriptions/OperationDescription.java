@@ -1,21 +1,22 @@
 package frc.robot.driver.common.descriptions;
 
 import frc.robot.TuningConstants;
+import frc.robot.driver.IOperation;
 import frc.robot.driver.Shift;
 
 /**
  * Describes an operation.
  *
  */
-public abstract class OperationDescription<TOperation>
+public abstract class OperationDescription
 {
-    private final TOperation operation;
+    private final IOperation operation;
     private final OperationType type;
     private final UserInputDevice userInputDevice;
     private final Shift relevantShifts;
     private final Shift requiredShifts;
 
-    protected OperationDescription(TOperation operation, OperationType type, UserInputDevice userInputDevice, Shift relevantShifts, Shift requiredShifts)
+    protected OperationDescription(IOperation operation, OperationType type, UserInputDevice userInputDevice, Shift relevantShifts, Shift requiredShifts)
     {
         this.operation = operation;
         this.type = type;
@@ -40,7 +41,7 @@ public abstract class OperationDescription<TOperation>
         }
     }
 
-    public TOperation getOperation()
+    public IOperation getOperation()
     {
         return this.operation;
     }

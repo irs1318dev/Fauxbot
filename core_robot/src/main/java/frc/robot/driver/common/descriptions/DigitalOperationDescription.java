@@ -10,7 +10,7 @@ import frc.robot.driver.common.buttons.ButtonType;
  * Describes an operation that will give a boolean (true or false) value.
  * 
  */
-public class DigitalOperationDescription extends OperationDescription<DigitalOperation>
+public class DigitalOperationDescription extends OperationDescription
 {
     private final UserInputDeviceButton userInputDeviceButton;
     private final int userInputDevicePovValue;

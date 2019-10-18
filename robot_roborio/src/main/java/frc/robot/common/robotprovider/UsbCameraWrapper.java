@@ -70,6 +70,7 @@ public class UsbCameraWrapper implements IUsbCamera
             this.wrappedObject = visionListener;
         }
 
+        @SuppressWarnings(value="unchecked")
         public void copyPipelineOutputs(VisionPipeline pipeline)
         {
             this.wrappedObject.copyPipelineOutputs(((VisionPipelineWrapper<T>)pipeline).wrappedObject);
