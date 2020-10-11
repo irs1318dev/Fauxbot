@@ -176,7 +176,7 @@ public class ShooterSimulator implements IRealWorldSimulator
     @Override
     public boolean shouldSimulatePID()
     {
-        return false;
+        return true;
     }
 
     @Override
