@@ -30,13 +30,40 @@ public class ElectronicsConstants
 
     //================================================== Garage Door =======================================================
 
+    public static final int GARAGEDOOR_MOTOR_DIGITAL_CHANNEL = 0;
+
+    public static final int GARAGEDOOR_THROUGHBEAMSENSOR_DIGITAL_CHANNEL = 0;
+    public static final int GARAGEDOOR_OPENSENSOR_DIGITAL_CHANNEL = 1;
+    public static final int GARAGEDOOR_CLOSEDSENSOR_DIGITAL_CHANNEL = 2;
+
     //================================================== Elevator ==========================================================
 
-    //================================================== Forklift =======================================================
+    public static final int ELEVATOR_MOTOR_PWM_CHANNEL = 0;
 
-    //================================================== Forklift =======================================================
+    public static final int ELEVATOR_ENCODER_DIGITAL_CHANNEL_A = 0;
+    public static final int ELEVATOR_ENCODER_DIGITAL_CHANNEL_B = 1;
+
+   //================================================== Forklift =======================================================
+
+    public static final int FORKLIFT_DRIVE_LEFT_MOTOR_CAN_ID = 0;
+    public static final int FORKLIFT_DRIVE_RIGHT_MOTOR_CAN_ID = 1; 
+
+    public static final int FORKLIFT_LIFTER_FORWARD_PCM_CHANNEL = 7;
+    public static final int FORKLIFT_LIFTER_BACKWARD_PCM_CHANNEL = 8;
 
     //================================================== Shooter =======================================================
 
+    public static final int SHOOTER_ANGLE_MOTOR_CAN_ID = 0;
+    public static final int SHOOTER_FLY_WHEEL_MOTOR_CAN_ID = 1;
+
+    public static final int SHOOTER_KICKER_FORWARD_PCM_CHANNEL = 7;
+    public static final int SHOOTER_KICKER_BACKWARD_PCM_CHANNEL = 8;
+
     //================================================== Printer =======================================================
+
+    public static final int PRINTER_X_MOTOR_CAN_ID = 0;
+    public static final int PRINTER_Y_MOTOR_CAN_ID = 1; 
+
+    public static final int PRINTER_PEN_FORWARD_PCM_CHANNEL = 7;
+    public static final int PRINTER_PEN_BACKWARD_PCM_CHANNEL = 8;
 }

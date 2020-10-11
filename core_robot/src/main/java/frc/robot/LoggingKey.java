@@ -11,7 +11,9 @@ public enum LoggingKey
     DriverIsAuto("driver.isAuto"),
     DriverActiveMacros("driver.activeMacros", true),
     DriverActiveShifts("driver.activeShifts"),
-    AutonomousSelection("auto.selected");
+    AutonomousSelection("auto.selected"),
+    ShooterAngle("shooter.angle"),
+    ShooterSpeed("shooter.speed");
 
     public final String value;
     public final boolean shouldLog;

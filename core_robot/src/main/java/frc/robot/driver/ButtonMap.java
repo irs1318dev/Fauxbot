@@ -28,9 +28,45 @@ public class ButtonMap implements IButtonMap
             Operation.SomeAnalogOperation,
             UserInputDevice.Driver,
             AnalogAxis.JOYSTICK_X,
-            ElectronicsConstants.INVERT_X_AXIS,
+            ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
             TuningConstants.DRIVETRAIN_X_DEAD_ZONE),*/
-        };
+
+        /*
+        new AnalogOperationDescription(
+            AnalogOperation.ForkliftDriveLeft,
+            UserInputDevice.Driver,
+            AnalogAxis.JOYSTICK_X,
+            ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
+            TuningConstants.FORKLIFT_DRIVE_DEAD_ZONE),
+        new AnalogOperationDescription(
+            AnalogOperation.ForkliftDriveRight,
+            UserInputDevice.Driver,
+            AnalogAxis.JOYSTICK_Y,
+            ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
+            TuningConstants.FORKLIFT_DRIVE_DEAD_ZONE),
+        */
+        /*
+        new AnalogOperationDescription(
+            AnalogOperation.PrinterMoveX,
+            UserInputDevice.Driver,
+            AnalogAxis.JOYSTICK_X,
+            ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
+            0.0),
+        new AnalogOperationDescription(
+            AnalogOperation.PrinterMoveY,
+            UserInputDevice.Driver,
+            AnalogAxis.JOYSTICK_Y,
+            ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
+            0.0),
+        */
+
+        new AnalogOperationDescription(
+            AnalogOperation.ShooterAngle,
+            UserInputDevice.Driver,
+            AnalogAxis.JOYSTICK_X,
+            ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
+            TuningConstants.SHOOTER_ANGLE_DEAD_ZONE),
+    };
 
     public static DigitalOperationDescription[] DigitalOperationSchema = new DigitalOperationDescription[]
     {
@@ -40,7 +76,76 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Driver,
             UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
             ButtonType.Toggle),*/
-        };
+        /*
+        new DigitalOperationDescription(
+            DigitalOperation.ElevatorOneButton,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
+            ButtonType.Click),
+        new DigitalOperationDescription(
+            DigitalOperation.ElevatorTwoButton,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
+            ButtonType.Click),
+        new DigitalOperationDescription(
+            DigitalOperation.ElevatorThreeButton,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.JOYSTICK_BASE_MIDDLE_LEFT_BUTTON,
+            ButtonType.Click),
+        new DigitalOperationDescription(
+            DigitalOperation.ElevatorFourButton,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.JOYSTICK_BASE_MIDDLE_RIGHT_BUTTON,
+            ButtonType.Click),
+        new DigitalOperationDescription(
+            DigitalOperation.ElevatorFiveButton,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
+            ButtonType.Click),
+        */
+        /*
+        new DigitalOperationDescription(
+            DigitalOperation.ForkliftUp,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
+            ButtonType.Click),
+        new DigitalOperationDescription(
+            DigitalOperation.ForkliftDown,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
+            ButtonType.Click),
+        */
+        /*
+        new DigitalOperationDescription(
+            DigitalOperation.GarageDoorButton,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
+            ButtonType.Click),
+        */
+        /*
+        new DigitalOperationDescription(
+            DigitalOperation.PrinterPenDown,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
+            ButtonType.Click),
+        new DigitalOperationDescription(
+            DigitalOperation.PrinterPenUp,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
+            ButtonType.Click),
+        */
+
+        new DigitalOperationDescription(
+            DigitalOperation.ShooterSpin,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
+            ButtonType.Toggle),
+        new DigitalOperationDescription(
+            DigitalOperation.ShooterFire,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
+            ButtonType.Click),
+    };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
     {
@@ -56,7 +161,7 @@ public class ButtonMap implements IButtonMap
                 Operation.SomeAnalogOperation,
                 Operation.SomeDigitalOperation,
             }),*/
-        };
+    };
 
     @Override
     public ShiftDescription[] getShiftSchema()
