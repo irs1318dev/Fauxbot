@@ -6,19 +6,19 @@ import javafx.beans.property.SimpleDoubleProperty;
 public class FauxbotEncoder extends FauxbotSensorBase implements IEncoder
 {
     private final DoubleProperty valueProperty;
+    private final DoubleProperty rateProperty;
     private final FauxbotTimer timer;
     private double distancePerPulse;
     private double prevTime;
-    private double currRate;
 
     public FauxbotEncoder(int channelA, int channelB)
     {
         this.valueProperty = new SimpleDoubleProperty(0.0);
+        this.rateProperty = new SimpleDoubleProperty(0.0);
         this.timer = new FauxbotTimer();
         this.timer.start();
         this.distancePerPulse = 1.0;
         this.prevTime = this.timer.get();
-        this.currRate = 0.0;
 
         FauxbotSensorManager.set(new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.DigitalInput, channelA), this);
         FauxbotSensorManager.set(new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.DigitalInput, channelB), null);
@@ -27,18 +27,18 @@ public class FauxbotEncoder extends FauxbotSensorBase implements IEncoder
     FauxbotEncoder(FauxbotSensorConnection connection)
     {
         this.valueProperty = new SimpleDoubleProperty(0.0);
+        this.rateProperty = new SimpleDoubleProperty(0.0);
         this.timer = new FauxbotTimer();
         this.timer.start();
         this.distancePerPulse = 1.0;
         this.prevTime = this.timer.get();
-        this.currRate = 0.0;
 
         FauxbotSensorManager.set(connection, this);
     }
 
     public double getRate()
     {
-        return this.currRate;
+        return this.rateProperty.get();
     }
 
     public double getDistance()
@@ -58,16 +58,18 @@ public class FauxbotEncoder extends FauxbotSensorBase implements IEncoder
 
     public void reset()
     {
-        this.set(0.0);
-        this.currRate = 0.0;
+        this.valueProperty.set(0.0);
+        this.rateProperty.set(0.0);
+        this.prevTime = this.timer.get();
     }
 
     public void set(double value)
     {
         double currTime = this.timer.get();
+        double prevValue = this.valueProperty.get();
 
-        this.currRate = (value - this.valueProperty.get()) / (currTime - this.prevTime);
         this.valueProperty.set(value);
+        this.rateProperty.set((value - prevValue) / (currTime - this.prevTime));
 
         this.prevTime = currTime;
     }
@@ -81,7 +83,7 @@ public class FauxbotEncoder extends FauxbotSensorBase implements IEncoder
     {
         double currTime = this.timer.get();
         double currTicks = this.valueProperty.get() + value * (currTime - this.prevTime);
-        this.currRate = value;
+        this.rateProperty.set(value);
         this.valueProperty.set(currTicks);
         this.prevTime = currTime;
     }
