@@ -18,7 +18,7 @@ public class ButtonMap implements IButtonMap
         new ShiftDescription(
             Shift.DriverDebug,
             UserInputDevice.Driver,
-            UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON),
+            UserInputDeviceButton.JOYSTICK_STICK_THUMB_BUTTON),
     };
 
     public static AnalogOperationDescription[] AnalogOperationSchema = new AnalogOperationDescription[]
@@ -59,13 +59,14 @@ public class ButtonMap implements IButtonMap
             ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
             0.0),
         */
-
+        /**/
         new AnalogOperationDescription(
             AnalogOperation.ShooterAngle,
             UserInputDevice.Driver,
             AnalogAxis.JOYSTICK_X,
             ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
             TuningConstants.SHOOTER_ANGLE_DEAD_ZONE),
+        /**/
     };
 
     public static DigitalOperationDescription[] DigitalOperationSchema = new DigitalOperationDescription[]
@@ -134,7 +135,7 @@ public class ButtonMap implements IButtonMap
             UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
             ButtonType.Click),
         */
-
+        /**/
         new DigitalOperationDescription(
             DigitalOperation.ShooterSpin,
             UserInputDevice.Driver,
@@ -145,6 +146,7 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Driver,
             UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
             ButtonType.Click),
+        /**/
     };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
