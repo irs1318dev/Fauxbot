@@ -7,12 +7,12 @@ public class FauxbotSendableChooser<V> implements ISendableChooser<V>
     }
 
     @Override
-    public void addDefault(String name, V object) 
+    public void addDefault(String name, V object)
     {
     }
 
     @Override
-    public void addObject(String name, V object) 
+    public void addObject(String name, V object)
     {
     }
 

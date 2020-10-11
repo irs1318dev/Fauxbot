@@ -23,6 +23,20 @@ public class GarageDoorSimulator implements IRealWorldSimulator
     private static final FauxbotSensorConnection ClosedSensorConnection = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.DigitalInput, 2);
     private static final FauxbotActuatorConnection MotorConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PWM, 0);
 
+    private final FauxbotSensorConnection[] sensors =
+        new FauxbotSensorConnection[]
+        {
+            GarageDoorSimulator.ThroughBeamSensorConnection,
+            GarageDoorSimulator.OpenSensorConnection,
+            GarageDoorSimulator.ClosedSensorConnection,
+        };
+
+    private final FauxbotActuatorConnection[] actuators =
+        new FauxbotActuatorConnection[]
+        {
+            GarageDoorSimulator.MotorConnection,
+        };
+
     @SuppressWarnings("serial")
     private final Map<FauxbotSensorConnection, String> sensorNameMap = new HashMap<FauxbotSensorConnection, String>()
     {
@@ -64,6 +78,24 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         this.amountOpened = 0.0;
 
         this.loadRandomImage();
+    }
+
+    @Override
+    public FauxbotSensorConnection[] getSensors()
+    {
+        return this.sensors;
+    }
+
+    @Override
+    public FauxbotActuatorConnection[] getActuators()
+    {
+        return this.actuators;
+    }
+
+    @Override
+    public boolean getSensorTextBox(FauxbotSensorConnection connection)
+    {
+        return false;
     }
 
     @Override
@@ -110,6 +142,12 @@ public class GarageDoorSimulator implements IRealWorldSimulator
     public double getMotorMax(FauxbotActuatorConnection connection)
     {
         return 1.0;
+    }
+
+    @Override
+    public boolean shouldSimulatePID()
+    {
+        return false;
     }
 
     @Override

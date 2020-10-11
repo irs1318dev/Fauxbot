@@ -5,16 +5,18 @@ import static org.mockito.Mockito.mock;
 import java.util.HashMap;
 
 import frc.robot.common.robotprovider.*;
-import frc.robot.vision.VisionCalculations;
 
 public class TestProvider implements IRobotProvider
 {
     private HashMap<Integer, IAnalogInput> analogInputMap = new HashMap<Integer, IAnalogInput>();
+    private HashMap<Integer, IDigitalInput> digitalInputMap = new HashMap<Integer, IDigitalInput>();
+    private HashMap<Integer, IDigitalOutput> digitalOutputMap = new HashMap<Integer, IDigitalOutput>();
+    private HashMap<Integer, ICounter> counterMap = new HashMap<Integer, ICounter>();
     private HashMap<Integer, ITalonSRX> talonSrxMap = new HashMap<Integer, ITalonSRX>();
+    private HashMap<Integer, ITalonFX> talonFxMap = new HashMap<Integer, ITalonFX>();
     private HashMap<Integer, IVictorSPX> victorSpxMap = new HashMap<Integer, IVictorSPX>();
     private HashMap<Integer, ISparkMax> sparkMaxMap = new HashMap<Integer, ISparkMax>();
     private HashMap<Integer, ICompressor> compressorMap = new HashMap<Integer, ICompressor>();
-    private HashMap<Integer, IDigitalInput> digitalInputMap = new HashMap<Integer, IDigitalInput>();
     private HashMap<Integer, HashMap<Integer, IDoubleSolenoid>> doubleSolenoidModuleMap = new HashMap<Integer, HashMap<Integer, IDoubleSolenoid>>();
     private HashMap<Integer, IEncoder> encoderMap = new HashMap<Integer, IEncoder>();
     private HashMap<Integer, IJoystick> joystickMap = new HashMap<Integer, IJoystick>();
@@ -36,6 +38,39 @@ public class TestProvider implements IRobotProvider
     }
 
     @Override
+    public IDigitalInput getDigitalInput(int channel)
+    {
+        if (!this.digitalInputMap.containsKey(channel))
+        {
+            this.digitalInputMap.put(channel, mock(IDigitalInput.class));
+        }
+
+        return this.digitalInputMap.get(channel);
+    }
+
+    @Override
+    public IDigitalOutput getDigitalOutput(int channel)
+    {
+        if (!this.digitalOutputMap.containsKey(channel))
+        {
+            this.digitalOutputMap.put(channel, mock(IDigitalOutput.class));
+        }
+
+        return this.digitalOutputMap.get(channel);
+    }
+
+    @Override
+    public ICounter getCounter(int channel)
+    {
+        if (!this.counterMap.containsKey(channel))
+        {
+            this.counterMap.put(channel, mock(ICounter.class));
+        }
+
+        return this.counterMap.get(channel);
+    }
+
+    @Override
     public ITalonSRX getTalonSRX(int deviceNumber)
     {
         if (!this.talonSrxMap.containsKey(deviceNumber))
@@ -44,6 +79,17 @@ public class TestProvider implements IRobotProvider
         }
 
         return this.talonSrxMap.get(deviceNumber);
+    }
+
+    @Override
+    public ITalonFX getTalonFX(int deviceNumber)
+    {
+        if (!this.talonFxMap.containsKey(deviceNumber))
+        {
+            this.talonFxMap.put(deviceNumber, mock(ITalonFX.class));
+        }
+
+        return this.talonFxMap.get(deviceNumber);
     }
 
     @Override
@@ -83,17 +129,6 @@ public class TestProvider implements IRobotProvider
         }
 
         return this.compressorMap.get(module);
-    }
-
-    @Override
-    public IDigitalInput getDigitalInput(int channel)
-    {
-        if (!this.digitalInputMap.containsKey(channel))
-        {
-            this.digitalInputMap.put(channel, mock(IDigitalInput.class));
-        }
-
-        return this.digitalInputMap.get(channel);
     }
 
     @Override
@@ -233,6 +268,18 @@ public class TestProvider implements IRobotProvider
     }
 
     @Override
+    public IColorSensorV3 getColorSensor()
+    {
+        return null;
+    }
+
+    @Override
+    public IColorMatch getColorMatch()
+    {
+        return null;
+    }
+
+    @Override
     public IVideoStream getMJPEGStream(String name, int width, int height)
     {
         return null;
@@ -258,18 +305,6 @@ public class TestProvider implements IRobotProvider
 
     @Override
     public INetworkTableProvider getNetworkTableProvider()
-    {
-        return null;
-    }
-
-    @Override
-    public VisionCalculations getVisionCalculations()
-    {
-        return null;
-    }
-
-    @Override
-    public <V> ISendableChooser<V> getSendableChooser()
     {
         return null;
     }

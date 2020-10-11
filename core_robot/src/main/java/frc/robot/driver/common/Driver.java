@@ -5,32 +5,18 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import frc.robot.ElectronicsConstants;
+import frc.robot.LoggingKey;
+import frc.robot.TuningConstants;
+import frc.robot.common.LoggingManager;
+import frc.robot.common.SetHelper;
+import frc.robot.common.robotprovider.*;
+import frc.robot.driver.*;
+import frc.robot.driver.common.descriptions.*;
+import frc.robot.driver.common.states.*;
+
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-
-import frc.robot.ElectronicsConstants;
-import frc.robot.TuningConstants;
-import frc.robot.common.SetHelper;
-import frc.robot.common.robotprovider.IDashboardLogger;
-import frc.robot.common.robotprovider.IJoystick;
-import frc.robot.common.robotprovider.IRobotProvider;
-import frc.robot.driver.AnalogOperation;
-import frc.robot.driver.AutonomousRoutineSelector;
-import frc.robot.driver.DigitalOperation;
-import frc.robot.driver.IOperation;
-import frc.robot.driver.MacroOperation;
-import frc.robot.driver.PathManager;
-import frc.robot.driver.Shift;
-import frc.robot.driver.common.descriptions.AnalogOperationDescription;
-import frc.robot.driver.common.descriptions.DigitalOperationDescription;
-import frc.robot.driver.common.descriptions.MacroOperationDescription;
-import frc.robot.driver.common.descriptions.ShiftDescription;
-import frc.robot.driver.common.states.AnalogOperationState;
-import frc.robot.driver.common.states.AutonomousOperationState;
-import frc.robot.driver.common.states.DigitalOperationState;
-import frc.robot.driver.common.states.IMacroOperationState;
-import frc.robot.driver.common.states.MacroOperationState;
-import frc.robot.driver.common.states.OperationState;
 
 /**
  * Driver that represents something that operates the robot.  This is either autonomous or teleop/user driver.
@@ -38,15 +24,13 @@ import frc.robot.driver.common.states.OperationState;
  */
 public class Driver
 {
-    private static final String LogName = "driver";
-
-    private final IDashboardLogger logger;
+    private final ILogger logger;
 
     protected final Injector injector;
     protected final Map<IOperation, OperationState> operationStateMap;
-    
+
     private final IJoystick joystickDriver;
-    private final IJoystick joystickCoDriver;
+    private final IJoystick joystickOperator;
 
     private final Map<Shift, ShiftDescription> shiftMap;
     private final Map<MacroOperation, IMacroOperationState> macroStateMap;
@@ -58,11 +42,14 @@ public class Driver
 
     /**
      * Initializes a new Driver
+     * @param logger used to log data to the dashboard
      * @param injector used to retrieve the components to utilize within the robot
+     * @param buttonMap to control the mapping of joysticks to the corresponding operations
+     * @param provider to retrieve abstracted robot joysticks
      */
     @Inject
     public Driver(
-        IDashboardLogger logger,
+        LoggingManager logger,
         Injector injector,
         IButtonMap buttonMap,
         IRobotProvider provider)
@@ -110,7 +97,7 @@ public class Driver
         this.routineSelector = injector.getInstance(AutonomousRoutineSelector.class);
 
         this.joystickDriver = provider.getJoystick(ElectronicsConstants.JOYSTICK_DRIVER_PORT);
-        this.joystickCoDriver = provider.getJoystick(ElectronicsConstants.JOYSTICK_CO_DRIVER_PORT);
+        this.joystickOperator = provider.getJoystick(ElectronicsConstants.JOYSTICK_CO_DRIVER_PORT);
 
         ShiftDescription[] shiftSchema = buttonMap.getShiftSchema();
         this.shiftMap = new HashMap<Shift, ShiftDescription>();
@@ -153,7 +140,7 @@ public class Driver
      */
     public void update()
     {
-        this.logger.logBoolean(Driver.LogName, "isAuto", this.isAutonomous);
+        this.logger.logBoolean(LoggingKey.DriverIsAuto, this.isAutonomous);
 
         // keep track of macros that were running before we checked user input...
         Set<MacroOperation> previouslyActiveMacroOperations = new HashSet<MacroOperation>();
@@ -172,7 +159,7 @@ public class Driver
         for (Shift shift : this.shiftMap.keySet())
         {
             ShiftDescription shiftDescription = this.shiftMap.get(shift);
-            if (shiftDescription.checkInput(this.joystickDriver, this.joystickCoDriver))
+            if (!this.isAutonomous && shiftDescription.checkInput(this.joystickDriver, this.joystickOperator))
             {
                 activeShiftList[shiftIndex++] = shift;
             }
@@ -187,7 +174,7 @@ public class Driver
         for (IOperation operation : this.operationStateMap.keySet())
         {
             OperationState opState = this.operationStateMap.get(operation);
-            boolean receivedInput = opState.checkInput(this.joystickDriver, this.joystickCoDriver, activeShifts);
+            boolean receivedInput = !this.isAutonomous && opState.checkInput(this.joystickDriver, this.joystickOperator, activeShifts);
             if (receivedInput)
             {
                 modifiedOperations.add(operation);
@@ -206,7 +193,10 @@ public class Driver
         for (MacroOperation macroOperation : this.macroStateMap.keySet())
         {
             IMacroOperationState macroState = this.macroStateMap.get(macroOperation);
-            macroState.checkInput(this.joystickDriver, this.joystickCoDriver, activeShifts);
+            if (!this.isAutonomous)
+            {
+                macroState.checkInput(this.joystickDriver, this.joystickOperator, activeShifts);
+            }
 
             if (macroState.getIsActive())
             {
@@ -281,7 +271,8 @@ public class Driver
             this.macroStateMap.get(macroOperation).run();
         }
 
-        this.logger.logString(Driver.LogName, "activeMacros", String.join(", ", macroStrings));
+        this.logger.logString(LoggingKey.DriverActiveMacros, String.join(", ", macroStrings));
+        this.logger.logString(LoggingKey.DriverActiveShifts, activeShifts.toString());
     }
 
     /**

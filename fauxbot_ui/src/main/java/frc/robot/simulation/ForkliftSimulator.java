@@ -23,6 +23,20 @@ public class ForkliftSimulator implements IRealWorldSimulator
     private static final FauxbotActuatorConnection LifterForwardConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PCM0A, 7);
     private static final FauxbotActuatorConnection LifterReverseConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PCM0B, 8);
 
+    private final FauxbotSensorConnection[] sensors =
+        new FauxbotSensorConnection[]
+        {
+        };
+
+    private final FauxbotActuatorConnection[] actuators =
+        new FauxbotActuatorConnection[]
+        {
+            ForkliftSimulator.LeftMotorConnection,
+            ForkliftSimulator.RightMotorConnection,
+            ForkliftSimulator.LifterForwardConnection,
+            ForkliftSimulator.LifterReverseConnection,
+        };
+
     @SuppressWarnings("serial")
     private final Map<FauxbotActuatorConnection, String> actuatorNameMap = new HashMap<FauxbotActuatorConnection, String>()
     {
@@ -66,6 +80,24 @@ public class ForkliftSimulator implements IRealWorldSimulator
     }
 
     @Override
+    public FauxbotSensorConnection[] getSensors()
+    {
+        return this.sensors;
+    }
+
+    @Override
+    public FauxbotActuatorConnection[] getActuators()
+    {
+        return this.actuators;
+    }
+
+    @Override
+    public boolean getSensorTextBox(FauxbotSensorConnection connection)
+    {
+        return false;
+    }
+
+    @Override
     public String getSensorName(FauxbotSensorConnection connection)
     {
         return "Sensor " + connection;
@@ -104,6 +136,12 @@ public class ForkliftSimulator implements IRealWorldSimulator
     public double getMotorMax(FauxbotActuatorConnection connection)
     {
         return 1.0;
+    }
+
+    @Override
+    public boolean shouldSimulatePID()
+    {
+        return false;
     }
 
     @Override

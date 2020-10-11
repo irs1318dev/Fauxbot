@@ -35,6 +35,11 @@ public class TalonSRXWrapper implements ITalonSRX
         this.wrappedObject.follow(((TalonSRXWrapper)talonSRX).wrappedObject);
     }
 
+    public void follow(ITalonFX talonFX)
+    {
+        this.wrappedObject.follow(((TalonFXWrapper)talonFX).wrappedObject);
+    }
+
     public void follow(IVictorSPX victorSPX)
     {
         this.wrappedObject.follow(((VictorSPXWrapper)victorSPX).wrappedObject);
@@ -68,14 +73,23 @@ public class TalonSRXWrapper implements ITalonSRX
         }
     }
 
-    public void setSensorType(TalonSRXFeedbackDevice feedbackDevice)
+    public void setSensorType(TalonXFeedbackDevice feedbackDevice)
     {
         FeedbackDevice device;
-        if (feedbackDevice == TalonSRXFeedbackDevice.QuadEncoder)
+        if (feedbackDevice == TalonXFeedbackDevice.QuadEncoder)
         {
             device = FeedbackDevice.QuadEncoder;
-            this.wrappedObject.configSelectedFeedbackSensor(device, TalonSRXWrapper.pidIdx, 0);
         }
+        else if (feedbackDevice == TalonXFeedbackDevice.PulseWidthEncodedPosition)
+        {
+            device = FeedbackDevice.PulseWidthEncodedPosition;
+        }
+        else
+        {
+            return;
+        }
+
+        this.wrappedObject.configSelectedFeedbackSensor(device, TalonSRXWrapper.pidIdx, 0);
     }
 
     public void setPIDFFramePeriod(int periodMS)
@@ -88,12 +102,12 @@ public class TalonSRXWrapper implements ITalonSRX
         this.wrappedObject.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, periodMS, TalonSRXWrapper.timeoutMS);
     }
 
-    public void configureVelocityMeasurements()
+    public void configureVelocityMeasurements(int periodMS, int windowSize)
     {
-        this.wrappedObject.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_10Ms, TalonSRXWrapper.timeoutMS);
-        this.wrappedObject.configVelocityMeasurementWindow(32, TalonSRXWrapper.timeoutMS);
+        this.wrappedObject.configVelocityMeasurementPeriod(VelocityMeasPeriod.valueOf(periodMS), TalonSRXWrapper.timeoutMS);
+        this.wrappedObject.configVelocityMeasurementWindow(windowSize, TalonSRXWrapper.timeoutMS);
     }
-    
+
     public void configureAllowableClosedloopError(int slotId, int error)
     {
         this.wrappedObject.configAllowableClosedloopError(slotId, error, TalonSRXWrapper.timeoutMS);
@@ -233,11 +247,11 @@ public class TalonSRXWrapper implements ITalonSRX
         return this.wrappedObject.getClosedLoopError(TalonSRXWrapper.pidIdx);
     }
 
-    public TalonSRXLimitSwitchStatus getLimitSwitchStatus()
+    public TalonXLimitSwitchStatus getLimitSwitchStatus()
     {
         SensorCollection collection = this.wrappedObject.getSensorCollection();
 
-        return new TalonSRXLimitSwitchStatus(
+        return new TalonXLimitSwitchStatus(
             collection.isFwdLimitSwitchClosed(),
             collection.isRevLimitSwitchClosed());
     }

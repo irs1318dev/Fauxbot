@@ -1,12 +1,10 @@
 package frc.robot.driver.controltasks;
 
-import frc.robot.driver.common.IControlTask;
-
 /**
  * Task that simply waits for a short period of time.
  * 
  */
-public class WaitTask extends TimedTask implements IControlTask
+public class WaitTask extends TimedTask
 {
     /**
      * Initializes a new WaitTask

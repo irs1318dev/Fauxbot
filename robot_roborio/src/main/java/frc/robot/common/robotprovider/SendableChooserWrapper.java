@@ -12,13 +12,13 @@ public class SendableChooserWrapper<V> implements ISendableChooser<V>
     }
 
     @Override
-    public void addDefault(String name, V object) 
+    public void addDefault(String name, V object)
     {
         this.wrappedObject.setDefaultOption(name, object);
     }
 
     @Override
-    public void addObject(String name, V object) 
+    public void addObject(String name, V object)
     {
         this.wrappedObject.addOption(name, object);
     }

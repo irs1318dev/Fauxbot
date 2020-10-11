@@ -11,15 +11,18 @@
 		}
 	],
 	"settings": {
-		"java.configuration.updateBuildConfiguration": "interactive"
+		"java.configuration.updateBuildConfiguration": "automatic"
 	},
 	"launch": {
 		"configurations": [
 			{
 				"type": "java",
-				"name": "CodeLens (Launch) - Fauxbot",
+				"name": "Fauxbot Debug",
 				"request": "launch",
+				"console": "internalConsole",
+				"stopOnEntry": false,
 				"mainClass": "Fauxbot",
+				"args": "",
 				"projectName": "fauxbot_ui"
 			}
 		]

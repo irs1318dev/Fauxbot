@@ -14,7 +14,7 @@ public class UsbCameraWrapper implements IUsbCamera
     public UsbCameraWrapper(String name, int dev)
     {
         this.wrappedObject = new UsbCamera(name, dev);
-    } 
+    }
 
     public boolean setResolution(int width, int height)
     {

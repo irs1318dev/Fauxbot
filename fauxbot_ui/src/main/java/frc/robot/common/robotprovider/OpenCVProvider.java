@@ -16,31 +16,31 @@ public class OpenCVProvider implements IOpenCVProvider
   @Override
   public IMat newMat()
   {
-		return new MatWrapper(new Mat());
+        return new MatWrapper(new Mat());
   }
 
-	@Override
+    @Override
   public IMat newMat(int i, int j, int cvType)
   {
-		return new MatWrapper(new Mat(i, j, cvType));
-	}
+        return new MatWrapper(new Mat(i, j, cvType));
+    }
 
   @Override
   public IPoint newPoint(double d, double e)
   {
-		return new PointWrapper(new Point(d, e));
-	}
+        return new PointWrapper(new Point(d, e));
+    }
 
   @Override
   public IScalar newScalar(int i)
   {
-		return new ScalarWrapper(new Scalar(i));
+        return new ScalarWrapper(new Scalar(i));
   }
 
   @Override
   public IScalar newScalar(int v0, int v1, int v2)
   {
-		return new ScalarWrapper(new Scalar(v0, v1, v2));
+        return new ScalarWrapper(new Scalar(v0, v1, v2));
   }
 
   @Override

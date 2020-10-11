@@ -1,13 +1,12 @@
 package frc.robot.driver.controltasks;
 
-import frc.robot.driver.common.IControlTask;
 import frc.robot.common.robotprovider.ITimer;
 
 /**
  * Abstract class defining a task that lasts only for a certain duration.
  * 
  */
-public abstract class TimedTask extends ControlTaskBase implements IControlTask
+public abstract class TimedTask extends ControlTaskBase
 {
     protected final double duration;
     protected ITimer timer;

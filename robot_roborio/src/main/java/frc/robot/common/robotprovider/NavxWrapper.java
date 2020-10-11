@@ -2,7 +2,7 @@ package frc.robot.common.robotprovider;
 
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.SPI.Port;
+import edu.wpi.first.wpilibj.I2C.Port;
 
 public class NavxWrapper implements INavx
 {
@@ -10,7 +10,7 @@ public class NavxWrapper implements INavx
 
     public NavxWrapper()
     {
-        this.wrappedObject = new AHRS(Port.kMXP);
+        this.wrappedObject = new AHRS(Port.kOnboard);
     }
 
     public boolean isConnected()

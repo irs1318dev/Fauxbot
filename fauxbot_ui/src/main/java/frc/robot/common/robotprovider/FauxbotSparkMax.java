@@ -44,7 +44,7 @@ public class FauxbotSparkMax extends FauxbotAdvancedMotorBase implements ISparkM
         this.resetPID();
     }
 
-    public void setPIDFSmartMotion(double p, double i, double d, double f, int izone, int velocity, int acceleration, int slotId)
+    public void setPIDF(double p, double i, double d, double f, double minOutput, double maxOutput, int slotId)
     {
         this.kp = p;
         this.ki = i;
@@ -54,6 +54,33 @@ public class FauxbotSparkMax extends FauxbotAdvancedMotorBase implements ISparkM
     }
 
     public void setPIDF(double p, double i, double d, double f, int izone, int slotId)
+    {
+        this.kp = p;
+        this.ki = i;
+        this.kd = d;
+        this.kf = f;
+        this.resetPID();
+    }
+
+    public void setPIDF(double p, double i, double d, double f, int izone, double minOutput, double maxOutput, int slotId)
+    {
+        this.kp = p;
+        this.ki = i;
+        this.kd = d;
+        this.kf = f;
+        this.resetPID();
+    }
+
+    public void setPIDFSmartMotion(double p, double i, double d, double f, int izone, int velocity, int acceleration, int slotId)
+    {
+        this.kp = p;
+        this.ki = i;
+        this.kd = d;
+        this.kf = f;
+        this.resetPID();
+    }
+
+    public void setPIDFSmartMotion(double p, double i, double d, double f, int izone, int velocity, int acceleration, double minOutput, double maxOutput, int slotId)
     {
         this.kp = p;
         this.ki = i;
@@ -95,11 +122,19 @@ public class FauxbotSparkMax extends FauxbotAdvancedMotorBase implements ISparkM
     {
     }
 
+    public void setInvertSensor(boolean flip)
+    {
+    }
+
     public void setNeutralMode(MotorNeutralMode neutralMode)
     {
     }
 
     public void setVoltageCompensation(boolean enabled, double maxVoltage)
+    {
+    }
+
+    public void setVelocityMeasurements(int periodMS, int windowSize)
     {
     }
 

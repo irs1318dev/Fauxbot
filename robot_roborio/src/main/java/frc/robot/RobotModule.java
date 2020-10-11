@@ -2,10 +2,10 @@ package frc.robot;
 
 import javax.inject.Singleton;
 
-import frc.robot.common.MechanismManager;
+import frc.robot.common.*;
 import frc.robot.common.robotprovider.*;
 import frc.robot.driver.*;
-import frc.robot.driver.common.IButtonMap;
+import frc.robot.driver.common.*;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
@@ -19,6 +19,8 @@ public class RobotModule extends AbstractModule
         this.bind(IRobotProvider.class).to(RobotProvider.class);
         this.bind(ITimer.class).to(TimerWrapper.class);
         this.bind(IButtonMap.class).to(ButtonMap.class);
+        this.bind(ISmartDashboardLogger.class).to(SmartDashboardLogger.class);
+        this.bind(IFile.class).to(FileWrapper.class);
     }
 
     @Singleton
@@ -30,20 +32,8 @@ public class RobotModule extends AbstractModule
 
     @Singleton
     @Provides
-    public IDashboardLogger getLogger()
+    public LoggingManager getLoggingManager()
     {
-        IDashboardLogger logger = new SmartDashboardLogger();
-        //        try
-        //        {
-        //            String fileName = String.format("/home/lvuser/%1$d.csv", Calendar.getInstance().getTime().getTime());
-        //            IDashboardLogger csvLogger = new CSVLogger(fileName, new String[] { "r.time", "vision.mAngle", "vision.dist" });
-        //            logger = new MultiLogger(logger, csvLogger);
-        //        }
-        //        catch (IOException e)
-        //        {
-        //            e.printStackTrace();
-        //        }
-
-        return logger;
+        return new LoggingManager(injector -> TuningConstants.GetLogger(injector));
     }
 }

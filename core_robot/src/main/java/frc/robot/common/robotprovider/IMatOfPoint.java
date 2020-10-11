@@ -9,5 +9,5 @@ public interface IMatOfPoint
     IPoint[] toArray();
     void fromList(List<IPoint> lp);
     List<IPoint> toList();
-	void release();
+    void release();
 }

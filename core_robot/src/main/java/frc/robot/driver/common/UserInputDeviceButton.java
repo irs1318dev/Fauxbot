@@ -27,8 +27,8 @@ package frc.robot.driver.common;
  * 4 - Y
  * 5 - LB (left button)
  * 6 - RB (right button)
- * 7 - Select
- * 8 - Start
+ * 7 - Select (two squares)
+ * 8 - Start (hamburger)
  * 9 - LS (left stick)
  * 10 - RS (right stick)
  * POV - hat (-1 when not pressed, 0-360.  0 is forward/up, 90 is right, 180 is back/down, 270 is left)
@@ -76,8 +76,8 @@ public enum UserInputDeviceButton
     XBONE_Y_BUTTON(4),
     XBONE_LEFT_BUTTON(5), // LB
     XBONE_RIGHT_BUTTON(6), // RB
-    XBONE_SELECT_BUTTON(7),
-    XBONE_START_BUTTON(8),
+    XBONE_SELECT_BUTTON(7), // The one with the squares
+    XBONE_START_BUTTON(8), // The hamburgler one
     XBONE_LEFT_STICK_BUTTON(9), // LS
     XBONE_RIGHT_STICK_BUTTON(10), // RS
 

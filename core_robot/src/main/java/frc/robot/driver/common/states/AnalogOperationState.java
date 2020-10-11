@@ -21,9 +21,10 @@ public class AnalogOperationState extends OperationState
     {
         super(description);
 
-        this.currentValue = 0.0;
+        double defaultValue = description.getDefaultValue();
+        this.currentValue = defaultValue;
         this.isInterrupted = false;
-        this.interruptValue = 0.0;
+        this.interruptValue = defaultValue;
     }
 
     /**
@@ -36,7 +37,7 @@ public class AnalogOperationState extends OperationState
         this.isInterrupted = enable;
         if (!enable)
         {
-            this.interruptValue = 0.0;
+            this.interruptValue = ((AnalogOperationDescription)this.getDescription()).getDefaultValue();
         }
     }
 
@@ -51,14 +52,14 @@ public class AnalogOperationState extends OperationState
     }
 
     /**
-     * Checks whether the operation state should change based on the driver and co-driver joysticks and component sensors. 
+     * Checks whether the operation state should change based on the driver and operator joysticks and component sensors. 
      * @param driver joystick to update from
-     * @param coDriver joystick to update from
+     * @param operator joystick to update from
      * @param activeShifts to update from
      * @return true if there was any active user input that triggered a state change
      */
     @Override
-    public boolean checkInput(IJoystick driver, IJoystick coDriver, Shift activeShifts)
+    public boolean checkInput(IJoystick driver, IJoystick operator, Shift activeShifts)
     {
         AnalogOperationDescription description = (AnalogOperationDescription)this.getDescription();
 
@@ -73,8 +74,9 @@ public class AnalogOperationState extends OperationState
         if (relevantShifts != null && requiredShifts != null)
         {
             Shift relevantActiveShifts = Shift.Intersect(relevantShifts, activeShifts);
-            if (relevantActiveShifts.hasFlag(requiredShifts))
+            if (!relevantActiveShifts.equals(requiredShifts))
             {
+                this.currentValue = description.getDefaultValue();
                 return false;
             }
         }
@@ -87,8 +89,8 @@ public class AnalogOperationState extends OperationState
                 relevantJoystick = driver;
                 break;
 
-            case CoDriver:
-                relevantJoystick = coDriver;
+            case Operator:
+                relevantJoystick = operator;
                 break;
 
             case Sensor:
@@ -100,6 +102,7 @@ public class AnalogOperationState extends OperationState
                     throw new RuntimeException("Unexpected user input device " + description.getUserInputDevice().toString());
                 }
 
+                this.currentValue = description.getDefaultValue();
                 return false;
         }
 
@@ -108,7 +111,7 @@ public class AnalogOperationState extends OperationState
         if (relevantJoystick != null)
         {
             relevantAxis = description.getUserInputDeviceAxis();
-            if (relevantAxis == null)
+            if (relevantAxis == null || relevantAxis == AnalogAxis.NONE)
             {
                 return false;
             }
@@ -119,13 +122,46 @@ public class AnalogOperationState extends OperationState
                 newValue *= -1.0;
             }
 
-            newValue = this.adjustForDeadZone(newValue, description.getDeadZone());
+            AnalogAxis secondaryAxis = description.getUserInputDeviceSecondaryAxis();
+            if (secondaryAxis != null && secondaryAxis != AnalogAxis.NONE)
+            {
+                double secondaryValue = relevantJoystick.getAxis(secondaryAxis.Value);
+                if (description.getShouldInvertSecondary())
+                {
+                    secondaryValue *= -1.0;
+                }
+
+                // don't adjust for dead zone, simply check for having both within dead zone
+                if (this.withinDeadZone(newValue, secondaryValue, description.getDeadZoneMin(), description.getDeadZoneMax()))
+                {
+                    this.currentValue = description.getDefaultValue();
+                    return false;
+                }
+
+                AnalogOperationDescription.ResultCalculator calculator = description.getResultCalculator();
+                if (calculator == null)
+                {
+                    if (TuningConstants.THROW_EXCEPTIONS)
+                    {
+                        throw new RuntimeException("No result calculator provided!");
+                    }
+
+                    this.currentValue = description.getDefaultValue();
+                    return false;
+                }
+
+                newValue = calculator.calculate(newValue, secondaryValue);
+            }
+            else
+            {
+                newValue = this.adjustForDeadZone(newValue, description.getDeadZoneMin(), description.getDeadZoneMax(), description.getDefaultValue(), description.getMultiplier());
+            }
         }
         else
         {
             // grab the appropriate sensor output.
             // e.g.: if (description.getSensor() == AnalogSensor.None) ...
-            newValue = 0.0;
+            newValue = description.getDefaultValue();
         }
 
         this.currentValue = newValue;
@@ -161,20 +197,34 @@ public class AnalogOperationState extends OperationState
      * @param deadZone to consider
      * @return adjusted value for deadZone
      */
-    private double adjustForDeadZone(double value, double deadZone)
+    private double adjustForDeadZone(double value, double deadZoneMin, double deadZoneMax, double defaultValue, double multiplier)
     {
-        if (value < deadZone && value > -deadZone)
+        if (value < deadZoneMax && value > deadZoneMin)
         {
-            return 0.0;
-        }
-
-        double sign = 1.0;
-        if (value < 0.0)
-        {
-            sign = -1.0;
+            return defaultValue;
         }
 
         // scale so that we have the area just outside the deadzone be the starting point
-        return (value - sign * deadZone) / (1 - deadZone);
+        double deadZone = deadZoneMax;
+        if (value < 0.0)
+        {
+            deadZone = deadZoneMin;
+        }
+
+        return multiplier * (value - deadZone) / (1.0 - deadZone);
+    }
+
+    /**
+     * Adjust the value as a part of dead zone calculation
+     * @param value1 to check
+     * @param value2 to check
+     * @param deadZoneMin to consider
+     * @param deadZoneMax to consider
+     * @return whether both are within the deadzone
+     */
+    private boolean withinDeadZone(double value1, double value2, double deadZoneMin, double deadZoneMax)
+    {
+        return value1 < deadZoneMax && value1 > deadZoneMin &&
+            value2 < deadZoneMax && value2 > deadZoneMin;
     }
 }

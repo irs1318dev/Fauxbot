@@ -3,18 +3,20 @@ package frc.robot.driver;
 import javax.inject.Singleton;
 
 import frc.robot.*;
+import frc.robot.common.Helpers;
 import frc.robot.driver.common.*;
 import frc.robot.driver.common.buttons.*;
 import frc.robot.driver.common.descriptions.*;
+import frc.robot.driver.controltasks.*;
 
 @Singleton
 public class ButtonMap implements IButtonMap
 {
-    private static ShiftDescription[] ShiftButtons = new ShiftDescription[]
+    private static ShiftDescription[] ShiftButtonSchema = new ShiftDescription[]
     {
         // Example Shift entry:
         new ShiftDescription(
-            Shift.Debug,
+            Shift.DriverDebug,
             UserInputDevice.Driver,
             UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON),
     };
@@ -28,7 +30,7 @@ public class ButtonMap implements IButtonMap
             AnalogAxis.JOYSTICK_X,
             ElectronicsConstants.INVERT_X_AXIS,
             TuningConstants.DRIVETRAIN_X_DEAD_ZONE),*/
-    };
+        };
 
     public static DigitalOperationDescription[] DigitalOperationSchema = new DigitalOperationDescription[]
     {
@@ -38,7 +40,7 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Driver,
             UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
             ButtonType.Toggle),*/
-    };
+        };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
     {
@@ -54,12 +56,12 @@ public class ButtonMap implements IButtonMap
                 Operation.SomeAnalogOperation,
                 Operation.SomeDigitalOperation,
             }),*/
-    };
+        };
 
     @Override
     public ShiftDescription[] getShiftSchema()
     {
-        return ButtonMap.ShiftButtons;
+        return ButtonMap.ShiftButtonSchema;
     }
 
     @Override

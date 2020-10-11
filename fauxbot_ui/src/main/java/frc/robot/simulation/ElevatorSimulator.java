@@ -23,6 +23,19 @@ public class ElevatorSimulator implements IRealWorldSimulator
     private static final FauxbotSensorConnection EncoderBChannel = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.DigitalInput, 1);
     private static final FauxbotActuatorConnection MotorChannel = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PWM, 0);
 
+    private final FauxbotSensorConnection[] sensors =
+        new FauxbotSensorConnection[]
+        {
+            ElevatorSimulator.EncoderAChannel,
+            ElevatorSimulator.EncoderBChannel,
+        };
+
+    private final FauxbotActuatorConnection[] actuators =
+        new FauxbotActuatorConnection[]
+        {
+            ElevatorSimulator.MotorChannel,
+        };
+
     @SuppressWarnings("serial")
     private final Map<FauxbotSensorConnection, String> sensorNameMap = new HashMap<FauxbotSensorConnection, String>()
     {
@@ -70,7 +83,7 @@ public class ElevatorSimulator implements IRealWorldSimulator
         }
         catch (Exception e)
         {
-            System.out.println("ERROR: INVALID IMAGE");             
+            System.out.println("ERROR: INVALID IMAGE");
         }
 
         this.elevatorPerson = new Image(this.elevatorPersonInputStream);
@@ -78,6 +91,24 @@ public class ElevatorSimulator implements IRealWorldSimulator
         this.prevHeight = 0.0;
         this.prevTime = 0.0;
         this.prevVelocity = 0.0;
+    }
+
+    @Override
+    public FauxbotSensorConnection[] getSensors()
+    {
+        return this.sensors;
+    }
+
+    @Override
+    public FauxbotActuatorConnection[] getActuators()
+    {
+        return this.actuators;
+    }
+
+    @Override
+    public boolean getSensorTextBox(FauxbotSensorConnection connection)
+    {
+        return false;
     }
 
     @Override
@@ -124,6 +155,12 @@ public class ElevatorSimulator implements IRealWorldSimulator
     public double getMotorMax(FauxbotActuatorConnection connection)
     {
         return 1.0;
+    }
+
+    @Override
+    public boolean shouldSimulatePID()
+    {
+        return true;
     }
 
     @Override

@@ -2,8 +2,6 @@ package frc.robot.common.robotprovider;
 
 import javax.inject.Singleton;
 
-import frc.robot.vision.VisionCalculations;
-
 @Singleton
 public class RobotProvider implements IRobotProvider
 {
@@ -14,9 +12,33 @@ public class RobotProvider implements IRobotProvider
     }
 
     @Override
+    public IDigitalInput getDigitalInput(int channel)
+    {
+        return new DigitalInputWrapper(channel);
+    }
+
+    @Override
+    public IDigitalOutput getDigitalOutput(int channel)
+    {
+        return new DigitalOutputWrapper(channel);
+    }
+
+    @Override
+    public ICounter getCounter(int channel)
+    {
+        return new CounterWrapper(channel);
+    }
+
+    @Override
     public ITalonSRX getTalonSRX(int deviceNumber)
     {
         return new TalonSRXWrapper(deviceNumber);
+    }
+
+    @Override
+    public ITalonFX getTalonFX(int deviceNumber)
+    {
+        return new TalonFXWrapper(deviceNumber);
     }
 
     @Override
@@ -41,12 +63,6 @@ public class RobotProvider implements IRobotProvider
     public ICompressor getCompressor(int module)
     {
         return new CompressorWrapper(module);
-    }
-
-    @Override
-    public IDigitalInput getDigitalInput(int channel)
-    {
-        return new DigitalInputWrapper(channel);
     }
 
     @Override
@@ -134,6 +150,18 @@ public class RobotProvider implements IRobotProvider
     }
 
     @Override
+    public IColorSensorV3 getColorSensor()
+    {
+        return new ColorSensorV3Wrapper();
+    }
+
+    @Override
+    public IColorMatch getColorMatch()
+    {
+        return new ColorMatchWrapper();
+    }
+
+    @Override
     public IVideoStream getMJPEGStream(String name, int width, int height)
     {
         return new VideoStreamWrapper(name, width, height);
@@ -161,16 +189,5 @@ public class RobotProvider implements IRobotProvider
     public INetworkTableProvider getNetworkTableProvider()
     {
         return new NetworkTableProvider();
-    }
-
-    @Override
-    public VisionCalculations getVisionCalculations()
-    {
-        return new VisionCalculations();
-    }
-    
-    public <V> ISendableChooser<V> getSendableChooser()
-    {
-        return new SendableChooserWrapper<V>();
     }
 }

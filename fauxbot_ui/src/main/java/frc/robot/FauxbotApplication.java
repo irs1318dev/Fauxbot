@@ -13,6 +13,8 @@ import frc.robot.simulation.*;
 
 import javafx.application.*;
 import javafx.beans.binding.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.*;
 import javafx.geometry.*;
 import javafx.scene.*;
@@ -22,6 +24,8 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import javafx.stage.*;
+import javafx.util.converter.BooleanStringConverter;
+import javafx.util.converter.NumberStringConverter;
 
 public class FauxbotApplication extends Application
 {
@@ -44,7 +48,7 @@ public class FauxbotApplication extends Application
     {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Fauxbot");
- 
+
         // throw exceptions in our simulation if there's anything unexpected...
         TuningConstants.THROW_EXCEPTIONS = true;
 
@@ -88,7 +92,7 @@ public class FauxbotApplication extends Application
         simulationGroup.selectedToggleProperty().addListener(
             (ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) ->
             {
-                this.desiredSimulation = (Simulation)newValue.getUserData(); 
+                this.desiredSimulation = (Simulation)newValue.getUserData();
             });
 
         Button startSimulationButton = new Button("Start Simulation");
@@ -197,7 +201,7 @@ public class FauxbotApplication extends Application
                 public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue)
                 {
                     runner.setMode((RobotMode)newValue.getUserData());
-                } 
+                }
             });
 
         rowCount++;
@@ -240,7 +244,7 @@ public class FauxbotApplication extends Application
                     {
                         joystickPort = ElectronicsConstants.JOYSTICK_DRIVER_PORT;
                     }
-                    else if (description.getUserInputDevice() == UserInputDevice.CoDriver)
+                    else if (description.getUserInputDevice() == UserInputDevice.Operator)
                     {
                         joystickPort = ElectronicsConstants.JOYSTICK_CO_DRIVER_PORT;
                     }
@@ -264,7 +268,6 @@ public class FauxbotApplication extends Application
                                     (MouseEvent event) ->
                                     {
                                         joystick.getButtonProperty(buttonNumber).set(true);
-                                        ;
                                     });
 
                                 grid.add(operationButton, 1, thisRowIndex);
@@ -282,7 +285,6 @@ public class FauxbotApplication extends Application
                                     (MouseEvent event) ->
                                     {
                                         joystick.getButtonProperty(buttonNumber).set(true);
-                                        ;
                                     });
 
                                 grid.add(operationButton, 1, thisRowIndex);
@@ -300,11 +302,18 @@ public class FauxbotApplication extends Application
         }
 
         boolean firstSensor = true;
-        for (FauxbotSensorConnection connection : FauxbotSensorManager.sensorMap.keySet())
+        FauxbotSensorConnection[] sensors = this.simulator.getSensors();
+        if (sensors == null)
+        {
+            sensors = (FauxbotSensorConnection[])FauxbotSensorManager.sensorMap.keySet().toArray();
+        }
+
+        for (FauxbotSensorConnection connection : sensors)
         {
             FauxbotSensorBase sensor = FauxbotSensorManager.get(connection);
             if (sensor != null)
             {
+                boolean useTextBox = this.simulator.getSensorTextBox(connection);
                 if (firstSensor)
                 {
                     Text sensorsTitle = new Text("Sensors");
@@ -323,35 +332,88 @@ public class FauxbotApplication extends Application
 
                 if (sensor instanceof FauxbotDigitalInput)
                 {
-                    CheckBox sensorCheckBox = new CheckBox();
-                    grid.add(sensorCheckBox, 1, thisRowIndex);
-                    Bindings.bindBidirectional(((FauxbotDigitalInput)sensor).getProperty(), sensorCheckBox.selectedProperty());
+                    BooleanProperty sensorProperty = ((FauxbotDigitalInput)sensor).getProperty();
+                    if (useTextBox)
+                    {
+                        TextField sensorTextBox = new TextField();
+                        grid.add(sensorTextBox, 1, thisRowIndex);
+                        Bindings.bindBidirectional(sensorTextBox.textProperty(), sensorProperty, new BooleanStringConverter());
+                    }
+                    else
+                    {
+                        CheckBox sensorCheckBox = new CheckBox();
+                        grid.add(sensorCheckBox, 1, thisRowIndex);
+                        Bindings.bindBidirectional(sensorCheckBox.selectedProperty(), sensorProperty);
+                    }
                 }
                 else if (sensor instanceof FauxbotAnalogInput)
                 {
-                    double min = this.simulator.getSensorMin(connection);
-                    double max = this.simulator.getSensorMax(connection);
-                    Slider sensorSlider = new Slider();
-                    sensorSlider.setMin(min);
-                    sensorSlider.setMax(max);
-                    sensorSlider.setBlockIncrement(0.1);
-                    sensorSlider.setShowTickMarks(true);
+                    DoubleProperty sensorProperty = ((FauxbotAnalogInput)sensor).getProperty();
+                    if (useTextBox)
+                    {
+                        TextField sensorTextBox = new TextField();
+                        grid.add(sensorTextBox, 1, thisRowIndex);
+                        Bindings.bindBidirectional(sensorTextBox.textProperty(), sensorProperty, new NumberStringConverter());
+                    }
+                    else
+                    {
+                        double min = this.simulator.getSensorMin(connection);
+                        double max = this.simulator.getSensorMax(connection);
+                        Slider sensorSlider = new Slider();
+                        sensorSlider.setMin(min);
+                        sensorSlider.setMax(max);
+                        sensorSlider.setBlockIncrement(0.1);
+                        sensorSlider.setShowTickMarks(true);
 
-                    grid.add(sensorSlider, 1, thisRowIndex);
-                    Bindings.bindBidirectional(((FauxbotAnalogInput)sensor).getProperty(), sensorSlider.valueProperty());
+                        grid.add(sensorSlider, 1, thisRowIndex);
+                        Bindings.bindBidirectional(sensorSlider.valueProperty(), sensorProperty);
+                    }
                 }
                 else if (sensor instanceof FauxbotEncoder)
                 {
-                    double min = this.simulator.getSensorMin(connection);
-                    double max = this.simulator.getSensorMax(connection);
-                    Slider sensorSlider = new Slider();
-                    sensorSlider.setMin(min);
-                    sensorSlider.setMax(max);
-                    sensorSlider.setBlockIncrement(0.1);
-                    sensorSlider.setShowTickMarks(true);
+                    DoubleProperty sensorProperty = ((FauxbotEncoder)sensor).getProperty();
+                    if (useTextBox)
+                    {
+                        TextField sensorTextBox = new TextField();
+                        grid.add(sensorTextBox, 1, thisRowIndex);
+                        Bindings.bindBidirectional(sensorTextBox.textProperty(), sensorProperty, new NumberStringConverter());
+                    }
+                    else
+                    {
+                        double min = this.simulator.getSensorMin(connection);
+                        double max = this.simulator.getSensorMax(connection);
+                        Slider sensorSlider = new Slider();
+                        sensorSlider.setMin(min);
+                        sensorSlider.setMax(max);
+                        sensorSlider.setBlockIncrement(0.1);
+                        sensorSlider.setShowTickMarks(true);
 
-                    grid.add(sensorSlider, 1, thisRowIndex);
-                    Bindings.bindBidirectional(((FauxbotEncoder)sensor).getProperty(), sensorSlider.valueProperty());
+                        grid.add(sensorSlider, 1, thisRowIndex);
+                        Bindings.bindBidirectional(sensorSlider.valueProperty(), sensorProperty);
+                    }
+                }
+                else if (sensor instanceof FauxbotNavx)
+                {
+                    DoubleProperty sensorProperty = ((FauxbotNavx)sensor).getProperty();
+                    if (useTextBox)
+                    {
+                        TextField sensorTextBox = new TextField();
+                        grid.add(sensorTextBox, 1, thisRowIndex);
+                        Bindings.bindBidirectional(sensorTextBox.textProperty(), sensorProperty, new NumberStringConverter());
+                    }
+                    else
+                    {
+                        double min = this.simulator.getSensorMin(connection);
+                        double max = this.simulator.getSensorMax(connection);
+                        Slider sensorSlider = new Slider();
+                        sensorSlider.setMin(min);
+                        sensorSlider.setMax(max);
+                        sensorSlider.setBlockIncrement(0.1);
+                        sensorSlider.setShowTickMarks(true);
+
+                        grid.add(sensorSlider, 1, thisRowIndex);
+                        Bindings.bindBidirectional(sensorSlider.valueProperty(), sensorProperty);
+                    }
                 }
             }
         }
@@ -363,7 +425,13 @@ public class FauxbotApplication extends Application
         }
 
         boolean firstActuator = true;
-        for (FauxbotActuatorConnection connection : FauxbotActuatorManager.actuatorMap.keySet())
+        FauxbotActuatorConnection[] actuators = this.simulator.getActuators();
+        if (actuators == null)
+        {
+            actuators = (FauxbotActuatorConnection[])FauxbotActuatorManager.actuatorMap.keySet().toArray();
+        }
+
+        for (FauxbotActuatorConnection connection : actuators)
         {
             FauxbotActuatorBase actuator = FauxbotActuatorManager.get(connection);
             if (actuator != null)
@@ -478,7 +546,7 @@ public class FauxbotApplication extends Application
         {
             joystickPort = ElectronicsConstants.JOYSTICK_DRIVER_PORT;
         }
-        else if (description.getUserInputDevice() == UserInputDevice.CoDriver)
+        else if (description.getUserInputDevice() == UserInputDevice.Operator)
         {
             joystickPort = ElectronicsConstants.JOYSTICK_CO_DRIVER_PORT;
         }
@@ -550,10 +618,10 @@ public class FauxbotApplication extends Application
 
     public void refresh()
     {
-        this.simulator.update();
         Platform.runLater(
             () ->
             {
+                this.simulator.update();
                 this.simulator.draw(this.canvas);
             });
     }

@@ -1,84 +1,104 @@
 package frc.robot.common.robotprovider;
 
-public abstract class StringLogger implements IDashboardLogger
+import frc.robot.LoggingKey;
+
+public abstract class StringLogger implements ILogger
 {
     /**
-     * Write a string to the smart dashboard
-     * @param component to log for
+     * Write a string to the log
      * @param key to write to
      * @param value to write
      */
-    public abstract void logString(String component, String key, String value);
+    public abstract void logString(LoggingKey key, String value);
 
     /**
-     * Write a boolean to the smart dashboard
-     * @param component to log for
-     * @param key to write to
-     * @param value to write
-     */
-    @Override
-    public void logBoolean(String component, String key, boolean value)
-    {
-        this.logString(component, key, String.valueOf(value));
-    }
-
-    /**
-     * Write a number (double) to the smart dashboard
-     * @param component to log for
+     * Write a boolean to the log
      * @param key to write to
      * @param value to write
      */
     @Override
-    public void logNumber(String component, String key, double value)
+    public void logBoolean(LoggingKey key, boolean value)
     {
-        this.logString(component, key, String.valueOf(value));
+        this.logString(key, String.valueOf(value));
     }
 
     /**
-     * Write a number (double) to the smart dashboard
-     * @param component to log for
+     * Write a boolean array to the log
      * @param key to write to
      * @param value to write
      */
     @Override
-    public void logNumber(String component, String key, Double value)
+    public void logBooleanArray(LoggingKey key, boolean[] value)
     {
-        this.logString(component, key, String.valueOf(value));
+        String str = "";
+        if (value != null)
+        {
+            for (int i = 0; i < value.length; i++)
+            {
+                if (i > 0)
+                {
+                    str += ",";
+                }
+
+                str += String.valueOf(value[i]);
+            }
+        }
+
+        this.logString(key, str);
     }
 
     /**
-     * Write a number (integer) to the smart dashboard
-     * @param component to log for
+     * Write a number (double) to the log
      * @param key to write to
      * @param value to write
      */
     @Override
-    public void logInteger(String component, String key, int value)
+    public void logNumber(LoggingKey key, double value)
     {
-        this.logString(component, key, String.valueOf(value));
+        this.logString(key, String.valueOf(value));
     }
 
     /**
-     * Write a number (integer) to the smart dashboard
-     * @param component to log for
+     * Write a number (double) to the log
+     * @param key to write to
+     * @param value to write
+     */
+    @Override
+    public void logNumber(LoggingKey key, Double value)
+    {
+        this.logString(key, String.valueOf(value));
+    }
+
+    /**
+     * Write a number (integer) to the log
+     * @param key to write to
+     * @param value to write
+     */
+    @Override
+    public void logInteger(LoggingKey key, int value)
+    {
+        this.logString(key, String.valueOf(value));
+    }
+
+    /**
+     * Write a number (integer) to the log
      * @param key to write to
      * @param value to write
      * @param formatString to use
      */
     @Override
-    public void logInteger(String component, String key, int value, String formatString)
+    public void logInteger(LoggingKey key, int value, String formatString)
     {
-        this.logString(component, key, String.format(formatString, value));
+        this.logString(key, String.format(formatString, value));
     }
 
     /**
-     * Write a point (x,y or N/A) to the smart dashboard
-     * @param component to log for
+     * Write a point (x,y or N/A) to the log
      * @param key to write to
      * @param value to write
      */
     @Override
-    public void logPoint(String component, String key, IPoint value)
+    public void logPoint(LoggingKey key, IPoint value)
     {
         String valueString = "N/A";
         if (value != null)
@@ -86,7 +106,15 @@ public abstract class StringLogger implements IDashboardLogger
             valueString = String.format("(%f, %f)", value.getX(), value.getY());
         }
 
-        this.logString(component, key, valueString);
+        this.logString(key, valueString);
+    }
+
+    /**
+     * Update the log, if appropriate..
+     */
+    @Override
+    public void update()
+    {
     }
 
     /**
@@ -94,14 +122,6 @@ public abstract class StringLogger implements IDashboardLogger
      */
     @Override
     public void flush()
-    {
-    }
-
-    /**
-     * Add a sendable chooser to the smart dashboard
-     */
-    @Override
-    public <V> void addChooser(String name, ISendableChooser<V> chooser)
     {
     }
 }

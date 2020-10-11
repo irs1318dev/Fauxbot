@@ -25,6 +25,22 @@ public class PrinterSimulator implements IRealWorldSimulator
     private static final FauxbotActuatorConnection PenForwardConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PCM0A, 7);
     private static final FauxbotActuatorConnection PenReverseConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PCM0B, 8);
 
+    private final FauxbotSensorConnection[] sensors =
+        new FauxbotSensorConnection[]
+        {
+            PrinterSimulator.XEncoderConnection,
+            PrinterSimulator.YEncoderConnection,
+        };
+
+    private final FauxbotActuatorConnection[] actuators =
+        new FauxbotActuatorConnection[]
+        {
+            PrinterSimulator.XMotorConnection,
+            PrinterSimulator.YMotorConnection,
+            PrinterSimulator.PenForwardConnection,
+            PrinterSimulator.PenReverseConnection,
+        };
+
     @SuppressWarnings("serial")
     private final Map<FauxbotSensorConnection, String> sensorNameMap = new HashMap<FauxbotSensorConnection, String>()
     {
@@ -87,6 +103,24 @@ public class PrinterSimulator implements IRealWorldSimulator
     }
 
     @Override
+    public FauxbotSensorConnection[] getSensors()
+    {
+        return this.sensors;
+    }
+
+    @Override
+    public FauxbotActuatorConnection[] getActuators()
+    {
+        return this.actuators;
+    }
+
+    @Override
+    public boolean getSensorTextBox(FauxbotSensorConnection connection)
+    {
+        return false;
+    }
+
+    @Override
     public String getSensorName(FauxbotSensorConnection connection)
     {
         if (this.sensorNameMap.containsKey(connection))
@@ -130,6 +164,12 @@ public class PrinterSimulator implements IRealWorldSimulator
     public double getMotorMax(FauxbotActuatorConnection connection)
     {
         return 1.0;
+    }
+
+    @Override
+    public boolean shouldSimulatePID()
+    {
+        return true;
     }
 
     @Override

@@ -15,6 +15,10 @@ public class FauxbotVictorSPX extends FauxbotAdvancedMotorBase implements IVicto
     {
     }
 
+    public void follow(ITalonFX talonFX)
+    {
+    }
+
     public void setControlMode(TalonSRXControlMode mode)
     {
     }
@@ -24,6 +28,10 @@ public class FauxbotVictorSPX extends FauxbotAdvancedMotorBase implements IVicto
     }
 
     public void setInvertOutput(boolean invert)
+    {
+    }
+
+    public void stop()
     {
     }
 }

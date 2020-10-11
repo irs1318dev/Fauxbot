@@ -1,6 +1,5 @@
 package frc.robot.common;
 
-import frc.robot.common.robotprovider.IDashboardLogger;
 import frc.robot.common.robotprovider.ITimer;
 
 /**
@@ -42,8 +41,6 @@ public class PIDHandler
 
     // other vars
     private final ITimer timer;
-    private final IDashboardLogger logger;
-    private final String logName;
 
     /**
      * This constructor initializes the object and sets constants to affect gain.
@@ -56,6 +53,7 @@ public class PIDHandler
      * @param ks scalar for adjusting scale difference between measured value and setpoint value
      * @param minOutput indicates the minimum output value acceptable, or null
      * @param maxOutput indicates the maximum output value acceptable, or null
+     * @param timer to track how much time has passed
      */
     public PIDHandler(
         double kp,
@@ -67,36 +65,7 @@ public class PIDHandler
         Double maxOutput,
         ITimer timer)
     {
-        this(kp, ki, kd, kf, ks, 0.0, 1.0, 0.0, 1.0, minOutput, maxOutput, null, null, timer);
-    }
-
-    /**
-     * This constructor initializes the object and sets constants to affect gain.
-     * This defaults to not utilizing a complementary filter to slow ramp-up/ramp-down.
-     * 
-     * @param kp scalar for proportional component
-     * @param ki scalar for integral component
-     * @param kd scalar for derivative component
-     * @param kf scalar for feed-forward control
-     * @param ks scalar for adjusting scale difference between measured value and setpoint value
-     * @param minOutput indicates the minimum output value acceptable, or null
-     * @param maxOutput indicates the maximum output value acceptable, or null
-     * @param logName to use for logging
-     * @param logger to use for logging
-     */
-    public PIDHandler(
-        double kp,
-        double ki,
-        double kd,
-        double kf,
-        double ks,
-        Double minOutput,
-        Double maxOutput,
-        String logName,
-        IDashboardLogger logger,
-        ITimer timer)
-    {
-        this(kp, ki, kd, kf, ks, 0.0, 1.0, 0.0, 1.0, minOutput, maxOutput, logName, logger, timer);
+        this(kp, ki, kd, kf, ks, 0.0, 1.0, 0.0, 1.0, minOutput, maxOutput, timer);
     }
 
     /**
@@ -114,8 +83,7 @@ public class PIDHandler
      * @param kEN scalar for error complementary filter multiplier
      * @param minOutput indicates the minimum output value acceptable, or null
      * @param maxOutput indicates the maximum output value acceptable, or null
-     * @param logName to use for logging
-     * @param logger to use for logging
+     * @param timer to track how much time has passed
      */
     public PIDHandler(
         double kp,
@@ -129,8 +97,6 @@ public class PIDHandler
         double kEN,
         Double minOutput,
         Double maxOutput,
-        String logName,
-        IDashboardLogger logger,
         ITimer timer)
     {
         this.ki = ki;
@@ -147,9 +113,6 @@ public class PIDHandler
 
         this.timer = timer;
         this.prevTime = this.timer.get();
-
-        this.logger = logger;
-        this.logName = logName;
     }
 
     /**
@@ -314,11 +277,6 @@ public class PIDHandler
             // calculate change in ticks since our last measurement
             double deltaX = measuredValue - this.prevMeasuredValue;
             double timeRatio = 0.02 / dt;
-
-            if (this.logger != null && this.logName != null)
-            {
-                this.logger.logNumber(this.logName, "scale factor", timeRatio * deltaX);
-            }
 
             this.errorFilter.update(this.ks * setpoint - deltaX * timeRatio);
             double error = this.errorFilter.getValue();

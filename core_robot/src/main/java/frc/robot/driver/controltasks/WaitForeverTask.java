@@ -1,12 +1,10 @@
 package frc.robot.driver.controltasks;
 
-import frc.robot.driver.common.IControlTask;
-
 /**
  * Task that waits forever.  This task can be used as a way to give up if a certain condition isn't met (by pairing it with an AnyTask)
  * 
  */
-public class WaitForeverTask extends ControlTaskBase implements IControlTask
+public class WaitForeverTask extends ControlTaskBase
 {
     /**
      * Initializes a new WaitForeverTask

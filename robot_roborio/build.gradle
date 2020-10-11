@@ -4,7 +4,7 @@ plugins
 {
     id "java"
     id "eclipse"
-    id "edu.wpi.first.GradleRIO" version "2019.4.1"
+    id "edu.wpi.first.GradleRIO" version "2020.3.2"
 }
 
 def ROBOT_CLASS = "frc.robot.Robot"
@@ -47,23 +47,6 @@ repositories
     mavenCentral()
     mavenLocal()
     gradlePluginPortal()
-    String frcYear = '2019'
-    File frcHome
-    if (OperatingSystem.current().isWindows()) {
-        String publicFolder = System.getenv('PUBLIC')
-        if (publicFolder == null) {
-            publicFolder = "C:\\Users\\Public"
-        }
-        frcHome = new File(publicFolder, "frc${frcYear}")
-    } else {
-        def userFolder = System.getProperty("user.home")
-        frcHome = new File(userFolder, "frc${frcYear}")
-    }
-    def frcHomeMaven = new File(frcHome, 'maven')
-    maven {
-        name 'frcHome'
-        url frcHomeMaven
-    }
 }
 
 // Defining my dependencies. In this case, WPILib (+ friends), CTRE Toolsuite (Talon SRX)
@@ -71,8 +54,11 @@ repositories
 dependencies {
     compile project(':core_robot')
 
-    compile wpi.deps.wpilib()
-    compile wpi.deps.vendor.java()
+    implementation wpi.deps.wpilib()
+    nativeZip wpi.deps.wpilibJni(wpi.platforms.roborio)
+    nativeDesktopZip wpi.deps.wpilibJni(wpi.platforms.desktop)
+
+    implementation wpi.deps.vendor.java()
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
 
@@ -83,6 +69,10 @@ dependencies {
     testCompile "org.mockito:mockito-all:1.10.19"
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.1.0"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.1.0"
+
+    // Enable simulation gui support. Must check the box in vscode to enable support
+    // upon debugging
+    simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
 }
 
 test {
@@ -93,6 +83,6 @@ test {
 // in order to make them all available at runtime. Also adding the manifest so WPILib
 // knows where to look for our Robot Class.
 jar {
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
 }

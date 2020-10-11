@@ -40,6 +40,23 @@ public class FlagBase
         return (this.value & other.value) == other.value;
     }
 
+    @Override
+    public String toString()
+    {
+        return "" + this.value;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (!(obj instanceof FlagBase))
+        {
+            return false;
+        }
+
+        return this.value == ((FlagBase)obj).value;
+    }
+
     protected static int Union(FlagBase... flags)
     {
         if (flags == null || flags.length == 0)

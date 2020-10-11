@@ -7,6 +7,26 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class NetworkTableProvider implements INetworkTableProvider
 {
     @Override
+    public INetworkTableEntry getNumberSlider(String title, double initialValue)
+    {
+        SmartDashboard.setDefaultNumber(title, initialValue);
+        return new NetworkTableEntryWrapper(SmartDashboard.getEntry(title));
+    }
+
+    @Override
+    public <V> ISendableChooser<V> getSendableChooser()
+    {
+        return new SendableChooserWrapper<V>();
+    }
+
+    @Override
+    public <V> void addChooser(String name, ISendableChooser<V> chooser)
+    {
+        SendableChooserWrapper<V> wrappedChooser = (SendableChooserWrapper<V>)chooser;
+        SmartDashboard.putData(name, wrappedChooser.wrappedObject);
+    }
+
+    @Override
     public double getSmartDashboardNumber(String key)
     {
         NetworkTableEntry entry = SmartDashboard.getEntry(key);

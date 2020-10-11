@@ -1,16 +1,17 @@
 package frc.robot.common.robotprovider;
 
-import frc.robot.vision.VisionCalculations;
-
 public interface IRobotProvider
 {
     public IAnalogInput getAnalogInput(int channel);
+    public IDigitalInput getDigitalInput(int channel);
+    public IDigitalOutput getDigitalOutput(int channel);
+    public ICounter getCounter(int channel);
     public ITalonSRX getTalonSRX(int deviceNumber);
+    public ITalonFX getTalonFX(int deviceNumber);
     public IVictorSPX getVictorSPX(int deviceNumber);
     public ISparkMax getSparkMax(int deviceID, SparkMaxMotorType motorType);
     public ICompressor getCompressor();
     public ICompressor getCompressor(int module);
-    public IDigitalInput getDigitalInput(int channel);
     public IDoubleSolenoid getDoubleSolenoid(int forwardChannel, int reverseChannel);
     public IDoubleSolenoid getDoubleSolenoid(int module, int forwardChannel, int reverseChannel);
     public IEncoder getEncoder(int channelA, int channelB);
@@ -27,9 +28,9 @@ public interface IRobotProvider
     public INavx getNavx();
     public IVideoStream getMJPEGStream(String name, int width, int height);
     public IUsbCamera getUsbCamera(String name, int dev);
+    public IColorSensorV3 getColorSensor();
+    public IColorMatch getColorMatch();
     public IDriverStation getDriverStation();
     public IOpenCVProvider getOpenCVProvider();
     public INetworkTableProvider getNetworkTableProvider();
-    public VisionCalculations getVisionCalculations();
-    public <V> ISendableChooser<V> getSendableChooser();
 }

@@ -16,7 +16,7 @@ import com.google.inject.Injector;
  * AllTask - a task that continues processing all of the provided tasks until all of them are ready to continue
  * 
  */
-public class ConcurrentTask extends ControlTaskBase implements IControlTask
+public class ConcurrentTask extends ControlTaskBase
 {
     private final boolean anyTask;
     private final IControlTask[] tasks;

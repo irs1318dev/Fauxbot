@@ -26,7 +26,7 @@ public interface INavx
      *<p>
      * @return The current total accumulated yaw angle (Z axis) of the robot 
      * in degrees. This heading is based on integration of the returned rate 
-     * from the Z-axis (yaw) gyro.
+     * from the Z-axis (yaw) gyro.  Positive is clockwise (left-hand rule...).
      */
     double getAngle();
 

@@ -52,5 +52,5 @@ public enum AnalogAxis
     private AnalogAxis(int value)
     {
         this.Value = value;
-    }    
+    }
 }

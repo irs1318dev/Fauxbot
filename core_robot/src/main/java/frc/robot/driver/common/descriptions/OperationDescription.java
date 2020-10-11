@@ -15,12 +15,16 @@ public abstract class OperationDescription
     private final UserInputDevice userInputDevice;
     private final Shift relevantShifts;
     private final Shift requiredShifts;
+    private final double userInputDeviceRangeMin;
+    private final double userInputDeviceRangeMax;
 
-    protected OperationDescription(IOperation operation, OperationType type, UserInputDevice userInputDevice, Shift relevantShifts, Shift requiredShifts)
+    protected OperationDescription(IOperation operation, OperationType type, UserInputDevice userInputDevice, double userInputDeviceRangeMin, double userInputDeviceRangeMax, Shift relevantShifts, Shift requiredShifts)
     {
         this.operation = operation;
         this.type = type;
         this.userInputDevice = userInputDevice;
+        this.userInputDeviceRangeMin = userInputDeviceRangeMin;
+        this.userInputDeviceRangeMax = userInputDeviceRangeMax;
         this.relevantShifts = relevantShifts;
         this.requiredShifts = requiredShifts;
 
@@ -64,5 +68,15 @@ public abstract class OperationDescription
     public Shift getRequiredShifts()
     {
         return this.requiredShifts;
+    }
+
+    public double getUserInputDeviceRangeMin()
+    {
+        return this.userInputDeviceRangeMin;
+    }
+
+    public double getUserInputDeviceRangeMax()
+    {
+        return this.userInputDeviceRangeMax;
     }
 }
