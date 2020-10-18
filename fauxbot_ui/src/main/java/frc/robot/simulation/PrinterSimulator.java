@@ -269,7 +269,7 @@ public class PrinterSimulator implements IRealWorldSimulator
         if (this.prevPenDown)
         {
             double distance = Math.sqrt(Math.pow(Math.abs(currX - this.prevX), 2) * Math.pow(Math.abs(currY - this.prevY), 2));
-            if (distance > 0.5)
+            if (distance > 1.0)
             {
                 throw new RuntimeException("don't expect to be moving that fast");
             }

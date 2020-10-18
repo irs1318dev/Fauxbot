@@ -572,7 +572,18 @@ public class FauxbotApplication extends Application
                         operationButton.setOnMouseClicked(
                             (MouseEvent event) ->
                             {
-                                joystick.getButtonProperty(button.Value).set(true);
+                                joystick.setButtonProperty(button.Value, true);
+
+                                try
+                                {
+                                    Thread.sleep(20);
+                                }
+                                catch (InterruptedException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                joystick.setButtonProperty(button.Value, false);
                             });
 
                         grid.add(operationButton, 1, thisRowIndex);
