@@ -2,9 +2,6 @@ package frc.robot;
 
 import java.io.IOException;
 
-import frc.robot.ElectronicsConstants;
-import frc.robot.FauxbotModule;
-import frc.robot.RobotMode;
 import frc.robot.common.robotprovider.*;
 import frc.robot.driver.common.*;
 import frc.robot.driver.common.buttons.ButtonType;
@@ -572,7 +569,18 @@ public class FauxbotApplication extends Application
                         operationButton.setOnMouseClicked(
                             (MouseEvent event) ->
                             {
-                                joystick.getButtonProperty(button.Value).set(true);
+                                joystick.setButtonProperty(button.Value, true);
+
+                                try
+                                {
+                                    Thread.sleep(20);
+                                }
+                                catch (InterruptedException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                joystick.setButtonProperty(button.Value, false);
                             });
 
                         grid.add(operationButton, 1, thisRowIndex);
@@ -618,10 +626,11 @@ public class FauxbotApplication extends Application
 
     public void refresh()
     {
+        this.simulator.update();
+
         Platform.runLater(
             () ->
             {
-                this.simulator.update();
                 this.simulator.draw(this.canvas);
             });
     }
