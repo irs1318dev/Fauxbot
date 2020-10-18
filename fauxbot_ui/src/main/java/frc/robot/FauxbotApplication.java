@@ -587,16 +587,26 @@ public class FauxbotApplication extends Application
                     }
                     else if (digitalDescription.getButtonType() == ButtonType.Toggle)
                     {
-                        CheckBox operationCheckBox = new CheckBox();
-                        grid.add(operationCheckBox, 1, thisRowIndex);
-                        if (button != UserInputDeviceButton.POV)
-                        {
-                            Bindings.bindBidirectional(joystick.getButtonProperty(button.Value), operationCheckBox.selectedProperty());
-                        }
-                        else
-                        {
-                            operationCheckBox.selectedProperty();
-                        }
+                        Button operationButton = new Button("Toggle");
+                        operationButton.setOnMouseClicked(
+                            (MouseEvent event) ->
+                            {
+                                joystick.setButtonProperty(button.Value, true);
+
+                                try
+                                {
+                                    Thread.sleep(20);
+                                }
+                                catch (InterruptedException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                joystick.setButtonProperty(button.Value, false);
+                            });
+
+                        grid.add(operationButton, 1, thisRowIndex);
+
                     }
                     else if (digitalDescription.getButtonType() == ButtonType.Simple)
                     {
