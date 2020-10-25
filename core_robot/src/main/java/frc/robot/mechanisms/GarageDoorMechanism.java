@@ -29,7 +29,7 @@ public class GarageDoorMechanism implements IMechanism
     @Inject
     public GarageDoorMechanism(IRobotProvider provider)
     {
-        this.motor = provider.getTalon(ElectronicsConstants.GARAGEDOOR_MOTOR_DIGITAL_CHANNEL);
+        this.motor = provider.getTalon(ElectronicsConstants.GARAGEDOOR_MOTOR_PWM_CHANNEL);
         this.throughBeamSensor = provider.getDigitalInput(ElectronicsConstants.GARAGEDOOR_THROUGHBEAMSENSOR_DIGITAL_CHANNEL);
         this.openSensor = provider.getDigitalInput(ElectronicsConstants.GARAGEDOOR_OPENSENSOR_DIGITAL_CHANNEL);
         this.closedSensor = provider.getDigitalInput(ElectronicsConstants.GARAGEDOOR_CLOSEDSENSOR_DIGITAL_CHANNEL);

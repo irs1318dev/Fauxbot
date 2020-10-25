@@ -30,7 +30,7 @@ public class ElectronicsConstants
 
     //================================================== Garage Door =======================================================
 
-    public static final int GARAGEDOOR_MOTOR_DIGITAL_CHANNEL = 0;
+    public static final int GARAGEDOOR_MOTOR_PWM_CHANNEL = 0;
 
     public static final int GARAGEDOOR_THROUGHBEAMSENSOR_DIGITAL_CHANNEL = 0;
     public static final int GARAGEDOOR_OPENSENSOR_DIGITAL_CHANNEL = 1;
