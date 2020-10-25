@@ -1,4 +1,4 @@
-# GarageDoor Exercise
+# Forklift Exercise
 
 ## Introduction
 The goal of the Forklift exercise is to show possible things that could be required of a mechanism.
