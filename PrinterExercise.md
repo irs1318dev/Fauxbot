@@ -8,13 +8,13 @@ We'll now cover the basics that will need to be understood for implementing the 
 
 ### Actuators
 #### X-axis Motor (TalonSRX)
-This motor can change the position of the pen along the X axis by changing the Position setpoint, assuming that proper PID gains are used.  You can expect that an encoder reading of "0" means that the pen is at the leftmost position, and that an encoder reading of "200" means that the pen is at the rightmost position.  It should be noted that the simulation is designed such that it will cause a poorly-tuned PID system to overshoot or undershoot its desired position.
+This motor can change the position of the pen along the X axis by changing the Position setpoint, assuming that proper PID gains are used.  You can expect that an encoder reading of "0" means that the pen is at the leftmost position, and that an encoder reading of "200" means that the pen is at the rightmost position.  It should be noted that the simulation is designed such that it will cause a poorly-tuned PID system to overshoot or undershoot its desired position.  The x-axis motor is connected to the RoboRIO's CAN interface, using ID 0.
 
 #### Y-axis Motor (TalonSRX)
-This motor can change the position of the pen along the X axis by changing the Position setpoint, assuming that proper PID gains are used.  You can expect that an encoder reading of "0" means that the pen is at the topmost position, and that an encoder reading of "200" means that the pen is at the bottommost position.  It should be noted that the simulation is designed such that it will cause a poorly-tuned PID system to overshoot or undershoot its desired position.
+This motor can change the position of the pen along the X axis by changing the Position setpoint, assuming that proper PID gains are used.  You can expect that an encoder reading of "0" means that the pen is at the topmost position, and that an encoder reading of "200" means that the pen is at the bottommost position.  It should be noted that the simulation is designed such that it will cause a poorly-tuned PID system to overshoot or undershoot its desired position.  The x-axis motor is connected to the RoboRIO's CAN interface, using ID 1.
 
 #### Pen (DoubleSolenoid)
-This double-solenoid is used to press the pen to the paper.  You can assume that the "forward" direction should be used when pressing the pen to the paper, and the "reverse" direction lifts the pen back into its resting position.
+This double-solenoid is used to press the pen to the paper.  You can assume that the "forward" direction should be used when pressing the pen to the paper, and the "reverse" direction lifts the pen back into its resting position.  The forward direction is connected to PCM channel 7, and reverse direction is connected to PCM channel 8.
 
 ### Sensors
 The Printer does not have independent sensors to check because the encoders are plugged directly into the corresponding TalonSRX motor controllers.

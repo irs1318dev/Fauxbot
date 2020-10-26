@@ -8,11 +8,11 @@ We'll now cover the basics that will need to be understood for implementing the 
 
 ### Actuators
 #### Motor (Talon)
-The Elevator has just one actuator, a Motor.  This motor can either raise or lower the Elevator by spinning either in one direction or the other.  You can assume that the positive direction raises the Elevator and negative lowers the Elevator.
+The Elevator has just one actuator, a Motor.  This motor can either raise or lower the Elevator by spinning either in one direction or the other.  You can assume that the positive direction raises the Elevator and negative lowers the Elevator.  The motor is connected to the RoboRIO's PWM channel 0.
 
 ### Sensors
 #### Encoder (Encoder)
-The Elevator has an encoder that helps to inform how much the elevator has moved up or down.  When the elevator lifts up, the value returned by the encoder will increase.  When the elevator lowers, the value returned by the encoder will decrease.
+The Elevator has an encoder that helps to inform how much the elevator has moved up or down.  When the elevator lifts up, the value returned by the encoder will increase.  When the elevator lowers, the value returned by the encoder will decrease.  The encoder is connected to the RoboRIO's Digital I/O channels 0 and 1.
 
 ### Operations
 #### First Floor Button (Digital)
