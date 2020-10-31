@@ -26,7 +26,8 @@
    3. [TuningConstants](#tuningconstants)
    4. [ElectronicsConstants](#electronicsconstants)
    5. [HardwareConstants](#hardwareconstants)
-   6. [Driver](#driver)
+   6. [LoggingKeys](#loggingkeys)
+   7. [Driver](#driver)
       1. [Operation](#operation)
          1. [Analog Operations](#analog-operations)
          2. [Digital Operations](#digital-operations)
@@ -36,7 +37,7 @@
          2. [Shifts](#shifts)
       4. [AutonomousDriver](#autonomousdriver)
          1. [Autonomous Routines](#autonomous-routines)
-   7. [External Libraries](#external-libraries)
+   8. [External Libraries](#external-libraries)
       1. [Guice](#guice)
       2. [OpenCV](#opencv)
       3. [CTRE Phoenix](#ctre-phoenix)
@@ -49,7 +50,10 @@
    3. [Your normal end-to-end git workflow](#your-normal-end-to-end-git-workflow)
    4. [So you started coding before creating a topic branch](#so-you-started-coding-before-creating-a-topic-branch)
    5. [Making Simple Operation changes](#making-simple-operation-changes)
-   6. [Writing a new Mechanism](#writing-a-new-mechanism)
+   6. [Adding a new Electronics Constant](#adding-a-new-electronics-constant)
+   7. [Adding a new Hardware or Tuning Constant](#adding-a-new-hardware-or-tuning-constant)
+   8. [Adding a new Logging Key](#adding-a-new-logging-key)
+   9. [Writing a new Mechanism](#writing-a-new-mechanism)
       1. [Define mechanism class and member variables](#define-mechanism-class-and-member-variables)
       2. [Write mechanism constructor](#write-mechanism-constructor)
       3. [Write mechanism readSensors function](#write-mechanism-readsensors-function)
@@ -57,7 +61,7 @@
       5. [Write mechanism stop function](#write-mechanism-stop-function)
       6. [Write mechanism setDriver function](#write-mechanism-setdriver-function)
       7. [Write any getter functions](#write-any-getter-functions)
-   7. [Writing Macros and Autonomous Routines](#writing-macros-and-autonomous-routines)
+   10. [Writing Macros and Autonomous Routines](#writing-macros-and-autonomous-routines)
       1. [Writing Tasks](#writing-tasks)
          1. [Define task class, member variables, and constructor](#define-task-class-member-variables-and-constructor)
          2. [Define task begin function](#define-task-begin-function)
@@ -161,6 +165,9 @@ In order to simplify tuning the settings of the robot, we store any "magic numbe
 ### HardwareConstants
 Similar to the ```ElectronicsConstants``` and ```TuningConstants```, we also store some facts about the dimensions of the robot and the different parts of the robot as constants in the ```HardwareConstants``` class.  This tends to include things like the diameter of the wheels and the width of the robot, which may be useful for calculations that need to be made during autonomous mode or for determining the robot's position and orientation on the field.
 
+### LoggingKeys
+Within mechanisms, we have a desire to log various bits of information about a mechanism's state in order to make it easier to set some of the tuning constants as well as debug hardware and software issues on the robot.  This information is sent somewhere based on the robot's configuration, but typically these can be seen in the Smart Dashboard that runs on the Driver Station laptop while the robot is running.  The ```LoggingKey``` enumeration contains the list of every bit of information that is logged during the running of the robot, along with the corresponding name that will be displayed in the log or on the dashboard.
+
 ### Driver
 The ```Driver``` is the actor that controls the robots.  The ```Driver``` class triggers different Operations to occur based on the intent of the current actor that is controlling the robot (autonomous or user).
 
@@ -168,10 +175,10 @@ The ```Driver``` is the actor that controls the robots.  The ```Driver``` class 
 An Operation is a single basic action that the robot can perform.  There are typically many operations for each mechanism.  These operations should be thought of as the most basic ways of controlling each mechanism.  Operations are also the building blocks on top of which we will build out Macros and Autonomous Routines.  Operations can be either Analog or Digital.
 
 ##### Analog Operations
-Analog operations are typically operations that happen to a certain extent and are controlled by an axis on the joystick during teleop mode (e.g. the drivetrain is controlled by pushing forward along the Y axis of the joystick).  Analog operations are related to double values (rational number, usually between -1.0 and 1.0).
+Analog operations are typically operations that happen to a certain extent and are controlled by an axis on the joystick during teleop mode (e.g. the drivetrain is controlled by pushing forward along the Y axis of the joystick).  Analog operations are related to double values (rational number, usually between -1.0 and 1.0).  Analog operations are defined in the ```AnalogOperation``` enumeration.
 
 ##### Digital Operations
-Digital operations are operations that are either happening or not happening and are controlled by a button on the joystick or button pad during teleop mode (e.g. a trigger on the joystick to cause a "shoot" action).  Digital operations are related to boolean values (true or false).
+Digital operations are operations that are either happening or not happening and are controlled by a button on the joystick or button pad during teleop mode (e.g. a trigger on the joystick to cause a "shoot" action).  Digital operations are related to boolean values (true or false).  Digital operations are defined in the ```DigitalOperation``` enumeration.
 
 There are three main types of digital operations:
 * Simple: which is "true" (on) whenever the button is actively being pressed, and "false" (off) otherwise.  A simple button would typically be used for spinning an intake roller while trying to pick up a ball.  A real-world example of a simple button would be something like the Shift key on a computer keyboard.
@@ -315,7 +322,7 @@ If you started coding in "the wrong branch", usually you can recover from it as 
 6. Continue making changes to your code.  Follow steps 5-8 in the section above ([Your normal end-to-end git workflow](#your-normal-end-to-end-git-workflow)).
 
 ### Making Simple Operation changes
-To add a new action that the robot can take with a mechanism, first open the ```AnalogOperation``` or ```DigitalOperation``` enum (AnalogOperation.java or DigitalOperation.java) and add a new value to the list in that file.  We try to keep the various operations organized, so we keep them listed in a different section for each Mechanism.  The operation should be named starting with the mechanism (e.g. "DriveTrain", "Intake", etc.), and then a description of the action (e.g. "Turn", "RaiseArm", etc.).  Remember that Analog/Digital Operations are a single, simple thing that is done by the robot.  Any more complex action that we want the robot to take will be a Macro which composes these Analog/Digital Operations together (which we will talk about later).
+To add a new action that the robot can take with a mechanism, first open the ```AnalogOperation``` or ```DigitalOperation``` enum (AnalogOperation.java or DigitalOperation.java) and add a new value to the list in that file.  We try to keep the various operations organized, so we keep them listed in a different section for each Mechanism.  The operation should be named starting with the mechanism (e.g. "DriveTrain", "Intake", etc.), and then a description of the action (e.g. "Turn", "RaiseArm", etc.) to make one single pascal-case value (e.g. "DriveTrainTurn", "IntakeRaiseArm", etc.).  Remember that Analog/Digital Operations are a single, simple thing that is done by the robot.  Any more complex action that we want the robot to take will be a Macro which composes these Analog/Digital Operations together (which we will talk about later).
 
 Next, you will open the ButtonMap.java file and add another mapping into the AnalogOperationSchema/DigitalOperationSchema that describes the AnalogOperation/DigitalOperation that you just added.  Remember that Analog Operations represent things that are done to a certain extent, using double (decimal) values typically between -1.0 and 1.0.  Digital Operations represent things that are either done or not done, using Boolean values (true or false).  Each type of Operation, Analog or Digital, has their own corresponding type of Description.
 
@@ -339,6 +346,41 @@ The Analog description takes parameters describing the User Input Device (Driver
 ```
 
 The Digital description takes arguments describing the User Input Device, the button on the joystick, and the type of button (Simple, Toggle, or Click).  Simple buttons are typically used for continuous actions (such as running an intake), Toggle actions are typically used for macros, and Click actions are typically used for single-shot actions (such as extending an arm).
+
+### Adding a new Electronics Constant
+To add a new constant that describes how the robot is wired/configured electronically, first open the ```ElectronicsConstants``` class (ElectronicsConstants.java) and add a new constant value.  We try to keep the various constants organized, so we keep them listed in a different section for each Mechanism.  Each constant is of the form:
+```java
+    public static final Type NAME = value;
+```
+
+The Type is almost always an integer "```int```" for electronics constants, representing the port where something is plugged in or an identity that has been assigned to the component.  The type may depend on the interface that is being used. 
+
+The naming convention for our electronics constants is "MECHANISMNAME_COMPONENTNAME_INTERFACE".  The Name uses "yelling snake case", which is an all-caps form of snake case, where each word or compound-word is separated by the underscore character "_".  Within the name, "MECHANISMNAME" is a form of the Mechanism's name (e.g. "ELEVATOR" or "DRIVETRAIN").  The "COMPONENTNAME" is a form of the component's name (e.g. "ENCODER" or "LEFT_MOTOR").  The "INTERFACE" is one of a few possible values that describe which interface the component is connected through.  Most components are connected using a single interface, such as Sensors connected to a "DIO_CHANNEL" for digital inputs or an "ANALOG_CHANNEL" for analog inputs, Motors connected to a "PWM_CHANNEL", Motors using a specific "CAN_ID" when connected through the CAN bus.  But some components use two interfaces, such as "FORWARD_PCM_CHANNEL" and "REVERSE_PCM_CHANNEL" for DoubleSolenoids (pneumatics) and "DIO_CHANNEL_A" and "DIO_CHANNEL_B" for Encoders.
+
+Lastly, the value is the specific port the component was plugged into or id that was assigned to the component.
+
+### Adding a new Hardware or Tuning Constant
+To add a new constant that describes how the robot is built or tuned, first open the ```HardwareConstants``` or ```TuningConstants``` class (HardwareConstants.java or TuningConstants.java) and add a new constant value.  We try to keep the various constants organized, so we keep them listed in a different section for each Mechanism.  Each constant is of the form:
+```java
+    public static final Type NAME = value;
+```
+
+The Type will depend on what is being tracked, usually an  "```int```", "```double```", or "```boolean```".
+
+The naming convention for our tuning constants is that all of them start with "MECHANISMNAME_" and then is followed with a description of what is being kept in the constant.  The Name uses "yelling snake-case", which is an all-caps form of snake-case, where each word or compound-word is separated by the underscore character "_".
+
+### Adding a new Logging Key
+To add a new key for logging purposes, first open the ```LoggingKey``` enum (LoggingKey.java) and add a new value to the list in that file.  We try to keep the various logging keys organizated by mechanism, so please keep them sorted in a sensible order.  Each logging key is of the form:
+```java
+    Name("value"),
+```
+
+The name is of the form "MechanismState", where the first part is the name of the mechanism (e.g. "Intake" or "DriveTrain") and the second part is the state that is being logged (e.g. "IsExtended" or "LeftDistance").  The name uses pascal-case, where multiple words are included and separated by capitalizing the first letter of each word.  The value is of the form "m.state", where the first part is a 1- to 2-letter abbreviation for the mechanism (e.g. "i" for intake or "dt" for DriveTrain) that is unique for the mechanisms on the robot and the second part is a camel-case form of the state.  Camel-case is like pascal-case, except the first letter of the element is lower-case.
+
+Put together, an entry for the DriveTrain's Left Distance would look like:
+```java
+    DriveTrainLeftDistance("dt.leftDistance"),
+```
 
 ### Writing a new Mechanism
 Mechanisms handle the interactions with the actuators (e.g. motors, pneumatic solenoids) and sensors (e.g. encoders, limit switches) of each part of the robot, controlling them based on the operations from the Driver.  A mechanism is a class that implements the ```IMechanism``` interface with a name based on the name of that portion of the robot (e.g. DriveTrain, Intake) combined with "Mechanism", such as ThingMechanism.  It should be placed within the mechanisms folder with the other mechanisms and managers.
