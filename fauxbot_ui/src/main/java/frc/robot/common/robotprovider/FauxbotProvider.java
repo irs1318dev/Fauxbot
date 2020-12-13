@@ -13,7 +13,7 @@ public class FauxbotProvider implements IRobotProvider
     @Inject
     public FauxbotProvider(IRealWorldSimulator simulator)
     {
-        nu.pattern.OpenCV.loadShared();
+        //nu.pattern.OpenCV.loadShared();
         this.simulator = simulator;
     }
 
