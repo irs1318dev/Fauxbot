@@ -36,7 +36,7 @@ public interface IControlTask
     public void stop();
 
     /**
-     * Ends the current task, called when it (or an owning task) has completed.
+     * Ends the current task, called when it (or a master task) has completed.
      */
     public void end();
 

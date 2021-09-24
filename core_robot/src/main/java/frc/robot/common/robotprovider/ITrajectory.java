@@ -2,6 +2,6 @@ package frc.robot.common.robotprovider;
 
 public interface ITrajectory
 {
-    int length();
-    ISegment get(int currentSegmentIndex);
+    double getDuration();
+    TrajectoryState get(double time);
 }

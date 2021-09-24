@@ -7,7 +7,8 @@ import frc.robot.common.robotprovider.IDriverStation;
 import frc.robot.common.robotprovider.IRobotProvider;
 import frc.robot.common.robotprovider.ITimer;
 import frc.robot.common.robotprovider.MatchType;
-import frc.robot.driver.common.Driver;
+import frc.robot.common.robotprovider.RobotMode;
+import frc.robot.driver.common.IDriver;
 
 import java.util.Calendar;
 
@@ -32,7 +33,7 @@ public class CoreRobot<T extends AbstractModule>
     private final T module;
 
     // Driver - used both for autonomous and teleop mode.
-    private Driver driver;
+    private IDriver driver;
 
     // Mechanisms and injector
     private MechanismManager mechanisms;
@@ -58,6 +59,10 @@ public class CoreRobot<T extends AbstractModule>
     {
         // create mechanisms
         Injector injector = this.getInjector();
+
+        // create driver
+        this.driver = injector.getInstance(IDriver.class);
+
         this.mechanisms = injector.getInstance(MechanismManager.class);
         this.logger = injector.getInstance(LoggingManager.class);
         this.logger.refresh(injector);
@@ -67,9 +72,6 @@ public class CoreRobot<T extends AbstractModule>
         this.timer = injector.getInstance(ITimer.class);
         this.logger.logNumber(LoggingKey.RobotTime, this.timer.get());
         this.timerStarted = false;
-
-        // create driver
-        this.driver = injector.getInstance(Driver.class);
 
         // reset number of logger updates
         this.loggerUpdates = 0;
@@ -106,7 +108,7 @@ public class CoreRobot<T extends AbstractModule>
      */
     public void autonomousInit()
     {
-        this.driver.startAutonomous();
+        this.driver.startMode(RobotMode.Autonomous);
 
         this.generalInit();
 
@@ -120,10 +122,26 @@ public class CoreRobot<T extends AbstractModule>
      */
     public void teleopInit()
     {
+        this.driver.startMode(RobotMode.Teleop);
+
         this.generalInit();
 
         // log that we are in teleop mode
         this.logger.logString(LoggingKey.RobotState, "Teleop");
+    }
+
+    /**
+     * Initialization code for test mode should go here.
+     * This code will be called each time the robot enters test mode.
+     */
+    public void testInit()
+    {
+        this.driver.startMode(RobotMode.Test);
+
+        this.generalInit();
+
+        // log that we are in test mode
+        this.logger.logString(LoggingKey.RobotState, "Test");
     }
 
     /**
@@ -153,6 +171,15 @@ public class CoreRobot<T extends AbstractModule>
     }
 
     /**
+     * Periodic code for test mode should go here.
+     * This code will be called periodically at a regular rate while the robot is in test mode.
+     */
+    public void testPeriodic()
+    {
+        this.generalPeriodic();
+    }
+
+    /**
      * Lazily initializes and retrieves the injector.
      * @return the injector to use for this robot
      */
@@ -177,9 +204,6 @@ public class CoreRobot<T extends AbstractModule>
         // log match information
         IRobotProvider robotProvider = injector.getInstance(IRobotProvider.class);
         this.logger.logString(LoggingKey.RobotMatch, this.generateMatchString(robotProvider.getDriverStation()));
-
-        // apply the driver to the mechanisms
-        this.mechanisms.setDriver(this.driver);
 
         if (!this.timerStarted)
         {
@@ -218,11 +242,11 @@ public class CoreRobot<T extends AbstractModule>
         int replayNumber = driverStation.getReplayNumber();
         Alliance alliance = driverStation.getAlliance();
         int location = driverStation.getLocation();
-        boolean isAuto = driverStation.isAutonomous();
+        RobotMode mode = driverStation.getMode();
 
         if (eventName != null && matchType != MatchType.None && matchNumber > 0 && alliance != Alliance.Invalid && location >= 1 && location <= 3)
         {
-            // a la "2020 Glacier Peak - Q03 (R2).auto"
+            // a la "2020 Glacier Peak - Q03 (R2).autonomous"
             return
                 String.format(
                     "%1$d %2$s - %3$s%4$02d%5$s (%6$s%7$d).%8$s",
@@ -233,7 +257,7 @@ public class CoreRobot<T extends AbstractModule>
                     replayNumber == 0 ? "" : String.format("R%1$d", replayNumber),
                     alliance.value,
                     location,
-                    isAuto ? "auto" : "tele");
+                    mode.toString().toLowerCase());
         }
 
         return String.format("%1$d.csv", Calendar.getInstance().getTime().getTime());

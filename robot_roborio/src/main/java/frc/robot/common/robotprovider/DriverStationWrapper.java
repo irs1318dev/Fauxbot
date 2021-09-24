@@ -82,9 +82,24 @@ public class DriverStationWrapper implements IDriverStation
     }
 
     @Override
-    public boolean isAutonomous()
+    public RobotMode getMode()
     {
-        return this.wrappedObject.isAutonomous();
+        if (!this.wrappedObject.isEnabled())
+        {
+            return RobotMode.Disabled;
+        }
+        else if (this.wrappedObject.isAutonomous())
+        {
+            return RobotMode.Autonomous;
+        }
+        else if (this.wrappedObject.isTest())
+        {
+            return RobotMode.Test;
+        }
+        else
+        {
+            return RobotMode.Teleop;
+        }
     }
 
     @Override

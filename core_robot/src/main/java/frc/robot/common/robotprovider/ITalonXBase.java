@@ -22,9 +22,9 @@ public interface ITalonXBase extends IMotor
     void setNeutralMode(MotorNeutralMode neutralMode);
     void setVoltageCompensation(boolean enabled, double maxVoltage);
     void stop();
-    void setPosition(int position);
+    void setPosition(double position);
     void reset();
-    int getPosition();
+    double getPosition();
     double getVelocity();
     double getError();
     TalonXLimitSwitchStatus getLimitSwitchStatus();

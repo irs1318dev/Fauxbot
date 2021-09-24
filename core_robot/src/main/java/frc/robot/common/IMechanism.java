@@ -1,7 +1,5 @@
 package frc.robot.common;
 
-import frc.robot.driver.common.Driver;
-
 /**
  * The mechanism defines the logic that controls a mechanism given inputs and operator-requested actions, and 
  * translates those into the abstract functions that should be applied to the outputs.
@@ -25,10 +23,4 @@ public interface IMechanism
      * stop the relevant mechanism
      */
     public void stop();
-
-    /**
-     * set the driver that the mechanism should use
-     * @param driver to use
-     */
-    public void setDriver(Driver driver);
 }

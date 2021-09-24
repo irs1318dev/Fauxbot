@@ -30,6 +30,12 @@ public interface INavx
      */
     double getAngle();
 
+    double getPitch();
+
+    double getRoll();
+
+    double getYaw();
+
     /**
      * Returns the displacement (in meters) of the X axis since resetDisplacement()
      * was last invoked [Experimental].

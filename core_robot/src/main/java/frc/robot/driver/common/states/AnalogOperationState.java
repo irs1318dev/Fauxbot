@@ -1,6 +1,7 @@
 package frc.robot.driver.common.states;
 
 import frc.robot.TuningConstants;
+import frc.robot.common.Helpers;
 import frc.robot.common.robotprovider.IJoystick;
 import frc.robot.driver.Shift;
 import frc.robot.driver.common.AnalogAxis;
@@ -132,7 +133,7 @@ public class AnalogOperationState extends OperationState
                 }
 
                 // don't adjust for dead zone, simply check for having both within dead zone
-                if (this.withinDeadZone(newValue, secondaryValue, description.getDeadZoneMin(), description.getDeadZoneMax()))
+                if (this.withinDeadZone(newValue, secondaryValue, description.getDeadZoneMin(), description.getDeadZoneMax(), description.getUseSquaredMagnitudeForDeadZone()))
                 {
                     this.currentValue = description.getDefaultValue();
                     return false;
@@ -211,7 +212,7 @@ public class AnalogOperationState extends OperationState
             deadZone = deadZoneMin;
         }
 
-        return multiplier * (value - deadZone) / (1.0 - deadZone);
+        return multiplier * (value - deadZone) / (1.0 - Math.abs(deadZone));
     }
 
     /**
@@ -220,11 +221,17 @@ public class AnalogOperationState extends OperationState
      * @param value2 to check
      * @param deadZoneMin to consider
      * @param deadZoneMax to consider
+     * @param useSquaredMagnitude for the deadzone check instead of piecemeal check
      * @return whether both are within the deadzone
      */
-    private boolean withinDeadZone(double value1, double value2, double deadZoneMin, double deadZoneMax)
+    private boolean withinDeadZone(double value1, double value2, double deadZoneMin, double deadZoneMax, boolean useSquaredMagnitude)
     {
-        return value1 < deadZoneMax && value1 > deadZoneMin &&
-            value2 < deadZoneMax && value2 > deadZoneMin;
+        if (useSquaredMagnitude)
+        {
+            return Helpers.WithinRange(value1 * value1 + value2 * value2, deadZoneMin, deadZoneMax);
+        }
+
+        return Helpers.WithinRange(value1, deadZoneMax, deadZoneMin) && 
+            Helpers.WithinRange(value2, deadZoneMax, deadZoneMin);
     }
 }

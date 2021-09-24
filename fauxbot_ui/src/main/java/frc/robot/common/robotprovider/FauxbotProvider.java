@@ -162,18 +162,6 @@ public class FauxbotProvider implements IRobotProvider
     }
 
     @Override
-    public IColorSensorV3 getColorSensor()
-    {
-        return null;
-    }
-
-    @Override
-    public IColorMatch getColorMatch()
-    {
-        return null;
-    }
-
-    @Override
     public IVideoStream getMJPEGStream(String name, int width, int height)
     {
         return new FauxbotVideoStream();
@@ -188,7 +176,7 @@ public class FauxbotProvider implements IRobotProvider
     @Override
     public IDriverStation getDriverStation()
     {
-        return new FauxbotDriverStation();
+        return FauxbotDriverStation.Instance;
     }
 
     @Override

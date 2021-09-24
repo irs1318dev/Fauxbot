@@ -233,17 +233,17 @@ public class TalonFXWrapper implements ITalonFX
         this.wrappedObject.set(ControlMode.Disabled, 0.0);
     }
 
-    public void setPosition(int position)
+    public void setPosition(double position)
     {
         this.wrappedObject.setSelectedSensorPosition(position, TalonFXWrapper.pidIdx, TalonFXWrapper.timeoutMS);
     }
 
     public void reset()
     {
-        this.wrappedObject.setSelectedSensorPosition(0, TalonFXWrapper.pidIdx, TalonFXWrapper.timeoutMS);
+        this.wrappedObject.setSelectedSensorPosition(0.0, TalonFXWrapper.pidIdx, TalonFXWrapper.timeoutMS);
     }
 
-    public int getPosition()
+    public double getPosition()
     {
         return this.wrappedObject.getSelectedSensorPosition(TalonFXWrapper.pidIdx);
     }

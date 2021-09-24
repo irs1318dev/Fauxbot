@@ -38,7 +38,7 @@ public abstract class ControlTaskBase implements IControlTask
     public abstract void update();
 
     /**
-     * Ends the current task, called when it (or an owning task) has completed.
+     * Ends the current task, called when it (or a master task) has completed.
      */
     public abstract void end();
 

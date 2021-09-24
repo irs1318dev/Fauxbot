@@ -2,8 +2,13 @@ package frc.robot.common.robotprovider;
 
 public class FauxbotDriverStation implements IDriverStation
 {
-    public FauxbotDriverStation()
+    public static FauxbotDriverStation Instance = new FauxbotDriverStation();
+
+    private RobotMode currentMode;
+
+    private FauxbotDriverStation()
     {
+        this.currentMode = RobotMode.Disabled;
     }
 
     @Override
@@ -49,14 +54,19 @@ public class FauxbotDriverStation implements IDriverStation
     }
 
     @Override
-    public boolean isAutonomous()
+    public RobotMode getMode()
     {
-        return false;
+        return this.currentMode;
     }
 
     @Override
     public String getGameSpecificMessage()
     {
         return "LLL";
+    }
+
+    public void setMode(RobotMode mode)
+    {
+        this.currentMode = mode;
     }
 }

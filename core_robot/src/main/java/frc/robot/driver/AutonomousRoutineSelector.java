@@ -1,8 +1,5 @@
 package frc.robot.driver;
 
-import com.acmerobotics.roadrunner.geometry.*;
-import com.acmerobotics.roadrunner.path.*;
-import com.acmerobotics.roadrunner.path.heading.*;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -18,6 +15,7 @@ public class AutonomousRoutineSelector
     private final ILogger logger;
 
     private final PathManager pathManager;
+    private final IDriverStation driverStation;
 
     private final ISendableChooser<StartPosition> positionChooser;
     private final ISendableChooser<AutoRoutine> routineChooser;
@@ -40,12 +38,14 @@ public class AutonomousRoutineSelector
     @Inject
     public AutonomousRoutineSelector(
         LoggingManager logger,
-        PathManager pathManager,
+        PathManager pathManager, 
         IRobotProvider provider)
     {
         // initialize robot parts that are used to select autonomous routine (e.g. dipswitches) here...
         this.logger = logger;
         this.pathManager = pathManager;
+
+        this.driverStation = provider.getDriverStation();
 
         INetworkTableProvider networkTableProvider = provider.getNetworkTableProvider();
 
@@ -59,16 +59,28 @@ public class AutonomousRoutineSelector
         this.positionChooser.addObject("right", StartPosition.Right);
         networkTableProvider.addChooser("Start Position", this.positionChooser);
 
-        // this.generateDynamicPaths();
+        RoadRunnerTrajectoryGenerator.generateTrajectories(this.pathManager);
     }
 
     /**
      * Check what routine we want to use and return it
-     * 
+     * @param mode that is starting
      * @return autonomous routine to execute during autonomous mode
      */
-    public IControlTask selectRoutine()
+    public IControlTask selectRoutine(RobotMode mode)
     {
+        String driverStationMessage = this.driverStation.getGameSpecificMessage();
+        this.logger.logString(LoggingKey.AutonomousDSMessage, driverStationMessage);
+        if (mode == RobotMode.Test)
+        {
+            return AutonomousRoutineSelector.GetFillerRoutine();
+        }
+
+        if (mode != RobotMode.Autonomous)
+        {
+            return null;
+        }
+
         StartPosition startPosition = this.positionChooser.getSelected();
         if (startPosition == null)
         {
@@ -91,25 +103,9 @@ public class AutonomousRoutineSelector
      */
     private static IControlTask GetFillerRoutine()
     {
-        return new WaitTask(0);
+        return new WaitTask(0.0);
     }
-
-    /**
-     * Generate any ad-hoc paths and add them to the mapping
-     */
-    private void generateDynamicPaths()
-    {
-        TangentInterpolator interpolator = new TangentInterpolator();
-
-        this.pathManager.addPath(
-            "example",
-            RoadRunnerTankTranslator.convert(
-                new PathBuilder(new Pose2d(0, 0, 0))
-                    .lineTo(new Vector2d(120, 0), interpolator)
-                    .build(),
-                false));
-    }
-}
+} // yaaaaaAAAaaaAaaaAAAAaa
 
 
 
@@ -372,13 +368,13 @@ public class AutonomousRoutineSelector
                         +::::+';;;+                 ':'  +:;;;;;;;;`                                
                        `;;;::::;#+:                `;:+  +;;;;;;;:;;      '#+,                      
                        +#::::::::;'`               +:;,  `;;;;:;;'#';;;;;::;:'`                     
-                       ;:''::::::::#`              +:'    ';:;;+'::;;:;::::::''                     
-                       +::;+':::::::'.            .:;+    '''+;::;:;:::;:::;':'                     
-                        ';;:;'';:::::':           +::.     +:::::::::::::;#;:#                      
-                         .''##;#;:;;:::'+        `+;'      ;:;::::::::;'+;:'+                       
-                           ` `+:;+:;::;::+       +:;#      ';:::;:+#+';:::+.                        
-                              ,+::+#';::;+       ';::      #:;;'+';'''++:`                          
-                                '':::;'''#      ,:;;`      #';:;;:+                                 
+                      ';:''::::::::#`              +:'    ';:;;+'::;;:;::::::''                     
+                      #+::;+':::::::'.            .:;+    '''+;::;:;:::;:::;':'                     
+                    `';+';;:;'';:::::':    '      +::.     +:::::::::::::;#;:#                      
+                    :+;#'.''##;#;:;;:::'+  #     `+;'      ;:;::::::::;'+;:'+                       
+                   '#;+". ` `+:;+:;::;::+'#+     +:;#     ';:::;:+#+';:::+.                        
+                   ';#''      ,+::+#';::;+'#+    ';::      #:;;'+';'''++:`                          
+                                '':::;'''#+     ,:;;`      #';:;;:+                                 
                                  `:'++;;':       :++       .;;:;;#,                                 
                                        `                    '':``                                   
 

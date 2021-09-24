@@ -16,6 +16,7 @@ public class RobotModule extends AbstractModule
     @Override
     protected void configure()
     {
+        this.bind(IDriver.class).to(Driver.class);
         this.bind(IRobotProvider.class).to(RobotProvider.class);
         this.bind(ITimer.class).to(TimerWrapper.class);
         this.bind(IButtonMap.class).to(ButtonMap.class);
@@ -28,12 +29,5 @@ public class RobotModule extends AbstractModule
     public MechanismManager getMechanismManager(Injector injector)
     {
         return new MechanismManager(TuningConstants.GetActiveMechanisms(injector));
-    }
-
-    @Singleton
-    @Provides
-    public LoggingManager getLoggingManager()
-    {
-        return new LoggingManager(injector -> TuningConstants.GetLogger(injector));
     }
 }

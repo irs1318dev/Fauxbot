@@ -14,11 +14,10 @@ public class ButtonMap implements IButtonMap
 {
     private static ShiftDescription[] ShiftButtonSchema = new ShiftDescription[]
     {
-        // Example Shift entry:
         new ShiftDescription(
             Shift.DriverDebug,
             UserInputDevice.Driver,
-            UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON),
+            UserInputDeviceButton.XBONE_LEFT_BUTTON),
     };
 
     public static AnalogOperationDescription[] AnalogOperationSchema = new AnalogOperationDescription[]

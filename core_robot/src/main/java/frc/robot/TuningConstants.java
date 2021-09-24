@@ -6,15 +6,7 @@ import java.util.*;
 import com.google.inject.Injector;
 
 import frc.robot.common.*;
-import frc.robot.common.robotprovider.Alliance;
-import frc.robot.common.robotprovider.CSVLogger;
-import frc.robot.common.robotprovider.IDriverStation;
-import frc.robot.common.robotprovider.IFile;
-import frc.robot.common.robotprovider.ILogger;
-import frc.robot.common.robotprovider.IRobotProvider;
-import frc.robot.common.robotprovider.ISmartDashboardLogger;
-import frc.robot.common.robotprovider.MatchType;
-import frc.robot.common.robotprovider.MultiLogger;
+import frc.robot.common.robotprovider.*;
 
 /**
  * All constants related to tuning the operation of the robot.
@@ -24,10 +16,10 @@ import frc.robot.common.robotprovider.MultiLogger;
  */
 public class TuningConstants
 {
-    public static final boolean COMPETITION_ROBOT = false;
+    public static final boolean COMPETITION_ROBOT = true;
     public static boolean THROW_EXCEPTIONS = !TuningConstants.COMPETITION_ROBOT;
 
-    public static final int CALENDAR_YEAR = 2020;
+    public static final int CALENDAR_YEAR = 2021;
     public static final boolean LOG_TO_FILE = true; //TuningConstants.COMPETITION_ROBOT;
     public static final boolean LOG_FILE_ONLY_COMPETITION_MATCHES = false; // true;
     public static final long LOG_FILE_REQUIRED_FREE_SPACE = 50 * 1024 * 1024; // require at least 50 MB of space
@@ -110,7 +102,7 @@ public class TuningConstants
             directory.mkdir();
 
             // name the file a la "/U/2020 - Glacier Peak/Q03 (R2).auto.csv" or "/U/2020 - Glacier Peak/Q12R1 (B3).tele.csv"
-            boolean isAuto = driverStation.isAutonomous();
+            RobotMode mode = driverStation.getMode();
             file = injector.getInstance(IFile.class);
             String fileName =
                 String.format(
@@ -121,7 +113,7 @@ public class TuningConstants
                     replayNumber == 0 ? "" : String.format("R%1$d", replayNumber),
                     alliance.value,
                     location,
-                    isAuto ? "auto" : "tele");
+                    mode.toString().toLowerCase());
 
             file.open(fileName);
             if (file.exists())
@@ -138,7 +130,7 @@ public class TuningConstants
                             replayNumber == 0 ? "" : String.format("R%1$d", replayNumber),
                             alliance.value,
                             location,
-                            isAuto ? "auto" : "tele",
+                            mode.toString().toLowerCase(),
                             i);
 
                     file.open(fileName);
