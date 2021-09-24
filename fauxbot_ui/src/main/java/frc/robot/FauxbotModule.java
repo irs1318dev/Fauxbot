@@ -5,7 +5,7 @@ import javax.inject.Singleton;
 import frc.robot.common.*;
 import frc.robot.common.robotprovider.*;
 import frc.robot.driver.*;
-import frc.robot.driver.common.IButtonMap;
+import frc.robot.driver.common.*;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
@@ -16,6 +16,7 @@ public abstract class FauxbotModule extends AbstractModule
     @Override
     protected void configure()
     {
+        this.bind(IDriver.class).to(Driver.class);
         this.bind(IRobotProvider.class).to(FauxbotProvider.class);
         this.bind(ITimer.class).to(FauxbotTimer.class);
         this.bind(IButtonMap.class).to(ButtonMap.class);
@@ -28,12 +29,5 @@ public abstract class FauxbotModule extends AbstractModule
     public MechanismManager getMechanismManager(Injector injector)
     {
         return new MechanismManager(TuningConstants.GetActiveMechanisms(injector));
-    }
-
-    @Singleton
-    @Provides
-    public LoggingManager getLoggingManager()
-    {
-        return new LoggingManager(injector -> TuningConstants.GetLogger(injector));
     }
 }

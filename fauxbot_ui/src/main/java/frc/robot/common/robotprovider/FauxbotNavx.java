@@ -23,6 +23,21 @@ public class FauxbotNavx extends FauxbotSensorBase implements INavx
         return -1.0 * this.angleProperty.getValue();
     }
 
+    public double getPitch()
+    {
+        return -1.0 * this.angleProperty.getValue();
+    }
+
+    public double getRoll()
+    {
+        return -1.0 * this.angleProperty.getValue();
+    }
+
+    public double getYaw()
+    {
+        return -1.0 * this.angleProperty.getValue();
+    }
+
     public double getDisplacementX()
     {
         return 0.0;

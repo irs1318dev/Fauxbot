@@ -114,12 +114,6 @@ public class GarageDoorMechanism implements IMechanism
         this.motor.set(0.0);
     }
 
-    @Override
-    public void setDriver(Driver driver)
-    {
-        this.driver = driver;
-    }
-
     private enum GarageDoorState
     {
         Open, Closing, Closed, Opening;

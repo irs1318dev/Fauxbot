@@ -31,7 +31,7 @@ package frc.robot.driver.common;
  * 8 - Start (hamburger)
  * 9 - LS (left stick)
  * 10 - RS (right stick)
- * POV - hat (-1 when not pressed, 0-360.  0 is forward/up, 90 is right, 180 is back/down, 270 is left)
+ * POV - DPAD (-1 when not pressed, 0-360.  0 is forward/up, 90 is right, 180 is back/down, 270 is left)
  * -----------------------
  * PS4 Controller:
  * 1 - Square
@@ -47,7 +47,7 @@ package frc.robot.driver.common;
  * 11 - LS (left stick)
  * 12 - RS (right stick)
  * 13 - Playstation
- * POV - hat (-1 when not pressed, 0-360.  0 is forward/up, 90 is right, 180 is back/down, 270 is left)
+ * POV - DPAD (-1 when not pressed, 0-360.  0 is forward/up, 90 is right, 180 is back/down, 270 is left)
  * 
  */
 public enum UserInputDeviceButton

@@ -5,6 +5,8 @@ public class Helpers
     // Conversion constants...
     public static final double DEGREES_TO_RADIANS = (Math.PI / 180.0f);
     public static final double RADIANS_TO_DEGREES = (180.0f / Math.PI);
+    public static final double INCHES_PER_METER = 39.37;
+    public static final double METERS_PER_INCH = 0.0254;
 
     public static double EnforceRange(double value, double minValue, double maxValue)
     {
@@ -99,6 +101,44 @@ public class Helpers
     public static double acosd(double ratio)
     {
         return Math.acos(ratio) * Helpers.RADIANS_TO_DEGREES;
+    }
+
+    /**
+     * Returns angle between -180 and 180
+     * @param angle in some large range
+     * @return angle capped between -180 and 180
+     */
+    public static double updateAngleRange(double angle)
+    {
+        // get the difference in degrees between -360 and 360
+        double twoLoopAngle = angle % 360.0;
+
+        // change the range from -180 to 180
+        if (twoLoopAngle < -180.0)
+        {
+            return twoLoopAngle + 360.0;
+        }
+        else if (twoLoopAngle > 180.0)
+        {
+            return twoLoopAngle - 360.0;
+        }
+
+        return twoLoopAngle;
+    }
+
+    public static boolean AnglePairWithinDelta(double value1, boolean isSwapped1, double value2, boolean isSwapped2, double acceptableDelta)
+    {
+        if (isSwapped1)
+        {
+            value1 = Helpers.updateAngleRange(value1 + 180.0);
+        }
+        
+        if (isSwapped2)
+        {
+            value2 = Helpers.updateAngleRange(value2 + 180.0);
+        }
+
+        return Helpers.WithinDelta(value1, value2, acceptableDelta);
     }
 
     /**

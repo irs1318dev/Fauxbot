@@ -124,7 +124,7 @@ public class FauxbotApplication extends Application
                 desiredModule = new ForkliftFauxbotModule();
                 break;
 
-                case GarageDoor:
+            case GarageDoor:
                 simulationName = "GarageDoor Simulation";
                 desiredModule = new GarageDoorFauxbotModule();
                 break;
@@ -197,7 +197,9 @@ public class FauxbotApplication extends Application
             {
                 public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue)
                 {
-                    runner.setMode((RobotMode)newValue.getUserData());
+                    RobotMode newMode = (RobotMode)newValue.getUserData();
+                    FauxbotDriverStation.Instance.setMode(newMode);
+                    runner.setMode(newMode);
                 }
             });
 

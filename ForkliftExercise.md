@@ -1,4 +1,4 @@
-# GarageDoor Exercise
+# Forklift Exercise
 
 ## Introduction
 The goal of the Forklift exercise is to show possible things that could be required of a mechanism.
@@ -8,13 +8,13 @@ We'll now cover the basics that will need to be understood for implementing the 
 
 ### Actuators
 #### DriveTrainLeft (Talon)
-The left DriveTrain motor controls movement on the left side of the DriveTrain.  You can assume that the positive direction moves forward and negative moves backwards.
+The left DriveTrain motor controls movement on the left side of the DriveTrain.  You can assume that the positive direction moves forward and negative moves backwards.  The motor is connected to the RoboRIO's PWM channel 0.
 
 #### DriveTrainRight (Talon)
-The right DriveTrain motor controls movement on the right side of the DriveTrain.  You can assume that the positive direction moves forward and negative moves backwards.
+The right DriveTrain motor controls movement on the right side of the DriveTrain.  You can assume that the positive direction moves forward and negative moves backwards.  The motor is connected to the RoboRIO's PWM channel 1.
 
 #### Lifter (DoubleSolenoid)
-The lifter for our purposes is a pneumatic piston DriveTrain motor controls the movement of the forklift part.  You can assume that the "forward" direction moves the lifter up and "reverse" direction moves the lifter down.
+The lifter for our purposes is a pneumatic piston DriveTrain motor controls the movement of the forklift part.  You can assume that the "forward" direction moves the lifter up and "reverse" direction moves the lifter down.  The forward direction is connected to PCM channel 7, and reverse direction is connected to PCM channel 8.
 
 ### Sensors
 There are no sensors required for this exercise.

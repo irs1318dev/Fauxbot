@@ -8,17 +8,17 @@ We'll now cover the basics that will need to be understood for implementing the 
 
 ### Actuators
 #### Motor (Talon)
-The Garage Door has just one single actuator, a Motor.  This motor can either open or close the Garage Door by spinning either in one direction or the other.  You can assume that the positive direction opens the Garage Door and negative closes the Garage Door.
+The Garage Door has just one single actuator, a Motor.  This motor can either open or close the Garage Door by spinning either in one direction or the other.  You can assume that the positive direction opens the Garage Door and negative closes the Garage Door.  The motor is connected to the RoboRIO's PWM channel 0.
 
 ### Sensors
 #### Open Sensor (DigitalInput)
-The Garage Door has a limit switch that helps to inform when the Garage Door has fully opened.  When this limit switch detects that the Garage Door has fully opened, the switch will return a value of ```true```.  Otherwise, the switch will return a value of ```false```.
+The Garage Door has a limit switch that helps to inform when the Garage Door has fully opened.  When this limit switch detects that the Garage Door has fully opened, the switch will return a value of ```true```.  Otherwise, the switch will return a value of ```false```.  The open sensor is connected to the RoboRIO's Digital I/O channel 1.
 
 #### Closed Sensor (DigitalInput)
-The Garage Door has a limit switch that helps to inform when the Garage Door has fully closed.  When this limit switch detects that the Garage Door has fully closed, the switch will return a value of ```true```.  Otherwise, the switch will return a value of ```false```.
+The Garage Door has a limit switch that helps to inform when the Garage Door has fully closed.  When this limit switch detects that the Garage Door has fully closed, the switch will return a value of ```true```.  Otherwise, the switch will return a value of ```false```.  The closed sensor is connected to the RoboRIO's Digital I/O channel 2.
 
 #### Through-Beam Sensor (DigitalInput)
-The Garage Door has a through-beam sensor that helps to inform when something is blocking the Garage Door from opening safely.  When this through-beam sensor detects that there is something blocking the Garage Door, the sensor will return a value of ```true```.  Otherwise, the sensor will return a value of ```false```.
+The Garage Door has a through-beam sensor that helps to inform when something is blocking the Garage Door from opening safely.  When this through-beam sensor detects that there is something blocking the Garage Door, the sensor will return a value of ```true```.  Otherwise, the sensor will return a value of ```false```.  The through-beam sensor is connected to the RoboRIO's Digital I/O channel 0.
 
 ### Operations
 #### Button (Digital)

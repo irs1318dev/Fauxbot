@@ -82,10 +82,4 @@ public class PrinterMechanism implements IMechanism
         this.yMotor.stop();
         this.pen.set(DoubleSolenoidValue.Off);
     }
-
-    @Override
-    public void setDriver(Driver driver)
-    {
-        this.driver = driver;
-    }
 }

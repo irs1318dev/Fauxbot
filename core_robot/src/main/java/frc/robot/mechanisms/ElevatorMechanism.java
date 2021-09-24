@@ -110,12 +110,6 @@ public class ElevatorMechanism implements IMechanism
         this.motor.set(0.0);
     }
 
-    @Override
-    public void setDriver(Driver driver)
-    {
-        this.driver = driver;
-    }
-
     private enum Floor
     {
         One, Two, Three, Four, Five;

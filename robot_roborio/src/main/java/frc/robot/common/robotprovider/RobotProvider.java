@@ -150,18 +150,6 @@ public class RobotProvider implements IRobotProvider
     }
 
     @Override
-    public IColorSensorV3 getColorSensor()
-    {
-        return new ColorSensorV3Wrapper();
-    }
-
-    @Override
-    public IColorMatch getColorMatch()
-    {
-        return new ColorMatchWrapper();
-    }
-
-    @Override
     public IVideoStream getMJPEGStream(String name, int width, int height)
     {
         return new VideoStreamWrapper(name, width, height);

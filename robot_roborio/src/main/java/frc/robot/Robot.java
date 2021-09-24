@@ -24,6 +24,7 @@ public class Robot extends TimedRobot
      * This default Robot-wide initialization code will be called when 
      * the robot is first powered on.  It will be called exactly 1 time.
      */
+    @Override
     public void robotInit()
     {
         this.robot.robotInit();
@@ -33,6 +34,7 @@ public class Robot extends TimedRobot
      * Initialization code for disabled mode should go here.
      * This code will be called each time the robot enters disabled mode.
      */
+    @Override
     public void disabledInit()
     {
         this.robot.disabledInit();
@@ -42,6 +44,7 @@ public class Robot extends TimedRobot
      * Initialization code for autonomous mode should go here.
      * This code will be called each time the robot enters autonomous mode.
      */
+    @Override
     public void autonomousInit()
     {
         this.robot.autonomousInit();
@@ -51,15 +54,27 @@ public class Robot extends TimedRobot
      * Initialization code for teleop mode should go here.
      * This code will be called each time the robot enters teleop mode.
      */
+    @Override
     public void teleopInit()
     {
         this.robot.teleopInit();
     }
 
     /**
+     * Initialization code for test mode should go here.
+     * This code will be called each time the robot enters test mode.
+     */
+    @Override
+    public void testInit()
+    {
+        this.robot.testInit();
+    }
+
+    /**
      * Periodic code for disabled mode should go here.
      * This code will be called periodically at a regular rate while the robot is in disabled mode.
      */
+    @Override
     public void disabledPeriodic()
     {
         this.robot.disabledPeriodic();
@@ -69,6 +84,7 @@ public class Robot extends TimedRobot
      * Periodic code for autonomous mode should go here.
      * This code will be called periodically at a regular rate while the robot is in autonomous mode.
      */
+    @Override
     public void autonomousPeriodic()
     {
         this.robot.autonomousPeriodic();
@@ -78,8 +94,19 @@ public class Robot extends TimedRobot
      * Periodic code for teleop mode should go here.
      * This code will be called periodically at a regular rate while the robot is in teleop mode.
      */
+    @Override
     public void teleopPeriodic()
     {
         this.robot.teleopPeriodic();
+    }
+
+    /**
+     * Periodic code for test mode should go here.
+     * This code will be called periodically at a regular rate while the robot is in test mode.
+     */
+    @Override
+    public void testPeriodic()
+    {
+        this.robot.testPeriodic();
     }
 }

@@ -73,13 +73,4 @@ public class MechanismManager implements IMechanism
             }
         }
     }
-
-    @Override
-    public void setDriver(Driver driver)
-    {
-        for (IMechanism mechanism : this.mechanismList)
-        {
-            mechanism.setDriver(driver);
-        }
-    }
 }

@@ -8,6 +8,7 @@ import frc.robot.common.robotprovider.*;
 
 public class TestProvider implements IRobotProvider
 {
+    private INavx mockNavx;
     private HashMap<Integer, IAnalogInput> analogInputMap = new HashMap<Integer, IAnalogInput>();
     private HashMap<Integer, IDigitalInput> digitalInputMap = new HashMap<Integer, IDigitalInput>();
     private HashMap<Integer, IDigitalOutput> digitalOutputMap = new HashMap<Integer, IDigitalOutput>();
@@ -264,19 +265,7 @@ public class TestProvider implements IRobotProvider
     @Override
     public INavx getNavx()
     {
-        return null;
-    }
-
-    @Override
-    public IColorSensorV3 getColorSensor()
-    {
-        return null;
-    }
-
-    @Override
-    public IColorMatch getColorMatch()
-    {
-        return null;
+        return this.mockNavx;
     }
 
     @Override
@@ -307,5 +296,137 @@ public class TestProvider implements IRobotProvider
     public INetworkTableProvider getNetworkTableProvider()
     {
         return null;
+    }
+
+    public void setAnalogInput(int channel, IAnalogInput value)
+    {
+        this.analogInputMap.put(channel, value);
+    }
+
+    public void setDigitalInput(int channel, IDigitalInput value)
+    {
+        this.digitalInputMap.put(channel, value);
+    }
+
+    public void setDigitalOutput(int channel, IDigitalOutput value)
+    {
+        this.digitalOutputMap.put(channel, value);
+    }
+
+    public void setCounter(int channel, ICounter value)
+    {
+        this.counterMap.put(channel, value);
+    }
+
+    public void setTalonSRX(int deviceNumber, ITalonSRX value)
+    {
+        this.talonSrxMap.put(deviceNumber, value);
+    }
+
+    public void setTalonFX(int deviceNumber, ITalonFX value)
+    {
+        this.talonFxMap.put(deviceNumber, value);
+    }
+
+    public void setVictorSPX(int deviceNumber, IVictorSPX value)
+    {
+        this.victorSpxMap.put(deviceNumber, value);
+    }
+
+    public void setSparkMax(int deviceID, SparkMaxMotorType motorType, ISparkMax value)
+    {
+        this.sparkMaxMap.put(deviceID, value);
+    }
+
+    public void setCompressor(ICompressor value)
+    {
+        this.setCompressor(0, value);
+    }
+
+    public void setCompressor(int module, ICompressor value)
+    {
+        this.compressorMap.put(module, value);
+    }
+
+    public void setDoubleSolenoid(int forwardChannel, int reverseChannel, IDoubleSolenoid value)
+    {
+        this.setDoubleSolenoid(0, forwardChannel, reverseChannel, value);
+    }
+
+    public void setDoubleSolenoid(int module, int forwardChannel, int reverseChannel, IDoubleSolenoid value)
+    {
+        if (!this.doubleSolenoidModuleMap.containsKey(module))
+        {
+            this.doubleSolenoidModuleMap.put(module, new HashMap<Integer, IDoubleSolenoid>());
+        }
+
+        HashMap<Integer, IDoubleSolenoid> doubleSolenoidMap = this.doubleSolenoidModuleMap.get(module);
+        doubleSolenoidMap.put(forwardChannel, value);
+    }
+
+    public void setEncoder(int channelA, int channelB, IEncoder value)
+    {
+        this.encoderMap.put(channelA, value);
+    }
+
+    public void setJoystick(int port, IJoystick value)
+    {
+        this.joystickMap.put(port, value);
+    }
+
+    public void setTalon(int channel, IMotor value)
+    {
+        this.setVictor(channel, value);
+    }
+
+    public void setVictor(int channel, IMotor value)
+    {
+        this.motorMap.put(channel, value);
+    }
+
+    public void setServo(int channel, IServo value)
+    {
+        this.servoMap.put(channel, value);
+    }
+
+    public void setPDP(IPowerDistributionPanel value)
+    {
+        this.setPDP(0, value);
+    }
+
+    public void setPDP(int module, IPowerDistributionPanel value)
+    {
+        this.pdpMap.put(module, value);
+    }
+
+    public void setRelay(int channel, IRelay value)
+    {
+        this.relayMap.put(channel, value);
+    }
+
+    public void setRelay(int channel, RelayDirection direction, IRelay value)
+    {
+        this.setRelay(channel, value);
+    }
+
+    public void setSolenoid(int channel, ISolenoid value)
+    {
+        this.setSolenoid(0, channel, value);
+    }
+
+    public void setSolenoid(int module, int channel, ISolenoid value)
+    {
+        if (!this.solenoidModuleMap.containsKey(module))
+        {
+            this.solenoidModuleMap.put(module, new HashMap<Integer, ISolenoid>());
+        }
+
+        HashMap<Integer, ISolenoid> solenoidMap = this.solenoidModuleMap.get(module);
+        solenoidMap.put(channel, value);
+    }
+
+    public void setNavx(INavx value)
+    {
+        this.mockNavx = value;
     }
 }

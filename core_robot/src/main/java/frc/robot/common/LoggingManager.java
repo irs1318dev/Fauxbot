@@ -1,22 +1,27 @@
 package frc.robot.common;
 
-import java.util.function.Function;
-
+import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Singleton;
 
 import frc.robot.LoggingKey;
+import frc.robot.TuningConstants;
 import frc.robot.common.robotprovider.ILogger;
 import frc.robot.common.robotprovider.IPoint;
 
+@Singleton
 public class LoggingManager implements ILogger
 {
-    private final Function<Injector, ILogger> loggerCreator;
-
     private ILogger currentLogger;
 
-    public LoggingManager(Function<Injector, ILogger> loggerCreator)
+    @Inject
+    public LoggingManager()
     {
-        this.loggerCreator = loggerCreator;
+    }
+
+    public LoggingManager(ILogger logger)
+    {
+        this.currentLogger = logger;
     }
 
     /**
@@ -24,7 +29,7 @@ public class LoggingManager implements ILogger
      */
     public void refresh(Injector injector)
     {
-        this.currentLogger = this.loggerCreator.apply(injector);
+        this.currentLogger = TuningConstants.GetLogger(injector);
     }
 
     /**

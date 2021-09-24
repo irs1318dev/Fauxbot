@@ -222,17 +222,17 @@ public class TalonSRXWrapper implements ITalonSRX
         this.wrappedObject.set(ControlMode.Disabled, 0.0);
     }
 
-    public void setPosition(int position)
+    public void setPosition(double position)
     {
         this.wrappedObject.setSelectedSensorPosition(position, TalonSRXWrapper.pidIdx, TalonSRXWrapper.timeoutMS);
     }
 
     public void reset()
     {
-        this.wrappedObject.setSelectedSensorPosition(0, TalonSRXWrapper.pidIdx, TalonSRXWrapper.timeoutMS);
+        this.wrappedObject.setSelectedSensorPosition(0.0, TalonSRXWrapper.pidIdx, TalonSRXWrapper.timeoutMS);
     }
 
-    public int getPosition()
+    public double getPosition()
     {
         return this.wrappedObject.getSelectedSensorPosition(TalonSRXWrapper.pidIdx);
     }

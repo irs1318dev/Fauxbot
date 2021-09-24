@@ -4,7 +4,7 @@ pluginManagement {
     repositories {
         mavenLocal()
         gradlePluginPortal()
-        String frcYear = '2020'
+        String frcYear = '2021'
         File frcHome
         if (OperatingSystem.current().isWindows()) {
             String publicFolder = System.getenv('PUBLIC')
@@ -27,5 +27,4 @@ pluginManagement {
 }
 
 include 'core_robot'
-include 'robot_roborio'
 include 'fauxbot_ui'

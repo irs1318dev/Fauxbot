@@ -1,5 +1,7 @@
 package frc.robot;
 
+import frc.robot.common.robotprovider.RobotMode;
+
 public class FauxbotRunner implements Runnable
 {
     private final Object locker;
@@ -45,6 +47,10 @@ public class FauxbotRunner implements Runnable
                     case Teleop:
                         this.robot.teleopInit();
                         break;
+
+                    case Test:
+                        this.robot.testInit();
+                        break;
                 }
 
                 currentMode = newMode;
@@ -62,6 +68,10 @@ public class FauxbotRunner implements Runnable
 
                 case Teleop:
                     this.robot.teleopPeriodic();
+                    break;
+
+                case Test:
+                    this.robot.testPeriodic();
                     break;
             }
 

@@ -36,6 +36,7 @@ public class FauxbotJoystick implements IJoystick
 
             BooleanProperty property = this.buttons.get(buttonNumber);
             boolean result = property.get();
+            property.set(false);
             return result;
         }
     }

@@ -16,6 +16,7 @@ public class AnalogOperationDescription extends OperationDescription
     private final boolean shouldInvertSecondary;
     private final double deadZoneMin;
     private final double deadZoneMax;
+    private final boolean useSquaredMagnitudeForDeadZone;
     private final double multiplier;
     private final double defaultValue;
     private final ResultCalculator resultCalculator;
@@ -28,7 +29,7 @@ public class AnalogOperationDescription extends OperationDescription
      */
     public AnalogOperationDescription(AnalogOperation operation)
     {
-        this(operation, UserInputDevice.None, AnalogAxis.NONE, null, null, null, false, false, 0.0, 0.0, 1.0, 0.0, null);
+        this(operation, UserInputDevice.None, AnalogAxis.NONE, null, null, null, false, false, 0.0, 0.0, false, 1.0, 0.0, null);
     }
 
     /**
@@ -38,9 +39,8 @@ public class AnalogOperationDescription extends OperationDescription
      */
     public AnalogOperationDescription(AnalogOperation operation, double defaultValue)
     {
-        this(operation, UserInputDevice.None, AnalogAxis.NONE, null, null, null, false, false, 0.0, 0.0, 1.0, defaultValue, null);
+        this(operation, UserInputDevice.None, AnalogAxis.NONE, null, null, null, false, false, 0.0, 0.0, false, 1.0, defaultValue, null);
     }
-
 
     /**
      * Initializes a new AnalogOperationDescription based on a user interaction
@@ -58,7 +58,7 @@ public class AnalogOperationDescription extends OperationDescription
         boolean shouldInvert,
         double deadZone)
     {
-        this(operation, userInputDevice, userInputDeviceAxis, null, null, null, shouldInvert, false, -deadZone, deadZone, 1.0, 0.0, null);
+        this(operation, userInputDevice, userInputDeviceAxis, null, null, null, shouldInvert, false, -deadZone, deadZone, false, 1.0, 0.0, null);
     }
 
     /**
@@ -78,7 +78,7 @@ public class AnalogOperationDescription extends OperationDescription
         double deadZoneMin,
         double deadZoneMax)
     {
-        this(operation, userInputDevice, userInputDeviceAxis, null, null, null, shouldInvert, false, deadZoneMin, deadZoneMax, 1.0, 0.0, null);
+        this(operation, userInputDevice, userInputDeviceAxis, null, null, null, shouldInvert, false, deadZoneMin, deadZoneMax, false, 1.0, 0.0, null);
     }
 
     /**
@@ -100,7 +100,7 @@ public class AnalogOperationDescription extends OperationDescription
         double deadZoneMax,
         double multiplier)
     {
-        this(operation, userInputDevice, userInputDeviceAxis, null, null, null, shouldInvert, false, deadZoneMin, deadZoneMax, multiplier, 0.0, null);
+        this(operation, userInputDevice, userInputDeviceAxis, null, null, null, shouldInvert, false, deadZoneMin, deadZoneMax, false, multiplier, 0.0, null);
     }
 
     /**
@@ -124,7 +124,7 @@ public class AnalogOperationDescription extends OperationDescription
         double deadZoneMin,
         double deadZoneMax)
     {
-        this(operation, userInputDevice, userInputDeviceAxis, null, relevantShifts, requiredShifts, shouldInvert, false, deadZoneMin, deadZoneMax, 1.0, 0.0, null);
+        this(operation, userInputDevice, userInputDeviceAxis, null, relevantShifts, requiredShifts, shouldInvert, false, deadZoneMin, deadZoneMax, false, 1.0, 0.0, null);
     }
 
     /**
@@ -150,7 +150,7 @@ public class AnalogOperationDescription extends OperationDescription
         double deadZoneMax,
         double multiplier)
     {
-        this(operation, userInputDevice, userInputDeviceAxis, null, relevantShifts, requiredShifts, shouldInvert, false, deadZoneMin, deadZoneMax, multiplier, 0.0, null);
+        this(operation, userInputDevice, userInputDeviceAxis, null, relevantShifts, requiredShifts, shouldInvert, false, deadZoneMin, deadZoneMax, false, multiplier, 0.0, null);
     }
 
     /**
@@ -178,7 +178,7 @@ public class AnalogOperationDescription extends OperationDescription
         double multiplier,
         double defaultValue)
     {
-        this(operation, userInputDevice, userInputDeviceAxis, null, relevantShifts, requiredShifts, shouldInvert, false, deadZoneMin, deadZoneMax, multiplier, defaultValue, null);
+        this(operation, userInputDevice, userInputDeviceAxis, null, relevantShifts, requiredShifts, shouldInvert, false, deadZoneMin, deadZoneMax, false, multiplier, defaultValue, null);
     }
 
     /**
@@ -208,6 +208,7 @@ public class AnalogOperationDescription extends OperationDescription
         boolean shouldInvertSecondary,
         double deadZoneMin,
         double deadZoneMax,
+        boolean useSquaredMagnitudeForDeadZone,
         double multiplier,
         double defaultValue,
         ResultCalculator resultCalculator)
@@ -220,6 +221,7 @@ public class AnalogOperationDescription extends OperationDescription
         this.shouldInvertSecondary = shouldInvertSecondary;
         this.deadZoneMin = deadZoneMin;
         this.deadZoneMax = deadZoneMax;
+        this.useSquaredMagnitudeForDeadZone = useSquaredMagnitudeForDeadZone;
         this.multiplier = multiplier;
         this.defaultValue = defaultValue;
         this.resultCalculator = resultCalculator;
@@ -244,6 +246,7 @@ public class AnalogOperationDescription extends OperationDescription
         this.shouldInvertSecondary = false;
         this.deadZoneMin = 0.0;
         this.deadZoneMax = 0.0;
+        this.useSquaredMagnitudeForDeadZone = false;
         this.multiplier = 1.0;
         this.defaultValue = 0.0;
         this.resultCalculator = null;
@@ -284,6 +287,11 @@ public class AnalogOperationDescription extends OperationDescription
     public double getDeadZoneMax()
     {
         return this.deadZoneMax;
+    }
+
+    public boolean getUseSquaredMagnitudeForDeadZone()
+    {
+        return this.useSquaredMagnitudeForDeadZone;
     }
 
     public double getMultiplier()

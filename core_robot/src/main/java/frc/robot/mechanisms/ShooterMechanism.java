@@ -92,10 +92,4 @@ public class ShooterMechanism implements IMechanism
         this.flyWheelMotor.stop();
         this.kicker.set(DoubleSolenoidValue.Off);
     }
-
-    @Override
-    public void setDriver(Driver driver)
-    {
-        this.driver = driver;
-    }
 }

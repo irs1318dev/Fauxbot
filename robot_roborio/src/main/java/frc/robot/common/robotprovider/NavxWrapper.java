@@ -10,7 +10,7 @@ public class NavxWrapper implements INavx
 
     public NavxWrapper()
     {
-        this.wrappedObject = new AHRS(Port.kOnboard);
+        this.wrappedObject = new AHRS(Port.kMXP);
     }
 
     public boolean isConnected()
@@ -21,6 +21,21 @@ public class NavxWrapper implements INavx
     public double getAngle()
     {
         return this.wrappedObject.getAngle();
+    }
+
+    public double getPitch()
+    {
+        return this.wrappedObject.getPitch();
+    }
+
+    public double getRoll()
+    {
+        return this.wrappedObject.getRoll();
+    }
+
+    public double getYaw()
+    {
+        return this.wrappedObject.getYaw();
     }
 
     public double getDisplacementX()

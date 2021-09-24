@@ -33,18 +33,8 @@ public class AnglePair
             throw new RuntimeException(String.format("expect desiredAngle to be between (-180, 180). actual %f", desiredAngle));
         }
 
-        // get the difference in degrees between -360 and 360
-        double difference = (desiredAngle - currentAngle) % 360.0;
-
-        // change the range from -180 to 180
-        if (difference < -180.0)
-        {
-            difference += 360.0;
-        }
-        else if (difference > 180.0)
-        {
-            difference -= 360.0;
-        }
+        // get the difference in degrees between -180 and 180
+        double difference = Helpers.updateAngleRange(desiredAngle - currentAngle);
 
         if (allowReverse)
         {

@@ -152,7 +152,7 @@ public abstract class FauxbotTalonXBase extends FauxbotAdvancedMotorBase impleme
     {
     }
 
-    public void setPosition(int position)
+    public void setPosition(double position)
     {
     }
 
@@ -160,9 +160,9 @@ public abstract class FauxbotTalonXBase extends FauxbotAdvancedMotorBase impleme
     {
     }
 
-    public int getPosition()
+    public double getPosition()
     {
-        return (int)this.innerEncoder.getDistance();
+        return this.innerEncoder.getDistance();
     }
 
     public double getVelocity()

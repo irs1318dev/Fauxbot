@@ -60,10 +60,4 @@ public class ForkliftMechanism implements IMechanism
         this.rightMotor.set(0.0);
         this.lifter.set(DoubleSolenoidValue.Off);
     }
-
-    @Override
-    public void setDriver(Driver driver)
-    {
-        this.driver = driver;
-    }
 }
