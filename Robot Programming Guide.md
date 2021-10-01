@@ -31,12 +31,11 @@
       1. [Operation](#operation)
          1. [Analog Operations](#analog-operations)
          2. [Digital Operations](#digital-operations)
-      2. [Tasks](#tasks)
-      3. [UserDriver](#userdriver)
+      2. [ControlTasks](#controltasks)
+      3. [ButtonMap](#buttonmap)
          1. [Macros](#macros)
          2. [Shifts](#shifts)
-      4. [AutonomousDriver](#autonomousdriver)
-         1. [Autonomous Routines](#autonomous-routines)
+      4. [Autonomous Routines](#autonomous-routines)
    8. [External Libraries](#external-libraries)
       1. [Guice](#guice)
       2. [OpenCV](#opencv)
@@ -59,15 +58,16 @@
       3. [Write mechanism readSensors function](#write-mechanism-readsensors-function)
       4. [Write mechanism update function](#write-mechanism-update-function)
       5. [Write mechanism stop function](#write-mechanism-stop-function)
-      6. [Write mechanism setDriver function](#write-mechanism-setdriver-function)
-      7. [Write any getter functions](#write-any-getter-functions)
+      6. [Write any getter functions](#write-any-getter-functions)
    10. [Writing Macros and Autonomous Routines](#writing-macros-and-autonomous-routines)
       1. [Writing Tasks](#writing-tasks)
          1. [Define task class, member variables, and constructor](#define-task-class-member-variables-and-constructor)
-         2. [Define task begin function](#define-task-begin-function)
-         3. [Define task update function](#define-task-update-function)
-         4. [Define task end function](#define-task-end-function)
-         5. [Define task hasCompleted function](#define-task-hascompleted-function)
+         2. [Write task begin function](#write-task-begin-function)
+         3. [Write task update function](#write-task-update-function)
+         4. [Write task end function](#write-task-end-function)
+         5. [Write task hasCompleted function](#write-task-hascompleted-function)
+         6. [Write task shouldCancel function (optional)](#write-task-shouldcancel-function-optional)
+         7. [Write task stop function (optional)](#write-task-stop-function-optional)
       2. [Adding Macros](#adding-macros)
       3. [Adding Autonomous Routines](#adding-autonomous-routines)
       4. [Composing Tasks together](#composing-tasks-together)
@@ -390,15 +390,15 @@ Mechanisms handle the interactions with the actuators (e.g. motors, pneumatic so
 @Singleton
 public class ThingMechanism implements IMechanism
 {
+  // driver
+  private final IDriver driver;
+
   // sensors and actuators
   private final ISomeSensor nameOfSensor;
   private final ISomeActuator nameOfAcutator;
 
   // logger
   private final ILogger logger;
-
-  // driver
-  private Driver driver;
 
   // sensor values
   private boolean someSetting;
@@ -407,13 +407,15 @@ public class ThingMechanism implements IMechanism
   private boolean someState;
 ```
 
-At the top of the class, you should have a list of the definitions of your different actuators and sensors ("```private final ISomeActuator nameOfActuator;```" and "```private final ISomeSensor nameOfSensor;```").  These will be initialized in the constructor.  After the set of actuators and sensors are defined, you will also need to define the logger ("```private ILogger logger;```"), the driver ("```private Driver driver;```"), anything that will be read from the sensors ("```private boolean someSetting;```"), and any state that needs to be kept for the operation of the mechanism ("```private boolean someState;```").
+At the top of the class, you should have the driver ("```private IDriver driver;```"), followed by a list of the definitions of your different actuators and sensors ("```private final ISomeActuator nameOfActuator;```" and "```private final ISomeSensor nameOfSensor;```").  These will be initialized in the constructor.  After the driver and set of actuators and sensors are defined, you will also need to define the logger ("```private ILogger logger;```"), anything that will be read from the sensors ("```private boolean someSetting;```"), and any state that needs to be kept for the operation of the mechanism ("```private boolean someState;```").
 
 #### Write mechanism constructor
 ```java
   @Inject
-  public ThingMechanism(IRobotProvider provider, LoggingManager logger)
+  public ThingMechanism(IDriver driver, IRobotProvider provider, LoggingManager logger)
   {
+    this.driver = driver;
+
     this.nameOfSensor = provider.GetSomeSensor(ElectronicsConstants.THING_NAMEOFSENSOR_PWM_CHANNEL);
     this.nameOfActuator = provider.GetSomeActuator(ElectronicsConstants.THING_NAMEOFACTUATOR_PWM_CHANNEL);
 
@@ -425,7 +427,7 @@ At the top of the class, you should have a list of the definitions of your diffe
   ...
 ```
 
-After defining all of the class's variables, you will define a constructor named like "```public ThingMechanism(IRobotProvider provider, LoggingManager logger)```".  Since 2017 we’ve made use of Google’s Guice to control dependency injection, which is the reason why the special ```@Inject``` markup is required.  You will then set the value for each actuator and sensor you defined at the top in the constructor by calling the corresponding function on the ```IRobotProvider``` that is passed into the constructor by Guice.  These functions will take some number of arguments based on how the actuators/sensors are physically plugged together in the robot (such as CAN Ids, DIO channel, Analog channel, PCM channel, or PWM channel).  These arguments should be placed as constants in the ElectronicsConstants file with names such as THING_NAMEOFACTUATOR_PWM_CHANNEL.  We don’t necessarily know in advance how the robot plugs together, so they can be initialized with a value of -1 until we do.  After initializing the sensors and actuators, you should set the logger as provided and the settings and states to their default values.
+After defining all of the class's variables, you will define a constructor named like "```public ThingMechanism(IDriver driver, IRobotProvider provider, LoggingManager logger)```".  Since 2017 we’ve made use of Google’s Guice to control dependency injection, which is the reason why the special ```@Inject``` markup is required.  You will first set the driver to the value that is provided to the constructor by Guice.  You will then set the value for each actuator and sensor you defined earler by calling the corresponding function on the ```IRobotProvider``` that is also passed into the constructor.  These functions will take some number of arguments based on how the actuators/sensors are physically plugged together in the robot (such as CAN Ids, DIO channel, Analog channel, PCM channel, or PWM channel).  These arguments should be placed as constants in the ElectronicsConstants file with names such as THING_NAMEOFACTUATOR_PWM_CHANNEL.  We don’t necessarily know in advance how the robot plugs together, so they can be initialized with a value of -1 until we do.  After initializing the sensors and actuators, you should set the logger as provided and the settings and states to their default values.
 
 #### Write mechanism readSensors function
 ```java
@@ -457,7 +459,7 @@ The ```readSensors()``` function reads from the relevant sensors for that mechan
   }
 ```
 
-The ```update()``` function examines the inputs that we retrieve from the ```Driver```, and then calculates the various outputs to use applies them to the outputs for the relevant actuators.  For some mechanisms, the logic will be very simple - reading an operation and applying it to an actuator.  Other mechanisms will involve some internal state and information from the most recent readings from the sensors, and possibly some math in order to determine what the actuator should do.  Note that there will often be a "degree" to which something should be done that we don't know in advance.  For example, if we are intaking a ball we may want to carefully choose the correct strength to run the motor at.  Because we don't know this value in advance and will discover it experimentally, we should put such values into the ```TuningConstants``` file as a constant with a guess for the value.
+The ```update()``` function examines the inputs that we retrieve from the ```IDriver```, and then calculates the various outputs to use applies them to the outputs for the relevant actuators.  For some mechanisms, the logic will be very simple - reading an operation and applying it to an actuator.  Other mechanisms will involve some internal state and information from the most recent readings from the sensors, and possibly some math in order to determine what the actuator should do.  Note that there will often be a "degree" to which something should be done that we don't know in advance.  For example, if we are intaking a ball we may want to carefully choose the correct strength to run the motor at.  Because we don't know this value in advance and will discover it experimentally, we should put such values into the ```TuningConstants``` file as a constant with a guess for the value.
 
 #### Write mechanism stop function
 ```java
@@ -469,17 +471,6 @@ The ```update()``` function examines the inputs that we retrieve from the ```Dri
 ```
 
 The stop function tells each of the actuators to stop moving.  This typically means setting any Motor to 0.0 and any DoubleSolenoid to kOff.  It is called when the robot is being disabled, and it is very important to stop everything to ensure that the robot is safe and doesn't make any uncontrolled movements.
-
-#### Write mechanism setDriver function
-```java
-  @Override
-  public void setDriver(Driver driver)
-  {
-    this.driver = driver;
-  }
-```
-
-Sets the driver to use in this class (the implementation of this function should basically just be "```this.driver = driver;```").  It is called when the robot is entering either the autonomous or teleop mode, so it can also be used to reset the state of the mechanism if that is needed.
 
 #### Write any getter functions
 ```java
@@ -510,7 +501,7 @@ public class RaiseElevatorTask extends ControlTaskBase implements IMechanism
 
 At the top of the class, you should declare any member variables that you need.  Some of these member variables may be initialized in the constructor, such as when your task has parameters like a time duration, whereas other member variables will be initialized in the begin function.  Note that the constructor could be called well before the task actually starts, which is why we have the begin function below.
 
-##### Define task begin function
+##### Write task begin function
 ```java
   public void begin()
   {
@@ -520,7 +511,7 @@ At the top of the class, you should declare any member variables that you need. 
 
 The ```begin()``` function is called at the very beginning of the task, and can be used to set some initial state and retrieve any mechanism that we need to reference.  Note that this function is called right before ```hasCompleted()``` and ```update()``` are called for the first time.
 
-##### Define task update function
+##### Write task update function
 ```java
   public void update()
   {
@@ -530,7 +521,7 @@ The ```begin()``` function is called at the very beginning of the task, and can 
 
 The ```update()``` function is called every ~20ms and should update the relevant operations.
 
-##### Define task end function
+##### Write task end function
 ```java
   public void end()
   {
@@ -540,7 +531,7 @@ The ```update()``` function is called every ~20ms and should update the relevant
 
 The ```end()``` function is called when the task has ended.  The function resets the operations that were used to their default value and should clear any state that needs to be cleared.
 
-##### Define task hasCompleted function
+##### Write task hasCompleted function
 ```java
   public boolean hasCompleted()
   {
@@ -550,7 +541,7 @@ The ```end()``` function is called when the task has ended.  The function resets
 
 The ```hasCompleted()``` function is called by the ```Driver``` class to check whether the particular task should complete.  Often this is based on either the amount of time has elapsed since the task began, or it could be based on some sensor condition being met.
 
-##### Define task shouldCancel function (optional)
+##### Write task shouldCancel function (optional)
 ```java
   public boolean shouldCancel()
   {
@@ -560,7 +551,7 @@ The ```hasCompleted()``` function is called by the ```Driver``` class to check w
 
 The ```shouldCancel()``` function is called by the ```Driver``` class to check whether the particular task should be cancelled prematurely.  This is used in a few situations, such as when we are unable to perform an action anymore because a precondition is not met.
 
-##### Define task stop function (optional)
+##### Write task stop function (optional)
 ```java
   public void stop()
   {
