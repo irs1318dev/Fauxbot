@@ -9,16 +9,16 @@ import frc.robot.common.IMechanism;
 import frc.robot.common.PIDHandler;
 import frc.robot.common.robotprovider.*;
 import frc.robot.driver.DigitalOperation;
-import frc.robot.driver.common.Driver;
+import frc.robot.driver.common.IDriver;
 
 import com.google.inject.Inject;
 
 @Singleton
 public class ElevatorMechanism implements IMechanism
 {
+    private final IDriver driver;
     private final IMotor motor;
     private final IEncoder encoder;
-    private Driver driver;
 
     private Floor requestedFloor;
     private PIDHandler pid;
@@ -27,12 +27,13 @@ public class ElevatorMechanism implements IMechanism
 
     @Inject
     public ElevatorMechanism(
+        IDriver driver,
         IRobotProvider provider,
         ITimer timer)
     {
+        this.driver = driver;
         this.motor = provider.getTalon(ElectronicsConstants.ELEVATOR_MOTOR_PWM_CHANNEL);
         this.encoder = provider.getEncoder(ElectronicsConstants.ELEVATOR_ENCODER_DIGITAL_CHANNEL_A, ElectronicsConstants.ELEVATOR_ENCODER_DIGITAL_CHANNEL_B);
-        this.driver = null;
 
         this.requestedFloor = Floor.One;
         this.pid = new PIDHandler(

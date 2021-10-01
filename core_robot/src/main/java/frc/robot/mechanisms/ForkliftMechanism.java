@@ -6,27 +6,25 @@ import frc.robot.ElectronicsConstants;
 import frc.robot.common.IMechanism;
 import frc.robot.common.robotprovider.*;
 import frc.robot.driver.*;
-import frc.robot.driver.common.Driver;
+import frc.robot.driver.common.IDriver;
 
 import com.google.inject.Inject;
 
 @Singleton
 public class ForkliftMechanism implements IMechanism
 {
+    private final IDriver driver;
     private final IMotor leftMotor;
     private final IMotor rightMotor;
     private final IDoubleSolenoid lifter;
 
-    private Driver driver;
-
     @Inject
-    public ForkliftMechanism(IRobotProvider provider)
+    public ForkliftMechanism(IDriver driver, IRobotProvider provider)
     {
+        this.driver = driver;
         this.leftMotor = provider.getTalon(ElectronicsConstants.FORKLIFT_DRIVE_LEFT_MOTOR_CAN_ID);
         this.rightMotor = provider.getTalon(ElectronicsConstants.FORKLIFT_DRIVE_RIGHT_MOTOR_CAN_ID);
         this.lifter = provider.getDoubleSolenoid(ElectronicsConstants.FORKLIFT_LIFTER_FORWARD_PCM_CHANNEL, ElectronicsConstants.FORKLIFT_LIFTER_BACKWARD_PCM_CHANNEL);
-
-        this.driver = null;
     }
 
     @Override

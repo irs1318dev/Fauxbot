@@ -8,22 +8,22 @@ import frc.robot.TuningConstants;
 import frc.robot.common.IMechanism;
 import frc.robot.common.robotprovider.*;
 import frc.robot.driver.*;
-import frc.robot.driver.common.Driver;
+import frc.robot.driver.common.IDriver;
 
 import com.google.inject.Inject;
 
 @Singleton
 public class PrinterMechanism implements IMechanism
 {
+    private final IDriver driver;
     private final ITalonSRX xMotor;
     private final ITalonSRX yMotor;
     private final IDoubleSolenoid pen;
 
-    private Driver driver;
-
     @Inject
-    public PrinterMechanism(IRobotProvider provider)
+    public PrinterMechanism(IDriver driver, IRobotProvider provider)
     {
+        this.driver = driver;
         this.xMotor = provider.getTalonSRX(ElectronicsConstants.PRINTER_X_MOTOR_CAN_ID);
         this.xMotor.setSensorType(TalonXFeedbackDevice.QuadEncoder);
         this.xMotor.setControlMode(TalonSRXControlMode.Position);
@@ -45,8 +45,6 @@ public class PrinterMechanism implements IMechanism
             0);
 
         this.pen = provider.getDoubleSolenoid(ElectronicsConstants.PRINTER_PEN_FORWARD_PCM_CHANNEL, ElectronicsConstants.PRINTER_PEN_BACKWARD_PCM_CHANNEL);
-
-        this.driver = null;
     }
 
     @Override

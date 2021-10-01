@@ -10,23 +10,23 @@ import frc.robot.common.IMechanism;
 import frc.robot.common.LoggingManager;
 import frc.robot.common.robotprovider.*;
 import frc.robot.driver.*;
-import frc.robot.driver.common.Driver;
+import frc.robot.driver.common.IDriver;
 
 import com.google.inject.Inject;
 
 @Singleton
 public class ShooterMechanism implements IMechanism
 {
+    private final IDriver driver;
     private final ILogger logger;
     private final ITalonSRX angleMotor;
     private final ITalonSRX flyWheelMotor;
     private final IDoubleSolenoid kicker;
 
-    private Driver driver;
-
     @Inject
-    public ShooterMechanism(LoggingManager logger, IRobotProvider provider)
+    public ShooterMechanism(IDriver driver, LoggingManager logger, IRobotProvider provider)
     {
+        this.driver = driver;
         this.logger = logger;
 
         this.angleMotor = provider.getTalonSRX(ElectronicsConstants.SHOOTER_ANGLE_MOTOR_CAN_ID);
@@ -50,8 +50,6 @@ public class ShooterMechanism implements IMechanism
             0);
 
         this.kicker = provider.getDoubleSolenoid(ElectronicsConstants.SHOOTER_KICKER_FORWARD_PCM_CHANNEL, ElectronicsConstants.SHOOTER_KICKER_BACKWARD_PCM_CHANNEL);
-
-        this.driver = null;
     }
 
     @Override
