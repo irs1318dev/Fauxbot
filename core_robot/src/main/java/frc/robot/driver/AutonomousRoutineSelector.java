@@ -59,7 +59,7 @@ public class AutonomousRoutineSelector
         this.positionChooser.addObject("right", StartPosition.Right);
         networkTableProvider.addChooser("Start Position", this.positionChooser);
 
-        RoadRunnerTrajectoryGenerator.generateTrajectories(this.pathManager);
+        // RoadRunnerTrajectoryGenerator.generateTrajectories(this.pathManager);
     }
 
     /**
