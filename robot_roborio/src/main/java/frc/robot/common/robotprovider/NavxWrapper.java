@@ -10,7 +10,7 @@ public class NavxWrapper implements INavx
 
     public NavxWrapper()
     {
-        this.wrappedObject = new AHRS(Port.kMXP);
+        this.wrappedObject = new AHRS(Port.kOnboard);
     }
 
     public boolean isConnected()

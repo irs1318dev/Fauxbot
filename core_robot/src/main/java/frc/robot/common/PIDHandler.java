@@ -137,8 +137,9 @@ public class PIDHandler
             this.prevTime = curTime;
 
             // calculate error
-            this.errorFilter.update(setpoint - measuredValue);
-            double error = this.errorFilter.getValue();
+            double rawError = this.ks * setpoint - measuredValue;
+            this.errorFilter.update(rawError);
+            double error = rawError; // this.errorFilter.getValue();
 
             // calculate integral, limiting it based on MaxOutput/MinOutput
             double potentialI = this.ki * (this.integral + error * dt);
@@ -177,8 +178,12 @@ public class PIDHandler
 
             // apply complementary filter to slow ramp-up/ramp-down
             this.outputFilter.update(result);
-            this.output = this.outputFilter.getValue();
+            this.output = result; // this.outputFilter.getValue();
             this.prevMeasuredValue = measuredValue;
+        }
+        else if (dt < 0.0)
+        {
+            this.prevTime = curTime;
         }
 
         return this.output;
@@ -205,8 +210,9 @@ public class PIDHandler
         {
             this.prevTime = curTime;
 
-            this.errorFilter.update(this.ks * setpoint - measuredValue);
-            double error = this.errorFilter.getValue();
+            double rawError = this.ks * setpoint - measuredValue;
+            this.errorFilter.update(rawError);
+            double error = rawError; // this.errorFilter.getValue();
 
             // calculate integral, limiting it based on MaxOutput/MinOutput
             double potentialI = this.ki * (this.integral + error * dt);
@@ -245,8 +251,12 @@ public class PIDHandler
 
             // apply complementary filter to slow ramp-up/ramp-down
             this.outputFilter.update(result);
-            this.output = this.outputFilter.getValue();
+            this.output = result; // this.outputFilter.getValue();
             this.prevMeasuredValue = measuredValue;
+        }
+        else if (dt < 0.0)
+        {
+            this.prevTime = curTime;
         }
 
         return this.output;
@@ -320,6 +330,10 @@ public class PIDHandler
             this.outputFilter.update(result);
             this.output = this.outputFilter.getValue();
             this.prevMeasuredValue = measuredValue;
+        }
+        else if (dt < 0.0)
+        {
+            this.prevTime = curTime;
         }
 
         return this.output;

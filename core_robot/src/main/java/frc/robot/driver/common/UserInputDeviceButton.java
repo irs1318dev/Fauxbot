@@ -76,8 +76,8 @@ public enum UserInputDeviceButton
     XBONE_Y_BUTTON(4),
     XBONE_LEFT_BUTTON(5), // LB
     XBONE_RIGHT_BUTTON(6), // RB
-    XBONE_SELECT_BUTTON(7), // The one with the squares
-    XBONE_START_BUTTON(8), // The hamburgler one
+    XBONE_SELECT_BUTTON(7), // aka "View", the one with the squares
+    XBONE_START_BUTTON(8), // aka "Menu", the hamburgler one
     XBONE_LEFT_STICK_BUTTON(9), // LS
     XBONE_RIGHT_STICK_BUTTON(10), // RS
 

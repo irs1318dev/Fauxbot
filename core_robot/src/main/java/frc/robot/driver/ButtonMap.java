@@ -76,6 +76,7 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Driver,
             UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
             ButtonType.Toggle),*/
+
         /*
         new DigitalOperationDescription(
             DigitalOperation.ElevatorOneButton,

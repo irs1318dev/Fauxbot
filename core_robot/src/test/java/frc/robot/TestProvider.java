@@ -9,6 +9,7 @@ import frc.robot.common.robotprovider.*;
 public class TestProvider implements IRobotProvider
 {
     private INavx mockNavx;
+    private IPigeonIMU mockPigeon;
     private HashMap<Integer, IAnalogInput> analogInputMap = new HashMap<Integer, IAnalogInput>();
     private HashMap<Integer, IDigitalInput> digitalInputMap = new HashMap<Integer, IDigitalInput>();
     private HashMap<Integer, IDigitalOutput> digitalOutputMap = new HashMap<Integer, IDigitalOutput>();
@@ -269,6 +270,12 @@ public class TestProvider implements IRobotProvider
     }
 
     @Override
+    public IPigeonIMU getPigeonIMU(int deviceNumber)
+    {
+        return this.mockPigeon;
+    }
+
+    @Override
     public IVideoStream getMJPEGStream(String name, int width, int height)
     {
         return null;
@@ -294,6 +301,12 @@ public class TestProvider implements IRobotProvider
 
     @Override
     public INetworkTableProvider getNetworkTableProvider()
+    {
+        return null;
+    }
+
+    @Override
+    public IPreferences getPreferences()
     {
         return null;
     }
@@ -428,5 +441,10 @@ public class TestProvider implements IRobotProvider
     public void setNavx(INavx value)
     {
         this.mockNavx = value;
+    }
+
+    public void setPigeon(IPigeonIMU value)
+    {
+        this.mockPigeon = value;
     }
 }

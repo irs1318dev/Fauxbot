@@ -28,6 +28,6 @@ public class RobotModule extends AbstractModule
     @Provides
     public MechanismManager getMechanismManager(Injector injector)
     {
-        return new MechanismManager(TuningConstants.GetActiveMechanisms(injector));
+        return new MechanismManager(SettingsManager.getActiveMechanisms(injector));
     }
 }

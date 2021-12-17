@@ -10,17 +10,14 @@ import frc.robot.driver.common.descriptions.*;
 
 public class ButtonMapVerifier
 {
-    private static final ButtonMapVerifier instance = new ButtonMapVerifier();
-
     public static void Verify(IButtonMap buttonMap)
     {
-        ButtonMapVerifier.instance.VerifyInternal(buttonMap);
+        ButtonMapVerifier.Verify(buttonMap, TuningConstants.THROW_EXCEPTIONS);
     }
 
-    @SuppressWarnings(value="")
-    private void VerifyInternal(IButtonMap buttonMap)
+    public static void Verify(IButtonMap buttonMap, boolean failOnError)
     {
-        if (TuningConstants.THROW_EXCEPTIONS)
+        if (failOnError)
         {
             // verify that there isn't overlap between buttons
             HashMap<ButtonCombination, HashMap<Shift, List<OperationDescription>>> mapping = new HashMap<ButtonCombination, HashMap<Shift, List<OperationDescription>>>();
@@ -53,7 +50,7 @@ public class ButtonMapVerifier
                             List<OperationDescription> otherDescriptions = shiftMap.get(shift);
                             for (OperationDescription otherDescription : otherDescriptions)
                             {
-                                if (this.isOverlappingRange(description, otherDescription))
+                                if (ButtonMapVerifier.isOverlappingRange(description, otherDescription))
                                 {
                                     throw new RuntimeException("Disagreement between " + description.getOperation().toString() + " and " + otherDescription.getOperation().toString());
                                 }
@@ -76,7 +73,7 @@ public class ButtonMapVerifier
                         List<OperationDescription> otherDescriptions = shiftMap.get(requiredShifts);
                         for (OperationDescription otherDescription : otherDescriptions)
                         {
-                            if (this.isOverlappingRange(description, otherDescription))
+                            if (ButtonMapVerifier.isOverlappingRange(description, otherDescription))
                             {
                                 throw new RuntimeException("Disagreement between " + description.getOperation().toString() + " and " + otherDescription.getOperation().toString());
                             }
@@ -122,7 +119,7 @@ public class ButtonMapVerifier
                             List<OperationDescription> otherDescriptions = shiftMap.get(shift);
                             for (OperationDescription otherDescription : otherDescriptions)
                             {
-                                if (this.isOverlappingRange(description, otherDescription))
+                                if (ButtonMapVerifier.isOverlappingRange(description, otherDescription))
                                 {
                                     throw new RuntimeException("Disagreement between " + description.getOperation().toString() + " and " + otherDescription.getOperation().toString());
                                 }
@@ -145,7 +142,7 @@ public class ButtonMapVerifier
                         List<OperationDescription> otherDescriptions = shiftMap.get(requiredShifts);
                         for (OperationDescription otherDescription : otherDescriptions)
                         {
-                            if (this.isOverlappingRange(description, otherDescription))
+                            if (ButtonMapVerifier.isOverlappingRange(description, otherDescription))
                             {
                                 throw new RuntimeException("Disagreement between " + description.getOperation().toString() + " and " + otherDescription.getOperation().toString());
                             }
@@ -191,7 +188,7 @@ public class ButtonMapVerifier
                             List<OperationDescription> otherDescriptions = shiftMap.get(shift);
                             for (OperationDescription otherDescription : otherDescriptions)
                             {
-                                if (this.isOverlappingRange(description, otherDescription))
+                                if (ButtonMapVerifier.isOverlappingRange(description, otherDescription))
                                 {
                                     throw new RuntimeException("Disagreement between " + description.getOperation().toString() + " and " + otherDescription.getOperation().toString());
                                 }
@@ -214,7 +211,7 @@ public class ButtonMapVerifier
                         List<OperationDescription> otherDescriptions = shiftMap.get(requiredShifts);
                         for (OperationDescription otherDescription : otherDescriptions)
                         {
-                            if (this.isOverlappingRange(description, otherDescription))
+                            if (ButtonMapVerifier.isOverlappingRange(description, otherDescription))
                             {
                                 throw new RuntimeException("Disagreement between " + description.getOperation().toString() + " and " + otherDescription.getOperation().toString());
                             }
@@ -264,49 +261,12 @@ public class ButtonMapVerifier
         }
     }
 
-    private class ButtonCombination
+    private static boolean isOverlappingRange(OperationDescription one, OperationDescription two)
     {
-        public final UserInputDevice device;
-        public final UserInputDeviceButton button;
-        public final int pov;
-        public final AnalogAxis axis;
-
-        public ButtonCombination(UserInputDevice device, UserInputDeviceButton button, int pov, AnalogAxis axis)
-        {
-            this.device = device;
-            this.button = button;
-            this.pov = pov;
-            this.axis = axis;
-        }
-
-        @Override
-        public int hashCode()
-        {
-            return this.device.hashCode() ^ this.button.hashCode() ^ this.pov ^ this.axis.hashCode();
-        }
-
-        @Override
-        public boolean equals(Object obj)
-        {
-            if (!(obj instanceof ButtonCombination))
-            {
-                return false;
-            }
-
-            ButtonCombination other = (ButtonCombination)obj;
-            return (this.device == other.device &&
-                this.button == other.button &&
-                this.pov == other.pov &&
-                this.axis == other.axis);
-        }
+        return ButtonMapVerifier.isOverlappingRange(one.getUserInputDeviceRangeMin(), one.getUserInputDeviceRangeMax(), two.getUserInputDeviceRangeMin(), two.getUserInputDeviceRangeMax());
     }
 
-    private boolean isOverlappingRange(OperationDescription one, OperationDescription two)
-    {
-        return this.isOverlappingRange(one.getUserInputDeviceRangeMin(), one.getUserInputDeviceRangeMax(), two.getUserInputDeviceRangeMin(), two.getUserInputDeviceRangeMax());
-    }
-
-    private boolean isOverlappingRange(double oneMin, double oneMax, double twoMin, double twoMax)
+    private static boolean isOverlappingRange(double oneMin, double oneMax, double twoMin, double twoMax)
     {
             // verify range overlap (either at one end, the other end, or all-encompasing):
             return (twoMin >= oneMin && twoMin <= oneMax) ||

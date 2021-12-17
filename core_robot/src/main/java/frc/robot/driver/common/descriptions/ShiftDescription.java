@@ -91,9 +91,6 @@ public class ShiftDescription
                 relevantJoystick = operator;
                 break;
 
-            case Sensor:
-                relevantJoystick = null;
-
             default:
                 if (TuningConstants.THROW_EXCEPTIONS)
                 {
@@ -130,8 +127,6 @@ public class ShiftDescription
         }
         else
         {
-            // grab the appropriate sensor output.
-            // e.g.: if (description.getSensor() == DigitalSensor.None) ...
             return false;
         }
     }

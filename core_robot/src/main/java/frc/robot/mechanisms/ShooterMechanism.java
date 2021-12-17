@@ -31,7 +31,7 @@ public class ShooterMechanism implements IMechanism
 
         this.angleMotor = provider.getTalonSRX(ElectronicsConstants.SHOOTER_ANGLE_MOTOR_CAN_ID);
         this.angleMotor.setSensorType(TalonXFeedbackDevice.QuadEncoder);
-        this.angleMotor.setControlMode(TalonSRXControlMode.Position);
+        this.angleMotor.setControlMode(TalonXControlMode.Position);
         this.angleMotor.setPIDF(
             TuningConstants.SHOOTER_ANGLE_MOTOR_KP,
             TuningConstants.SHOOTER_ANGLE_MOTOR_KI,
@@ -41,7 +41,7 @@ public class ShooterMechanism implements IMechanism
 
         this.flyWheelMotor = provider.getTalonSRX(ElectronicsConstants.SHOOTER_FLY_WHEEL_MOTOR_CAN_ID);
         this.flyWheelMotor.setSensorType(TalonXFeedbackDevice.QuadEncoder);
-        this.flyWheelMotor.setControlMode(TalonSRXControlMode.Velocity);
+        this.flyWheelMotor.setControlMode(TalonXControlMode.Velocity);
         this.flyWheelMotor.setPIDF(
             TuningConstants.SHOOTER_FLY_WHEEL_MOTOR_KP,
             TuningConstants.SHOOTER_FLY_WHEEL_MOTOR_KI,

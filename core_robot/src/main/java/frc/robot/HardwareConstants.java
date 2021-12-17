@@ -8,8 +8,6 @@ package frc.robot;
  */
 public class HardwareConstants
 {
-    public static final boolean ROBOT_EXISTS = true;
-
     //================================================= Elevator ======================================================
 
     public static final double ELEVATOR_FLOOR_ONE_HEIGHT = 0.0;

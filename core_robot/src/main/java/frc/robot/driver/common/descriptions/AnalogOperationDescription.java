@@ -21,8 +21,6 @@ public class AnalogOperationDescription extends OperationDescription
     private final double defaultValue;
     private final ResultCalculator resultCalculator;
 
-    private final AnalogSensor sensor;
-
     /**
      * Initializes a new AnalogOperationDescription that works without user interaction
      * @param operation the analog operation being described
@@ -225,33 +223,6 @@ public class AnalogOperationDescription extends OperationDescription
         this.multiplier = multiplier;
         this.defaultValue = defaultValue;
         this.resultCalculator = resultCalculator;
-
-        this.sensor = AnalogSensor.None;
-    }
-
-    /**
-     * Initializes a new AnalogOperationDescription based on a sensor
-     * @param operation the analog operation being described
-     * @param sensor that will provide the value to use
-     */
-    public AnalogOperationDescription(
-        AnalogOperation operation,
-        AnalogSensor sensor)
-    {
-        super(operation, OperationType.Analog, UserInputDevice.Sensor, -1.0, 1.0, null, null);
-
-        this.userInputDeviceAxis = AnalogAxis.NONE;
-        this.userInputDeviceSecondaryAxis = AnalogAxis.NONE;
-        this.shouldInvert = false;
-        this.shouldInvertSecondary = false;
-        this.deadZoneMin = 0.0;
-        this.deadZoneMax = 0.0;
-        this.useSquaredMagnitudeForDeadZone = false;
-        this.multiplier = 1.0;
-        this.defaultValue = 0.0;
-        this.resultCalculator = null;
-
-        this.sensor = sensor;
     }
 
     public AnalogAxis getUserInputDeviceAxis()
@@ -262,11 +233,6 @@ public class AnalogOperationDescription extends OperationDescription
     public AnalogAxis getUserInputDeviceSecondaryAxis()
     {
         return this.userInputDeviceSecondaryAxis;
-    }
-
-    public AnalogSensor getSensor()
-    {
-        return this.sensor;
     }
 
     public boolean getShouldInvert()

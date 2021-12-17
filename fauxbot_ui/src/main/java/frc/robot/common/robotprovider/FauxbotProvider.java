@@ -13,7 +13,7 @@ public class FauxbotProvider implements IRobotProvider
     @Inject
     public FauxbotProvider(IRealWorldSimulator simulator)
     {
-        //nu.pattern.OpenCV.loadShared();
+        nu.pattern.OpenCV.loadShared();
         this.simulator = simulator;
     }
 
@@ -162,6 +162,12 @@ public class FauxbotProvider implements IRobotProvider
     }
 
     @Override
+    public IPigeonIMU getPigeonIMU(int deviceNumber)
+    {
+        return new FauxbotPigeonIMU(deviceNumber);
+    }
+
+    @Override
     public IVideoStream getMJPEGStream(String name, int width, int height)
     {
         return new FauxbotVideoStream();
@@ -189,5 +195,11 @@ public class FauxbotProvider implements IRobotProvider
     public INetworkTableProvider getNetworkTableProvider()
     {
         return new FauxbotNetworkTableProvider();
+    }
+
+    @Override
+    public IPreferences getPreferences()
+    {
+        return new FauxbotPreferences();
     }
 }

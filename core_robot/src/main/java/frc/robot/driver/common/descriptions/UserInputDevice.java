@@ -8,6 +8,5 @@ public enum UserInputDevice
 {
     None,
     Driver,
-    Operator,
-    Sensor;
+    Operator;
 }

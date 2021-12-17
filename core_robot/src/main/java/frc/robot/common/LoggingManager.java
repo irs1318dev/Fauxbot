@@ -4,10 +4,8 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
-import frc.robot.LoggingKey;
-import frc.robot.TuningConstants;
-import frc.robot.common.robotprovider.ILogger;
-import frc.robot.common.robotprovider.IPoint;
+import frc.robot.*;
+import frc.robot.common.robotprovider.*;
 
 @Singleton
 public class LoggingManager implements ILogger
@@ -29,7 +27,7 @@ public class LoggingManager implements ILogger
      */
     public void refresh(Injector injector)
     {
-        this.currentLogger = TuningConstants.GetLogger(injector);
+        this.currentLogger = SettingsManager.getLogger(injector);
     }
 
     /**
