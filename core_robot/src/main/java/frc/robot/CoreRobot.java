@@ -1,13 +1,7 @@
 package frc.robot;
 
-import frc.robot.common.LoggingManager;
-import frc.robot.common.MechanismManager;
-import frc.robot.common.robotprovider.Alliance;
-import frc.robot.common.robotprovider.IDriverStation;
-import frc.robot.common.robotprovider.IRobotProvider;
-import frc.robot.common.robotprovider.ITimer;
-import frc.robot.common.robotprovider.MatchType;
-import frc.robot.common.robotprovider.RobotMode;
+import frc.robot.common.*;
+import frc.robot.common.robotprovider.*;
 import frc.robot.driver.common.IDriver;
 
 import java.util.Calendar;
@@ -59,6 +53,14 @@ public class CoreRobot<T extends AbstractModule>
     {
         // create mechanisms
         Injector injector = this.getInjector();
+
+        IRobotProvider robotProvider = injector.getInstance(IRobotProvider.class);
+        IPreferences preferences = robotProvider.getPreferences();
+
+        //SettingsManager.initAndUpdatePreferences(preferences, TuningConstants.class);
+        //SettingsManager.initAndUpdatePreferences(preferences, HardwareConstants.class);
+        //SettingsManager.initAndUpdatePreferences(preferences, ElectronicsConstants.class);
+        //SettingsManager.initAndUpdatePreferences(preferences, VisionConstants.class);
 
         // create driver
         this.driver = injector.getInstance(IDriver.class);

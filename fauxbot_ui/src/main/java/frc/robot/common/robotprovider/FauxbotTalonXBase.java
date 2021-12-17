@@ -10,7 +10,7 @@ public abstract class FauxbotTalonXBase extends FauxbotAdvancedMotorBase impleme
     private FauxbotEncoder innerEncoder;
     private PIDHandler pidHandler;
 
-    private TalonSRXControlMode currentMode;
+    private TalonXControlMode currentMode;
     private double kp;
     private double ki;
     private double kd;
@@ -21,7 +21,7 @@ public abstract class FauxbotTalonXBase extends FauxbotAdvancedMotorBase impleme
         super(deviceNumber);
 
         this.simulator = simulator;
-        this.currentMode = TalonSRXControlMode.PercentOutput;
+        this.currentMode = TalonXControlMode.PercentOutput;
     }
 
     public void follow(ITalonSRX talonSRX)
@@ -36,7 +36,7 @@ public abstract class FauxbotTalonXBase extends FauxbotAdvancedMotorBase impleme
     {
     }
 
-    public void setControlMode(TalonSRXControlMode mode)
+    public void setControlMode(TalonXControlMode mode)
     {
         this.currentMode = mode;
         this.resetPID();
@@ -96,7 +96,7 @@ public abstract class FauxbotTalonXBase extends FauxbotAdvancedMotorBase impleme
     @Override
     public void set(double newValue)
     {
-        if (this.currentMode == TalonSRXControlMode.Follower)
+        if (this.currentMode == TalonXControlMode.Follower)
         {
             FauxbotActuatorBase actuator = FauxbotActuatorManager.get(new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.CAN, (int)newValue));
             if (actuator != null && actuator instanceof FauxbotAdvancedMotorBase)
@@ -110,11 +110,11 @@ public abstract class FauxbotTalonXBase extends FauxbotAdvancedMotorBase impleme
                 throw new RuntimeException("expected a different actuator type " + actuator == null ? "null" : actuator.toString());
             }
         }
-        else if (this.currentMode == TalonSRXControlMode.Velocity && this.pidHandler != null)
+        else if (this.currentMode == TalonXControlMode.Velocity && this.pidHandler != null)
         {
             super.set(this.pidHandler.calculateVelocity(newValue, innerEncoder.getRate()));
         }
-        else if (this.currentMode == TalonSRXControlMode.Position && this.pidHandler != null)
+        else if (this.currentMode == TalonXControlMode.Position && this.pidHandler != null)
         {
             super.set(this.pidHandler.calculatePosition(newValue, innerEncoder.get()));
         }
@@ -183,7 +183,7 @@ public abstract class FauxbotTalonXBase extends FauxbotAdvancedMotorBase impleme
     private void resetPID()
     {
         if (this.simulator.shouldSimulatePID() &&
-            (this.currentMode == TalonSRXControlMode.Position || this.currentMode == TalonSRXControlMode.Velocity))
+            (this.currentMode == TalonXControlMode.Position || this.currentMode == TalonXControlMode.Velocity))
         {
             ITimer timer = new FauxbotTimer();
             timer.start();

@@ -45,29 +45,29 @@ public class TalonSRXWrapper implements ITalonSRX
         this.wrappedObject.follow(((VictorSPXWrapper)victorSPX).wrappedObject);
     }
 
-    public void setControlMode(TalonSRXControlMode mode)
+    public void setControlMode(TalonXControlMode mode)
     {
-        if (mode == TalonSRXControlMode.PercentOutput)
+        if (mode == TalonXControlMode.PercentOutput)
         {
             this.controlMode = ControlMode.PercentOutput;
         }
-        else if (mode == TalonSRXControlMode.Disabled)
+        else if (mode == TalonXControlMode.Disabled)
         {
             this.controlMode = ControlMode.Disabled;
         }
-        else if (mode == TalonSRXControlMode.Follower)
+        else if (mode == TalonXControlMode.Follower)
         {
             this.controlMode = ControlMode.Follower;
         }
-        else if (mode == TalonSRXControlMode.Position)
+        else if (mode == TalonXControlMode.Position)
         {
             this.controlMode = ControlMode.Position;
         }
-        else if (mode == TalonSRXControlMode.MotionMagicPosition)
+        else if (mode == TalonXControlMode.MotionMagicPosition)
         {
             this.controlMode = ControlMode.MotionMagic;
         }
-        else if (mode == TalonSRXControlMode.Velocity)
+        else if (mode == TalonXControlMode.Velocity)
         {
             this.controlMode = ControlMode.Velocity;
         }

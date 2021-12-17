@@ -29,7 +29,7 @@ public class ButtonMap implements IButtonMap
             AnalogAxis.JOYSTICK_X,
             ElectronicsConstants.INVERT_X_AXIS,
             TuningConstants.DRIVETRAIN_X_DEAD_ZONE),*/
-        };
+    };
 
     public static DigitalOperationDescription[] DigitalOperationSchema = new DigitalOperationDescription[]
     {
@@ -39,7 +39,7 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Driver,
             UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
             ButtonType.Toggle),*/
-        };
+    };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
     {
@@ -55,7 +55,7 @@ public class ButtonMap implements IButtonMap
                 Operation.SomeAnalogOperation,
                 Operation.SomeDigitalOperation,
             }),*/
-        };
+    };
 
     @Override
     public ShiftDescription[] getShiftSchema()

@@ -27,7 +27,14 @@ public class ComplementaryFilter
 
     public void update(double value)
     {
-        this.currentValue = this.currentValue * this.kO + value * this.kN;
+        if (this.currentValue != Double.NaN)
+        {
+            this.currentValue = this.currentValue * this.kO + value * this.kN;
+        }
+        else
+        {
+            this.currentValue = value * this.kN;
+        }
     }
 
     public void reset()

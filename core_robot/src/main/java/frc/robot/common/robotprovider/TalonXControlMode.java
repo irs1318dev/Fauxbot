@@ -1,6 +1,6 @@
 package frc.robot.common.robotprovider;
 
-public enum TalonSRXControlMode
+public enum TalonXControlMode
 {
     PercentOutput,
     Disabled,

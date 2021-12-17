@@ -132,9 +132,6 @@ public class MacroOperationState extends OperationState implements IMacroOperati
                 relevantJoystick = operator;
                 break;
 
-            case Sensor:
-                relevantJoystick = null;
-
             default:
                 if (TuningConstants.THROW_EXCEPTIONS)
                 {
@@ -172,8 +169,6 @@ public class MacroOperationState extends OperationState implements IMacroOperati
         }
         else
         {
-            // grab the appropriate sensor output.
-            // e.g.: if (description.getSensor() == DigitalSensor.None) ...
             buttonPressed = false;
         }
 

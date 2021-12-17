@@ -118,9 +118,6 @@ public class DigitalOperationState extends OperationState
                 relevantJoystick = operator;
                 break;
 
-            case Sensor:
-                relevantJoystick = null;
-
             default:
                 if (TuningConstants.THROW_EXCEPTIONS)
                 {
@@ -158,8 +155,6 @@ public class DigitalOperationState extends OperationState
         }
         else
         {
-            // grab the appropriate sensor output.
-            // e.g.: if (description.getSensor() == DigitalSensor.None) ...
             buttonPressed = false;
         }
 

@@ -27,86 +27,65 @@ public class FauxbotJoystick implements IJoystick
 
     public boolean getRawButton(int buttonNumber)
     {
-        synchronized(this)
+        if (!this.buttons.containsKey(buttonNumber))
         {
-            if (!this.buttons.containsKey(buttonNumber))
-            {
-                return false;
-            }
-
-            BooleanProperty property = this.buttons.get(buttonNumber);
-            boolean result = property.get();
-            property.set(false);
-            return result;
+            return false;
         }
+
+        BooleanProperty property = this.buttons.get(buttonNumber);
+        boolean result = property.get();
+        property.set(false);
+        return result;
     }
 
     public int getPOV()
     {
-        synchronized(this)
-        {
-            return this.povProperty.get();
-        }
+        return this.povProperty.get();
     }
 
     public double getAxis(int relevantAxis)
     {
-        synchronized(this)
+        if (!this.axes.containsKey(relevantAxis))
         {
-            if (!this.axes.containsKey(relevantAxis))
-            {
-                return 0.0;
-            }
-
-            return this.axes.get(relevantAxis).get();
+            return 0.0;
         }
+
+        return this.axes.get(relevantAxis).get();
     }
 
     public BooleanProperty getButtonProperty(int buttonNumber)
     {
-        synchronized(this)
+        if (!this.buttons.containsKey(buttonNumber))
         {
-            if (!this.buttons.containsKey(buttonNumber))
-            {
-                this.buttons.put(buttonNumber, new SimpleBooleanProperty());
-            }
-
-            return this.buttons.get(buttonNumber);
+            this.buttons.put(buttonNumber, new SimpleBooleanProperty());
         }
+
+        return this.buttons.get(buttonNumber);
     }
 
     public DoubleProperty getAxisProperty(int relevantAxis)
     {
-        synchronized(this)
+        if (!this.axes.containsKey(relevantAxis))
         {
-            if (!this.axes.containsKey(relevantAxis))
-            {
-                this.axes.put(relevantAxis, new SimpleDoubleProperty());
-            }
-
-            return this.axes.get(relevantAxis);
+            this.axes.put(relevantAxis, new SimpleDoubleProperty());
         }
+
+        return this.axes.get(relevantAxis);
     }
 
     public IntegerProperty getPovProperty()
     {
-        synchronized(this)
-        {
-            return this.povProperty;
-        }
+        return this.povProperty;
     }
-
+    
     public void setButtonProperty(int buttonNumber, boolean value)
     {
-        synchronized(this)
+        if (!this.buttons.containsKey(buttonNumber))
         {
-            if (!this.buttons.containsKey(buttonNumber))
-            {
-                this.buttons.put(buttonNumber, new SimpleBooleanProperty());
-            }
-
-            BooleanProperty property = this.buttons.get(buttonNumber);
-            property.set(value);
+            this.buttons.put(buttonNumber, new SimpleBooleanProperty());
         }
+
+        BooleanProperty property = this.buttons.get(buttonNumber);
+        property.set(value);
     }
 }

@@ -16,7 +16,6 @@ public class DigitalOperationDescription extends OperationDescription
     private final int userInputDevicePovValue;
     private final AnalogAxis userInputDeviceAxis;
     private final ButtonType buttonType;
-    private final DigitalSensor sensor;
 
     /**
      * Initializes a new DigitalOperationDescription without any user interaction
@@ -33,7 +32,6 @@ public class DigitalOperationDescription extends OperationDescription
             AnalogAxis.NONE,
             0.0,
             0.0,
-            DigitalSensor.None,
             null,
             null,
             ButtonType.Simple);
@@ -60,7 +58,6 @@ public class DigitalOperationDescription extends OperationDescription
             AnalogAxis.NONE,
             0.0,
             0.0,
-            DigitalSensor.None,
             null,
             null,
             buttonType);
@@ -91,7 +88,6 @@ public class DigitalOperationDescription extends OperationDescription
             AnalogAxis.NONE,
             0.0,
             0.0,
-            DigitalSensor.None,
             relevantShifts,
             requiredShifts,
             buttonType);
@@ -118,7 +114,6 @@ public class DigitalOperationDescription extends OperationDescription
             AnalogAxis.NONE,
             0.0,
             0.0,
-            DigitalSensor.None,
             null,
             null,
             buttonType);
@@ -149,7 +144,6 @@ public class DigitalOperationDescription extends OperationDescription
             AnalogAxis.NONE,
             0.0,
             0.0,
-            DigitalSensor.None,
             relevantShifts,
             requiredShifts,
             buttonType);
@@ -180,7 +174,6 @@ public class DigitalOperationDescription extends OperationDescription
             analogAxis,
             axisRangeMinValue,
             axisRangeMaxValue,
-            DigitalSensor.None,
             null,
             null,
             buttonType);
@@ -215,34 +208,8 @@ public class DigitalOperationDescription extends OperationDescription
             analogAxis,
             axisRangeMinValue,
             axisRangeMaxValue,
-            DigitalSensor.None,
             relevantShifts,
             requiredShifts,
-            buttonType);
-    }
-
-    /**
-     * Initializes a new DigitalOperationDescription based on a sensor
-     * @param operation the digital operation being described
-     * @param sensor the sensor that triggers the operation
-     * @param buttonType the behavior type to use for the operation
-     */
-    public DigitalOperationDescription(
-        DigitalOperation operation,
-        DigitalSensor sensor,
-        ButtonType buttonType)
-    {
-        this(
-            operation,
-            UserInputDevice.Sensor,
-            UserInputDeviceButton.NONE,
-            -1,
-            AnalogAxis.NONE,
-            0.0,
-            0.0,
-            sensor,
-            null,
-            null,
             buttonType);
     }
 
@@ -254,7 +221,6 @@ public class DigitalOperationDescription extends OperationDescription
         AnalogAxis analogAxis,
         double axisRangeMinValue,
         double axisRangeMaxValue,
-        DigitalSensor sensor,
         Shift relevantShifts,
         Shift requiredShifts,
         ButtonType buttonType)
@@ -264,7 +230,6 @@ public class DigitalOperationDescription extends OperationDescription
         this.userInputDeviceButton = userInputDeviceButton;
         this.userInputDevicePovValue = povValue;
         this.userInputDeviceAxis = analogAxis;
-        this.sensor = sensor;
         this.buttonType = buttonType;
     }
 
@@ -281,11 +246,6 @@ public class DigitalOperationDescription extends OperationDescription
     public AnalogAxis getUserInputDeviceAxis()
     {
         return this.userInputDeviceAxis;
-    }
-
-    public DigitalSensor getSensor()
-    {
-        return this.sensor;
     }
 
     public ButtonType getButtonType()

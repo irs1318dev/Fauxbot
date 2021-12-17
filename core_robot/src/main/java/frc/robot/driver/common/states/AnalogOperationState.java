@@ -94,9 +94,6 @@ public class AnalogOperationState extends OperationState
                 relevantJoystick = operator;
                 break;
 
-            case Sensor:
-                relevantJoystick = null;
-
             default:
                 if (TuningConstants.THROW_EXCEPTIONS)
                 {
@@ -160,8 +157,6 @@ public class AnalogOperationState extends OperationState
         }
         else
         {
-            // grab the appropriate sensor output.
-            // e.g.: if (description.getSensor() == AnalogSensor.None) ...
             newValue = description.getDefaultValue();
         }
 

@@ -16,7 +16,6 @@ public class MacroOperationDescription extends OperationDescription
     private final UserInputDeviceButton userInputDeviceButton;
     private final int userInputDevicePovValue;
     private final AnalogAxis userInputDeviceAxis;
-    private final DigitalSensor sensor;
     private final ButtonType buttonType;
     private final Supplier<IControlTask> taskSupplier;
     private final IOperation[] affectedOperations;
@@ -48,7 +47,6 @@ public class MacroOperationDescription extends OperationDescription
             AnalogAxis.NONE,
             0.0,
             0.0,
-            DigitalSensor.None,
             null,
             null,
             buttonType,
@@ -87,7 +85,6 @@ public class MacroOperationDescription extends OperationDescription
             AnalogAxis.NONE,
             0.0,
             0.0,
-            DigitalSensor.None,
             relevantShifts,
             requiredShifts,
             buttonType,
@@ -124,7 +121,6 @@ public class MacroOperationDescription extends OperationDescription
             AnalogAxis.NONE,
             0.0,
             0.0,
-            DigitalSensor.None,
             null,
             null,
             buttonType,
@@ -165,7 +161,6 @@ public class MacroOperationDescription extends OperationDescription
             AnalogAxis.NONE,
             0.0,
             0.0,
-            DigitalSensor.None,
             relevantShifts,
             requiredShifts,
             buttonType,
@@ -200,7 +195,6 @@ public class MacroOperationDescription extends OperationDescription
             AnalogAxis.NONE,
             0.0,
             0.0,
-            DigitalSensor.None,
             null,
             null,
             buttonType,
@@ -239,7 +233,6 @@ public class MacroOperationDescription extends OperationDescription
             AnalogAxis.NONE,
             0.0,
             0.0,
-            DigitalSensor.None,
             relevantShifts,
             requiredShifts,
             buttonType,
@@ -280,7 +273,6 @@ public class MacroOperationDescription extends OperationDescription
             AnalogAxis.NONE,
             0.0,
             0.0,
-            DigitalSensor.None,
             relevantShifts,
             requiredShifts,
             buttonType,
@@ -319,7 +311,6 @@ public class MacroOperationDescription extends OperationDescription
             analogAxis,
             axisRangeMinValue,
             axisRangeMaxValue,
-            DigitalSensor.None,
             null,
             null,
             buttonType,
@@ -360,7 +351,6 @@ public class MacroOperationDescription extends OperationDescription
             analogAxis,
             axisRangeMinValue,
             axisRangeMaxValue,
-            DigitalSensor.None,
             null,
             null,
             buttonType,
@@ -403,7 +393,6 @@ public class MacroOperationDescription extends OperationDescription
             analogAxis,
             axisRangeMinValue,
             axisRangeMaxValue,
-            DigitalSensor.None,
             relevantShifts,
             requiredShifts,
             buttonType,
@@ -448,46 +437,12 @@ public class MacroOperationDescription extends OperationDescription
             analogAxis,
             axisRangeMinValue,
             axisRangeMaxValue,
-            DigitalSensor.None,
             relevantShifts,
             requiredShifts,
             buttonType,
             taskSupplier,
             affectedOperations,
             macroCancelOperations);
-    }
-
-    /**
-     * Initializes a new MacroOperationDescription based on a sensor
-     * @param operation the macro operation being described
-     * @param sensor the sensor that triggers the macro operation
-     * @param buttonType the behavior type to use for the macro operation
-     * @param taskSupplier the function that creates the tasks that should be performed by the macro
-     * @param affectedOperations the list of operations that will be utilized by this macro
-     */
-    public MacroOperationDescription(
-        MacroOperation operation,
-        DigitalSensor sensor,
-        ButtonType buttonType,
-        Supplier<IControlTask> taskSupplier,
-        IOperation[] affectedOperations)
-    {
-        this(
-            true,
-            operation,
-            UserInputDevice.Sensor,
-            UserInputDeviceButton.NONE,
-            0,
-            AnalogAxis.NONE,
-            0.0,
-            0.0,
-            sensor,
-            null,
-            null,
-            buttonType,
-            taskSupplier,
-            affectedOperations,
-            null);
     }
 
     /**
@@ -497,7 +452,6 @@ public class MacroOperationDescription extends OperationDescription
      * @param userInputDevice which device will perform the macro operation (driver or operator joystick)
      * @param userInputDeviceButton the button on the device that performs the macro operation
      * @param povValue the value of the POV (hat) used to perform the macro operation
-     * @param sensor the sensor that triggers the macro operation
      * @param relevantShifts the shifts that should be considered when checking if we should perform the macro
      * @param requiredShifts the shift button(s) that must be applied to perform macro
      * @param buttonType the behavior type to use for the macro operation
@@ -514,7 +468,6 @@ public class MacroOperationDescription extends OperationDescription
         AnalogAxis analogAxis,
         double axisRangeMinValue,
         double axisRangeMaxValue,
-        DigitalSensor sensor,
         Shift relevantShifts,
         Shift requiredShifts,
         ButtonType buttonType,
@@ -528,7 +481,6 @@ public class MacroOperationDescription extends OperationDescription
         this.userInputDeviceButton = userInputDeviceButton;
         this.userInputDevicePovValue = povValue;
         this.userInputDeviceAxis = analogAxis;
-        this.sensor = sensor;
         this.buttonType = buttonType;
         this.taskSupplier = taskSupplier;
         this.affectedOperations = affectedOperations;
@@ -553,11 +505,6 @@ public class MacroOperationDescription extends OperationDescription
     public AnalogAxis getUserInputDeviceAxis()
     {
         return this.userInputDeviceAxis;
-    }
-
-    public DigitalSensor getSensor()
-    {
-        return this.sensor;
     }
 
     public ButtonType getButtonType()
