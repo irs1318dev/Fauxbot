@@ -2,19 +2,23 @@ package frc.robot.common.robotprovider;
 
 public class FauxbotCompressor implements ICompressor
 {
-    public FauxbotCompressor(int module)
+    public FauxbotCompressor(PneumaticsModuleType moduleType)
     {
     }
 
-    public FauxbotCompressor()
+    public FauxbotCompressor(int module, PneumaticsModuleType moduleType)
     {
     }
 
-    public void start()
+    public void enableAnalog(double minPressurePSI, double maxPressurePSI)
     {
     }
 
-    public void stop()
+    public void enableDigital()
+    {
+    }
+
+    public void disable()
     {
     }
 }

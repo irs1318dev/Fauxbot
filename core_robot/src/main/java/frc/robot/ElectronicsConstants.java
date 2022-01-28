@@ -1,5 +1,7 @@
 package frc.robot;
 
+import frc.robot.common.robotprovider.PneumaticsModuleType;
+
 /**
  * All constants describing how the electronics are plugged together.
  * 
@@ -30,8 +32,14 @@ public class ElectronicsConstants
     // change INVERT_TRIGGER_AXIS to true if positive on the joystick isn't forward, and negative isn't backwards.
     public static final boolean INVERT_TRIGGER_AXIS = false;
 
-    public static final int PCM_A_MODULE = 0; // Module A
-    public static final int PCM_B_MODULE = 1; // Module B
+    public static final int PNEUMATICS_MODULE_A = 0; // Module A
+    public static final PneumaticsModuleType PNEUMATICS_MODULE_TYPE_A = PneumaticsModuleType.PneumaticsHub; // Module A
+    public static final int PNEUMATICS_MODULE_B = 1; // Module B
+    public static final PneumaticsModuleType PNEUMATICS_MODULE_TYPE_B = PneumaticsModuleType.PneumaticsHub; // Module B
+
+    public static final boolean PNEUMATICS_USE_ANALOG = false;
+    public static final double PNEUMATICS_MIN_PSI = 110.0;
+    public static final double PNEUMATICS_MAX_PSI = 120.0;
 
     public static final int JOYSTICK_DRIVER_PORT = 0;
     public static final int JOYSTICK_CO_DRIVER_PORT = 1;

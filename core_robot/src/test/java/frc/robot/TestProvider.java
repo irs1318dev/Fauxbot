@@ -24,7 +24,7 @@ public class TestProvider implements IRobotProvider
     private HashMap<Integer, IJoystick> joystickMap = new HashMap<Integer, IJoystick>();
     private HashMap<Integer, IMotor> motorMap = new HashMap<Integer, IMotor>();
     private HashMap<Integer, IServo> servoMap = new HashMap<Integer, IServo>();
-    private HashMap<Integer, IPowerDistributionPanel> pdpMap = new HashMap<Integer, IPowerDistributionPanel>();
+    private HashMap<Integer, IPowerDistribution> pdpMap = new HashMap<Integer, IPowerDistribution>();
     private HashMap<Integer, IRelay> relayMap = new HashMap<Integer, IRelay>();
     private HashMap<Integer, HashMap<Integer, ISolenoid>> solenoidModuleMap = new HashMap<Integer, HashMap<Integer, ISolenoid>>();
 
@@ -117,13 +117,13 @@ public class TestProvider implements IRobotProvider
     }
 
     @Override
-    public ICompressor getCompressor()
+    public ICompressor getCompressor(PneumaticsModuleType moduleType)
     {
-        return this.getCompressor(0);
+        return this.getCompressor(0, moduleType);
     }
 
     @Override
-    public ICompressor getCompressor(int module)
+    public ICompressor getCompressor(int module, PneumaticsModuleType moduleType)
     {
         if (!this.compressorMap.containsKey(module))
         {
@@ -134,13 +134,13 @@ public class TestProvider implements IRobotProvider
     }
 
     @Override
-    public IDoubleSolenoid getDoubleSolenoid(int forwardChannel, int reverseChannel)
+    public IDoubleSolenoid getDoubleSolenoid(PneumaticsModuleType moduleType, int forwardChannel, int reverseChannel)
     {
-        return this.getDoubleSolenoid(0, forwardChannel, reverseChannel);
+        return this.getDoubleSolenoid(0, moduleType, forwardChannel, reverseChannel);
     }
 
     @Override
-    public IDoubleSolenoid getDoubleSolenoid(int module, int forwardChannel, int reverseChannel)
+    public IDoubleSolenoid getDoubleSolenoid(int module, PneumaticsModuleType moduleType, int forwardChannel, int reverseChannel)
     {
         if (!this.doubleSolenoidModuleMap.containsKey(module))
         {
@@ -207,17 +207,17 @@ public class TestProvider implements IRobotProvider
     }
 
     @Override
-    public IPowerDistributionPanel getPDP()
+    public IPowerDistribution getPowerDistribution()
     {
-        return this.getPDP(0);
+        return this.getPowerDistribution(0, PowerDistributionModuleType.PowerDistributionHub);
     }
 
     @Override
-    public IPowerDistributionPanel getPDP(int module)
+    public IPowerDistribution getPowerDistribution(int module, PowerDistributionModuleType moduleType)
     {
         if (!this.pdpMap.containsKey(module))
         {
-            this.pdpMap.put(module, mock(IPowerDistributionPanel.class));
+            this.pdpMap.put(module, mock(IPowerDistribution.class));
         }
 
         return this.pdpMap.get(module);
@@ -241,13 +241,13 @@ public class TestProvider implements IRobotProvider
     }
 
     @Override
-    public ISolenoid getSolenoid(int channel)
+    public ISolenoid getSolenoid(PneumaticsModuleType moduleType, int channel)
     {
-        return this.getSolenoid(0, channel);
+        return this.getSolenoid(0, moduleType, channel);
     }
 
     @Override
-    public ISolenoid getSolenoid(int module, int channel)
+    public ISolenoid getSolenoid(int module, PneumaticsModuleType moduleType, int channel)
     {
         if (!this.solenoidModuleMap.containsKey(module))
         {
@@ -402,12 +402,12 @@ public class TestProvider implements IRobotProvider
         this.servoMap.put(channel, value);
     }
 
-    public void setPDP(IPowerDistributionPanel value)
+    public void setPDP(IPowerDistribution value)
     {
         this.setPDP(0, value);
     }
 
-    public void setPDP(int module, IPowerDistributionPanel value)
+    public void setPDP(int module, IPowerDistribution value)
     {
         this.pdpMap.put(module, value);
     }

@@ -19,6 +19,5 @@ public interface IOpenCVProvider
     void findContours(IMat frame, List<IMatOfPoint> contours, IMat unused, int retrExternal, int chainApproxTc89Kcos);
     void cvtColor(IMat sourceBGR, IMat frame, int imgprocColorBgr2hsv);
     void inRange(IMat sourceHSV, IScalar lowerBound, IScalar upperBound, IMat frame);
-    void initUndistortRectifyMap(IMat intrinsicMatrix, IMat distCoeffs, IMat r, IMat newCameraMatrix, ISize size, int cvType, IMat mapX, IMat mapY);
     void remap(IMat source, IMat frame, IMat mapX, IMat mapY, int imgprocInterLinear, int imgprocWarpFillOutliers, IScalar newScalar);
 }

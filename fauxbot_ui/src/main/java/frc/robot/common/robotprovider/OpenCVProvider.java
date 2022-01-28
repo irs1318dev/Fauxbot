@@ -118,12 +118,6 @@ public class OpenCVProvider implements IOpenCVProvider
   }
 
   @Override
-  public void initUndistortRectifyMap(IMat intrinsicMatrix, IMat distCoeffs, IMat r, IMat newCameraMatrix, ISize size, int cvType, IMat mapX, IMat mapY)
-  {
-    Imgproc.initUndistortRectifyMap(OpenCVProvider.unwrap(intrinsicMatrix), OpenCVProvider.unwrap(distCoeffs), OpenCVProvider.unwrap(r), OpenCVProvider.unwrap(newCameraMatrix), OpenCVProvider.unwrap(size), cvType, OpenCVProvider.unwrap(mapX), OpenCVProvider.unwrap(mapY));
-  }
-
-  @Override
   public void remap(IMat src, IMat dst, IMat mapX, IMat mapY, int interpolation, int borderMode, IScalar newScalar)
   {
     Imgproc.remap(OpenCVProvider.unwrap(src), OpenCVProvider.unwrap(dst), OpenCVProvider.unwrap(mapX), OpenCVProvider.unwrap(mapY), interpolation, borderMode, OpenCVProvider.unwrap(newScalar));

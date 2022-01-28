@@ -106,10 +106,6 @@ public class FauxbotSparkMax extends FauxbotAdvancedMotorBase implements ISparkM
         }
     }
 
-    public void setSelectedSlot(int slotId)
-    {
-    }
-
     public void setForwardLimitSwitch(boolean enabled, boolean normallyOpen)
     {
     }

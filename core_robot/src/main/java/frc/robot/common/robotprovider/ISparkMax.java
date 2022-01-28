@@ -6,7 +6,6 @@ public interface ISparkMax
     void setControlMode(SparkMaxControlMode mode);
     void set(double value);
     void setFeedbackFramePeriod(SparkMaxPeriodicFrameType frameType, int periodMS);
-    void setSelectedSlot(int slotId);
     void setPIDF(double p, double i, double d, double f, int slotId);
     void setPIDF(double p, double i, double d, double f, double minOutput, double maxOutput, int slotId);
     void setPIDF(double p, double i, double d, double f, int izone, int slotId);
