@@ -49,7 +49,7 @@ public class ShooterMechanism implements IMechanism
             TuningConstants.SHOOTER_FLY_WHEEL_MOTOR_KF,
             0);
 
-        this.kicker = provider.getDoubleSolenoid(ElectronicsConstants.SHOOTER_KICKER_FORWARD_PCM_CHANNEL, ElectronicsConstants.SHOOTER_KICKER_BACKWARD_PCM_CHANNEL);
+        this.kicker = provider.getDoubleSolenoid(PneumaticsModuleType.PneumaticsControlModule, ElectronicsConstants.SHOOTER_KICKER_FORWARD_PCM_CHANNEL, ElectronicsConstants.SHOOTER_KICKER_BACKWARD_PCM_CHANNEL);
     }
 
     @Override

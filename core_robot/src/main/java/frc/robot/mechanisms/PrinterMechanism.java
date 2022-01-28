@@ -44,7 +44,7 @@ public class PrinterMechanism implements IMechanism
             TuningConstants.PRINTER_Y_MOTOR_KF,
             0);
 
-        this.pen = provider.getDoubleSolenoid(ElectronicsConstants.PRINTER_PEN_FORWARD_PCM_CHANNEL, ElectronicsConstants.PRINTER_PEN_BACKWARD_PCM_CHANNEL);
+        this.pen = provider.getDoubleSolenoid(PneumaticsModuleType.PneumaticsControlModule, ElectronicsConstants.PRINTER_PEN_FORWARD_PCM_CHANNEL, ElectronicsConstants.PRINTER_PEN_BACKWARD_PCM_CHANNEL);
     }
 
     @Override
