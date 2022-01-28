@@ -7,12 +7,12 @@ public class FauxbotDoubleSolenoid extends FauxbotActuatorBase implements IDoubl
 {
     private DoubleProperty currentValueProperty;
 
-    public FauxbotDoubleSolenoid(int forwardPort, int reversePort)
+    public FauxbotDoubleSolenoid(PneumaticsModuleType moduleType, int forwardPort, int reversePort)
     {
-        this(0, forwardPort, reversePort);
+        this(0, moduleType, forwardPort, reversePort);
     }
 
-    public FauxbotDoubleSolenoid(int moduleNumber, int forwardPort, int reversePort)
+    public FauxbotDoubleSolenoid(int moduleNumber, PneumaticsModuleType moduleType, int forwardPort, int reversePort)
     {
         FauxbotActuatorManager.set(new FauxbotActuatorConnection(this.getModule(moduleNumber, true), forwardPort), this);
         FauxbotActuatorManager.set(new FauxbotActuatorConnection(this.getModule(moduleNumber, false), reversePort), null);

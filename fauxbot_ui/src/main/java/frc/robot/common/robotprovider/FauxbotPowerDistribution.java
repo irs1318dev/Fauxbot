@@ -1,12 +1,12 @@
 package frc.robot.common.robotprovider;
 
-public class FauxbotPowerDistributionPanel implements IPowerDistributionPanel
+public class FauxbotPowerDistribution implements IPowerDistribution
 {
-    public FauxbotPowerDistributionPanel()
+    public FauxbotPowerDistribution()
     {
     }
 
-    public FauxbotPowerDistributionPanel(int module)
+    public FauxbotPowerDistribution(int module, PowerDistributionModuleType moduleType)
     {
     }
 

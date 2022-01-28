@@ -66,27 +66,27 @@ public class FauxbotProvider implements IRobotProvider
     }
 
     @Override
-    public ICompressor getCompressor()
+    public ICompressor getCompressor(PneumaticsModuleType moduleType)
     {
-        return new FauxbotCompressor();
+        return new FauxbotCompressor(moduleType);
     }
 
     @Override
-    public ICompressor getCompressor(int module)
+    public ICompressor getCompressor(int module, PneumaticsModuleType moduleType)
     {
-        return new FauxbotCompressor(module);
+        return new FauxbotCompressor(module, moduleType);
     }
 
     @Override
-    public IDoubleSolenoid getDoubleSolenoid(int forwardChannel, int reverseChannel)
+    public IDoubleSolenoid getDoubleSolenoid(PneumaticsModuleType moduleType, int forwardChannel, int reverseChannel)
     {
-        return new FauxbotDoubleSolenoid(forwardChannel, reverseChannel);
+        return new FauxbotDoubleSolenoid(moduleType, forwardChannel, reverseChannel);
     }
 
     @Override
-    public IDoubleSolenoid getDoubleSolenoid(int module, int forwardChannel, int reverseChannel)
+    public IDoubleSolenoid getDoubleSolenoid(int module, PneumaticsModuleType moduleType, int forwardChannel, int reverseChannel)
     {
-        return new FauxbotDoubleSolenoid(module, forwardChannel, reverseChannel);
+        return new FauxbotDoubleSolenoid(module, moduleType, forwardChannel, reverseChannel);
     }
 
     @Override
@@ -120,15 +120,15 @@ public class FauxbotProvider implements IRobotProvider
     }
 
     @Override
-    public IPowerDistributionPanel getPDP()
+    public IPowerDistribution getPowerDistribution()
     {
-        return new FauxbotPowerDistributionPanel();
+        return new FauxbotPowerDistribution();
     }
 
     @Override
-    public IPowerDistributionPanel getPDP(int module)
+    public IPowerDistribution getPowerDistribution(int module, PowerDistributionModuleType moduleType)
     {
-        return new FauxbotPowerDistributionPanel(module);
+        return new FauxbotPowerDistribution(module, moduleType);
     }
 
     @Override
@@ -144,15 +144,15 @@ public class FauxbotProvider implements IRobotProvider
     }
 
     @Override
-    public ISolenoid getSolenoid(int channel)
+    public ISolenoid getSolenoid(PneumaticsModuleType moduleType, int channel)
     {
-        return new FauxbotSolenoid(channel);
+        return new FauxbotSolenoid(moduleType, channel);
     }
 
     @Override
-    public ISolenoid getSolenoid(int module, int channel)
+    public ISolenoid getSolenoid(int module, PneumaticsModuleType moduleType, int channel)
     {
-        return new FauxbotSolenoid(module, channel);
+        return new FauxbotSolenoid(module, moduleType, channel);
     }
 
     @Override

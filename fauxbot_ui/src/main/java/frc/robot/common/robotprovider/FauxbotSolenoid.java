@@ -7,12 +7,12 @@ public class FauxbotSolenoid extends FauxbotActuatorBase implements ISolenoid
 {
     private DoubleProperty currentValueProperty;
 
-    public FauxbotSolenoid(int port)
+    public FauxbotSolenoid(PneumaticsModuleType moduleType, int port)
     {
-        this(0, port);
+        this(0, moduleType, port);
     }
 
-    public FauxbotSolenoid(int moduleNumber, int port)
+    public FauxbotSolenoid(int moduleNumber, PneumaticsModuleType moduleType, int port)
     {
         FauxbotActuatorManager.set(new FauxbotActuatorConnection(this.getModule(moduleNumber), port), this);
 
