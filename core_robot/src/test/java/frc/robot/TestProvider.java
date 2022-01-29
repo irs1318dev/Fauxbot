@@ -14,6 +14,7 @@ public class TestProvider implements IRobotProvider
     private HashMap<Integer, IDigitalInput> digitalInputMap = new HashMap<Integer, IDigitalInput>();
     private HashMap<Integer, IDigitalOutput> digitalOutputMap = new HashMap<Integer, IDigitalOutput>();
     private HashMap<Integer, ICounter> counterMap = new HashMap<Integer, ICounter>();
+    private HashMap<Integer, IDutyCycle> dutyCycleMap = new HashMap<Integer, IDutyCycle>();
     private HashMap<Integer, ITalonSRX> talonSrxMap = new HashMap<Integer, ITalonSRX>();
     private HashMap<Integer, ITalonFX> talonFxMap = new HashMap<Integer, ITalonFX>();
     private HashMap<Integer, IVictorSPX> victorSpxMap = new HashMap<Integer, IVictorSPX>();
@@ -70,6 +71,17 @@ public class TestProvider implements IRobotProvider
         }
 
         return this.counterMap.get(channel);
+    }
+
+    @Override
+    public IDutyCycle getDutyCycle(int channel)
+    {
+        if (!this.dutyCycleMap.containsKey(channel))
+        {
+            this.dutyCycleMap.put(channel, mock(IDutyCycle.class));
+        }
+
+        return this.dutyCycleMap.get(channel);
     }
 
     @Override
@@ -329,6 +341,11 @@ public class TestProvider implements IRobotProvider
     public void setCounter(int channel, ICounter value)
     {
         this.counterMap.put(channel, value);
+    }
+
+    public void setDutyCycle(int channel, IDutyCycle value)
+    {
+        this.dutyCycleMap.put(channel, value);
     }
 
     public void setTalonSRX(int deviceNumber, ITalonSRX value)
