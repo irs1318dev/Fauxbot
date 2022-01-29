@@ -42,6 +42,12 @@ public class FauxbotProvider implements IRobotProvider
     }
 
     @Override
+    public IDutyCycle getDutyCycle(int channel)
+    {
+        return new FauxbotDutyCycle(channel);
+    }
+
+    @Override
     public ITalonSRX getTalonSRX(int deviceNumber)
     {
         return new FauxbotTalonSRX(deviceNumber, this.simulator);
