@@ -43,8 +43,8 @@ public class ButtonMap implements IButtonMap
             AnalogAxis.JOYSTICK_Y,
             ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
             TuningConstants.FORKLIFT_DRIVE_DEAD_ZONE),
-        */
-        /*
+        /**/
+        /**/
         new AnalogOperationDescription(
             AnalogOperation.PrinterMoveX,
             UserInputDevice.Driver,
@@ -57,8 +57,8 @@ public class ButtonMap implements IButtonMap
             AnalogAxis.JOYSTICK_Y,
             ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
             0.0),
-        */
         /**/
+        /*
         new AnalogOperationDescription(
             AnalogOperation.ShooterAngle,
             UserInputDevice.Driver,
@@ -75,7 +75,8 @@ public class ButtonMap implements IButtonMap
             DigitalOperation.SomeDigitalOperation,
             UserInputDevice.Driver,
             UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
-            ButtonType.Toggle),*/
+            ButtonType.Toggle),
+        */
 
         /*
         new DigitalOperationDescription(
@@ -103,7 +104,7 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Driver,
             UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
             ButtonType.Click),
-        */
+        /**/
         /*
         new DigitalOperationDescription(
             DigitalOperation.ForkliftUp,
@@ -115,15 +116,15 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Driver,
             UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
             ButtonType.Click),
-        */
+        /**/
         /*
         new DigitalOperationDescription(
             DigitalOperation.GarageDoorButton,
             UserInputDevice.Driver,
             UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
             ButtonType.Click),
-        */
-        /*
+        /**/
+
         new DigitalOperationDescription(
             DigitalOperation.PrinterPenDown,
             UserInputDevice.Driver,
@@ -134,8 +135,8 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Driver,
             UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
             ButtonType.Click),
-        */
         /**/
+        /*
         new DigitalOperationDescription(
             DigitalOperation.ShooterSpin,
             UserInputDevice.Driver,
@@ -158,11 +159,42 @@ public class ButtonMap implements IButtonMap
             UserInputDeviceButton.JOYSTICK_STICK_THUMB_BUTTON,
             ButtonType.Simple,
             () -> new SequentialTask(),
-            new Operation[]
+            new IOperation[]
             {
                 Operation.SomeAnalogOperation,
                 Operation.SomeDigitalOperation,
             }),*/
+            
+        new MacroOperationDescription(
+            MacroOperation.WriteHiTask,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.JOYSTICK_STICK_THUMB_BUTTON,
+            ButtonType.Toggle,
+            () -> SequentialTask.Sequence(
+                new PenWriteTask(false),
+                new PenMoveTask(10.0, 10.0),
+                new PenWriteTask(true),
+                new PenMoveTask(10.0, 90.0),
+                new PenWriteTask(false),
+                new PenMoveTask(10.0, 50.0),
+                new PenWriteTask(true),
+                new PenMoveTask(40.0, 50.0),
+                new PenWriteTask(false),
+                new PenMoveTask(40.0, 10.0),
+                new PenWriteTask(true),
+                new PenMoveTask(40.0, 90.0),
+                new PenWriteTask(false),
+                new PenMoveTask(80.0, 10.0),
+                new PenWriteTask(true),
+                new PenMoveTask(80.0, 90.0),
+                new PenWriteTask(false)),
+            new IOperation[]
+            {
+                AnalogOperation.PrinterMoveX,
+                AnalogOperation.PrinterMoveY,
+                DigitalOperation.PrinterPenDown,
+                DigitalOperation.PrinterPenUp,
+            }),
     };
 
     @Override

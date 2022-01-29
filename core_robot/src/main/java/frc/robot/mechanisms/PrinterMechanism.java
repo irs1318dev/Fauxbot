@@ -20,6 +20,9 @@ public class PrinterMechanism implements IMechanism
     private final ITalonSRX yMotor;
     private final IDoubleSolenoid pen;
 
+    private double xLocation;
+    private double yLocation;
+
     @Inject
     public PrinterMechanism(IDriver driver, IRobotProvider provider)
     {
@@ -50,6 +53,8 @@ public class PrinterMechanism implements IMechanism
     @Override
     public void readSensors()
     {
+        this.xLocation = this.xMotor.getPosition();
+        this.yLocation = this.yMotor.getPosition();
     }
 
     @Override
@@ -79,5 +84,15 @@ public class PrinterMechanism implements IMechanism
         this.xMotor.stop();
         this.yMotor.stop();
         this.pen.set(DoubleSolenoidValue.Off);
+    }
+
+    public double getXLocation()
+    {
+        return this.xLocation;
+    }
+
+    public double getYLocation()
+    {
+        return this.yLocation;
     }
 }
