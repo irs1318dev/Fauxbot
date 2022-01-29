@@ -157,12 +157,12 @@ public class ButtonMap implements IButtonMap
             MacroOperation.SomeMacroOperation,
             UserInputDevice.Driver,
             UserInputDeviceButton.JOYSTICK_STICK_THUMB_BUTTON,
-            ButtonType.Simple,
-            () -> new SequentialTask(),
+            ButtonType.Toggle,
+            () -> SequentialTask.Sequence(),
             new IOperation[]
             {
-                Operation.SomeAnalogOperation,
-                Operation.SomeDigitalOperation,
+                AnalogOperation.SomeAnalogOperation,
+                DigitalOperation.SomeDigitalOperation,
             }),*/
             
         new MacroOperationDescription(
