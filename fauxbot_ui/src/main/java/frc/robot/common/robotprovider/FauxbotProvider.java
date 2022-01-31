@@ -42,6 +42,12 @@ public class FauxbotProvider implements IRobotProvider
     }
 
     @Override
+    public IDutyCycle getDutyCycle(int channel)
+    {
+        return new FauxbotDutyCycle(channel);
+    }
+
+    @Override
     public ITalonSRX getTalonSRX(int deviceNumber)
     {
         return new FauxbotTalonSRX(deviceNumber, this.simulator);
@@ -93,6 +99,12 @@ public class FauxbotProvider implements IRobotProvider
     public IEncoder getEncoder(int channelA, int channelB)
     {
         return new FauxbotEncoder(channelA, channelB);
+    }
+
+    @Override
+    public ICANCoder getCANCoder(int deviceNumber)
+    {
+        return new FauxbotCANCoder(deviceNumber);
     }
 
     @Override
@@ -165,6 +177,18 @@ public class FauxbotProvider implements IRobotProvider
     public IPigeonIMU getPigeonIMU(int deviceNumber)
     {
         return new FauxbotPigeonIMU(deviceNumber);
+    }
+
+    @Override
+    public IPigeon2 getPigeon2(int deviceNumber)
+    {
+        return new FauxbotPigeon2(deviceNumber);
+    }
+
+    @Override
+    public ICANdle getCANdle(int deviceNumber)
+    {
+        return new FauxbotCANdle(deviceNumber);
     }
 
     @Override

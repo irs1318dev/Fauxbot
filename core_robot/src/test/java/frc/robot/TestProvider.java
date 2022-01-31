@@ -10,10 +10,12 @@ public class TestProvider implements IRobotProvider
 {
     private INavx mockNavx;
     private IPigeonIMU mockPigeon;
+    private IPigeon2 mockPigeon2;
     private HashMap<Integer, IAnalogInput> analogInputMap = new HashMap<Integer, IAnalogInput>();
     private HashMap<Integer, IDigitalInput> digitalInputMap = new HashMap<Integer, IDigitalInput>();
     private HashMap<Integer, IDigitalOutput> digitalOutputMap = new HashMap<Integer, IDigitalOutput>();
     private HashMap<Integer, ICounter> counterMap = new HashMap<Integer, ICounter>();
+    private HashMap<Integer, IDutyCycle> dutyCycleMap = new HashMap<Integer, IDutyCycle>();
     private HashMap<Integer, ITalonSRX> talonSrxMap = new HashMap<Integer, ITalonSRX>();
     private HashMap<Integer, ITalonFX> talonFxMap = new HashMap<Integer, ITalonFX>();
     private HashMap<Integer, IVictorSPX> victorSpxMap = new HashMap<Integer, IVictorSPX>();
@@ -21,6 +23,7 @@ public class TestProvider implements IRobotProvider
     private HashMap<Integer, ICompressor> compressorMap = new HashMap<Integer, ICompressor>();
     private HashMap<Integer, HashMap<Integer, IDoubleSolenoid>> doubleSolenoidModuleMap = new HashMap<Integer, HashMap<Integer, IDoubleSolenoid>>();
     private HashMap<Integer, IEncoder> encoderMap = new HashMap<Integer, IEncoder>();
+    private HashMap<Integer, ICANCoder> cancoderMap = new HashMap<Integer, ICANCoder>();
     private HashMap<Integer, IJoystick> joystickMap = new HashMap<Integer, IJoystick>();
     private HashMap<Integer, IMotor> motorMap = new HashMap<Integer, IMotor>();
     private HashMap<Integer, IServo> servoMap = new HashMap<Integer, IServo>();
@@ -70,6 +73,17 @@ public class TestProvider implements IRobotProvider
         }
 
         return this.counterMap.get(channel);
+    }
+
+    @Override
+    public IDutyCycle getDutyCycle(int channel)
+    {
+        if (!this.dutyCycleMap.containsKey(channel))
+        {
+            this.dutyCycleMap.put(channel, mock(IDutyCycle.class));
+        }
+
+        return this.dutyCycleMap.get(channel);
     }
 
     @Override
@@ -165,6 +179,17 @@ public class TestProvider implements IRobotProvider
         }
 
         return this.encoderMap.get(channelA);
+    }
+
+    @Override
+    public ICANCoder getCANCoder(int deviceNumber)
+    {
+        if (!this.cancoderMap.containsKey(deviceNumber))
+        {
+            this.cancoderMap.put(deviceNumber, mock(ICANCoder.class));
+        }
+
+        return this.cancoderMap.get(deviceNumber);
     }
 
     @Override
@@ -276,6 +301,18 @@ public class TestProvider implements IRobotProvider
     }
 
     @Override
+    public IPigeon2 getPigeon2(int deviceNumber)
+    {
+        return this.mockPigeon2;
+    }
+
+    @Override
+    public ICANdle getCANdle(int deviceNumber)
+    {
+        return mock(ICANdle.class);
+    }
+
+    @Override
     public IVideoStream getMJPEGStream(String name, int width, int height)
     {
         return null;
@@ -331,6 +368,11 @@ public class TestProvider implements IRobotProvider
         this.counterMap.put(channel, value);
     }
 
+    public void setDutyCycle(int channel, IDutyCycle value)
+    {
+        this.dutyCycleMap.put(channel, value);
+    }
+
     public void setTalonSRX(int deviceNumber, ITalonSRX value)
     {
         this.talonSrxMap.put(deviceNumber, value);
@@ -380,6 +422,11 @@ public class TestProvider implements IRobotProvider
     public void setEncoder(int channelA, int channelB, IEncoder value)
     {
         this.encoderMap.put(channelA, value);
+    }
+
+    public void setCANCoder(int deviceNumber, IEncoder value)
+    {
+        this.encoderMap.put(deviceNumber, value);
     }
 
     public void setJoystick(int port, IJoystick value)
@@ -446,5 +493,10 @@ public class TestProvider implements IRobotProvider
     public void setPigeon(IPigeonIMU value)
     {
         this.mockPigeon = value;
+    }
+
+    public void setPigeon2(IPigeon2 value)
+    {
+        this.mockPigeon2 = value;
     }
 }
