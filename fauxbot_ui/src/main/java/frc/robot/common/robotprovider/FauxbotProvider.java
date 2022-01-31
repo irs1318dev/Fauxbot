@@ -102,6 +102,12 @@ public class FauxbotProvider implements IRobotProvider
     }
 
     @Override
+    public ICANCoder getCANCoder(int deviceNumber)
+    {
+        return new FauxbotCANCoder(deviceNumber);
+    }
+
+    @Override
     public IJoystick getJoystick(int port)
     {
         return new FauxbotJoystick(port);
@@ -171,6 +177,18 @@ public class FauxbotProvider implements IRobotProvider
     public IPigeonIMU getPigeonIMU(int deviceNumber)
     {
         return new FauxbotPigeonIMU(deviceNumber);
+    }
+
+    @Override
+    public IPigeon2 getPigeon2(int deviceNumber)
+    {
+        return new FauxbotPigeon2(deviceNumber);
+    }
+
+    @Override
+    public ICANdle getCANdle(int deviceNumber)
+    {
+        return new FauxbotCANdle(deviceNumber);
     }
 
     @Override

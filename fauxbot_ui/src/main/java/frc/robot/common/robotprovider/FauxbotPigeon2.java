@@ -3,11 +3,11 @@ package frc.robot.common.robotprovider;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
-public class FauxbotPigeonIMU extends FauxbotSensorBase implements IPigeonIMU
+public class FauxbotPigeon2 extends FauxbotSensorBase implements IPigeon2
 {
     private final DoubleProperty angleProperty;
 
-    public FauxbotPigeonIMU(int deviceNumber)
+    public FauxbotPigeon2(int deviceNumber)
     {
         this.angleProperty = new SimpleDoubleProperty();
         FauxbotSensorManager.set(new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.CAN, deviceNumber), this);
@@ -23,15 +23,6 @@ public class FauxbotPigeonIMU extends FauxbotSensorBase implements IPigeonIMU
     {
         this.angleProperty.setValue(angleDeg);
         return 0;
-    }
-
-    public PigeonState getState()
-    {
-        return PigeonState.Ready;
-    }
-
-    public void enterTemperatureCalibrationMode()
-    {
     }
 
     public DoubleProperty getProperty()
