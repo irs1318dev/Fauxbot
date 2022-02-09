@@ -8,7 +8,8 @@
 		}
 	],
 	"settings": {
-		"java.configuration.updateBuildConfiguration": "automatic"
+		"java.configuration.updateBuildConfiguration": "automatic",
+		"java.format.settings.url": "..\\eclipse-formatter.xml"
 	},
 	"launch": {
 		"configurations": [
