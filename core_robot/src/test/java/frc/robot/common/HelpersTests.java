@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
+import frc.lib.helpers.Helpers;
+
 public class HelpersTests
 {
     @Test

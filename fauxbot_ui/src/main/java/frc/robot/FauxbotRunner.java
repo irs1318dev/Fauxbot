@@ -1,6 +1,7 @@
 package frc.robot;
 
-import frc.robot.common.robotprovider.RobotMode;
+import frc.lib.CoreRobot;
+import frc.lib.robotprovider.RobotMode;
 
 public class FauxbotRunner implements Runnable
 {

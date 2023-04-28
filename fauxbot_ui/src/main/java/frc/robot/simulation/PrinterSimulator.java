@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Calendar;
 
+import frc.lib.robotprovider.*;
 import frc.robot.IRealWorldSimulator;
-import frc.robot.common.robotprovider.*;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -20,8 +20,8 @@ public class PrinterSimulator implements IRealWorldSimulator
 {
     private static final FauxbotActuatorConnection XMotorConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.CAN, 0);
     private static final FauxbotActuatorConnection YMotorConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.CAN, 1);
-    private static final FauxbotSensorConnection XEncoderConnection = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.CAN, 0);
-    private static final FauxbotSensorConnection YEncoderConnection = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.CAN, 1);
+    private static final FauxbotSensorConnection XEncoderConnection = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.CAN, FauxbotTalonXBase.class, 0);
+    private static final FauxbotSensorConnection YEncoderConnection = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.CAN, FauxbotTalonXBase.class, 1);
     private static final FauxbotActuatorConnection PenForwardConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PCM0A, 7);
     private static final FauxbotActuatorConnection PenReverseConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PCM0B, 8);
 

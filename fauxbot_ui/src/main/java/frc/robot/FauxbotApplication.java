@@ -2,10 +2,12 @@ package frc.robot;
 
 import java.io.IOException;
 
-import frc.robot.common.robotprovider.*;
-import frc.robot.driver.common.*;
-import frc.robot.driver.common.buttons.ButtonType;
-import frc.robot.driver.common.descriptions.*;
+import frc.lib.driver.IButtonMap;
+import frc.lib.driver.UserInputDeviceButton;
+import frc.lib.robotprovider.*;
+import frc.lib.CoreRobot;
+import frc.lib.driver.buttons.ButtonType;
+import frc.lib.driver.descriptions.*;
 import frc.robot.simulation.*;
 
 import javafx.application.*;
@@ -238,15 +240,7 @@ public class FauxbotApplication extends Application
                         firstMacro = false;
                     }
 
-                    int joystickPort = -1;
-                    if (description.getUserInputDevice() == UserInputDevice.Driver)
-                    {
-                        joystickPort = ElectronicsConstants.JOYSTICK_DRIVER_PORT;
-                    }
-                    else if (description.getUserInputDevice() == UserInputDevice.Operator)
-                    {
-                        joystickPort = ElectronicsConstants.JOYSTICK_CO_DRIVER_PORT;
-                    }
+                    int joystickPort = description.getUserInputDevice().getId();
 
                     if (joystickPort != -1)
                     {
@@ -540,15 +534,7 @@ public class FauxbotApplication extends Application
             this.firstOperation = false;
         }
 
-        int joystickPort = -1;
-        if (description.getUserInputDevice() == UserInputDevice.Driver)
-        {
-            joystickPort = ElectronicsConstants.JOYSTICK_DRIVER_PORT;
-        }
-        else if (description.getUserInputDevice() == UserInputDevice.Operator)
-        {
-            joystickPort = ElectronicsConstants.JOYSTICK_CO_DRIVER_PORT;
-        }
+        int joystickPort = description.getUserInputDevice().getId();
 
         if (joystickPort != -1)
         {
@@ -571,44 +557,23 @@ public class FauxbotApplication extends Application
                         operationButton.setOnMouseClicked(
                             (MouseEvent event) ->
                             {
-                                joystick.setButtonProperty(button.Value, true);
-
-                                try
-                                {
-                                    Thread.sleep(20);
-                                }
-                                catch (InterruptedException e)
-                                {
-                                    e.printStackTrace();
-                                }
-
-                                joystick.setButtonProperty(button.Value, false);
+                                joystick.getButtonProperty(button.Value).set(true);
                             });
 
                         grid.add(operationButton, 1, thisRowIndex);
                     }
                     else if (digitalDescription.getButtonType() == ButtonType.Toggle)
                     {
-                        Button operationButton = new Button("Toggle");
-                        operationButton.setOnMouseClicked(
-                            (MouseEvent event) ->
-                            {
-                                joystick.setButtonProperty(button.Value, true);
-
-                                try
-                                {
-                                    Thread.sleep(20);
-                                }
-                                catch (InterruptedException e)
-                                {
-                                    e.printStackTrace();
-                                }
-
-                                joystick.setButtonProperty(button.Value, false);
-                            });
-
-                        grid.add(operationButton, 1, thisRowIndex);
-
+                        CheckBox operationCheckBox = new CheckBox();
+                        grid.add(operationCheckBox, 1, thisRowIndex);
+                        if (button != UserInputDeviceButton.POV)
+                        {
+                            Bindings.bindBidirectional(joystick.getButtonProperty(button.Value), operationCheckBox.selectedProperty());
+                        }
+                        else
+                        {
+                            operationCheckBox.selectedProperty();
+                        }
                     }
                     else if (digitalDescription.getButtonType() == ButtonType.Simple)
                     {
@@ -638,11 +603,10 @@ public class FauxbotApplication extends Application
 
     public void refresh()
     {
-        this.simulator.update();
-
         Platform.runLater(
             () ->
             {
+                this.simulator.update();
                 this.simulator.draw(this.canvas);
             });
     }

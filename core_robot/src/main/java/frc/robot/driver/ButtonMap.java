@@ -2,11 +2,11 @@ package frc.robot.driver;
 
 import javax.inject.Singleton;
 
+import frc.lib.driver.*;
+import frc.lib.driver.buttons.*;
+import frc.lib.driver.descriptions.*;
+import frc.lib.helpers.Helpers;
 import frc.robot.*;
-import frc.robot.common.Helpers;
-import frc.robot.driver.common.*;
-import frc.robot.driver.common.buttons.*;
-import frc.robot.driver.common.descriptions.*;
 import frc.robot.driver.controltasks.*;
 
 @Singleton
@@ -17,7 +17,19 @@ public class ButtonMap implements IButtonMap
         new ShiftDescription(
             Shift.DriverDebug,
             UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_SELECT_BUTTON),
+        new ShiftDescription(
+            Shift.CodriverDebug,
+            UserInputDevice.Codriver,
             UserInputDeviceButton.XBONE_LEFT_BUTTON),
+        new ShiftDescription(
+            Shift.Test1Debug,
+            UserInputDevice.Test1,
+            UserInputDeviceButton.XBONE_LEFT_BUTTON),
+        // new ShiftDescription(
+        //     Shift.Test2Debug,
+        //     UserInputDevice.Test2,
+        //     UserInputDeviceButton.XBONE_LEFT_BUTTON),
     };
 
     public static AnalogOperationDescription[] AnalogOperationSchema = new AnalogOperationDescription[]

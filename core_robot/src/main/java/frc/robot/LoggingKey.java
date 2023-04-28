@@ -8,6 +8,7 @@ public enum LoggingKey
     RobotState("r.state", true),
     RobotTime("r.time", true),
     RobotMatch("r.match"),
+    RobotCrash("r.crash", true),
     DriverMode("driver.mode"),
     DriverActiveMacros("driver.activeMacros", true),
     DriverActiveShifts("driver.activeShifts"),

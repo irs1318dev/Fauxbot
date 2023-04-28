@@ -3,10 +3,14 @@ package frc.robot.driver;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import frc.lib.driver.IControlTask;
+import frc.lib.driver.TrajectoryManager;
+import frc.lib.mechanisms.LoggingManager;
+import frc.lib.robotprovider.*;
 import frc.robot.LoggingKey;
-import frc.robot.common.LoggingManager;
-import frc.robot.common.robotprovider.*;
-import frc.robot.driver.common.*;
+import frc.robot.TuningConstants;
+import frc.robot.driver.SmartDashboardSelectionManager.AutoRoutine;
+import frc.robot.driver.SmartDashboardSelectionManager.StartPosition;
 import frc.robot.driver.controltasks.*;
 
 @Singleton
@@ -14,23 +18,9 @@ public class AutonomousRoutineSelector
 {
     private final ILogger logger;
 
-    private final PathManager pathManager;
+    private final TrajectoryManager trajectoryManager;
+    private final SmartDashboardSelectionManager selectionManager;
     private final IDriverStation driverStation;
-
-    private final ISendableChooser<StartPosition> positionChooser;
-    private final ISendableChooser<AutoRoutine> routineChooser;
-
-    public enum StartPosition
-    {
-        Center,
-        Left,
-        Right
-    }
-
-    public enum AutoRoutine
-    {
-        None,
-    }
 
     /**
      * Initializes a new AutonomousRoutineSelector
@@ -38,28 +28,15 @@ public class AutonomousRoutineSelector
     @Inject
     public AutonomousRoutineSelector(
         LoggingManager logger,
-        PathManager pathManager, 
+        TrajectoryManager trajectoryManager,
+        SmartDashboardSelectionManager selectionManager,
         IRobotProvider provider)
     {
-        // initialize robot parts that are used to select autonomous routine (e.g. dipswitches) here...
         this.logger = logger;
-        this.pathManager = pathManager;
+        this.trajectoryManager = trajectoryManager;
+        this.selectionManager = selectionManager;
 
         this.driverStation = provider.getDriverStation();
-
-        INetworkTableProvider networkTableProvider = provider.getNetworkTableProvider();
-
-        this.routineChooser = networkTableProvider.getSendableChooser();
-        this.routineChooser.addDefault("None", AutoRoutine.None);
-        networkTableProvider.addChooser("Auto Routine", this.routineChooser);
-
-        this.positionChooser = networkTableProvider.getSendableChooser();
-        this.positionChooser.addDefault("center", StartPosition.Center);
-        this.positionChooser.addObject("left", StartPosition.Left);
-        this.positionChooser.addObject("right", StartPosition.Right);
-        networkTableProvider.addChooser("Start Position", this.positionChooser);
-
-        // RoadRunnerTrajectoryGenerator.generateTrajectories(this.pathManager);
     }
 
     /**
@@ -73,29 +50,22 @@ public class AutonomousRoutineSelector
         this.logger.logString(LoggingKey.AutonomousDSMessage, driverStationMessage);
         if (mode == RobotMode.Test)
         {
-            return AutonomousRoutineSelector.GetFillerRoutine();
+            return new WaitTask(0.0);
         }
 
-        if (mode != RobotMode.Autonomous)
+        if (mode == RobotMode.Autonomous)
         {
-            return null;
+            StartPosition startPosition = this.selectionManager.getSelectedStartPosition();
+            AutoRoutine routine = this.selectionManager.getSelectedAutoRoutine();
+
+            boolean isRed = this.driverStation.getAlliance() == Alliance.Red;
+
+            this.logger.logString(LoggingKey.AutonomousSelection, startPosition.toString() + "." + routine.toString() + "(" + (isRed ? "red" : "blue") + ")");
+
+            return GetFillerRoutine();
         }
 
-        StartPosition startPosition = this.positionChooser.getSelected();
-        if (startPosition == null)
-        {
-            startPosition = StartPosition.Center;
-        }
-
-        AutoRoutine routine = this.routineChooser.getSelected();
-        if (routine == null)
-        {
-            routine = AutoRoutine.None;
-        }
-
-        this.logger.logString(LoggingKey.AutonomousSelection, startPosition.toString() + "." + routine.toString());
-
-        return AutonomousRoutineSelector.GetFillerRoutine();
+        return GetFillerRoutine();
     }
 
     /**
@@ -105,7 +75,8 @@ public class AutonomousRoutineSelector
     {
         return new WaitTask(0.0);
     }
-} // yaaaaaAAAaaaAaaaAAAAaa
+}
+
 
 
 
@@ -243,140 +214,140 @@ public class AutonomousRoutineSelector
 
 
 /*
-                                      .                                                             
-                                    .;+;+                                                           
-                                    .+;;'   `,+'.                                                   
-                                    ;';;+:..`` :+'+                                                 
-                                    ,'+`    .+;;;;;+                                                
-                                     ;,,, .+;;;;;'+++;                                              
-                                     ;' `+;;;;;#+'+'+''#:.                                          
-                                     '`+';;;'+;+;+++'''+'.                                          
-                                     #';;;;#';+'+'''+''+'                                           
-                                     ;;;;#;,+;;+;;;'''''':                                          
-                                     ';'++'.`+;;'';;''+'',                                          
-                                     :#'#+'``.'+++'#++'':`                                          
-                                      `';++##```##+.''.##                                           
-                                      +++#   #`#  `++++                                             
-                                      +'#+ # :#: # ##'+                                             
-                                      `#+#   +`+   #'#`                                             
-                                       :,.+,+,`:+,+..,                                              
-                                       `,:```,`,`.`;,                                               
-                                        :+.;``.``;.#;                                               
-                                        .'``'+'+'``'.                                               
-                                         ,````````..                                                
-                                          :```````:                                                 
-                                          +``.:,``'                                                 
-                                          :```````:                                                 
-                                           +`````+                                                  
-                                            ';+##                                                   
-                                            '```'                                                   
-                                           `'```'`                                                  
-                                         .+''''''''                                                 
-                                        +;;;;;;;;''#                                                
-                                       :       `   `:                                               
-                                      `,            '                                               
-                                      +              '                                              
-                                     ,;';,``.``.,,,:;#                                              
-                                     +;;;;;;;;;;;;;;;'                                              
-                                    ,';;;;;;;;;;;;;;;',                                             
-                                    +:;;;;;;';;;;;;;;;+                                             
-                                   `.   .:,;+;;:::;.``,                                             
-                                   :`       #,       `.`                                            
-                                   +       # ;        .;                                            
-                                  .;;,`    ,         `,+                                            
-                                  +;;;;;;''';;;;;;;';;';                                            
-                                  +;;;;;;;';;;;;;;;;;'';;                                           
-                                 `';;;;;;';;;;;;;;;;;';;+                                           
-                                 + `:;;;;+;;;;;;;;';'''::                                           
-                                 '     `:  ```````    ,  ,                                          
-                                :       '             ;  +                                          
-                                '`     ..             ,  ,                                          
-                               ,;;;;;..+,`        ```.':;',                                         
-                               +;;;;;;'+;;;;;;;;;;;;;;+;;;+                                         
-                               ';;;;;;++;;;;;;;;;;;;;;';;;+                                         
-                              `.:';;;;;#;;;;;;;;;;;;;;';;;;`                                        
-                              ;    `,; ',:;;';;';;;;;:;``  +                                        
-                              +      ; ;              ;    `                                        
-                              ;      : +              '    `;                                       
-                              ';:`` `` '              :`,:;;+                                       
-                             `';;;;'+  +,..```````..:;#;;;;;;.                                      
-                             `;;;;;;+  +;;;;;;;;;;;;;':';;;;;#                                      
-                             .;;;;;;+  ';;;;;;;;;;;;;;,';;;;` .                                     
-                             : `.;;'+  +;;;;;;;;;;;;;','.`    +                                     
-                             '      ;  +.,,;:;:;;;,..`: ,     ``                                    
-                             +      ,  '              : ;   .;'+                                    
-                             +.`   ``  +              ;  ;:;;;;':                                   
-                             ';;;';;`  +             .'  ;;;;;;;+                                   
-                             ';;;;;'   :+++#++##+#+''',   +;;;;.`.                                  
-                             +;;;;;'   +;;::;;;+:+;;'',   ,;;.   +                                  
-                            ``:;;;;+   +;;:;;;:+;+;;++;    +     .`                                 
-                             `   ``'   +;;;;;;;+;+;;'+;     ,   ;#,                                 
-                            .      ;   ';;;;;;;;;;;;++'     + .+``.;                                
-                            ``     ;   ';;;;;;+;';;;'+'      #`````:,                               
-                             +++;,:.   ':;''++;:';:;'';      +``````,`                              
-                             ,```,+    +;;';:;;+;;;;'';      +``````,+                              
-                            .``````:   ;:;;++';;;;;;';,      ,``:#``+`.                             
-                            ,``````'   `';;;;:;;;;;;+;`     '+``+:'`..'                             
-                            ,``````'    +;;;;;;;;;;;''     ;:'``#;;.`++                             
-                            ```````;    `;:;;;;;;;;;;#     ':'``++:+`+;                             
-                            ```'`.`;     +;;;;;;;;;;;+    :::#``' +#`';                             
-                            ,``'`:`#     `';;;;;;;;;;+    +:'.`,. ++`;;                             
-                            +`.``+`'     :#;;;;;;;;;;;`   +:# ,`  +;`.'                             
-                           ,.`+`.:.      ##;;;;;;;;;;;'   ,'`     ;:+#                              
-                           '`;.`+`#      ##+;;;;;;;;;;+          ,::;                               
-                           ,+,`:``,     :###;;;;;;;;;:'          +:;`                               
-                            '`,,`+      ';##';;;;;;;;;;.         +:#                                
-                             '+.+       +;;##;;;;;;;;;;'         ;:;                                
-                               `       :;;;+#;;;;;;;;;;+        ;::`                                
-                                       +;;;;#+;;;;;;;;;;        +:'                                 
-                                       ';;;;+#;;;;;;;;;;.       ;:'                                 
-                                      ,;;;;;;#;;;;;;;;;;+      +::.                                 
-                                      +;;;;;;'';;;;;;;;;'      +:+                                  
-                                     `;;;;;;;;#;;;;;;;;;;`    `;:+                                  
-                                     ,;;;;;;;;+;;;;;;;;;;+    ':;,                                  
-                                     +;;;;;;;;;+;;;;;;;;;'    +:+                                   
-                                    .;;;;;;;;;+,;;;;;;;;;;`   ;;+                                   
-                                    ';;;;;;;;;, ';;;;;;:;;,  +;:,                                   
-                                    ';;;;;;;;'  +;;;;;;;;;'  +:+                                    
-                                   ;;;;;;;;;;+  ,;;;;;;;;;+  ;:'                                    
-                                   +;;;;;;;;;    ';;;;;;;;;`;:;`                                    
-                                   ;;;;;;;;;+    +;;;;;;;;;+#:+                                     
-                                  ';;;;;;;;;:    ;;;;;;;;;;';:'                                     
-                                 `';;;;;;;:'      ';;;;;;;;;;:.                                     
-                                 .;;;;;;;;;+      +;;;;;;;;;'+                                      
-                                 +;;;;;;;;;       ';;;;;;;;;#+                                      
-                                `;;;;;;;;;+       `;;;;;;;;;;`                                      
-                                +;;;;;;;;;.        +;;;;;;;;;`                                      
-                                ';;;;;;;:'         ;;;;;;;;;;;                                      
-                               :;;;;;;;;;:         `;;;;;;;;;+                                      
-                               +;;;;;;;;;           ';;;;;;;;;`                                     
-                               ;;;;;;;;;+           ';;;;;;;;;:                                     
-                              ';;;;;;;;;;           ,;;;;;;;;;+                                     
-                              ':;;;;;;;'             +;;;;;;;;;                                     
-                             .;:;;;;;;;'             +;;;;;;;;;:                                    
-                             +;;;;;;;;;`             .;;;;;;;;;+                                    
-                            `;;;;;;;;;+               ;:;;;;;;;;`                                   
-                            ;;;;;;;;;;.               +;;;;;;;::.                                   
-                            ';;;;;;;;'`               :;;;;;;;;:+                                   
-                           :;;;;;;;;:'                ';;;;;;;;;'                                   
-                           ';;;;;;;;'`                +#;;;;;;;;;`                                  
-                          `;;;;;;;;;+                 '';;;;;;;;;+                                  
-                          +;;;;;;;;;.                '::;;;;;;;;;+                                  
-                          ;;;;;;;;;+                 #:'';;;;;;;;;`                                 
-                         .#;;;;;;;;'                `;:+;;;;;;;;;;;                                 
-                         ':'';;;;;;                 '::.,;;;;;;;;;+                                 
-                        +::::+';;;+                 ':'  +:;;;;;;;;`                                
-                       `;;;::::;#+:                `;:+  +;;;;;;;:;;      '#+,                      
-                       +#::::::::;'`               +:;,  `;;;;:;;'#';;;;;::;:'`                     
-                      ';:''::::::::#`              +:'    ';:;;+'::;;:;::::::''                     
-                      #+::;+':::::::'.            .:;+    '''+;::;:;:::;:::;':'                     
-                    `';+';;:;'';:::::':    '      +::.     +:::::::::::::;#;:#                      
-                    :+;#'.''##;#;:;;:::'+  #     `+;'      ;:;::::::::;'+;:'+                       
-                   '#;+". ` `+:;+:;::;::+'#+     +:;#     ';:::;:+#+';:::+.                        
-                   ';#''      ,+::+#';::;+'#+    ';::      #:;;'+';'''++:`                          
-                                '':::;'''#+     ,:;;`      #';:;;:+                                 
-                                 `:'++;;':       :++       .;;:;;#,                                 
-                                       `                    '':``                                   
+                                      .
+                                    .;+;+
+                                    .+;;'   `,+'.
+                                    ;';;+:..`` :+'+
+                                    ,'+`    .+;;;;;+
+                                     ;,,, .+;;;;;'+++;
+                                     ;' `+;;;;;#+'+'+''#:.
+                                     '`+';;;'+;+;+++'''+'.
+                                     #';;;;#';+'+'''+''+'
+                                     ;;;;#;,+;;+;;;'''''':
+                                     ';'++'.`+;;'';;''+'',
+                                     :#'#+'``.'+++'#++'':`
+                                      `';++##```##+.''.##
+                                      +++#   #`#  `++++
+                                      +'#+ # :#: # ##'+
+                                      `#+#   +`+   #'#`
+                                       :,.+,+,`:+,+..,
+                                       `,:```,`,`.`;,
+                                        :+.;``.``;.#;
+                                        .'``'+'+'``'.
+                                         ,````````..
+                                          :```````:
+                                          +``.:,``'
+                                          :```````:
+                                           +`````+
+                                            ';+##
+                                            '```'
+                                           `'```'`
+                                         .+''''''''
+                                        +;;;;;;;;''#
+                                       :       `   `:
+                                      `,            '
+                                      +              '
+                                     ,;';,``.``.,,,:;#
+                                     +;;;;;;;;;;;;;;;'
+                                    ,';;;;;;;;;;;;;;;',
+                                    +:;;;;;;';;;;;;;;;+
+                                   `.   .:,;+;;:::;.``,
+                                   :`       #,       `.`
+                                   +       # ;        .;
+                                  .;;,`    ,         `,+
+                                  +;;;;;;''';;;;;;;';;';
+                                  +;;;;;;;';;;;;;;;;;'';;
+                                 `';;;;;;';;;;;;;;;;;';;+
+                                 + `:;;;;+;;;;;;;;';'''::
+                                 '     `:  ```````    ,  ,
+                                :       '             ;  +
+                                '`     ..             ,  ,
+                               ,;;;;;..+,`        ```.':;',
+                               +;;;;;;'+;;;;;;;;;;;;;;+;;;+
+                               ';;;;;;++;;;;;;;;;;;;;;';;;+
+                              `.:';;;;;#;;;;;;;;;;;;;;';;;;`
+                              ;    `,; ',:;;';;';;;;;:;``  +
+                              +      ; ;              ;    `
+                              ;      : +              '    `;
+                              ';:`` `` '              :`,:;;+
+                             `';;;;'+  +,..```````..:;#;;;;;;.
+                             `;;;;;;+  +;;;;;;;;;;;;;':';;;;;#
+                             .;;;;;;+  ';;;;;;;;;;;;;;,';;;;` .
+                             : `.;;'+  +;;;;;;;;;;;;;','.`    +
+                             '      ;  +.,,;:;:;;;,..`: ,     ``
+                             +      ,  '              : ;   .;'+
+                             +.`   ``  +              ;  ;:;;;;':
+                             ';;;';;`  +             .'  ;;;;;;;+
+                             ';;;;;'   :+++#++##+#+''',   +;;;;.`.
+                             +;;;;;'   +;;::;;;+:+;;'',   ,;;.   +
+                            ``:;;;;+   +;;:;;;:+;+;;++;    +     .`
+                             `   ``'   +;;;;;;;+;+;;'+;     ,   ;#,
+                            .      ;   ';;;;;;;;;;;;++'     + .+``.;
+                            ``     ;   ';;;;;;+;';;;'+'      #`````:,
+                             +++;,:.   ':;''++;:';:;'';      +``````,`
+                             ,```,+    +;;';:;;+;;;;'';      +``````,+
+                            .``````:   ;:;;++';;;;;;';,      ,``:#``+`.
+                            ,``````'   `';;;;:;;;;;;+;`     '+``+:'`..'
+                            ,``````'    +;;;;;;;;;;;''     ;:'``#;;.`++
+                            ```````;    `;:;;;;;;;;;;#     ':'``++:+`+;
+                            ```'`.`;     +;;;;;;;;;;;+    :::#``' +#`';
+                            ,``'`:`#     `';;;;;;;;;;+    +:'.`,. ++`;;
+                            +`.``+`'     :#;;;;;;;;;;;`   +:# ,`  +;`.'
+                           ,.`+`.:.      ##;;;;;;;;;;;'   ,'`     ;:+#
+                           '`;.`+`#      ##+;;;;;;;;;;+          ,::;
+                           ,+,`:``,     :###;;;;;;;;;:'          +:;`
+                            '`,,`+      ';##';;;;;;;;;;.         +:#
+                             '+.+       +;;##;;;;;;;;;;'         ;:;
+                               `       :;;;+#;;;;;;;;;;+        ;::`
+                                       +;;;;#+;;;;;;;;;;        +:'
+                                       ';;;;+#;;;;;;;;;;.       ;:'
+                                      ,;;;;;;#;;;;;;;;;;+      +::.
+                                      +;;;;;;'';;;;;;;;;'      +:+
+                                     `;;;;;;;;#;;;;;;;;;;`    `;:+
+                                     ,;;;;;;;;+;;;;;;;;;;+    ':;,
+                                     +;;;;;;;;;+;;;;;;;;;'    +:+
+                                    .;;;;;;;;;+,;;;;;;;;;;`   ;;+
+                                    ';;;;;;;;;, ';;;;;;:;;,  +;:,
+                                    ';;;;;;;;'  +;;;;;;;;;'  +:+
+                                   ;;;;;;;;;;+  ,;;;;;;;;;+  ;:'
+                                   +;;;;;;;;;    ';;;;;;;;;`;:;`
+                                   ;;;;;;;;;+    +;;;;;;;;;+#:+
+                                  ';;;;;;;;;:    ;;;;;;;;;;';:'
+                                 `';;;;;;;:'      ';;;;;;;;;;:.
+                                 .;;;;;;;;;+      +;;;;;;;;;'+
+                                 +;;;;;;;;;       ';;;;;;;;;#+
+                                `;;;;;;;;;+       `;;;;;;;;;;`
+                                +;;;;;;;;;.        +;;;;;;;;;`
+                                ';;;;;;;:'         ;;;;;;;;;;;
+                               :;;;;;;;;;:         `;;;;;;;;;+
+                               +;;;;;;;;;           ';;;;;;;;;`
+                               ;;;;;;;;;+           ';;;;;;;;;:
+                              ';;;;;;;;;;           ,;;;;;;;;;+
+                              ':;;;;;;;'             +;;;;;;;;;
+                             .;:;;;;;;;'             +;;;;;;;;;:
+                             +;;;;;;;;;`             .;;;;;;;;;+
+                            `;;;;;;;;;+               ;:;;;;;;;;`
+                            ;;;;;;;;;;.               +;;;;;;;::.
+                            ';;;;;;;;'`               :;;;;;;;;:+
+                           :;;;;;;;;:'                ';;;;;;;;;'
+                           ';;;;;;;;'`                +#;;;;;;;;;`
+                          `;;;;;;;;;+                 '';;;;;;;;;+
+                          +;;;;;;;;;.                '::;;;;;;;;;+
+                          ;;;;;;;;;+                 #:'';;;;;;;;;`
+                         .#;;;;;;;;'                `;:+;;;;;;;;;;;
+                         ':'';;;;;;                 '::.,;;;;;;;;;+
+                        +::::+';;;+                 ':'  +:;;;;;;;;`
+                       `;;;::::;#+:                `;:+  +;;;;;;;:;;      '#+,
+                       +#::::::::;'`               +:;,  `;;;;:;;'#';;;;;::;:'`
+                      ';:''::::::::#`              +:'    ';:;;+'::;;:;::::::''
+                      #+::;+':::::::'.            .:;+    '''+;::;:;:::;:::;':'
+                    `';+';;:;'';:::::':    '      +::.     +:::::::::::::;#;:#
+                    :+;#'.''##;#;:;;:::'+  #     `+;'      ;:;::::::::;'+;:'+
+                   '#;+". ` `+:;+:;::;::+'#+     +:;#     ';:::;:+#+';:::+.
+                   ';#''      ,+::+#';::;+'#+    ';::      #:;;'+';'''++:`
+                                '':::;'''#+     ,:;;`      #';:;;:+
+                                 `:'++;;':       :++       .;;:;;#,
+                                       `                    '':``
 
 
 */

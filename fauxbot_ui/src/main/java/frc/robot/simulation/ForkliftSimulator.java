@@ -4,8 +4,8 @@ import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import frc.lib.robotprovider.*;
 import frc.robot.IRealWorldSimulator;
-import frc.robot.common.robotprovider.*;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
