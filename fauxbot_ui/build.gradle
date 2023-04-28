@@ -10,6 +10,9 @@ repositories
     mavenCentral()
     mavenLocal()
     gradlePluginPortal()
+    maven {
+        url "https://maven.brott.dev/"
+    }
 }
 
 def currentOS = org.gradle.internal.os.OperatingSystem.current()
@@ -30,8 +33,6 @@ dependencies
     implementation "javax.inject:javax.inject:1"
     implementation "com.google.guava:guava:21.0"
     implementation "com.google.inject:guice:4.1.0:no_aop"
-
-    implementation "org.openpnp:opencv:3.4.2-1"
 
     testImplementation "org.mockito:mockito-all:1.10.19"
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.1.0"

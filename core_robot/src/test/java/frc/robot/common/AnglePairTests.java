@@ -2,11 +2,13 @@ package frc.robot.common;
 
 import org.junit.jupiter.api.Test;
 
+import frc.lib.helpers.AnglePair;
+
 import org.junit.jupiter.api.Assertions;
 
 public class AnglePairTests
 {
-    //@Test
+    @Test
     public void checkClosestAngleReversible()
     {
         for (double goal = -180.0; goal <= 180.0; goal += 1.0)

@@ -4,8 +4,8 @@ import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import frc.lib.robotprovider.*;
 import frc.robot.IRealWorldSimulator;
-import frc.robot.common.robotprovider.*;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -18,9 +18,9 @@ import javafx.scene.paint.Color;
 @Singleton
 public class GarageDoorSimulator implements IRealWorldSimulator
 {
-    private static final FauxbotSensorConnection ThroughBeamSensorConnection = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.DigitalInput, 0);
-    private static final FauxbotSensorConnection OpenSensorConnection = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.DigitalInput, 1);
-    private static final FauxbotSensorConnection ClosedSensorConnection = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.DigitalInput, 2);
+    private static final FauxbotSensorConnection ThroughBeamSensorConnection = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.DigitalInput, FauxbotDigitalInput.class, 0);
+    private static final FauxbotSensorConnection OpenSensorConnection = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.DigitalInput, FauxbotDigitalInput.class, 1);
+    private static final FauxbotSensorConnection ClosedSensorConnection = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.DigitalInput, FauxbotDigitalInput.class, 2);
     private static final FauxbotActuatorConnection MotorConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PWM, 0);
 
     private final FauxbotSensorConnection[] sensors =

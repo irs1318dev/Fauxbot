@@ -4,7 +4,7 @@ import static org.mockito.Mockito.mock;
 
 import java.util.HashMap;
 
-import frc.robot.common.robotprovider.*;
+import frc.lib.robotprovider.*;
 
 public class TestProvider implements IRobotProvider
 {
@@ -109,6 +109,17 @@ public class TestProvider implements IRobotProvider
     }
 
     @Override
+    public ITalonFX getTalonFX(int deviceNumber, String canbus)
+    {
+        if (!this.talonFxMap.containsKey(deviceNumber))
+        {
+            this.talonFxMap.put(deviceNumber, mock(ITalonFX.class));
+        }
+
+        return this.talonFxMap.get(deviceNumber);
+    }
+
+    @Override
     public IVictorSPX getVictorSPX(int deviceNumber)
     {
         if (!this.victorSpxMap.containsKey(deviceNumber))
@@ -183,6 +194,17 @@ public class TestProvider implements IRobotProvider
 
     @Override
     public ICANCoder getCANCoder(int deviceNumber)
+    {
+        if (!this.cancoderMap.containsKey(deviceNumber))
+        {
+            this.cancoderMap.put(deviceNumber, mock(ICANCoder.class));
+        }
+
+        return this.cancoderMap.get(deviceNumber);
+    }
+
+    @Override
+    public ICANCoder getCANCoder(int deviceNumber, String canbus)
     {
         if (!this.cancoderMap.containsKey(deviceNumber))
         {
@@ -307,23 +329,22 @@ public class TestProvider implements IRobotProvider
     }
 
     @Override
+    public IPigeon2 getPigeon2(int deviceNumber, String canbus)
+    {
+        return this.mockPigeon2;
+    }
+
+    @Override
     public ICANdle getCANdle(int deviceNumber)
     {
         return mock(ICANdle.class);
     }
 
     @Override
-    public IVideoStream getMJPEGStream(String name, int width, int height)
+    public ICANdle getCANdle(int deviceNumber, String canbus)
     {
-        return null;
+        return mock(ICANdle.class);
     }
-
-    @Override
-    public IUsbCamera getUsbCamera(String name, int dev)
-    {
-        return null;
-    }
-
     @Override
     public IDriverStation getDriverStation()
     {
@@ -331,13 +352,13 @@ public class TestProvider implements IRobotProvider
     }
 
     @Override
-    public IOpenCVProvider getOpenCVProvider()
+    public INetworkTableProvider getNetworkTableProvider()
     {
         return null;
     }
 
     @Override
-    public INetworkTableProvider getNetworkTableProvider()
+    public IPathPlanner getPathPlanner()
     {
         return null;
     }

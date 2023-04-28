@@ -16,6 +16,6 @@ public class PenWriteTask extends CompositeOperationTask
      */
     public PenWriteTask(boolean penDown)
     {
-        super(0.1, penDown ? DigitalOperation.PrinterPenDown : DigitalOperation.PrinterPenUp, PenWriteTask.possibleOperations);
+        super(penDown ? DigitalOperation.PrinterPenDown : DigitalOperation.PrinterPenUp, PenWriteTask.possibleOperations, 0.1);
     }
 }

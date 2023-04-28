@@ -2,9 +2,9 @@ package frc.robot.driver.controltasks;
 
 import java.util.Map;
 
-import frc.robot.driver.IOperation;
-import frc.robot.driver.common.IControlTask;
-import frc.robot.driver.common.states.OperationState;
+import frc.lib.driver.IControlTask;
+import frc.lib.driver.IOperation;
+import frc.lib.driver.states.OperationState;
 
 import com.google.inject.Injector;
 

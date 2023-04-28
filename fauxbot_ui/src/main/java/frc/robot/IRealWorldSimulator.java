@@ -1,6 +1,6 @@
 package frc.robot;
 
-import frc.robot.common.robotprovider.*;
+import frc.lib.robotprovider.*;
 import javafx.scene.canvas.Canvas;
 
 public interface IRealWorldSimulator

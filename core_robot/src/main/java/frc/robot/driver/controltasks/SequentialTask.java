@@ -1,6 +1,6 @@
 package frc.robot.driver.controltasks;
 
-import frc.robot.driver.common.IControlTask;
+import frc.lib.driver.IControlTask;
 
 /**
  * Task that holds multiple other tasks and executes them sequentially (in order).

@@ -2,12 +2,12 @@ package frc.robot.mechanisms;
 
 import javax.inject.Singleton;
 
+import frc.lib.driver.IDriver;
+import frc.lib.mechanisms.*;
+import frc.lib.robotprovider.*;
 import frc.robot.ElectronicsConstants;
 import frc.robot.TuningConstants;
-import frc.robot.common.IMechanism;
-import frc.robot.common.robotprovider.*;
 import frc.robot.driver.*;
-import frc.robot.driver.common.IDriver;
 
 import com.google.inject.Inject;
 
