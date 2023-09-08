@@ -1,11 +1,14 @@
 package frc.robot.simulation;
 
 import java.io.FileInputStream;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 import frc.lib.robotprovider.*;
+import frc.robot.HardwareConstants;
 import frc.robot.IRealWorldSimulator;
+import frc.robot.TuningConstants;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -18,6 +21,8 @@ import javafx.scene.paint.Color;
 @Singleton
 public class ForkliftSimulator implements IRealWorldSimulator
 {
+    private static final double WHEEL_SEPARATION_DISTANCE = 10.0; // in inches
+
     private static final FauxbotActuatorConnection LeftMotorConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PWM, 0);
     private static final FauxbotActuatorConnection RightMotorConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PWM, 1);
     private static final FauxbotActuatorConnection LifterForwardConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PCM0A, 7);
@@ -56,6 +61,14 @@ public class ForkliftSimulator implements IRealWorldSimulator
     private Image forkliftDownImage;
     private Image forkliftUpImage;
 
+    // odometry coordinates (x forward, y left, angle counter-clockwise)
+    private double x;
+    private double y;
+    private double angle;
+    private double prevLeftDistance;
+    private double prevRightDistance;
+    private double prevTime;
+
     @Inject
     public ForkliftSimulator()
     {
@@ -64,6 +77,13 @@ public class ForkliftSimulator implements IRealWorldSimulator
 
         // start with it either up or down
         this.forkliftUp = Math.random() >= 0.5;
+
+        this.x = 25.0;
+        this.y = 25.0;
+        this.angle = 0.0;
+        this.prevLeftDistance = 0.0;
+        this.prevRightDistance = 0.0;
+        this.prevTime = Calendar.getInstance().getTime().getTime() / 1000.0;
 
         try
         {
@@ -164,6 +184,41 @@ public class ForkliftSimulator implements IRealWorldSimulator
             FauxbotDoubleSolenoid lifterSolenoid = (FauxbotDoubleSolenoid)lifterActuator;
             this.forkliftUp = lifterSolenoid.get() == DoubleSolenoidValue.Forward;
         }
+
+        this.updateOdometry();
+    }
+
+    private void updateOdometry()
+    {
+        double currTime = Calendar.getInstance().getTime().getTime() / 1000.0;
+        double deltaT = this.prevTime - currTime;
+
+        // check the current distance recorded by the encoders
+        double leftDistance = this.prevLeftDistance + this.leftPower * 1.0 * deltaT;
+        double rightDistance = this.prevRightDistance + this.rightPower * 1.0 * deltaT;
+
+        // calculate the angle (in radians) based on the total distance traveled
+        double angleR = (rightDistance - leftDistance) / ForkliftSimulator.WHEEL_SEPARATION_DISTANCE;
+
+        // calculate the average distance traveled
+        double averagePositionChange = ((leftDistance - this.prevLeftDistance) + (rightDistance - this.prevRightDistance)) / 2.0;
+
+        // calculate the change since last time, and update our relative position
+        double newX = this.x + averagePositionChange * Math.cos(angleR);
+        double newY = this.y + averagePositionChange * Math.sin(angleR);
+
+        double newAngle = (angleR * 360.0 / (2.0 * Math.PI)) % 360;
+
+        // TODO: check for collision with walls!!
+        this.x = newX;
+        this.y = newY;
+        this.angle = newAngle;
+
+        // record distance for next time
+        this.prevLeftDistance = leftDistance;
+        this.prevRightDistance = rightDistance;
+
+        this.prevTime = currTime;
     }
 
     @Override
