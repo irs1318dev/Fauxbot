@@ -61,11 +61,11 @@ public class ForkliftSimulator implements IRealWorldSimulator
     private static final double FORKLIFT_HALF_LENGTH = ForkliftSimulator.FORKLIFT_LENGTH / 2.0;
     private static final double FORKLIFT_HALF_WIDTH = ForkliftSimulator.FORKLIFT_WIDTH / 2.0;
 
-    private static final double STARTING_ANGLE_R = -Math.PI / 2.0; // 90deg to the right
-    private static final double STARTING_X = 25.0;
-    private static final double STARTING_Y = 25.0;
     private static final double MAX_X = 125.0;
     private static final double MAX_Y = 200.0;
+    private static final double STARTING_ANGLE_R = Math.PI / 2.0; // 90deg to the left (image-up)
+    private static final double STARTING_X = ForkliftSimulator.MAX_X / 2.0;
+    private static final double STARTING_Y = ForkliftSimulator.MAX_Y / 2.0;
     private static final double MAX_WALL_DISTANCE =
         Math.sqrt(FORKLIFT_HALF_LENGTH * FORKLIFT_HALF_LENGTH + FORKLIFT_HALF_WIDTH * FORKLIFT_HALF_WIDTH);
 
