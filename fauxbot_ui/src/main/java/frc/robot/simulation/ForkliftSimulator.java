@@ -17,6 +17,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Affine;
+import javafx.scene.transform.Rotate;
 
 @Singleton
 public class ForkliftSimulator implements IRealWorldSimulator
@@ -53,6 +55,15 @@ public class ForkliftSimulator implements IRealWorldSimulator
         }
     };
 
+    private static final double FORKLIFT_LENGTH = 20.0; // front to back, in pixels
+    private static final double FORKLIFT_WIDTH = 10.0; // left to right, in pixels
+    private static final double FORKLIFT_HALF_LENGTH = ForkliftSimulator.FORKLIFT_LENGTH / 2.0;
+    private static final double FORKLIFT_HALF_WIDTH = ForkliftSimulator.FORKLIFT_WIDTH / 2.0;
+
+    private static final double STARTING_ANGLE_R = -Math.PI / 2.0; // 90deg to the right
+    private static final double STARTING_X = 25.0;
+    private static final double STARTING_Y = 25.0;
+
     private double leftPower;
     private double rightPower;
 
@@ -78,9 +89,9 @@ public class ForkliftSimulator implements IRealWorldSimulator
         // start with it either up or down
         this.forkliftUp = Math.random() >= 0.5;
 
-        this.x = 25.0;
-        this.y = 25.0;
-        this.angle = 0.0;
+        this.x = ForkliftSimulator.STARTING_X;
+        this.y = ForkliftSimulator.STARTING_Y;
+        this.angle = ForkliftSimulator.STARTING_ANGLE_R * (180.0 / Math.PI);
         this.prevLeftDistance = 0.0;
         this.prevRightDistance = 0.0;
         this.prevTime = Calendar.getInstance().getTime().getTime() / 1000.0;
@@ -198,7 +209,7 @@ public class ForkliftSimulator implements IRealWorldSimulator
         double rightDistance = this.prevRightDistance + this.rightPower * 1.0 * deltaT;
 
         // calculate the angle (in radians) based on the total distance traveled
-        double angleR = (rightDistance - leftDistance) / ForkliftSimulator.WHEEL_SEPARATION_DISTANCE;
+        double angleR = ForkliftSimulator.STARTING_ANGLE_R + (rightDistance - leftDistance) / ForkliftSimulator.WHEEL_SEPARATION_DISTANCE;
 
         // calculate the average distance traveled
         double averagePositionChange = ((leftDistance - this.prevLeftDistance) + (rightDistance - this.prevRightDistance)) / 2.0;
@@ -210,8 +221,8 @@ public class ForkliftSimulator implements IRealWorldSimulator
         double newAngle = (angleR * 360.0 / (2.0 * Math.PI)) % 360;
 
         // TODO: check for collision with walls!!
-        this.x = newX;
-        this.y = newY;
+        this.x = ForkliftSimulator.clamp(newX, 0.0, 200.0);
+        this.y = ForkliftSimulator.clamp(newY, 0.0, 200.0);
         this.angle = newAngle;
 
         // record distance for next time
@@ -230,6 +241,23 @@ public class ForkliftSimulator implements IRealWorldSimulator
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvasWidth, canvasHeight);
 
+        gc.setStroke(Color.BLACK);
+        gc.strokeRect(0, 0, canvasWidth, canvasWidth);
+        gc.save();
+
+        gc.transform(new Affine(new Rotate(-this.angle, this.x, this.y)));
+        gc.setFill(Color.RED);
+        gc.fillRect(
+            this.x - ForkliftSimulator.FORKLIFT_HALF_LENGTH,
+            this.y - ForkliftSimulator.FORKLIFT_HALF_WIDTH,
+            ForkliftSimulator.FORKLIFT_LENGTH,
+            ForkliftSimulator.FORKLIFT_WIDTH);
+        gc.restore();
+
+        gc.setFill(Color.BLUE);
+        gc.fillOval(this.x - 1, this.y - 1, 2, 2);
+
+        /*
         double halfHeight = canvasHeight / 2.0;
         double powerIndicatorWidth = canvasWidth / 10.0;
 
@@ -278,5 +306,21 @@ public class ForkliftSimulator implements IRealWorldSimulator
             canvasHeight / 4.0, 
             canvasWidth / 2.0,
             canvasHeight / 2.0);
-    } 
+        */
+    }
+
+    private static double clamp(double value, double min, double max)
+    {
+        if (value < min)
+        {
+            return min;
+        }
+
+        if (value > max)
+        {
+            return max;
+        }
+
+        return value;
+    }
 }
