@@ -7,3 +7,5 @@
 /.settings/
 /.vscode/
 !gradle/wrapper/gradle-wrapper.jar
+.project
+.classpath
