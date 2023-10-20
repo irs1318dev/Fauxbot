@@ -2,7 +2,7 @@ plugins
 {
     id "java"
     id "application"
-    id "org.openjfx.javafxplugin" version "0.0.9"
+    id "org.openjfx.javafxplugin" version "0.0.13"
 }
 
 repositories
@@ -40,7 +40,7 @@ dependencies
 }
 
 javafx {
-    version = "15"
+    version = "17"
     modules = [ "javafx.controls", "javafx.graphics" ]
 }
 

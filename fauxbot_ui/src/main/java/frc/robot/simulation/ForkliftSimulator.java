@@ -1,11 +1,14 @@
 package frc.robot.simulation;
 
 import java.io.FileInputStream;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 import frc.lib.robotprovider.*;
+import frc.robot.HardwareConstants;
 import frc.robot.IRealWorldSimulator;
+import frc.robot.TuningConstants;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -14,10 +17,15 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Affine;
+import javafx.scene.transform.Rotate;
 
 @Singleton
 public class ForkliftSimulator implements IRealWorldSimulator
 {
+    private static final double WHEEL_SEPARATION_DISTANCE = 10.0; // in inches/pixels
+    private static final double FORKLIFT_SPEED = 10.0; // in inches/pixels / sec
+
     private static final FauxbotActuatorConnection LeftMotorConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PWM, 0);
     private static final FauxbotActuatorConnection RightMotorConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PWM, 1);
     private static final FauxbotActuatorConnection LifterForwardConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PCM0A, 7);
@@ -48,6 +56,19 @@ public class ForkliftSimulator implements IRealWorldSimulator
         }
     };
 
+    private static final double FORKLIFT_LENGTH = 20.0; // front to back, in pixels
+    private static final double FORKLIFT_WIDTH = 10.0; // left to right, in pixels
+    private static final double FORKLIFT_HALF_LENGTH = ForkliftSimulator.FORKLIFT_LENGTH / 2.0;
+    private static final double FORKLIFT_HALF_WIDTH = ForkliftSimulator.FORKLIFT_WIDTH / 2.0;
+
+    private static final double MAX_X = 125.0;
+    private static final double MAX_Y = 200.0;
+    private static final double STARTING_ANGLE_R = Math.PI / 2.0; // 90deg to the left (image-up)
+    private static final double STARTING_X = ForkliftSimulator.MAX_X / 2.0;
+    private static final double STARTING_Y = ForkliftSimulator.MAX_Y / 2.0;
+    private static final double MAX_WALL_DISTANCE =
+        Math.sqrt(FORKLIFT_HALF_LENGTH * FORKLIFT_HALF_LENGTH + FORKLIFT_HALF_WIDTH * FORKLIFT_HALF_WIDTH);
+
     private double leftPower;
     private double rightPower;
 
@@ -55,6 +76,14 @@ public class ForkliftSimulator implements IRealWorldSimulator
 
     private Image forkliftDownImage;
     private Image forkliftUpImage;
+
+    // odometry coordinates (x forward, y left, angle counter-clockwise)
+    private double x;
+    private double y;
+    private double angle;
+    private double prevLeftDistance;
+    private double prevRightDistance;
+    private double prevTime;
 
     @Inject
     public ForkliftSimulator()
@@ -64,6 +93,13 @@ public class ForkliftSimulator implements IRealWorldSimulator
 
         // start with it either up or down
         this.forkliftUp = Math.random() >= 0.5;
+
+        this.x = ForkliftSimulator.STARTING_X;
+        this.y = ForkliftSimulator.STARTING_Y;
+        this.angle = ForkliftSimulator.STARTING_ANGLE_R * (180.0 / Math.PI);
+        this.prevLeftDistance = 0.0;
+        this.prevRightDistance = 0.0;
+        this.prevTime = Calendar.getInstance().getTime().getTime() / 1000.0;
 
         try
         {
@@ -164,6 +200,41 @@ public class ForkliftSimulator implements IRealWorldSimulator
             FauxbotDoubleSolenoid lifterSolenoid = (FauxbotDoubleSolenoid)lifterActuator;
             this.forkliftUp = lifterSolenoid.get() == DoubleSolenoidValue.Forward;
         }
+
+        this.updateOdometry();
+    }
+
+    private void updateOdometry()
+    {
+        double currTime = Calendar.getInstance().getTime().getTime() / 1000.0;
+        double deltaT = currTime - this.prevTime;
+
+        // check the current distance recorded by the encoders
+        double leftDistance = this.prevLeftDistance + this.leftPower * ForkliftSimulator.FORKLIFT_SPEED * deltaT;
+        double rightDistance = this.prevRightDistance + this.rightPower * ForkliftSimulator.FORKLIFT_SPEED * deltaT;
+
+        // calculate the angle (in radians) based on the total distance traveled
+        double angleR = ForkliftSimulator.STARTING_ANGLE_R + (rightDistance - leftDistance) / ForkliftSimulator.WHEEL_SEPARATION_DISTANCE;
+
+        // calculate the average distance traveled
+        double averagePositionChange = ((leftDistance - this.prevLeftDistance) + (rightDistance - this.prevRightDistance)) / 2.0;
+
+        // calculate the change since last time, and update our relative position
+        double newX = this.x + averagePositionChange * Math.cos(angleR);
+        double newY = this.y + averagePositionChange * Math.sin(angleR);
+
+        double newAngle = (angleR * 360.0 / (2.0 * Math.PI)) % 360.0;
+
+        // quick check for collision with walls
+        this.x = ForkliftSimulator.clamp(newX, ForkliftSimulator.MAX_WALL_DISTANCE, ForkliftSimulator.MAX_X - ForkliftSimulator.MAX_WALL_DISTANCE);
+        this.y = ForkliftSimulator.clamp(newY, ForkliftSimulator.MAX_WALL_DISTANCE, ForkliftSimulator.MAX_Y - ForkliftSimulator.MAX_WALL_DISTANCE);
+        this.angle = newAngle;
+
+        // record distance for next time
+        this.prevLeftDistance = leftDistance;
+        this.prevRightDistance = rightDistance;
+
+        this.prevTime = currTime;
     }
 
     @Override
@@ -175,6 +246,23 @@ public class ForkliftSimulator implements IRealWorldSimulator
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvasWidth, canvasHeight);
 
+        gc.setStroke(Color.BLACK);
+        gc.strokeRect(0, 0, MAX_X, MAX_Y);
+        gc.save();
+
+        gc.transform(new Affine(new Rotate(-this.angle, this.x, ForkliftSimulator.MAX_Y - this.y)));
+        gc.setFill(Color.RED);
+        gc.fillRect(
+            this.x - ForkliftSimulator.FORKLIFT_HALF_LENGTH,
+            (ForkliftSimulator.MAX_Y - this.y) - ForkliftSimulator.FORKLIFT_HALF_WIDTH,
+            ForkliftSimulator.FORKLIFT_LENGTH,
+            ForkliftSimulator.FORKLIFT_WIDTH);
+        gc.restore();
+
+        gc.setFill(Color.BLUE);
+        gc.fillOval(this.x - 1, (ForkliftSimulator.MAX_Y - this.y) - 1, 2, 2);
+
+        /*
         double halfHeight = canvasHeight / 2.0;
         double powerIndicatorWidth = canvasWidth / 10.0;
 
@@ -205,6 +293,7 @@ public class ForkliftSimulator implements IRealWorldSimulator
 
         gc.setFill(Color.RED); 
         gc.fillRect(powerIndicatorWidth * 2, rightTop, powerIndicatorWidth, rightHeight);
+        */
 
         // draw the forklift in its current state
         Image forkliftToDraw = null;
@@ -219,9 +308,24 @@ public class ForkliftSimulator implements IRealWorldSimulator
 
         gc.drawImage(
             forkliftToDraw,
-            canvasWidth / 2.0,
+            ForkliftSimulator.MAX_X + 5,
             canvasHeight / 4.0, 
-            canvasWidth / 2.0,
+            canvasWidth - (ForkliftSimulator.MAX_X + 5),
             canvasHeight / 2.0);
-    } 
+    }
+
+    private static double clamp(double value, double min, double max)
+    {
+        if (value < min)
+        {
+            return min;
+        }
+
+        if (value > max)
+        {
+            return max;
+        }
+
+        return value;
+    }
 }

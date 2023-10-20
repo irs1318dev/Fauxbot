@@ -12,7 +12,7 @@
 		"java.format.settings.url": "../eclipse-formatter.xml",
 		"java.codeGeneration.useBlocks": true,
 		"java.format.settings.profile": "Eclipse",
-		"java.import.gradle.version": "7.0",
+		"java.import.gradle.version": "7.5.1",
 		"java.format.onType.enabled": false,
 		"editor.formatOnSave": false
 	},
