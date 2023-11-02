@@ -28,9 +28,9 @@ Code organization
 
 Tuning, Hardware, Electronics Constants x
 
-Intro to Driver
+Intro to Driver x
 
-ButtonMap, Operations
+ButtonMap, Operations x
 
 Using Sensors
 
@@ -277,19 +277,30 @@ The ``update()`` function examines the inputs that we retrieve from the ``IDrive
 
 The stop function tells each of the actuators to stop moving. This typically means setting any ``Motor`` to 0.0 and any ``DoubleSolenoid`` to ``kOff``. It is called when the robot is being disabled, and it is very important to stop everything to ensure that the robot is safe and doesn't make any uncontrolled movements.
 
+Relationship chart of classes:
+
+![image](https://github.com/irs1318dev/irs1318_2023/assets/62030864/e1b65b44-c64c-455c-9a68-13be3637f422)
+
+
 ## IMechanism
 Mechanism classes handle the reading of all of the sensors and control of all of the actuators on each mechanism of the robot.  There is one Mechanism class for each individual part of the robot, named using the pattern "ThingMechanism" (where "Thing" is the name of the mechanism, like "DriveTrain").  Mechanisms read from all of the Sensors and translate the Operations from the Driver into the functions that need to be called on the individual Actuators.  This typically involves some math and logic to convert the data from the operations into the particular actions that need to happen.  For example, when using a typical Tank drivetrain, the DriveTrain Mechanism calculates the speed settings to apply to the left and right motors based on the DriveTrainMoveForward operation and the DriveTrainTurn operation.  Also, there may be other concerns to take care of, such as how to respond based on the presence or absence of a setting from another operation or a sensor.
 
 The Mechanisms implement the ```IMechanism``` interface which has the definitions of functions that every Mechanism must implement.  In the mechanism, the ```readSensor()``` and ```update()``` functions are the most important, and are called every ~20 milliseconds.  The ```readSensors()``` function reads the current values from all of the sensors and stores them locally in member variables for that ThingMechanism object.  The ```update()``` function calculates what should be applied to the output devices based on the current Operations and the data we previously read from the sensors.  It is important that these functions execute quickly, so anything that depends on a certain length of time elapsing should be calculated between separate runs of the function and not involve any long-running loops or sleeps.  Most actions that take multiple iterations of the ```update()``` function or depend on time elapsing belong in a macro instead of being hard-coded into the Mechanism, though it is also possible for there to be state kept in member variables to help keep track of what that mechanism should be doing.
 
-## Begin Fauxbot Exercise One: Forklift
+## Analog and Digital Operations
 
-Now that you understand these fundamental concepts, it's time for the first exercise.
-
-First, let's clear up what a Digital and Analog Operation is:
+Let's clear up what a Digital and Analog Operation is:
 An _analog_ operation is an operation that requires a _continuous_ signal. A _digital_ operation is an operation that has a "chunky" signal. Examples of analog operations include Joysticks, pedals, any one button that has numerous continuous states. A digital operation can be a single button, that is either pressed or not pressed. We can know how long it is held for, but nothing more.
 
 ![image](https://github.com/irs1318dev/irs1318_2023/assets/62030864/385d43e1-d6c9-4d61-a74d-7a19fa15d7b7)
+
+
+
+Now that you understand these fundamental concepts, it's time for the first exercise.
+
+## Begin Fauxbot Exercise One: Forklift
+
+First, you will make sure that you can open the exercise window. Ask your mentor/lead about ``gradlew build``, ``gradlew deploy``.
 
 This task will require you to write ```ForkliftMechanism```. Since this particular machinery is relatively simple, it can be written as a single mechanism. Specific actuators for this exercise can be found in ``ForkliftExercise.md``.
 
@@ -326,6 +337,43 @@ In this simulation, each electronic part of the forklift has its own channel, si
 This exercise does not utilize ``readSensors()``.
 
 The ``update()`` loop is where you controll all of your actuators. You want your forklift to move when given the command to. Now, think about the two actuators on this component. Are they digital, or are they analog? Assign those actions in ``DigitalOperation`` and ``AnalogOperation``. What you will write in the ``update()`` loop for _digital_ operations is simple ``if`` statements about whether the desired command is ``true``. Your ``update()`` loop must also constantly check whether the desired _analog_ states have changed and update those.
+
+## Begin Fauxbot Exercise Two: Garage Door
+
+This exercise will introduce you to using sensors. 
+
+A garage door has these parts:
+motor, through-beam sensor, open sensor, closed sensor.
+
+Your garage door will have numerous states, including moving up, moving down, open, and closed. Button presses and your through-beam sensor will determine what state the garage should be in.
+
+![download](https://github.com/irs1318dev/irs1318_2023/assets/62030864/4c727b72-b986-4eba-a907-72116ab06705)
+
+Begin by creating a new class called GarageDoorMechanism. You may copy imports from Forklift. The ``IMechanism`` structure will always be used.
+
+Below are SOME of the necessary definitions to continue with this exercise:
+
+```java
+private final IDigitalInput openSensor;
+private final IDigitalInput closedSensor;
+private final IDigitalInput throughBeamSensor;
+
+public enum GarageDoorState
+    {
+        Opened,
+        Opening,
+        Closed,
+        Closing
+    }
+```
+If you are unsure how to define actuators, refer to the Forklift exercise.
+
+After you have defined these sensors and enumerators, you will need to set up three booleans: one for each of the three possible sensor detections: Whether the through beam is broken, whether the door is closed, and whether the door is open.
+
+The ``readSensors()`` loop exists for you to update your sensor statuses (hint: alter booleans status). There are numerous ways to structure robot code for it to run, but it is good practice to standardize sensor updates like this within the project.
+
+Now, in your ``update()`` loop, you will need to write logic for how to act on the information that the sensor provides. Specific actions is written in ``GarageDoorExercise.md``.
+
 
 ## Troubleshooting Visual Studio Code
 
