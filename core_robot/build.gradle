@@ -8,10 +8,9 @@ targetCompatibility = JavaVersion.VERSION_11
 repositories {
     mavenCentral()
     mavenLocal()
+    google()
     gradlePluginPortal()
-    maven {
-        url "https://maven.brott.dev/"
-    }
+    maven { url "https://maven.brott.dev/" }
 }
 
 dependencies {

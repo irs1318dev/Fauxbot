@@ -4,7 +4,13 @@
 			"path": "core_robot"
 		},
 		{
-			"path": "fauxbot_ui"
+			"path": "fauxbot_core"
+		},
+		{
+			"path": "fauxbot_desktop"
+		},
+		{
+			"path": "fauxbot_javafx"
 		}
 	],
 	"settings": {
@@ -20,13 +26,22 @@
 		"configurations": [
 			{
 				"type": "java",
-				"name": "Fauxbot Debug",
+				"name": "Fauxbot JavaFX Debug",
 				"request": "launch",
 				"console": "internalConsole",
 				"stopOnEntry": false,
 				"mainClass": "Fauxbot",
 				"args": "",
-				"projectName": "fauxbot_ui"
+				"projectName": "fauxbot_javafx"
+			},			{
+				"type": "java",
+				"name": "Fauxbot libGDX Debug",
+				"request": "launch",
+				"console": "internalConsole",
+				"stopOnEntry": false,
+				"mainClass": "DesktopLauncher",
+				"args": "",
+				"projectName": "fauxbot_desktop"
 			}
 		]
 	}

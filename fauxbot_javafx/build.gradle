@@ -9,23 +9,11 @@ repositories
 {
     mavenCentral()
     mavenLocal()
+    google()
     gradlePluginPortal()
-    maven {
-        url "https://maven.brott.dev/"
-    }
+    maven { url "https://maven.brott.dev/" }
 }
 
-def currentOS = org.gradle.internal.os.OperatingSystem.current()
-def platform
-if (currentOS.isWindows()) {
-    platform = 'win'
-} else if (currentOS.isLinux()) {
-    platform = 'linux'
-} else if (currentOS.isMacOsX()) {
-    platform = 'mac'
-}
-
-// Defining my dependencies. In this case, javax.inject, Guava, Guice, JavaFX
 dependencies
 {
     implementation project(':core_robot')

@@ -1,3 +1,4 @@
+/*
 import org.gradle.internal.os.OperatingSystem
 
 pluginManagement {
@@ -25,6 +26,9 @@ pluginManagement {
         }
     }
 }
+*/
 
 include 'core_robot'
-include 'fauxbot_ui'
+include 'fauxbot_javafx'
+include 'fauxbot_core'
+include 'fauxbot_desktop'
