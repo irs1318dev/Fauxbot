@@ -17,13 +17,8 @@ public abstract class FauxbotModule extends FauxbotCommonModule
     @Override
     protected void configure()
     {
-        this.bind(IRobotProvider.class).to(FauxbotProvider.class);
-    }
+        super.configure();
 
-    @Singleton
-    @Provides
-    public MechanismManager getMechanismManager(Injector injector)
-    {
-        return new MechanismManager(SettingsManager.getActiveMechanisms(injector));
+        this.bind(IRobotProvider.class).to(FauxbotProvider.class);
     }
 }
