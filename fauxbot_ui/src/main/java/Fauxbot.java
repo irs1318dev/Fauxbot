@@ -2,7 +2,7 @@ import java.io.IOException;
 
 import frc.robot.FauxbotApplication;
 
-import javafx.application.Application;;
+import javafx.application.Application;
 
 public class Fauxbot
 {
