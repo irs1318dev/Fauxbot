@@ -5,10 +5,10 @@ import java.util.Map;
 
 public class FauxbotJoystickManager
 {
-    private static Map<Integer, FauxbotJoystick> joystickMap = new HashMap<Integer, FauxbotJoystick>();
+    private static Map<Integer, IJoystick> joystickMap = new HashMap<Integer, IJoystick>();
     private static int highestPort = 0;
 
-    public static void set(int port, FauxbotJoystick sensor)
+    public static void set(int port, IJoystick sensor)
     {
         FauxbotJoystickManager.joystickMap.put(port, sensor);
         if (FauxbotJoystickManager.highestPort < port)
@@ -17,7 +17,7 @@ public class FauxbotJoystickManager
         }
     }
 
-    public static FauxbotJoystick get(int port)
+    public static IJoystick get(int port)
     {
         if (!FauxbotJoystickManager.joystickMap.containsKey(port))
         {

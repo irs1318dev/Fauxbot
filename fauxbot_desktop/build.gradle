@@ -27,6 +27,7 @@ repositories {
 
 dependencies {
     implementation project(":core_robot")
+    implementation project(":fauxbot_common")
     implementation project(":fauxbot_core")
 
     api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
@@ -35,7 +36,6 @@ dependencies {
     api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
 }
 
-sourceCompatibility = JavaVersion.VERSION_11
 sourceSets.main.resources.srcDirs = ["../assets"]
 
 project.ext.mainClassName = "DesktopLauncher"

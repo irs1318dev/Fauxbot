@@ -29,6 +29,7 @@ pluginManagement {
 */
 
 include 'core_robot'
-include 'fauxbot_javafx'
+include 'fauxbot_common'
 include 'fauxbot_core'
 include 'fauxbot_desktop'
+include 'fauxbot_javafx'

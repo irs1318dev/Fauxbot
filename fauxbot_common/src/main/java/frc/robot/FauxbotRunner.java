@@ -6,13 +6,14 @@ import frc.lib.robotprovider.RobotMode;
 public class FauxbotRunner implements Runnable
 {
     private final Object locker;
-    private final CoreRobot<FauxbotModule> robot;
-    private final FauxbotApplication fauxbot;
+    private final CoreRobot<FauxbotCommonModule> robot;
+
+    private final IRefresh fauxbot;
 
     private boolean stop;
     private RobotMode mode;
 
-    public FauxbotRunner(CoreRobot<FauxbotModule> robot, FauxbotApplication fauxbot)
+    public FauxbotRunner(CoreRobot<FauxbotCommonModule> robot, IRefresh fauxbot)
     {
         this.locker = new Object();
         this.robot = robot;
@@ -45,6 +46,9 @@ public class FauxbotRunner implements Runnable
                         this.robot.autonomousInit();
                         break;
 
+                    case Simulation:
+                        this.robot.simulationInit();
+
                     case Teleop:
                         this.robot.teleopInit();
                         break;
@@ -66,6 +70,9 @@ public class FauxbotRunner implements Runnable
                 case Autonomous:
                     this.robot.autonomousPeriodic();
                     break;
+
+                case Simulation:
+                    this.robot.simulationPeriodic();
 
                 case Teleop:
                     this.robot.teleopPeriodic();

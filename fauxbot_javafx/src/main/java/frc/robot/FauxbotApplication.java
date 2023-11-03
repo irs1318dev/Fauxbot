@@ -26,7 +26,7 @@ import javafx.stage.*;
 import javafx.util.converter.BooleanStringConverter;
 import javafx.util.converter.NumberStringConverter;
 
-public class FauxbotApplication extends Application
+public class FauxbotApplication extends Application implements IRefresh
 {
     private Stage primaryStage;
 
@@ -35,7 +35,7 @@ public class FauxbotApplication extends Application
 
     private IRealWorldSimulator simulator;
 
-    private CoreRobot<FauxbotModule> robot;
+    private CoreRobot<FauxbotCommonModule> robot;
     private Simulation desiredSimulation;
 
     private Canvas canvas;
@@ -113,7 +113,7 @@ public class FauxbotApplication extends Application
     public Scene prepareScene()
     {
         String simulationName = null;
-        FauxbotModule desiredModule = null;;
+        FauxbotCommonModule desiredModule = null;;
         switch (this.desiredSimulation)
         {
             case Elevator:
@@ -142,7 +142,7 @@ public class FauxbotApplication extends Application
                 break;
         }
 
-        this.robot = new CoreRobot<FauxbotModule>(desiredModule);
+        this.robot = new CoreRobot<FauxbotCommonModule>(desiredModule);
 
         this.simulator = this.robot.getInjector().getInstance(IRealWorldSimulator.class);
         this.runner = new FauxbotRunner(this.robot, this);
@@ -244,7 +244,7 @@ public class FauxbotApplication extends Application
 
                     if (joystickPort != -1)
                     {
-                        final FauxbotJoystick joystick = FauxbotJoystickManager.get(joystickPort);
+                        final FauxbotJoystick joystick = (FauxbotJoystick)FauxbotJoystickManager.get(joystickPort);
                         if (joystick != null)
                         {
                             int thisRowIndex = rowCount;
@@ -538,7 +538,7 @@ public class FauxbotApplication extends Application
 
         if (joystickPort != -1)
         {
-            final FauxbotJoystick joystick = FauxbotJoystickManager.get(joystickPort);
+            final FauxbotJoystick joystick = (FauxbotJoystick)FauxbotJoystickManager.get(joystickPort);
             if (joystick != null)
             {
                 int thisRowIndex = rowCount;

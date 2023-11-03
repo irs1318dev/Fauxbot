@@ -1,8 +1,6 @@
 plugins
 {
     id "java"
-    id "application"
-    id "org.openjfx.javafxplugin" version "0.0.13"
 }
 
 repositories
@@ -17,7 +15,6 @@ repositories
 dependencies
 {
     implementation project(':core_robot')
-    implementation project(':fauxbot_common')
 
     implementation "javax.inject:javax.inject:1"
     implementation "com.google.guava:guava:21.0"
@@ -28,23 +25,16 @@ dependencies
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.1.0"
 }
 
-javafx {
-    version = "17"
-    modules = [ "javafx.controls", "javafx.graphics" ]
-}
-
 test {
     useJUnitPlatform()
     workingDir = ".."
 }
 
-mainClassName = 'Fauxbot'
-
 // Setting up my Jar File.
 version = '1.0'
 jar {
     manifest {
-        attributes 'Implementation-Title': 'Fauxbot',
+        attributes 'Implementation-Title': 'Fauxbot_Common',
                    'Implementation-Version': version
     }
 }

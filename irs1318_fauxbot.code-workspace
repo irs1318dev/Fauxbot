@@ -4,6 +4,9 @@
 			"path": "core_robot"
 		},
 		{
+			"path": "fauxbot_common"
+		},
+		{
 			"path": "fauxbot_core"
 		},
 		{
