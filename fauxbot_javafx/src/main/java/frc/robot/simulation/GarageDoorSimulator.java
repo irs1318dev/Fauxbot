@@ -153,9 +153,11 @@ public class GarageDoorSimulator implements IRealWorldSimulator
     @Override
     public void update()
     {
+        boolean stateChanged = false;
         FauxbotActuatorBase actuator = FauxbotActuatorManager.get(GarageDoorSimulator.MotorConnection);
         if (actuator != null && actuator instanceof FauxbotMotorBase)
         {
+            stateChanged = true;
             FauxbotMotorBase motor = (FauxbotMotorBase)actuator;
             double motorPower = motor.get();
             if (motorPower > 0 && this.garageState != GarageState.Opening)
@@ -169,6 +171,10 @@ public class GarageDoorSimulator implements IRealWorldSimulator
             else if (motorPower == 0 && this.garageState != GarageState.Stopped)
             {
                 this.garageState = GarageState.Stopped;
+            }
+            else
+            {
+                stateChanged = false;
             }
 
             this.amountOpened += motorPower;
@@ -227,7 +233,7 @@ public class GarageDoorSimulator implements IRealWorldSimulator
             }
         }
 
-        if (this.garageState == GarageState.Stopped && this.amountOpened <= 0.0)
+        if (this.garageState == GarageState.Stopped && this.amountOpened <= 0.0 && stateChanged)
         {
             this.loadRandomImage();
         }
