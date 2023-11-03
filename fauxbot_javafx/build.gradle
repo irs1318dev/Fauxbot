@@ -28,6 +28,9 @@ dependencies
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.1.0"
 }
 
+sourceSets.main.resources.srcDirs = ["../assets"]
+project.ext.assetsDir = new File("../assets")
+
 javafx {
     version = "17"
     modules = [ "javafx.controls", "javafx.graphics" ]

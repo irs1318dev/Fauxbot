@@ -79,7 +79,7 @@ public class ElevatorSimulator implements IRealWorldSimulator
     {
         try
         {
-            this.elevatorPersonInputStream = new FileInputStream(this.getClass().getResource("/images/stickFigure.png").getPath());
+            this.elevatorPersonInputStream = new FileInputStream(this.getClass().getResource("/stickFigure.png").getPath());
         }
         catch (Exception e)
         {
