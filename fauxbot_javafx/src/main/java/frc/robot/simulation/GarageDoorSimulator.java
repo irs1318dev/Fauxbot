@@ -55,12 +55,12 @@ public class GarageDoorSimulator implements IRealWorldSimulator
         }
     };
 
-    private static final String CerberusPath = "/cerberus.jpg";
-    private static final String GolfCartPath = "/golfCart.jpg";
-    private static final String LamborghiniPath = "/lamborghini.jpg";
-    private static final String PorschePath = "/porsche.jpg";
-    private static final String CessnaCitationPath = "/cesssnaCitX.jpg";
-    private static final String BenzPath = "/benz.jpeg";
+    private static final String CerberusPath = "/images/cerberus.jpg";
+    private static final String GolfCartPath = "/images/golfCart.jpg";
+    private static final String LamborghiniPath = "/images/lamborghini.jpg";
+    private static final String PorschePath = "/images/porsche.jpg";
+    private static final String CessnaCitationPath = "/images/cesssnaCitX.jpg";
+    private static final String BenzPath = "/images/benz.jpeg";
 
     private static final int GarageFullyOpened = 250;
 

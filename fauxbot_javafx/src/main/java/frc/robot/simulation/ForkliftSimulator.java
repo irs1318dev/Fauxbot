@@ -103,10 +103,10 @@ public class ForkliftSimulator implements IRealWorldSimulator
 
         try
         {
-            FileInputStream forkliftDownInputStream = new FileInputStream(this.getClass().getResource("/forklift_down.png").getPath());
+            FileInputStream forkliftDownInputStream = new FileInputStream(this.getClass().getResource("/images/forklift_down.png").getPath());
             this.forkliftDownImage = new Image(forkliftDownInputStream);
 
-            FileInputStream forkliftUpInputStream = new FileInputStream(this.getClass().getResource("/forklift_up.png").getPath());
+            FileInputStream forkliftUpInputStream = new FileInputStream(this.getClass().getResource("/images/forklift_up.png").getPath());
             this.forkliftUpImage = new Image(forkliftUpInputStream);
         }
         catch (Exception e)
