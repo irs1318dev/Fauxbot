@@ -6,24 +6,19 @@ import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.List.ListStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane.ScrollPaneStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox.SelectBoxStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.TextTooltip;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class FauxbotMenuScreen implements Screen
@@ -43,7 +38,7 @@ public class FauxbotMenuScreen implements Screen
     public FauxbotMenuScreen(final FauxbotGame game)
     {
         this.game = game;
-        this.stage = new Stage(new ScreenViewport());
+        this.stage = new Stage(new ExtendViewport(800, 600));
         Gdx.input.setInputProcessor(this.stage);
 
         this.table = new Table();
@@ -51,9 +46,9 @@ public class FauxbotMenuScreen implements Screen
         ////this.table.setDebug(true);
         this.stage.addActor(this.table);
 
-        Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        Skin skin = new Skin(Gdx.files.internal("skin/irs1318skin.json"));
 
-        this.title = new Label("Welcome to FauxbotGame!", skin);
+        this.title = new Label("Welcome to FauxbotGame!", skin, "title");
         this.table.add(title).pad(20, 20, 20, 20).colspan(2);
         this.table.row();
 
@@ -84,6 +79,7 @@ public class FauxbotMenuScreen implements Screen
         this.simulateButton = new TextButton("Full Simulation", skin);
         if (controllers.isEmpty())
         {
+            this.simulateButton.addListener(new TextTooltip("No joysticks", skin));
             this.simulateButton.setDisabled(true);
         }
         else
@@ -116,6 +112,7 @@ public class FauxbotMenuScreen implements Screen
 
         this.table.add(this.simulateLiteButton);
         this.table.row();
+
     }
 
     @Override
