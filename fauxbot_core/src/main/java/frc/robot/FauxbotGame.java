@@ -10,7 +10,8 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 public class FauxbotGame extends Game
 {
     SpriteBatch batch;
-    BitmapFont font;
+    BitmapFont largeFont;
+    BitmapFont smallFont;
 
     private FreeTypeFontGenerator fontGenerator;
 
@@ -19,7 +20,7 @@ public class FauxbotGame extends Game
     {
         this.batch = new SpriteBatch();
         this.fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Roboto/Roboto-Light.ttf"));
-        this.generateFont();
+        this.regenerateFonts(600);
         this.setScreen(new FauxbotMenuScreen(this));
     }
 
@@ -33,14 +34,39 @@ public class FauxbotGame extends Game
     public void dispose()
     {
         this.batch.dispose();
-        this.font.dispose();
+        this.largeFont.dispose();
+        this.smallFont.dispose();
         this.fontGenerator.dispose();
     }
 
-    public void generateFont()
+    public void regenerateFonts(int height)
     {
-        FreeTypeFontParameter params = new FreeTypeFontParameter();
-        params.size = 25;
-        this.font = this.fontGenerator.generateFont(params);
+        if (height < 300)
+        {
+            if (this.largeFont != null && this.smallFont != null)
+            {
+                return;
+            }
+
+            height = 300;
+        }
+
+        if (this.largeFont != null)
+        {
+            this.largeFont.dispose();
+        }
+
+        if (this.smallFont != null)
+        {
+            this.smallFont.dispose();
+        }
+
+        FreeTypeFontParameter largeFontParams = new FreeTypeFontParameter();
+        largeFontParams.size = height / 12;
+        this.largeFont = this.fontGenerator.generateFont(largeFontParams);
+        
+        FreeTypeFontParameter smallFontParams = new FreeTypeFontParameter();
+        smallFontParams.size = height / 18;
+        this.smallFont = this.fontGenerator.generateFont(smallFontParams);
     }
 }

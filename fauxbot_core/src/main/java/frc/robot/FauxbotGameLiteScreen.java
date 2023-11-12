@@ -3,14 +3,12 @@ package frc.robot;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-public class FauxbotGameScreen implements Screen
+public class FauxbotGameLiteScreen implements Screen
 {
     private final FauxbotGame game;
 
@@ -18,7 +16,7 @@ public class FauxbotGameScreen implements Screen
     private Texture img;
     private Rectangle rect;
 
-    public FauxbotGameScreen(final FauxbotGame game, Simulation simulation, Array<Controller> controllers)
+    public FauxbotGameLiteScreen(final FauxbotGame game, Simulation simulation)
     {
         this.game = game;
 
