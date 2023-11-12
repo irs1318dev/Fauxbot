@@ -13,6 +13,11 @@ public class FauxbotRunner implements Runnable
     private boolean stop;
     private RobotMode mode;
 
+    public FauxbotRunner(CoreRobot<FauxbotCommonModule> robot)
+    {
+        this(robot, null);
+    }
+
     public FauxbotRunner(CoreRobot<FauxbotCommonModule> robot, IRefresh fauxbot)
     {
         this.locker = new Object();
@@ -83,7 +88,10 @@ public class FauxbotRunner implements Runnable
                     break;
             }
 
-            this.fauxbot.refresh();
+            if (this.fauxbot != null)
+            {
+                this.fauxbot.refresh();
+            }
 
             try
             {

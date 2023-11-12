@@ -3,80 +3,105 @@ package frc.robot;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.Controllers;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
-public class FauxbotGameLiteScreen implements Screen
+import frc.lib.CoreRobot;
+import frc.lib.driver.IButtonMap;
+import frc.lib.robotprovider.RobotMode;
+
+public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Screen
 {
-    private final FauxbotGame game;
+    private final Stage stage;
+    private final Table table;
 
-    private OrthographicCamera camera;
-    private Texture img;
-    private Rectangle rect;
+    private final Label title;
+    private SelectBox<RobotMode> modeSelector;
 
-    public FauxbotGameLiteScreen(final FauxbotGame game, Simulation simulation)
+    private RobotMode currentMode;
+
+    public FauxbotGameLiteScreen(final FauxbotGame game, Simulation selectedSimulation)
     {
-        this.game = game;
+        super(game, selectedSimulation);
 
-        this.camera = new OrthographicCamera();
-        this.camera.setToOrtho(false, 800, 480);
+        this.stage = new Stage(new ExtendViewport(800, 600));
+        Gdx.input.setInputProcessor(this.stage);
 
-        this.img = new Texture("images/badlogic.jpg");
+        this.table = new Table();
+        this.table.setFillParent(true);
+        ////this.table.setDebug(true);
+        this.stage.addActor(this.table);
 
-        this.rect = new Rectangle();
-        this.rect.x = 800 / 2 - 64 / 2;
-        this.rect.y = 20;
-        this.rect.width = 64;
-        this.rect.height = 64;
+        Skin skin = new Skin(Gdx.files.internal("skin/irs1318skin.json"));
+
+
+        this.title = new Label(this.selectedSimulation.toString() + " Simulation", skin, "title");
+        this.table.add(title).pad(20, 20, 20, 20).colspan(2);
+        this.table.row();
+
+        Label currentModeLabel = new Label("Mode", skin);
+        this.table.add(currentModeLabel);
+
+        RobotMode[] robotModes = RobotMode.values();
+        this.modeSelector = new SelectBox<RobotMode>(skin);
+        this.modeSelector.getSelection().setRequired(true);
+        this.modeSelector.setItems(robotModes);
+        this.modeSelector.setSelected(RobotMode.Disabled);
+        this.currentMode = RobotMode.Disabled;
+        this.modeSelector.addListener(
+            new ChangeListener()
+            {
+                @Override
+                public void changed(ChangeEvent event, Actor actor)
+                {
+                    currentMode = modeSelector.getSelected();
+                }
+            });
+
+        this.table.add(this.modeSelector);
+        this.table.row();
+
+        IButtonMap buttonMap = this.robot.getInjector().getInstance(IButtonMap.class);
+
+
     }
 
     @Override
     public void render(float delta)
     {
-        ScreenUtils.clear(0, 0, 0, 1);
-        this.camera.update();
-
-        this.game.batch.setProjectionMatrix(this.camera.combined);
-        this.game.batch.begin();
-        this.game.batch.draw(this.img, this.rect.x, this.rect.y);
-        this.game.batch.end();
-
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
-        {
-            this.rect.x -= 200 * delta;
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-        {
-            this.rect.x += 200 * delta;
-        }
-
-        if (this.rect.x < 0)
-        {
-            this.rect.x = 0;
-        }
-
-        if (this.rect.x > 800 - 64)
-        {
-            this.rect.x = 800 - 64;
-        }
-    }
-
-    public void dispose()
-    {
-        this.img.dispose();
-    }
-
-    @Override
-    public void show()
-    {
+        Gdx.gl.glClearColor(Color.PURPLE.r, Color.PURPLE.g, Color.PURPLE.b, Color.PURPLE.a);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        this.stage.act(delta);
+        this.stage.draw();
     }
 
     @Override
     public void resize(int width, int height)
     {
+        // update the viewport
+        this.stage.getViewport().update(width, height, true);
+    }
+
+    public void dispose()
+    {
+        this.stage.dispose();
     }
 
     @Override
@@ -86,6 +111,11 @@ public class FauxbotGameLiteScreen implements Screen
 
     @Override
     public void resume()
+    {
+    }
+
+    @Override
+    public void show()
     {
     }
 
