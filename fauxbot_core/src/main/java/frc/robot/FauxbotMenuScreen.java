@@ -32,11 +32,6 @@ public class FauxbotMenuScreen implements Screen
     private final Stage stage;
     private final Table table;
 
-    private final LabelStyle titleStyle;
-    private final LabelStyle labelStyle;
-    private final TextButtonStyle buttonStyle;
-    private final SelectBoxStyle selectBoxStyle;
-
     private final Label title;
     private final Label select;
     private final SelectBox<Simulation> simulationSelector;
@@ -56,40 +51,20 @@ public class FauxbotMenuScreen implements Screen
         ////this.table.setDebug(true);
         this.stage.addActor(this.table);
 
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("skin/uiskin.atlas"));        
-        Skin skin = new Skin(atlas);
+        Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
-        this.titleStyle = new LabelStyle(this.game.largeFont, Color.GOLD);
-        this.title = new Label("Welcome to FauxbotGame!", this.titleStyle);
+        this.title = new Label("Welcome to FauxbotGame!", skin);
         this.table.add(title).pad(20, 20, 20, 20).colspan(2);
         this.table.row();
 
-        this.labelStyle = new LabelStyle(this.game.smallFont, Color.GOLD);
-
-        this.select = new Label("Select a Simulation:", this.labelStyle);
+        this.select = new Label("Select a Simulation:", skin);
         this.table.add(select).colspan(2);
         this.table.row();
 
         Array<Controller> controllers = Controllers.getControllers();
 
         Simulation[] simulations = Simulation.values();
-        this.selectBoxStyle = new SelectBoxStyle(
-            this.game.smallFont,
-            Color.GOLD,
-            skin.getDrawable("default-select"),
-            new ScrollPaneStyle(
-                skin.getDrawable("default-rect"),
-                skin.getDrawable("default-scroll"),
-                skin.getDrawable("default-round-large"),
-                skin.getDrawable("default-scroll"),
-                skin.getDrawable("default-round-large")),
-            new ListStyle(
-                this.game.smallFont, 
-                Color.GOLD,
-                Color.YELLOW, 
-                skin.getDrawable("default-select-selection")));
-
-        this.simulationSelector = new SelectBox<Simulation>(this.selectBoxStyle);
+        this.simulationSelector = new SelectBox<Simulation>(skin);
         this.simulationSelector.getSelection().setRequired(true);
         this.simulationSelector.setItems(simulations);
         this.selectedSimulation = this.simulationSelector.getSelected();
@@ -106,13 +81,7 @@ public class FauxbotMenuScreen implements Screen
         this.table.add(this.simulationSelector).colspan(2);
         this.table.row();
 
-        this.buttonStyle = new TextButtonStyle(
-            skin.getDrawable("default-round"),
-            skin.getDrawable("default-round-down"),            
-            skin.getDrawable("default-round"), 
-            this.game.smallFont);
-
-        this.simulateButton = new TextButton("Full Simulation", this.buttonStyle);
+        this.simulateButton = new TextButton("Full Simulation", skin);
         if (controllers.isEmpty())
         {
             this.simulateButton.setDisabled(true);
@@ -133,7 +102,7 @@ public class FauxbotMenuScreen implements Screen
 
         this.table.add(this.simulateButton);
 
-        this.simulateLiteButton = new TextButton("Lite Simulation", this.buttonStyle);
+        this.simulateLiteButton = new TextButton("Lite Simulation", skin);
         this.simulateLiteButton.addListener(
             new ClickListener()
             {
@@ -166,23 +135,6 @@ public class FauxbotMenuScreen implements Screen
     @Override
     public void resize(int width, int height)
     {
-        // regenerate fonts based on viewport height
-        this.game.regenerateFonts(height);
-
-        // re-apply fonts to the styles
-        this.titleStyle.font = this.game.largeFont;
-        this.labelStyle.font = this.game.smallFont;
-        this.selectBoxStyle.font = this.game.smallFont;
-        this.selectBoxStyle.listStyle.font = this.game.smallFont;
-        this.buttonStyle.font = this.game.smallFont;
-
-        // re-apply styles to the ui elements
-        this.title.setStyle(this.titleStyle);
-        this.select.setStyle(this.labelStyle);
-        this.simulationSelector.setStyle(this.selectBoxStyle);
-        this.simulateButton.setStyle(this.buttonStyle);
-        this.simulateLiteButton.setStyle(this.buttonStyle);
-
         // update the viewport
         this.stage.getViewport().update(width, height, true);
     }
