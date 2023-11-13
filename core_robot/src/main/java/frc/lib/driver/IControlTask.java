@@ -1,8 +1,13 @@
 package frc.lib.driver;
 
+import java.util.EnumMap;
 import java.util.Map;
 
+import frc.lib.driver.states.AnalogOperationState;
+import frc.lib.driver.states.DigitalOperationState;
 import frc.lib.driver.states.OperationState;
+import frc.robot.driver.AnalogOperation;
+import frc.robot.driver.DigitalOperation;
 
 import com.google.inject.Injector;
 
@@ -14,10 +19,14 @@ public interface IControlTask
 {
     /**
      * Initialize the task with the mapping of operations to states
-     * @param operationStateMap indicating the mapping of an operation to its current state
+     * @param analogOperationStateMap indicating the mapping of an analog operation to its current state
+     * @param digitalOperationStateMap indicating the mapping of a digital operation to its current state
      * @param injector used to retrieve components to utilize for making any decisions
      */
-    public void initialize(Map<IOperation, OperationState> operationStateMap, Injector injector);
+    public void initialize(
+        EnumMap<AnalogOperation, AnalogOperationState> analogOperationStateMap,
+        EnumMap<DigitalOperation, DigitalOperationState> digitalOperationStateMap,
+        Injector injector);
 
     /**
      * Begin the current task.

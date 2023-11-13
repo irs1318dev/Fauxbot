@@ -5,5 +5,6 @@ public enum SparkMaxControlMode
     PercentOutput,
     Position,
     Voltage,
-    Velocity;
+    Velocity,
+    SmartMotionPosition;
 }
