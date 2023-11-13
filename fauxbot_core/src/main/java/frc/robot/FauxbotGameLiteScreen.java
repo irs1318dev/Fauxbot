@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
@@ -56,7 +57,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
         this.primaryTable.row();
 
         Table infoTable = new Table(this.skin);
-        infoTable.setDebug(true);
+        ////infoTable.setDebug(true);
 
         SplitPane pane = new SplitPane(infoTable, this.simulator, true, this.skin);
         this.primaryTable.add(pane).expand().left().top().pad(5, 5, 5, 5);
@@ -84,35 +85,43 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
         infoTable.add(modeSelector);
         infoTable.row();
 
+        Table innerInfoTable = new Table(this.skin);
+        ////innerInfoTable.setDebug(true);
+
+        //ScrollPane scrollPane = new ScrollPane(innerInfoTable, this.skin);
+        //infoTable.add(scrollPane).colspan(2);
+        infoTable.add(innerInfoTable).colspan(2).left().top().expand().padTop(10);
+
         // Add Operations
         Label buttonsLabel = new Label("Operations:", this.skin, "subtitle");
-        infoTable.add(buttonsLabel).colspan(2).left();
-        infoTable.row();
+        innerInfoTable.add(buttonsLabel).colspan(2);
+        innerInfoTable.row();
 
         IButtonMap buttonMap = this.robot.getInjector().getInstance(IButtonMap.class);
         for (DigitalOperationDescription description : buttonMap.getDigitalOperationSchema())
         {
-            this.addOperationDescription(description, infoTable);
+            this.addOperationDescription(description, innerInfoTable);
         }
 
         for (AnalogOperationDescription description : buttonMap.getAnalogOperationSchema())
         {
-            this.addOperationDescription(description, infoTable);
+            this.addOperationDescription(description, innerInfoTable);
         }
 
         // Add Macros
         Label macrosLabel = new Label("Macros:", this.skin, "subtitle");
-        infoTable.add(macrosLabel).colspan(2).left();
-        infoTable.row();
+        innerInfoTable.add(macrosLabel).colspan(2).left();
+        innerInfoTable.row();
 
         for (MacroOperationDescription description : buttonMap.getMacroOperationSchema())
         {
-            this.addMacroDescription(description, infoTable);
+            this.addMacroDescription(description, innerInfoTable);
         }
 
         // Add Sensors
 
         // Add Actuators
+
     }
 
     @Override
@@ -185,17 +194,17 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                         {
                             case Click:
                                 ClickButton clickButton = new ClickButton(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue(), this.skin);
-                                infoTable.add(clickButton).colspan(2);
+                                infoTable.add(clickButton).colspan(2).fillX();
                                 break;
 
                             case Toggle:
                                 ToggleSimpleButton toggleButton = new ToggleSimpleButton(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue(), this.skin);
-                                infoTable.add(toggleButton).colspan(2);
+                                infoTable.add(toggleButton).colspan(2).fillX();
                                 break;
 
                             case Simple:
                                 ToggleSimpleButton simpleButton = new ToggleSimpleButton(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue(), this.skin);
-                                infoTable.add(simpleButton).colspan(2);
+                                infoTable.add(simpleButton).colspan(2).fillX();
                                 break;
                         }
 
@@ -218,7 +227,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                                     joystick.setAxis(axis.Value, slider.getValue());
                                 }
                             });
-                        infoTable.add(slider);
+                        infoTable.add(slider).fillX();
                         break;
 
                     case None:
@@ -249,17 +258,17 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                 {
                     case Click:
                         ClickButton clickButton = new ClickButton(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue(), this.skin);
-                        infoTable.add(clickButton).colspan(2);
+                        infoTable.add(clickButton).colspan(2).fillX();
                         break;
 
                     case Toggle:
                         ToggleSimpleButton toggleButton = new ToggleSimpleButton(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue(), this.skin);
-                        infoTable.add(toggleButton).colspan(2);
+                        infoTable.add(toggleButton).colspan(2).fillX();
                         break;
 
                     case Simple:
                         ToggleSimpleButton simpleButton = new ToggleSimpleButton(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue(), this.skin);
-                        infoTable.add(simpleButton).colspan(2);
+                        infoTable.add(simpleButton).colspan(2).fillX();
                         break;
                 }
             }
