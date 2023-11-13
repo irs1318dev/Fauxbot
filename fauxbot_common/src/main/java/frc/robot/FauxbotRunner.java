@@ -113,7 +113,7 @@ public class FauxbotRunner implements Runnable
             }
             else
             {
-                System.out.println("20ms loop time not met (" + elapsed + ")");
+                System.out.println("20ms loop time exceeded (" + elapsed + ")");
             }
 
             synchronized (this.locker)

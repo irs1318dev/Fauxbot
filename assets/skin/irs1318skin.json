@@ -1,7 +1,7 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
-	font: {
-		file: poppins-regular.fnt
+	font-over: {
+		file: poppins-light.fnt
 		scaledSize: -1
 		markupEnabled: false
 		flip: false
@@ -12,14 +12,20 @@ com.badlogic.gdx.graphics.g2d.BitmapFont: {
 		markupEnabled: false
 		flip: false
 	}
-	font-over: {
-		file: poppins-light.fnt
+	font-subtitle: {
+		file: poppins-subtitle.fnt
 		scaledSize: -1
 		markupEnabled: false
 		flip: false
 	}
 	font-title: {
 		file: poppins-large.fnt
+		scaledSize: -1
+		markupEnabled: false
+		flip: false
+	}
+	font: {
+		file: poppins-regular.fnt
 		scaledSize: -1
 		markupEnabled: false
 		flip: false
@@ -311,11 +317,15 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		fontColor: text
 	}
 	pressed: {
-		font: font-selected
+		font: font
 		fontColor: text
 	}
 	title: {
 		font: font-title
+		fontColor: text
+	}
+	subtitle: {
+		font: font-subtitle
 		fontColor: text
 	}
 }
@@ -443,7 +453,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Tree$TreeStyle: {
 com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
 	default: {
 		background: window-c
-		titleFont: font
+		titleFont: font-subtitle
 	}
 }
 }

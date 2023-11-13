@@ -22,7 +22,6 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 public class FauxbotMenuScreen implements Screen
 {
-    private final FauxbotGame game;
     private final Stage stage;
     private final Table table;
 
@@ -36,7 +35,6 @@ public class FauxbotMenuScreen implements Screen
 
     public FauxbotMenuScreen(final FauxbotGame game)
     {
-        this.game = game;
         this.stage = new Stage(new ExtendViewport(800, 600));
         Gdx.input.setInputProcessor(this.stage);
 
@@ -111,7 +109,6 @@ public class FauxbotMenuScreen implements Screen
 
         this.table.add(this.simulateLiteButton);
         this.table.row();
-
     }
 
     @Override

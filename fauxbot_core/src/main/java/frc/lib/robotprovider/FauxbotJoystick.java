@@ -13,7 +13,7 @@ public class FauxbotJoystick implements IJoystick
     {
         this.buttons = new HashMap<Integer, Boolean>();
         this.axes = new HashMap<Integer, Double>();
-        this.pov = 0;
+        this.pov = -1;
 
         FauxbotJoystickManager.set(port, this);
     }
@@ -51,5 +51,25 @@ public class FauxbotJoystick implements IJoystick
 
     public void setRumble(JoystickRumbleType type, double value)
     {
+    }
+
+    public void setButton(int buttonNumber, boolean value)
+    {
+        this.buttons.put(buttonNumber, value);
+    }
+
+    public void setPOV(int value)
+    {
+        this.pov = value;
+    }
+
+    public void clearPOV()
+    {
+        this.pov = -1;
+    }
+
+    public void setAxis(int axis, double value)
+    {
+        this.axes.put(axis, value);
     }
 }
