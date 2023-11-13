@@ -34,7 +34,6 @@ public class FauxbotRunner implements Runnable
     {
         RobotMode currentMode = RobotMode.Disabled;
 
-        long time = Calendar.getInstance().getTime().getTime();;
         boolean shouldStop;
         do
         {
@@ -44,6 +43,7 @@ public class FauxbotRunner implements Runnable
                 newMode = this.mode;
             }
 
+            long startTime = Calendar.getInstance().getTime().getTime();
             if (currentMode != newMode)
             {
                 switch (newMode)
@@ -98,9 +98,8 @@ public class FauxbotRunner implements Runnable
                 this.fauxbot.refresh();
             }
 
-            long newTime = Calendar.getInstance().getTime().getTime();
-            long elapsed = newTime - time;
-            time = newTime;
+            long endTime = Calendar.getInstance().getTime().getTime();
+            long elapsed = startTime - endTime;
             if (elapsed <= 20)
             {
                 try
@@ -114,7 +113,7 @@ public class FauxbotRunner implements Runnable
             }
             else
             {
-                // System.out.println("20ms loop time not met (" + elapsed + ")");
+                System.out.println("20ms loop time not met (" + elapsed + ")");
             }
 
             synchronized (this.locker)
