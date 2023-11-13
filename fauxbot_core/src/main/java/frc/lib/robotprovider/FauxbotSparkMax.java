@@ -134,6 +134,59 @@ public class FauxbotSparkMax extends FauxbotAdvancedMotorBase implements ISparkM
     {
     }
 
+    public void setAbsoluteEncoder()
+    {
+    }
+
+    public void setRelativeEncoder()
+    {
+    }
+
+    public void setRelativeEncoder(SparkMaxRelativeEncoderType encoderType, int resolution)
+    {
+    }
+
+    public void setEncoderAverageDepth(int windowSize)
+    {
+    }
+
+    public void setVelocityMeasurementPeriod(int periodMS)
+    {
+    }
+
+    public void setSelectedSlot(int slotId)
+    {
+    }
+
+    public void setCurrentLimit(int stallLimit, int freeLimit, int limitRPM)
+    {
+    }
+
+    public void setAbsoluteOffset(double zeroOffset)
+    {
+    }
+
+    public void burnFlash()
+    {
+    }
+
+    public void setPositionConversionFactor(double ratio)
+    {
+    }
+
+    public void setVelocityConversionFactor(double ratio)
+    {
+    }
+
+    public void setPositionPIDWrappingSettings(boolean enable, double minInput, double maxInput)
+    {
+    }
+
+    public double getOutput()
+    {
+        return 0.0;
+    }
+
     public void stop()
     {
     }
