@@ -18,6 +18,18 @@ public class FauxbotNetworkTableProvider implements INetworkTableProvider
         return null;
     }
 
+    @Override
+    public IIntegerSubscriber getIntegerSlider(String title, int initialValue)
+    {
+        return null;
+    }
+
+    @Override
+    public IBooleanSubscriber getCheckbox(String title, boolean initialValue)
+    {
+        return null;
+    }
+
     /**
      * Add a sendable chooser to the smart dashboard
      */

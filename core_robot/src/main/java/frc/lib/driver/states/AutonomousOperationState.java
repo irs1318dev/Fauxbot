@@ -1,11 +1,15 @@
 package frc.lib.driver.states;
 
+import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
 
 import frc.lib.driver.IControlTask;
 import frc.lib.driver.IOperation;
 import frc.lib.robotprovider.IJoystick;
+import frc.robot.driver.AnalogOperation;
+import frc.robot.driver.DigitalOperation;
 import frc.robot.driver.Shift;
 
 /**
@@ -14,7 +18,12 @@ import frc.robot.driver.Shift;
  */
 public class AutonomousOperationState extends OperationState implements IMacroOperationState
 {
-    private final Map<IOperation, OperationState> operationStateMap;
+    private final EnumMap<AnalogOperation, AnalogOperationState> analogOperationStateMap;
+    private final EnumMap<DigitalOperation, DigitalOperationState> digitalOperationStateMap;
+
+    private final AnalogOperation[] allAnalogOperations;
+    private final DigitalOperation[] allDigitalOperations;
+    private final IOperation[] allOperations;
 
     private IControlTask task;
 
@@ -25,11 +34,29 @@ public class AutonomousOperationState extends OperationState implements IMacroOp
 
     public AutonomousOperationState(
         IControlTask task,
-        Map<IOperation, OperationState> operationStateMap)
+        EnumMap<AnalogOperation, AnalogOperationState> analogOperationStateMap,
+        EnumMap<DigitalOperation, DigitalOperationState> digitalOperationStateMap)
     {
         super(null);
 
-        this.operationStateMap = operationStateMap;
+        this.analogOperationStateMap = analogOperationStateMap;
+        this.digitalOperationStateMap = digitalOperationStateMap;
+
+        this.allAnalogOperations = AnalogOperation.values();
+        this.allDigitalOperations = DigitalOperation.values();
+
+        int i = 0;
+        this.allOperations = new IOperation[this.allAnalogOperations.length + this.allDigitalOperations.length];
+        for (AnalogOperation analogOperation : this.allAnalogOperations)
+        {
+            this.allOperations[i++] = analogOperation;
+        }
+
+        for (DigitalOperation digitalOperation : this.allDigitalOperations)
+        {
+            this.allOperations[i++] = digitalOperation;
+        }
+
         this.task = task;
 
         this.hasBegun = false;
@@ -65,21 +92,24 @@ public class AutonomousOperationState extends OperationState implements IMacroOp
      * @return true if there was any active user input that triggered a state change
      */
     @Override
-    public boolean checkInput(IJoystick[] joysticks, Shift activeShifts)
+    public boolean checkInput(IJoystick[] joysticks, EnumSet<Shift> activeShifts)
     {
         return false;
     }
 
-    public IOperation[] getMacroCancelOperations()
+    public AnalogOperation[] getMacroCancelAnalogOperations()
     {
-        return this.getAffectedOperations();
+        return this.allAnalogOperations;
+    }
+
+    public DigitalOperation[] getMacroCancelDigitalOperations()
+    {
+        return this.allDigitalOperations;
     }
 
     public IOperation[] getAffectedOperations()
     {
-        Set<IOperation> keys = this.operationStateMap.keySet();
-        IOperation[] keyArray = new IOperation[keys.size()];
-        return (IOperation[])keys.toArray(keyArray);
+        return this.allOperations;
     }
 
     public boolean getIsActive()
@@ -91,9 +121,14 @@ public class AutonomousOperationState extends OperationState implements IMacroOp
     {
         if (this.shouldEnd)
         {
-            for (IOperation operation : this.getAffectedOperations())
+            for (AnalogOperation operation : this.allAnalogOperations)
             {
-                this.operationStateMap.get(operation).setIsInterrupted(false);
+                this.analogOperationStateMap.get(operation).setIsInterrupted(false);
+            }
+
+            for (DigitalOperation operation : this.allDigitalOperations)
+            {
+                this.digitalOperationStateMap.get(operation).setIsInterrupted(false);
             }
 
             this.shouldEnd = false;
@@ -110,9 +145,14 @@ public class AutonomousOperationState extends OperationState implements IMacroOp
                     this.task = null;
                 }
 
-                for (IOperation operation : this.getAffectedOperations())
+                for (AnalogOperation operation : this.allAnalogOperations)
                 {
-                    this.operationStateMap.get(operation).setIsInterrupted(false);
+                    this.analogOperationStateMap.get(operation).setIsInterrupted(false);
+                }
+
+                for (DigitalOperation operation : this.allDigitalOperations)
+                {
+                    this.digitalOperationStateMap.get(operation).setIsInterrupted(false);
                 }
 
                 return;
@@ -120,9 +160,14 @@ public class AutonomousOperationState extends OperationState implements IMacroOp
 
             if (!this.hasBegun)
             {
-                for (IOperation operation : this.getAffectedOperations())
+                for (AnalogOperation operation : this.allAnalogOperations)
                 {
-                    this.operationStateMap.get(operation).setIsInterrupted(true);
+                    this.analogOperationStateMap.get(operation).setIsInterrupted(true);
+                }
+
+                for (DigitalOperation operation : this.allDigitalOperations)
+                {
+                    this.digitalOperationStateMap.get(operation).setIsInterrupted(true);
                 }
 
                 // if we haven't begun, begin
@@ -159,9 +204,14 @@ public class AutonomousOperationState extends OperationState implements IMacroOp
         this.task.stop();
         this.task = null;
 
-        for (IOperation operation : this.getAffectedOperations())
+        for (AnalogOperation operation : this.allAnalogOperations)
         {
-            this.operationStateMap.get(operation).setIsInterrupted(false);
+            this.analogOperationStateMap.get(operation).setIsInterrupted(false);
+        }
+
+        for (DigitalOperation operation : this.allDigitalOperations)
+        {
+            this.digitalOperationStateMap.get(operation).setIsInterrupted(false);
         }
     }
 }

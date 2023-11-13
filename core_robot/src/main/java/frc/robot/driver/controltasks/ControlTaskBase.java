@@ -1,29 +1,34 @@
 package frc.robot.driver.controltasks;
 
-import java.util.Map;
+import java.util.EnumMap;
 
 import frc.lib.driver.*;
 import frc.lib.driver.states.AnalogOperationState;
 import frc.lib.driver.states.DigitalOperationState;
-import frc.lib.driver.states.OperationState;
 import frc.robot.driver.*;
 
 import com.google.inject.Injector;
 
 public abstract class ControlTaskBase implements IControlTask
 {
-    private Map<IOperation, OperationState> operationStateMap;
+    private EnumMap<AnalogOperation, AnalogOperationState> analogOperationStateMap;
+    private EnumMap<DigitalOperation, DigitalOperationState> digitalOperationStateMap;
     private Injector injector;
 
     /**
      * Initialize the task with the mapping of operations to states
-     * @param operationStateMap indicating the mapping of an operation to its current state
-     * @param components to utilize for making any decisions
+     * @param analogOperationStateMap indicating the mapping of an analog operation to its current state
+     * @param digitalOperationStateMap indicating the mapping of a digital operation to its current state
+     * @param injector used to retrieve components to utilize for making any decisions
      */
     @Override
-    public void initialize(Map<IOperation, OperationState> operationStateMap, Injector injector)
+    public void initialize(
+        EnumMap<AnalogOperation, AnalogOperationState> analogOperationStateMap,
+        EnumMap<DigitalOperation, DigitalOperationState> digitalOperationStateMap,
+        Injector injector)
     {
-        this.operationStateMap = operationStateMap;
+        this.analogOperationStateMap = analogOperationStateMap;
+        this.digitalOperationStateMap = digitalOperationStateMap;
         this.injector = injector;
     }
 
@@ -74,8 +79,8 @@ public abstract class ControlTaskBase implements IControlTask
      */
     protected void setAnalogOperationState(AnalogOperation operation, double value)
     {
-        OperationState operationState = this.operationStateMap.get(operation);
-        ((AnalogOperationState)operationState).setInterruptState(value);
+        AnalogOperationState operationState = this.analogOperationStateMap.get(operation);
+        operationState.setInterruptState(value);
     }
 
     /**
@@ -85,8 +90,8 @@ public abstract class ControlTaskBase implements IControlTask
      */
     protected void setDigitalOperationState(DigitalOperation operation, boolean value)
     {
-        OperationState operationState = this.operationStateMap.get(operation);
-        ((DigitalOperationState)operationState).setInterruptState(value);
+        DigitalOperationState operationState = this.digitalOperationStateMap.get(operation);
+        operationState.setInterruptState(value);
     }
 
     /**
@@ -96,8 +101,8 @@ public abstract class ControlTaskBase implements IControlTask
      */
     protected double getAnalogOperationState(AnalogOperation operation)
     {
-        OperationState operationState = this.operationStateMap.get(operation);
-        return ((AnalogOperationState)operationState).getState();
+        AnalogOperationState operationState = this.analogOperationStateMap.get(operation);
+        return operationState.getState();
     }
 
     /**
@@ -107,8 +112,8 @@ public abstract class ControlTaskBase implements IControlTask
      */
     protected boolean getDigitalOperationState(DigitalOperation operation)
     {
-        OperationState operationState = this.operationStateMap.get(operation);
-        return ((DigitalOperationState)operationState).getState();
+        DigitalOperationState operationState = this.digitalOperationStateMap.get(operation);
+        return operationState.getState();
     }
 
     /**
@@ -121,11 +126,20 @@ public abstract class ControlTaskBase implements IControlTask
     }
 
     /**
-     * Gets the Operation State Map
+     * Gets the Analog Operation State Map
      * @return the operation state map
      */
-    protected Map<IOperation, OperationState> getOperationStateMap()
+    protected EnumMap<AnalogOperation, AnalogOperationState> getAnalogOperationStateMap()
     {
-        return this.operationStateMap;
+        return this.analogOperationStateMap;
+    }
+
+    /**
+     * Gets the Digital Operation State Map
+     * @return the operation state map
+     */
+    protected EnumMap<DigitalOperation, DigitalOperationState> getDigitalOperationStateMap()
+    {
+        return this.digitalOperationStateMap;
     }
 }

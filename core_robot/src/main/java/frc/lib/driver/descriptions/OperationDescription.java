@@ -1,5 +1,7 @@
 package frc.lib.driver.descriptions;
 
+import java.util.EnumSet;
+
 import frc.lib.driver.IOperation;
 import frc.lib.helpers.ExceptionHelpers;
 import frc.robot.driver.Shift;
@@ -8,17 +10,17 @@ import frc.robot.driver.Shift;
  * Describes an operation.
  *
  */
-public abstract class OperationDescription
+public abstract class OperationDescription<TOperation extends IOperation>
 {
-    private final IOperation operation;
+    private final TOperation operation;
     private final OperationType type;
     private final UserInputDevice userInputDevice;
-    private final Shift relevantShifts;
-    private final Shift requiredShifts;
+    private final EnumSet<Shift> relevantShifts;
+    private final EnumSet<Shift> requiredShifts;
     private final double userInputDeviceRangeMin;
     private final double userInputDeviceRangeMax;
 
-    protected OperationDescription(IOperation operation, OperationType type, UserInputDevice userInputDevice, double userInputDeviceRangeMin, double userInputDeviceRangeMax, Shift relevantShifts, Shift requiredShifts)
+    protected OperationDescription(TOperation operation, OperationType type, UserInputDevice userInputDevice, double userInputDeviceRangeMin, double userInputDeviceRangeMax, EnumSet<Shift> relevantShifts, EnumSet<Shift> requiredShifts)
     {
         this.operation = operation;
         this.type = type;
@@ -29,10 +31,10 @@ public abstract class OperationDescription
         this.requiredShifts = requiredShifts;
 
         ExceptionHelpers.Assert((relevantShifts == null) == (requiredShifts == null), "Either both or neither of relevant and required shifts should be null");
-        ExceptionHelpers.Assert(relevantShifts == null || requiredShifts == null || relevantShifts.hasFlag(requiredShifts), "relevant shifts must contain required shifts");
+        ExceptionHelpers.Assert(relevantShifts == null || requiredShifts == null || relevantShifts.containsAll(requiredShifts), "relevant shifts must contain required shifts");
     }
 
-    public IOperation getOperation()
+    public TOperation getOperation()
     {
         return this.operation;
     }
@@ -47,12 +49,12 @@ public abstract class OperationDescription
         return this.userInputDevice;
     }
 
-    public Shift getRelevantShifts()
+    public EnumSet<Shift> getRelevantShifts()
     {
         return this.relevantShifts;
     }
 
-    public Shift getRequiredShifts()
+    public EnumSet<Shift> getRequiredShifts()
     {
         return this.requiredShifts;
     }

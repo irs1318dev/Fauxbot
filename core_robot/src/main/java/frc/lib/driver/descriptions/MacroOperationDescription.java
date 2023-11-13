@@ -1,5 +1,6 @@
 package frc.lib.driver.descriptions;
 
+import java.util.EnumSet;
 import java.util.function.Supplier;
 
 import frc.lib.driver.AnalogAxis;
@@ -7,10 +8,13 @@ import frc.lib.driver.IControlTask;
 import frc.lib.driver.IOperation;
 import frc.lib.driver.UserInputDeviceButton;
 import frc.lib.driver.buttons.ButtonType;
+import frc.lib.helpers.ExceptionHelpers;
+import frc.robot.driver.AnalogOperation;
+import frc.robot.driver.DigitalOperation;
 import frc.robot.driver.MacroOperation;
 import frc.robot.driver.Shift;
 
-public class MacroOperationDescription extends OperationDescription
+public class MacroOperationDescription extends OperationDescription<MacroOperation>
 {
     private final boolean clearInterrupt;
     private final UserInputDeviceButton userInputDeviceButton;
@@ -19,7 +23,8 @@ public class MacroOperationDescription extends OperationDescription
     private final ButtonType buttonType;
     private final Supplier<IControlTask> taskSupplier;
     private final IOperation[] affectedOperations;
-    private final IOperation[] macroCancelOperations;
+    private final AnalogOperation[] macroCancelAnalogOperations;
+    private final DigitalOperation[] macroCancelDigitalOperations;
 
     /**
      * Initializes a new MacroOperationDescription based on a user interaction
@@ -70,8 +75,8 @@ public class MacroOperationDescription extends OperationDescription
         MacroOperation operation,
         UserInputDevice userInputDevice,
         UserInputDeviceButton userInputDeviceButton,
-        Shift relevantShifts,
-        Shift requiredShifts,
+        EnumSet<Shift> relevantShifts,
+        EnumSet<Shift> requiredShifts,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
         IOperation[] affectedOperations)
@@ -145,8 +150,8 @@ public class MacroOperationDescription extends OperationDescription
         MacroOperation operation,
         UserInputDevice userInputDevice,
         UserInputDeviceButton userInputDeviceButton,
-        Shift relevantShifts,
-        Shift requiredShifts,
+        EnumSet<Shift> relevantShifts,
+        EnumSet<Shift> requiredShifts,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
         IOperation[] affectedOperations,
@@ -218,8 +223,8 @@ public class MacroOperationDescription extends OperationDescription
         MacroOperation operation,
         UserInputDevice userInputDevice,
         int povValue,
-        Shift relevantShifts,
-        Shift requiredShifts,
+        EnumSet<Shift> relevantShifts,
+        EnumSet<Shift> requiredShifts,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
         IOperation[] affectedOperations)
@@ -257,8 +262,8 @@ public class MacroOperationDescription extends OperationDescription
         MacroOperation operation,
         UserInputDevice userInputDevice,
         int povValue,
-        Shift relevantShifts,
-        Shift requiredShifts,
+        EnumSet<Shift> relevantShifts,
+        EnumSet<Shift> requiredShifts,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
         IOperation[] affectedOperations,
@@ -378,8 +383,8 @@ public class MacroOperationDescription extends OperationDescription
         AnalogAxis analogAxis,
         double axisRangeMinValue,
         double axisRangeMaxValue,
-        Shift relevantShifts,
-        Shift requiredShifts,
+        EnumSet<Shift> relevantShifts,
+        EnumSet<Shift> requiredShifts,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
         IOperation[] affectedOperations)
@@ -421,8 +426,8 @@ public class MacroOperationDescription extends OperationDescription
         AnalogAxis analogAxis,
         double axisRangeMinValue,
         double axisRangeMaxValue,
-        Shift relevantShifts,
-        Shift requiredShifts,
+        EnumSet<Shift> relevantShifts,
+        EnumSet<Shift> requiredShifts,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
         IOperation[] affectedOperations,
@@ -468,8 +473,8 @@ public class MacroOperationDescription extends OperationDescription
         AnalogAxis analogAxis,
         double axisRangeMinValue,
         double axisRangeMaxValue,
-        Shift relevantShifts,
-        Shift requiredShifts,
+        EnumSet<Shift> relevantShifts,
+        EnumSet<Shift> requiredShifts,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
         IOperation[] affectedOperations,
@@ -484,7 +489,42 @@ public class MacroOperationDescription extends OperationDescription
         this.buttonType = buttonType;
         this.taskSupplier = taskSupplier;
         this.affectedOperations = affectedOperations;
-        this.macroCancelOperations = macroCancelOperations;
+
+        IOperation[] cancelOperations = macroCancelOperations;
+        if (macroCancelOperations == null)
+        {
+            cancelOperations = affectedOperations;
+        }
+
+        ExceptionHelpers.Assert(cancelOperations != null, "expect there to be non-null affected or cancel operations");
+        if (cancelOperations != null)
+        {
+            EnumSet<AnalogOperation> analogCancelOperations = EnumSet.noneOf(AnalogOperation.class);
+            EnumSet<DigitalOperation> digitalCancelOperations = EnumSet.noneOf(DigitalOperation.class);
+            for (IOperation cancelOperation : cancelOperations)
+            {
+                if (cancelOperation instanceof AnalogOperation)
+                {
+                    analogCancelOperations.add((AnalogOperation)cancelOperation);
+                }
+                else if (cancelOperation instanceof DigitalOperation)
+                {
+                    digitalCancelOperations.add((DigitalOperation)cancelOperation);
+                }
+                else
+                {
+                    ExceptionHelpers.Assert(false, "expect all affected/cancel operations to be either Analog or Digital operations, value: " + cancelOperation.toString());
+                }
+            }
+
+            this.macroCancelAnalogOperations = analogCancelOperations.toArray(new AnalogOperation[0]);
+            this.macroCancelDigitalOperations = digitalCancelOperations.toArray(new DigitalOperation[0]);
+        }
+        else
+        {
+            this.macroCancelAnalogOperations = new AnalogOperation[0];
+            this.macroCancelDigitalOperations = new DigitalOperation[0];
+        }
     }
 
     public boolean shouldClearInterrupt()
@@ -517,14 +557,14 @@ public class MacroOperationDescription extends OperationDescription
         return this.taskSupplier.get();
     }
 
-    public IOperation[] getMacroCancelOperations()
+    public AnalogOperation[] getMacroCancelAnalogOperations()
     {
-        if (this.macroCancelOperations != null)
-        {
-            return this.macroCancelOperations;
-        }
+        return this.macroCancelAnalogOperations;
+    }
 
-        return this.affectedOperations;
+    public DigitalOperation[] getMacroCancelDigitalOperations()
+    {
+        return this.macroCancelDigitalOperations;
     }
 
     public IOperation[] getAffectedOperations()
