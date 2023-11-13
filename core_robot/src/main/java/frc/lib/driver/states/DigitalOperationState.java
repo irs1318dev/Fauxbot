@@ -1,6 +1,9 @@
 package frc.lib.driver.states;
 
 import frc.robot.TuningConstants;
+
+import java.util.EnumSet;
+
 import frc.lib.driver.UserInputDeviceButton;
 import frc.lib.robotprovider.IJoystick;
 import frc.lib.driver.buttons.ClickButton;
@@ -10,6 +13,7 @@ import frc.lib.driver.buttons.ToggleButton;
 import frc.lib.driver.descriptions.DigitalOperationDescription;
 import frc.lib.driver.descriptions.UserInputDevice;
 import frc.lib.helpers.ExceptionHelpers;
+import frc.lib.helpers.SetHelper;
 import frc.robot.driver.Shift;
 
 /**
@@ -80,7 +84,7 @@ public class DigitalOperationState extends OperationState
      * @return true if there was any active user input that triggered a state change
      */
     @Override
-    public boolean checkInput(IJoystick[] joysticks, Shift activeShifts)
+    public boolean checkInput(IJoystick[] joysticks, EnumSet<Shift> activeShifts)
     {
         DigitalOperationDescription description = (DigitalOperationDescription)this.getDescription();
 
@@ -90,11 +94,11 @@ public class DigitalOperationState extends OperationState
             return false;
         }
 
-        Shift relevantShifts = description.getRelevantShifts();
-        Shift requiredShifts = description.getRequiredShifts();
+        EnumSet<Shift> relevantShifts = description.getRelevantShifts();
+        EnumSet<Shift> requiredShifts = description.getRequiredShifts();
         if (relevantShifts != null && requiredShifts != null)
         {
-            Shift relevantActiveShifts = Shift.Intersect(relevantShifts, activeShifts);
+            EnumSet<Shift> relevantActiveShifts = SetHelper.Intersection(relevantShifts, activeShifts);
             if (!relevantActiveShifts.equals(requiredShifts))
             {
                 this.button.updateState(false);

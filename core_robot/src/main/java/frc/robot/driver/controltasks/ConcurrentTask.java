@@ -1,10 +1,12 @@
 package frc.robot.driver.controltasks;
 
-import java.util.Map;
+import java.util.EnumMap;
 
 import frc.lib.driver.IControlTask;
-import frc.lib.driver.IOperation;
-import frc.lib.driver.states.OperationState;
+import frc.lib.driver.states.AnalogOperationState;
+import frc.lib.driver.states.DigitalOperationState;
+import frc.robot.driver.AnalogOperation;
+import frc.robot.driver.DigitalOperation;
 
 import com.google.inject.Injector;
 
@@ -43,16 +45,20 @@ public class ConcurrentTask extends ControlTaskBase
 
     /**
      * Initialize the task with the mapping of operations to states
-     * @param operationStateMap indicating the mapping of an operation to its current state
-     * @param injector used to retrieve the components to utilize for making any decisions
+     * @param analogOperationStateMap indicating the mapping of an analog operation to its current state
+     * @param digitalOperationStateMap indicating the mapping of a digital operation to its current state
+     * @param injector used to retrieve components to utilize for making any decisions
      */
     @Override
-    public void initialize(Map<IOperation, OperationState> operationStateMap, Injector injector)
+    public void initialize(
+        EnumMap<AnalogOperation, AnalogOperationState> analogOperationStateMap,
+        EnumMap<DigitalOperation, DigitalOperationState> digitalOperationStateMap,
+        Injector injector)
     {
-        super.initialize(operationStateMap, injector);
+        super.initialize(analogOperationStateMap, digitalOperationStateMap, injector);
         for (IControlTask task : this.tasks)
         {
-            task.initialize(operationStateMap, injector);
+            task.initialize(analogOperationStateMap, digitalOperationStateMap, injector);
         }
     }
 

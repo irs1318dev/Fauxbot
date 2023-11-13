@@ -1,7 +1,8 @@
 package frc.lib.driver;
 
+import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,12 +31,15 @@ public class Driver implements IDriver
     private final ILogger logger;
 
     protected final Injector injector;
-    protected final Map<IOperation, OperationState> operationStateMap;
+    protected final EnumMap<AnalogOperation, AnalogOperationState> analogOperationStateMap;
+    protected final EnumMap<DigitalOperation, DigitalOperationState> digitalOperationStateMap;
 
     private final IJoystick[] joysticks;
+    private final DigitalOperation[] allDigitalOperations;
+    private final AnalogOperation[] allAnalogOperations;
 
-    private final Map<Shift, ShiftDescription> shiftMap;
-    private final Map<MacroOperation, IMacroOperationState> macroStateMap;
+    private final EnumMap<Shift, ShiftDescription> shiftMap;
+    private final EnumMap<MacroOperation, IMacroOperationState> macroStateMap;
 
     private final AutonomousRoutineSelector routineSelector;
     private IControlTask autonomousTask;
@@ -59,41 +63,42 @@ public class Driver implements IDriver
         this.logger = logger;
         this.injector = injector;
 
-        HashSet<UserInputDevice> devices = new HashSet<UserInputDevice>();
+        EnumSet<UserInputDevice> devices = EnumSet.noneOf(UserInputDevice.class);
         AnalogOperationDescription[] analogOperationSchema = buttonMap.getAnalogOperationSchema();
         DigitalOperationDescription[] digitalOperationSchema = buttonMap.getDigitalOperationSchema();
 
-        DigitalOperation[] digitalOperations = DigitalOperation.values();
-        AnalogOperation[] analogOperations = AnalogOperation.values();
+        this.allDigitalOperations = DigitalOperation.values();
+        this.allAnalogOperations = AnalogOperation.values();
 
-        this.operationStateMap = new HashMap<IOperation, OperationState>(analogOperations.length + digitalOperations.length);
+        this.digitalOperationStateMap = new EnumMap<DigitalOperation, DigitalOperationState>(DigitalOperation.class);
         for (DigitalOperationDescription description : digitalOperationSchema)
         {
             devices.add(description.getUserInputDevice());
-            this.operationStateMap.put(description.getOperation(), new DigitalOperationState(description));
+            this.digitalOperationStateMap.put(description.getOperation(), new DigitalOperationState(description));
         }
 
-        for (DigitalOperation operation : digitalOperations)
+        for (DigitalOperation operation : this.allDigitalOperations)
         {
-            if (!this.operationStateMap.containsKey(operation))
+            if (!this.digitalOperationStateMap.containsKey(operation))
             {
-                this.operationStateMap.put(
+                this.digitalOperationStateMap.put(
                     operation,
                     new DigitalOperationState(new DigitalOperationDescription(operation)));
             }
         }
 
+        this.analogOperationStateMap = new EnumMap<AnalogOperation, AnalogOperationState>(AnalogOperation.class);
         for (AnalogOperationDescription description : analogOperationSchema)
         {
             devices.add(description.getUserInputDevice());
-            this.operationStateMap.put(description.getOperation(), new AnalogOperationState(description));
+            this.analogOperationStateMap.put(description.getOperation(), new AnalogOperationState(description));
         }
 
-        for (AnalogOperation operation : analogOperations)
+        for (AnalogOperation operation : this.allAnalogOperations)
         {
-            if (!this.operationStateMap.containsKey(operation))
+            if (!this.analogOperationStateMap.containsKey(operation))
             {
-                this.operationStateMap.put(
+                this.analogOperationStateMap.put(
                     operation,
                     new AnalogOperationState(new AnalogOperationDescription(operation)));
             }
@@ -102,13 +107,13 @@ public class Driver implements IDriver
         this.routineSelector = injector.getInstance(AutonomousRoutineSelector.class);
 
         ShiftDescription[] shiftSchema = buttonMap.getShiftSchema();
-        this.shiftMap = new HashMap<Shift, ShiftDescription>();
+        this.shiftMap = new EnumMap<Shift, ShiftDescription>(Shift.class);
         for (ShiftDescription description : shiftSchema)
         {
             this.shiftMap.put(description.getShift(), description);
         }
 
-        this.macroStateMap = new HashMap<MacroOperation, IMacroOperationState>();
+        this.macroStateMap = new EnumMap<MacroOperation, IMacroOperationState>(MacroOperation.class);
         MacroOperationDescription[] macroSchema = buttonMap.getMacroOperationSchema();
         for (MacroOperationDescription description : macroSchema)
         {
@@ -117,7 +122,8 @@ public class Driver implements IDriver
                 (MacroOperation)description.getOperation(),
                 new MacroOperationState(
                     description,
-                    this.operationStateMap,
+                    this.analogOperationStateMap,
+                    this.digitalOperationStateMap,
                     this.injector));
         }
 
@@ -158,7 +164,7 @@ public class Driver implements IDriver
         this.logger.logString(LoggingKey.DriverMode, this.currentMode.toString());
 
         // keep track of macros that were running before we checked user input...
-        Set<MacroOperation> previouslyActiveMacroOperations = new HashSet<MacroOperation>();
+        EnumSet<MacroOperation> previouslyActiveMacroOperations = EnumSet.noneOf(MacroOperation.class);
         for (MacroOperation macroOperation : this.macroStateMap.keySet())
         {
             IMacroOperationState macroState = this.macroStateMap.get(macroOperation);
@@ -169,42 +175,59 @@ public class Driver implements IDriver
         }
 
         // check inputs and update shifts based on it...
-        int shiftIndex = 0;
-        Shift[] activeShiftList = new Shift[this.shiftMap.size()];
+        EnumSet<Shift> activeShifts = EnumSet.noneOf(Shift.class);
         for (Shift shift : this.shiftMap.keySet())
         {
             ShiftDescription shiftDescription = this.shiftMap.get(shift);
             if (this.currentMode != RobotMode.Autonomous && shiftDescription.checkInput(this.joysticks))
             {
-                activeShiftList[shiftIndex++] = shift;
+                activeShifts.add(shift);
             }
         }
 
-        Shift activeShifts = Shift.Union(activeShiftList);
-
-        // check user inputs for various operations (non-macro) and keep track of:
+        // check user inputs for various analog operations and keep track of:
         // operations that were interrupted already, and operations that were modified by user input in this update
-        Set<IOperation> modifiedOperations = new HashSet<IOperation>();
-        Set<IOperation> interruptedOperations = new HashSet<IOperation>();
-        for (IOperation operation : this.operationStateMap.keySet())
+        EnumSet<AnalogOperation> modifiedAnalogOperations = EnumSet.noneOf(AnalogOperation.class);
+        EnumSet<AnalogOperation> interruptedAnalogOperations = EnumSet.noneOf(AnalogOperation.class);
+        for (AnalogOperation analogOperation : this.allAnalogOperations)
         {
-            OperationState opState = this.operationStateMap.get(operation);
+            AnalogOperationState opState = this.analogOperationStateMap.get(analogOperation);
             boolean receivedInput = this.currentMode != RobotMode.Autonomous && opState.checkInput(this.joysticks, activeShifts);
             if (receivedInput)
             {
-                modifiedOperations.add(operation);
+                modifiedAnalogOperations.add(analogOperation);
             }
 
-            if (this.operationStateMap.get(operation).getIsInterrupted())
+            if (this.analogOperationStateMap.get(analogOperation).getIsInterrupted())
             {
-                interruptedOperations.add(operation);
+                interruptedAnalogOperations.add(analogOperation);
+            }
+        }
+
+        // check user inputs for various digital operations and keep track of:
+        // operations that were interrupted already, and operations that were modified by user input in this update
+        EnumSet<DigitalOperation> modifiedDigitalOperations = EnumSet.noneOf(DigitalOperation.class);
+        EnumSet<DigitalOperation> interruptedDigitalOperations = EnumSet.noneOf(DigitalOperation.class);
+        for (DigitalOperation digitalOperation : this.allDigitalOperations)
+        {
+            DigitalOperationState opState = this.digitalOperationStateMap.get(digitalOperation);
+            boolean receivedInput = this.currentMode != RobotMode.Autonomous && opState.checkInput(this.joysticks, activeShifts);
+            if (receivedInput)
+            {
+                modifiedDigitalOperations.add(digitalOperation);
+            }
+
+            if (this.digitalOperationStateMap.get(digitalOperation).getIsInterrupted())
+            {
+                interruptedDigitalOperations.add(digitalOperation);
             }
         }
 
         // check user inputs for various macro operations
         // also keep track of modified and active macro operations, and how macro operations and operations link together
-        Set<MacroOperation> activeMacroOperations = new HashSet<MacroOperation>();
-        Map<IOperation, Set<MacroOperation>> activeMacroOperationMap = new HashMap<IOperation, Set<MacroOperation>>();
+        EnumSet<MacroOperation> activeMacroOperations = EnumSet.noneOf(MacroOperation.class);
+        EnumMap<AnalogOperation, EnumSet<MacroOperation>> activeMacroAnalogOperationMap = new EnumMap<AnalogOperation, EnumSet<MacroOperation>>(AnalogOperation.class);
+        EnumMap<DigitalOperation, EnumSet<MacroOperation>> activeMacroDigitalOperationMap = new EnumMap<DigitalOperation, EnumSet<MacroOperation>>(DigitalOperation.class);
         for (MacroOperation macroOperation : this.macroStateMap.keySet())
         {
             IMacroOperationState macroState = this.macroStateMap.get(macroOperation);
@@ -217,13 +240,25 @@ public class Driver implements IDriver
             {
                 activeMacroOperations.add(macroOperation);
 
-                for (IOperation affectedOperation : macroState.getMacroCancelOperations())
+                for (AnalogOperation affectedAnalogOperation : macroState.getMacroCancelAnalogOperations())
                 {
-                    Set<MacroOperation> relevantMacroOperations = activeMacroOperationMap.get(affectedOperation);
+                    EnumSet<MacroOperation> relevantMacroOperations = activeMacroAnalogOperationMap.get(affectedAnalogOperation);
                     if (relevantMacroOperations == null)
                     {
-                        relevantMacroOperations = new HashSet<MacroOperation>();
-                        activeMacroOperationMap.put(affectedOperation, relevantMacroOperations);
+                        relevantMacroOperations = EnumSet.noneOf(MacroOperation.class);
+                        activeMacroAnalogOperationMap.put(affectedAnalogOperation, relevantMacroOperations);
+                    }
+
+                    relevantMacroOperations.add(macroOperation);
+                }
+
+                for (DigitalOperation affectedDigitalOperation : macroState.getMacroCancelDigitalOperations())
+                {
+                    EnumSet<MacroOperation> relevantMacroOperations = activeMacroDigitalOperationMap.get(affectedDigitalOperation);
+                    if (relevantMacroOperations == null)
+                    {
+                        relevantMacroOperations = EnumSet.noneOf(MacroOperation.class);
+                        activeMacroDigitalOperationMap.put(affectedDigitalOperation, relevantMacroOperations);
                     }
 
                     relevantMacroOperations.add(macroOperation);
@@ -235,29 +270,58 @@ public class Driver implements IDriver
         // 1. have not been usurped by a user action
         // 2. have not been usurped by a new macro (i.e. that was started in this round)
         // 3. are new macros that do not overlap with other new macros
-        Set<MacroOperation> macroOperationsToCancel = new HashSet<MacroOperation>();
-        for (IOperation operation : activeMacroOperationMap.keySet())
+        EnumSet<MacroOperation> macroOperationsToCancel = EnumSet.noneOf(MacroOperation.class);
+
+        // first perform checks for analog operations:
+        for (AnalogOperation operation : activeMacroAnalogOperationMap.keySet())
         {
-            Set<MacroOperation> relevantMacroOperations = activeMacroOperationMap.get(operation);
-            if (modifiedOperations.contains(operation))
+            EnumSet<MacroOperation> relevantMacroOperations = activeMacroAnalogOperationMap.get(operation);
+            if (modifiedAnalogOperations.contains(operation))
             {
                 // disobeys rule #1:
                 // (macro usurped by user action)
                 macroOperationsToCancel.addAll(relevantMacroOperations);
             }
-            else if (relevantMacroOperations.size() > 1)
+            else if (SetHelper.<MacroOperation>Count(relevantMacroOperations) > 1)
             {
-                Set<MacroOperation> newRelevantMacroOperations = SetHelper.<MacroOperation>RelativeComplement(previouslyActiveMacroOperations, relevantMacroOperations);
-                if (newRelevantMacroOperations.size() > 1)
+                EnumSet<MacroOperation> newRelevantMacroOperations = SetHelper.<MacroOperation>RelativeComplement(previouslyActiveMacroOperations, relevantMacroOperations);
+                if (newRelevantMacroOperations.isEmpty())
+                {
+                    // some disobey rule #2 (remove only those that were previously active, and not the 1 that is newly active...)
+                    macroOperationsToCancel.addAll(SetHelper.<MacroOperation>RelativeComplement(newRelevantMacroOperations, relevantMacroOperations));
+                }
+                else if (SetHelper.<MacroOperation>Count(newRelevantMacroOperations) > 1)
                 {
                     // disobeys rule #3:
                     // (there are 2 or more active macros that weren't previously active)
                     macroOperationsToCancel.addAll(relevantMacroOperations);
                 }
-                else
+            }
+        }
+
+        // and then for digital operations:
+        for (DigitalOperation operation : activeMacroDigitalOperationMap.keySet())
+        {
+            EnumSet<MacroOperation> relevantMacroOperations = activeMacroDigitalOperationMap.get(operation);
+            if (modifiedDigitalOperations.contains(operation))
+            {
+                // disobeys rule #1:
+                // (macro usurped by user action)
+                macroOperationsToCancel.addAll(relevantMacroOperations);
+            }
+            else if (SetHelper.<MacroOperation>Count(relevantMacroOperations) > 1)
+            {
+                EnumSet<MacroOperation> newRelevantMacroOperations = SetHelper.<MacroOperation>RelativeComplement(previouslyActiveMacroOperations, relevantMacroOperations);
+                if (newRelevantMacroOperations.isEmpty())
                 {
                     // some disobey rule #2 (remove only those that were previously active, and not the 1 that is newly active...)
                     macroOperationsToCancel.addAll(SetHelper.<MacroOperation>RelativeComplement(newRelevantMacroOperations, relevantMacroOperations));
+                }
+                else if (SetHelper.<MacroOperation>Count(newRelevantMacroOperations) > 1)
+                {
+                    // disobeys rule #3:
+                    // (there are 2 or more active macros that weren't previously active)
+                    macroOperationsToCancel.addAll(relevantMacroOperations);
                 }
             }
         }
@@ -270,7 +334,7 @@ public class Driver implements IDriver
         }
 
         // first, run all of the inactive macros (to clear any old interrupts)...
-        Set<MacroOperation> inactiveMacroOperations = SetHelper.<MacroOperation>RelativeComplement(activeMacroOperations, this.macroStateMap.keySet());
+        EnumSet<MacroOperation> inactiveMacroOperations = SetHelper.<MacroOperation>RelativeComplement(activeMacroOperations, this.macroStateMap.keySet());
         for (MacroOperation macroOperation : inactiveMacroOperations)
         {
             this.macroStateMap.get(macroOperation).run();
@@ -278,15 +342,22 @@ public class Driver implements IDriver
 
         // second, run all of the active macros (which could add interrupts that were cleared in the previous phase)...
         // while we're doing that, grab the names of the macros for logging
-        int i = 0;
-        String[] macroStrings = new String[activeMacroOperations.size()];
-        for (MacroOperation macroOperation : activeMacroOperations)
+        String macroString = "";
+        int activeMacroCount = activeMacroOperations.size();
+        if (activeMacroCount > 0)
         {
-            macroStrings[i++] = macroOperation.toString();
-            this.macroStateMap.get(macroOperation).run();
+            int i = 0;
+            String[] macroStrings = new String[activeMacroCount];
+            for (MacroOperation macroOperation : activeMacroOperations)
+            {
+                macroStrings[i++] = macroOperation.toString();
+                this.macroStateMap.get(macroOperation).run();
+            }
+
+            macroString = String.join(", ", macroStrings);
         }
 
-        this.logger.logString(LoggingKey.DriverActiveMacros, String.join(", ", macroStrings));
+        this.logger.logString(LoggingKey.DriverActiveMacros, macroString);
         this.logger.logString(LoggingKey.DriverActiveShifts, activeShifts.toString());
     }
 
@@ -304,7 +375,13 @@ public class Driver implements IDriver
         }
 
         // cancel all interruption of buttons:
-        for (OperationState state : this.operationStateMap.values())
+        for (AnalogOperationState state : this.analogOperationStateMap.values())
+        {
+            state.setIsInterrupted(false);
+        }
+
+        // cancel all interruption of buttons:
+        for (DigitalOperationState state : this.digitalOperationStateMap.values())
         {
             state.setIsInterrupted(false);
         }
@@ -328,10 +405,10 @@ public class Driver implements IDriver
         this.autonomousTask = this.routineSelector.selectRoutine(mode);
         if (this.autonomousTask != null)
         {
-            this.autonomousTask.initialize(this.operationStateMap, injector);
+            this.autonomousTask.initialize(this.analogOperationStateMap, this.digitalOperationStateMap, injector);
             this.macroStateMap.put(
                 MacroOperation.AutonomousRoutine,
-                new AutonomousOperationState(this.autonomousTask, this.operationStateMap));
+                new AutonomousOperationState(this.autonomousTask, this.analogOperationStateMap, this.digitalOperationStateMap));
         }
     }
 
@@ -342,15 +419,8 @@ public class Driver implements IDriver
      */
     public boolean getDigital(DigitalOperation digitalOperation)
     {
-        OperationState state = this.operationStateMap.get(digitalOperation);
-        if (!(state instanceof DigitalOperationState))
-        {
-            ExceptionHelpers.Assert(false, "not a digital operation!");
-            return false;
-        }
-
-        DigitalOperationState digitalState = (DigitalOperationState)state;
-        return digitalState.getState();
+        DigitalOperationState state = this.digitalOperationStateMap.get(digitalOperation);
+        return state.getState();
     }
 
     /**
@@ -360,15 +430,8 @@ public class Driver implements IDriver
      */
     public double getAnalog(AnalogOperation analogOperation)
     {
-        OperationState state = this.operationStateMap.get(analogOperation);
-        if (!(state instanceof AnalogOperationState))
-        {
-            ExceptionHelpers.Assert(false, "not an analog operation!");
-            return 0.0;
-        }
-
-        AnalogOperationState analogState = (AnalogOperationState)state;
-        return analogState.getState();
+        AnalogOperationState state = this.analogOperationStateMap.get(analogOperation);
+        return state.getState();
     }
 
     /**

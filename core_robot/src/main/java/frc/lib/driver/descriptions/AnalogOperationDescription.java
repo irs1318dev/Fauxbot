@@ -1,5 +1,7 @@
 package frc.lib.driver.descriptions;
 
+import java.util.EnumSet;
+
 import frc.lib.driver.AnalogAxis;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.Shift;
@@ -8,7 +10,7 @@ import frc.robot.driver.Shift;
  * Describes an operation that will give a double value (typically between -1 and 1).
  * 
  */
-public class AnalogOperationDescription extends OperationDescription
+public class AnalogOperationDescription extends OperationDescription<AnalogOperation>
 {
     private final AnalogAxis userInputDeviceAxis;
     private final AnalogAxis userInputDeviceSecondaryAxis;
@@ -164,8 +166,8 @@ public class AnalogOperationDescription extends OperationDescription
         AnalogOperation operation,
         UserInputDevice userInputDevice,
         AnalogAxis userInputDeviceAxis,
-        Shift relevantShifts,
-        Shift requiredShifts,
+        EnumSet<Shift> relevantShifts,
+        EnumSet<Shift> requiredShifts,
         boolean shouldInvert,
         double deadZoneMin,
         double deadZoneMax)
@@ -205,8 +207,8 @@ public class AnalogOperationDescription extends OperationDescription
         AnalogOperation operation,
         UserInputDevice userInputDevice,
         AnalogAxis userInputDeviceAxis,
-        Shift relevantShifts,
-        Shift requiredShifts,
+        EnumSet<Shift> relevantShifts,
+        EnumSet<Shift> requiredShifts,
         boolean shouldInvert,
         double deadZoneMin,
         double deadZoneMax,
@@ -249,8 +251,8 @@ public class AnalogOperationDescription extends OperationDescription
         AnalogOperation operation,
         UserInputDevice userInputDevice,
         AnalogAxis userInputDeviceAxis,
-        Shift relevantShifts,
-        Shift requiredShifts,
+        EnumSet<Shift> relevantShifts,
+        EnumSet<Shift> requiredShifts,
         boolean shouldInvert,
         double deadZoneMin,
         double deadZoneMax,
@@ -298,8 +300,8 @@ public class AnalogOperationDescription extends OperationDescription
         UserInputDevice userInputDevice,
         AnalogAxis userInputDeviceAxis,
         AnalogAxis userInputDeviceSecondaryAxis,
-        Shift relevantShifts,
-        Shift requiredShifts,
+        EnumSet<Shift> relevantShifts,
+        EnumSet<Shift> requiredShifts,
         boolean shouldInvert,
         boolean shouldInvertSecondary,
         double deadZoneMin,
@@ -348,8 +350,8 @@ public class AnalogOperationDescription extends OperationDescription
         UserInputDevice userInputDevice,
         AnalogAxis userInputDeviceAxis,
         AnalogAxis userInputDeviceSecondaryAxis,
-        Shift relevantShifts,
-        Shift requiredShifts,
+        EnumSet<Shift> relevantShifts,
+        EnumSet<Shift> requiredShifts,
         boolean shouldInvert,
         boolean shouldInvertSecondary,
         double deadZoneMin,

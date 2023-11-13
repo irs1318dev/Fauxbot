@@ -1,6 +1,9 @@
 package frc.lib.driver.states;
 
 import frc.lib.robotprovider.IJoystick;
+
+import java.util.EnumSet;
+
 import frc.lib.driver.descriptions.AnalogOperationDescription;
 import frc.lib.driver.descriptions.DigitalOperationDescription;
 import frc.lib.driver.descriptions.OperationDescription;
@@ -43,7 +46,7 @@ public abstract class OperationState implements IOperationState
      * @param activeShifts to update from
      * @return true if there was any active user input that triggered a state change
      */
-    public abstract boolean checkInput(IJoystick[] joysticks, Shift activeShifts);
+    public abstract boolean checkInput(IJoystick[] joysticks, EnumSet<Shift> activeShifts);
 
     /**
      * Create the state corresponding to the description

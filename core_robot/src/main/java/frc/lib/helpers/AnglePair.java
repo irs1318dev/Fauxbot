@@ -1,4 +1,5 @@
 package frc.lib.helpers;
+import frc.robot.*;
 
 public class AnglePair
 {
@@ -18,6 +19,7 @@ public class AnglePair
 
     /**
      * Get the closest angle equivalent to desiredAngle from current angle, swapping directions if it is closer
+     * Through infinite range
      * Note: prefers the same direction if equivalent
      * @param desiredAngle desired angle in degrees (between -180 and 180)
      * @param currentAngle current angle in degrees (any value)
@@ -47,6 +49,62 @@ public class AnglePair
         }
 
         return new AnglePair(currentAngle + difference, false);
+    }
+
+    /**
+     * Get the closest angle equivalent to desiredAngle from current angle, swapping directions if it is closer,
+     * within range of [0, 360)
+     * Note: prefers the same direction if equivalent
+     * @param desiredAngle desired angle in degrees (between -180 and 180)
+     * @param currentAngle current angle in degrees (between 0 and 360)
+     * @return pair containing closest angle fitting desired angle from current angle in degrees
+     */
+    public static AnglePair getClosestAngleAbsolute(double desiredAngle, double currentAngle, boolean allowReverse)
+    {
+        if (!Helpers.WithinRange(desiredAngle, -180.0, 180.0))
+        {
+            if (TuningConstants.THROW_EXCEPTIONS)
+            {
+                throw new RuntimeException(String.format("expect desiredAngle to be between (-180, 180). actual %f", desiredAngle));
+            }
+            else
+            {
+                System.err.println(String.format("expect desiredAngle to be between (-180, 180). actual %f", desiredAngle));
+            }
+        }
+
+        if (!Helpers.WithinRange(currentAngle, .0, 360.0))
+        {
+            if (TuningConstants.THROW_EXCEPTIONS)
+            {
+                throw new RuntimeException(String.format("expect currentAngle to be between (0, 360). actual %f", currentAngle));
+            }
+            else
+            {
+                System.err.println(String.format("expect currentAngle to be between (0, 360). actual %f", currentAngle));
+            }
+        }
+
+        // change range to be [0, 360)
+        if (desiredAngle < 0.0)
+        {
+            desiredAngle += 360.0;
+        }
+
+        if (!allowReverse)
+        {
+            return new AnglePair(desiredAngle, false);
+        }
+
+        // get the difference in degrees between -180 and 180
+        double difference = Helpers.updateAngleRange(desiredAngle - currentAngle);
+
+        if (difference < -90.0 || difference > 90.0)
+        {
+            return new AnglePair((desiredAngle + 180.0 % 360.0), true);
+        }
+
+        return new AnglePair(desiredAngle, false);
     }
 
     public double getAngle()
