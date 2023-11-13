@@ -9,6 +9,6 @@ public class ForkliftFauxbotModule extends FauxbotModule
     {
         super.configure();
 
-        this.bind(IRealWorldSimulator.class).to(ForkliftSimulator.class);
+        this.bind(SimulatorBase.class).to(ForkliftSimulator.class);
     }
 }

@@ -1,11 +1,11 @@
 package frc.lib.robotprovider;
 
-import frc.robot.IRealWorldSimulator;
+import frc.robot.simulation.SimulatorBase;
 import frc.lib.controllers.PIDHandler;
 
 public abstract class FauxbotTalonXBase extends FauxbotAdvancedMotorBase
 {
-    private final IRealWorldSimulator simulator;
+    private final SimulatorBase simulator;
 
     private FauxbotEncoder innerEncoder;
     private PIDHandler pidHandler;
@@ -16,7 +16,7 @@ public abstract class FauxbotTalonXBase extends FauxbotAdvancedMotorBase
     private double kd;
     private double kf;
 
-    FauxbotTalonXBase(int deviceNumber, IRealWorldSimulator simulator)
+    FauxbotTalonXBase(int deviceNumber, SimulatorBase simulator)
     {
         super(deviceNumber);
 

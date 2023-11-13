@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Calendar;
 
 import frc.lib.robotprovider.*;
-import frc.robot.IRealWorldSimulator;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -16,7 +15,7 @@ import com.google.inject.Singleton;
 // import javafx.scene.shape.ArcType;
 
 @Singleton
-public class ShooterSimulator implements IRealWorldSimulator
+public class ShooterSimulator extends SimulatorBase
 {
     private static final FauxbotActuatorConnection AngleMotorConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.CAN, 0);
     private static final FauxbotActuatorConnection FlyWheelMotorConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.CAN, 1);

@@ -9,6 +9,6 @@ public class PrinterFauxbotModule extends FauxbotModule
     {
         super.configure();
 
-        this.bind(IRealWorldSimulator.class).to(PrinterSimulator.class);
+        this.bind(SimulatorBase.class).to(PrinterSimulator.class);
     }
 }

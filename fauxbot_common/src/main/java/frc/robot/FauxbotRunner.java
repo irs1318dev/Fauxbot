@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.Calendar;
+
 import frc.lib.CoreRobot;
 import frc.lib.robotprovider.RobotMode;
 
@@ -31,7 +33,10 @@ public class FauxbotRunner implements Runnable
     public void run()
     {
         RobotMode currentMode = RobotMode.Disabled;
-        while (!this.stop)
+
+        long time = Calendar.getInstance().getTime().getTime();;
+        boolean shouldStop;
+        do
         {
             RobotMode newMode;
             synchronized (this.locker)
@@ -93,15 +98,31 @@ public class FauxbotRunner implements Runnable
                 this.fauxbot.refresh();
             }
 
-            try
+            long newTime = Calendar.getInstance().getTime().getTime();
+            long elapsed = newTime - time;
+            time = newTime;
+            if (elapsed <= 20)
             {
-                Thread.sleep(20);
+                try
+                {
+                    Thread.sleep(20 - elapsed);
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
             }
-            catch (InterruptedException e)
+            else
             {
-                e.printStackTrace();
+                // System.out.println("20ms loop time not met (" + elapsed + ")");
+            }
+
+            synchronized (this.locker)
+            {
+                shouldStop = this.stop;
             }
         }
+        while (!shouldStop);
     }
 
     public void setMode(RobotMode newMode)
@@ -114,6 +135,9 @@ public class FauxbotRunner implements Runnable
 
     public void stop()
     {
-        this.stop = true;
+        synchronized (this.locker)
+        {
+            this.stop = true;
+        }
     }
 }

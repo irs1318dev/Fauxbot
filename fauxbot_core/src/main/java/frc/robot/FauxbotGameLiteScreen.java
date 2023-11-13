@@ -1,41 +1,32 @@
 package frc.robot;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.controllers.Controller;
-import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.SplitPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
-import frc.lib.CoreRobot;
 import frc.lib.driver.IButtonMap;
 import frc.lib.robotprovider.RobotMode;
 
 public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Screen
 {
     private final Stage stage;
-    private final Table table;
+    private final Table primaryTable;
 
     private final Label title;
     private SelectBox<RobotMode> modeSelector;
 
     private RobotMode currentMode;
+    private Table infoTable;
 
     public FauxbotGameLiteScreen(final FauxbotGame game, Simulation selectedSimulation)
     {
@@ -44,20 +35,26 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
         this.stage = new Stage(new ExtendViewport(800, 600));
         Gdx.input.setInputProcessor(this.stage);
 
-        this.table = new Table();
-        this.table.setFillParent(true);
-        ////this.table.setDebug(true);
-        this.stage.addActor(this.table);
-
         Skin skin = new Skin(Gdx.files.internal("skin/irs1318skin.json"));
 
+        this.primaryTable = new Table(skin);
+        this.primaryTable.setFillParent(true);
+        ////this.table.setDebug(true);
+        this.stage.addActor(this.primaryTable);
 
         this.title = new Label(this.selectedSimulation.toString() + " Simulation", skin, "title");
-        this.table.add(title).pad(20, 20, 20, 20).colspan(2);
-        this.table.row();
+        this.primaryTable.add(title).pad(20, 20, 20, 20);
+        this.primaryTable.row();
+
+        this.infoTable = new Table(skin);
+        this.infoTable.setDebug(true);
+
+        SplitPane pane = new SplitPane(this.infoTable, this.simulator, true, skin);
+        this.primaryTable.add(pane).expand().left().top().pad(5, 5, 5, 5);
+        this.primaryTable.row();
 
         Label currentModeLabel = new Label("Mode", skin);
-        this.table.add(currentModeLabel);
+        this.infoTable.add(currentModeLabel);
 
         RobotMode[] robotModes = RobotMode.values();
         this.modeSelector = new SelectBox<RobotMode>(skin);
@@ -75,8 +72,8 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                 }
             });
 
-        this.table.add(this.modeSelector);
-        this.table.row();
+        this.infoTable.add(this.modeSelector);
+        this.infoTable.row();
 
         IButtonMap buttonMap = this.robot.getInjector().getInstance(IButtonMap.class);
 
@@ -88,6 +85,8 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
     {
         Gdx.gl.glClearColor(Color.PURPLE.r, Color.PURPLE.g, Color.PURPLE.b, Color.PURPLE.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        this.runner.setMode(this.currentMode);
         this.stage.act(delta);
         this.stage.draw();
     }
@@ -99,8 +98,10 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
         this.stage.getViewport().update(width, height, true);
     }
 
+    @Override
     public void dispose()
     {
+        super.dispose();
         this.stage.dispose();
     }
 

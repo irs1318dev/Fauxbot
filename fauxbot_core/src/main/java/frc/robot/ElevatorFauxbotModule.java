@@ -9,6 +9,6 @@ public class ElevatorFauxbotModule extends FauxbotModule
     {
         super.configure();
 
-        this.bind(IRealWorldSimulator.class).to(ElevatorSimulator.class);
+        this.bind(SimulatorBase.class).to(ElevatorSimulator.class);
     }
 }

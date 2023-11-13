@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class FauxbotGame extends Game
@@ -24,5 +25,10 @@ public class FauxbotGame extends Game
     public void dispose()
     {
         this.batch.dispose();
+        Screen currentScreen = this.getScreen();
+        if (currentScreen != null)
+        {
+            currentScreen.dispose();
+        }
     }
 }

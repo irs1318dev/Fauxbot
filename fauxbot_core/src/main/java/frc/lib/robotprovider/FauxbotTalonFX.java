@@ -1,10 +1,10 @@
 package frc.lib.robotprovider;
 
-import frc.robot.IRealWorldSimulator;
+import frc.robot.simulation.SimulatorBase;
 
 public class FauxbotTalonFX extends FauxbotTalonXBase implements ITalonFX
 {
-    public FauxbotTalonFX(int deviceNumber, IRealWorldSimulator simulator)
+    public FauxbotTalonFX(int deviceNumber, SimulatorBase simulator)
     {
         super(deviceNumber, simulator);
     }

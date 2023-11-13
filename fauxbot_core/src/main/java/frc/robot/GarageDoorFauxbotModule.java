@@ -9,6 +9,6 @@ public class GarageDoorFauxbotModule extends FauxbotModule
     {
         super.configure();
 
-        this.bind(IRealWorldSimulator.class).to(GarageDoorSimulator.class);
+        this.bind(SimulatorBase.class).to(GarageDoorSimulator.class);
     }
 }

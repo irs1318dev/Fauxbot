@@ -7,7 +7,6 @@ import java.util.Map;
 
 import frc.lib.robotprovider.*;
 import frc.robot.HardwareConstants;
-import frc.robot.IRealWorldSimulator;
 import frc.robot.TuningConstants;
 
 import com.google.inject.Inject;
@@ -21,7 +20,7 @@ import com.google.inject.Singleton;
 // import javafx.scene.transform.Rotate;
 
 @Singleton
-public class ForkliftSimulator implements IRealWorldSimulator
+public class ForkliftSimulator extends SimulatorBase
 {
     private static final double WHEEL_SEPARATION_DISTANCE = 10.0; // in inches/pixels
     private static final double FORKLIFT_SPEED = 10.0; // in inches/pixels / sec

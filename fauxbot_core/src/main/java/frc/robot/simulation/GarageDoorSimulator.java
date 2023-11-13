@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import frc.lib.robotprovider.*;
-import frc.robot.IRealWorldSimulator;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -16,7 +15,7 @@ import com.google.inject.Singleton;
 // import javafx.scene.paint.Color;
 
 @Singleton
-public class GarageDoorSimulator implements IRealWorldSimulator
+public class GarageDoorSimulator extends SimulatorBase
 {
     private static final FauxbotSensorConnection ThroughBeamSensorConnection = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.DigitalInput, FauxbotDigitalInput.class, 0);
     private static final FauxbotSensorConnection OpenSensorConnection = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.DigitalInput, FauxbotDigitalInput.class, 1);

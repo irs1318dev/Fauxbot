@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Calendar;
 
 import frc.lib.robotprovider.*;
-import frc.robot.IRealWorldSimulator;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -17,7 +15,7 @@ import com.google.inject.Singleton;
 // import javafx.scene.paint.Color;
 
 @Singleton
-public class ElevatorSimulator implements IRealWorldSimulator
+public class ElevatorSimulator extends SimulatorBase
 {
     private static final FauxbotSensorConnection EncoderAChannel = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.DigitalInput, FauxbotEncoder.class, 0);
     private static final FauxbotSensorConnection EncoderBChannel = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.DigitalInput, FauxbotEncoder.class, 1);

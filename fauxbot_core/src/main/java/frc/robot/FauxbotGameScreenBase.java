@@ -1,31 +1,9 @@
 package frc.robot;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.controllers.Controller;
-import com.badlogic.gdx.controllers.Controllers;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import frc.lib.CoreRobot;
-import frc.lib.driver.IButtonMap;
-import frc.lib.robotprovider.RobotMode;
+import frc.robot.simulation.SimulatorBase;
 
 abstract class FauxbotGameScreenBase implements Screen
 {
@@ -33,7 +11,7 @@ abstract class FauxbotGameScreenBase implements Screen
     protected final Simulation selectedSimulation;
 
     protected final CoreRobot<FauxbotCommonModule> robot;
-    protected final IRealWorldSimulator simulator;
+    protected final SimulatorBase simulator;
     protected final FauxbotRunner runner;
     protected final Thread runnerThread;
 
@@ -68,7 +46,7 @@ abstract class FauxbotGameScreenBase implements Screen
 
         this.robot = new CoreRobot<FauxbotCommonModule>(desiredModule);
 
-        this.simulator = this.robot.getInjector().getInstance(IRealWorldSimulator.class);
+        this.simulator = this.robot.getInjector().getInstance(SimulatorBase.class);
         this.runner = new FauxbotRunner(this.robot);
         this.runnerThread = new Thread(this.runner);
         this.robot.robotInit();
@@ -83,7 +61,24 @@ abstract class FauxbotGameScreenBase implements Screen
     public abstract void resize(int width, int height);
 
     @Override
-    public abstract void dispose();
+    public void dispose()
+    {
+        if (this.runner != null)
+        {
+            this.runner.stop();
+            if (this.runnerThread != null)
+            {
+                try
+                {
+                    this.runnerThread.join(500);
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
     @Override
     public abstract void pause();

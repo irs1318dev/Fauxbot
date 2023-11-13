@@ -9,6 +9,6 @@ public class ShooterFauxbotModule extends FauxbotModule
     {
         super.configure();
 
-        this.bind(IRealWorldSimulator.class).to(ShooterSimulator.class);
+        this.bind(SimulatorBase.class).to(ShooterSimulator.class);
     }
 }

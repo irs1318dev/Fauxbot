@@ -3,15 +3,15 @@ package frc.lib.robotprovider;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import frc.robot.IRealWorldSimulator;
+import frc.robot.simulation.SimulatorBase;
 
 @Singleton
 public class FauxbotProvider implements IRobotProvider
 {
-    private final IRealWorldSimulator simulator;
+    private final SimulatorBase simulator;
 
     @Inject
-    public FauxbotProvider(IRealWorldSimulator simulator)
+    public FauxbotProvider(SimulatorBase simulator)
     {
         this.simulator = simulator;
     }
