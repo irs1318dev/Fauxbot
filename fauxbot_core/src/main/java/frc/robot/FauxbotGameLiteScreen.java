@@ -179,8 +179,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                 }
                 else
                 {
-                    Label sensorLabel = new Label(sensorName, this.skin);
-                    innerInfoTable.add(sensorLabel).colspan(2).left();
+                    continue;
                 }
 
                 innerInfoTable.row();
@@ -230,7 +229,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
             }
             else
             {
-                innerInfoTable.add(actuatorLabel).colspan(2).left();
+                continue;
             }
 
             innerInfoTable.row();
