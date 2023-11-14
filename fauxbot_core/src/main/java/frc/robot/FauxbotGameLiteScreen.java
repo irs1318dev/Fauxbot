@@ -195,7 +195,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                                 break;
 
                             case Toggle:
-                                ToggleSimpleButton toggleButton = new ToggleSimpleButton(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue(), this.skin);
+                                ToggleButton toggleButton = new ToggleButton(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue(), this.skin);
                                 infoTable.add(toggleButton).colspan(2).left();
                                 break;
 
@@ -260,7 +260,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                         break;
 
                     case Toggle:
-                        ToggleSimpleButton toggleButton = new ToggleSimpleButton(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue(), this.skin);
+                        ClickButton toggleButton = new ClickButton(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue(), this.skin);
                         infoTable.add(toggleButton).colspan(2).left();
                         break;
 
@@ -275,10 +275,12 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
 
     private class ClickButton extends TextButton
     {
+        private static final double STAY_PRESSED_FOR = 0.04;
+
         private final FauxbotJoystick joystick;
         private final UserInputDeviceButton button;
 
-        private boolean clearClick;
+        private double clearClickAfter;
 
         public ClickButton(String text, FauxbotJoystick joystick, UserInputDeviceButton button, int pov, Skin skin)
         {
@@ -287,7 +289,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
             this.joystick = joystick;
             this.button = button;
 
-            this.clearClick = false;
+            this.clearClickAfter = -0.0;
             if (button == UserInputDeviceButton.POV)
             {
                 this.addListener(
@@ -297,7 +299,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                         public void changed(ChangeEvent event, Actor actor)
                         {
                             joystick.setPOV(pov);
-                            clearClick = true;
+                            clearClickAfter = ClickButton.STAY_PRESSED_FOR;
                         }
                     });
             }
@@ -310,7 +312,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                         public void changed(ChangeEvent event, Actor actor)
                         {
                             joystick.setButton(button.Value, true);
-                            clearClick = true;
+                            clearClickAfter = ClickButton.STAY_PRESSED_FOR;
                         }
                     });
             }
@@ -321,15 +323,21 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
         {
             super.act(delta);
 
-            if (this.clearClick)
+            if (this.clearClickAfter > 0.0)
             {
-                if (this.button == UserInputDeviceButton.POV)
+                this.clearClickAfter -= delta;
+                if (this.clearClickAfter <= 0.0)
                 {
-                    this.joystick.clearPOV();
-                }
-                else
-                {
-                    this.joystick.setButton(this.button.Value, false);
+                    if (this.button == UserInputDeviceButton.POV)
+                    {
+                        this.joystick.clearPOV();
+                    }
+                    else
+                    {
+                        this.joystick.setButton(this.button.Value, false);
+                    }
+
+                    this.setDisabled(false);
                 }
             }
         }
@@ -371,6 +379,78 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                             joystick.setButton(button.Value, isChecked());
                         }
                     });
+            }
+        }
+    }
+
+    private class ToggleButton extends CheckBox
+    {
+        private static final double STAY_PRESSED_FOR = 0.04;
+
+        private final FauxbotJoystick joystick;
+        private final UserInputDeviceButton button;
+
+        private double clearClickAfter;
+
+        public ToggleButton(String text, FauxbotJoystick joystick, UserInputDeviceButton button, int pov, Skin skin)
+        {
+            super(text, skin);
+
+            this.joystick = joystick;
+            this.button = button;
+
+            this.clearClickAfter = -0.0;
+            if (button == UserInputDeviceButton.POV)
+            {
+                this.addListener(
+                    new ChangeListener()
+                    {
+                        @Override
+                        public void changed(ChangeEvent event, Actor actor)
+                        {
+                            joystick.setPOV(pov);
+                            clearClickAfter = ToggleButton.STAY_PRESSED_FOR;
+                            setDisabled(true);
+                        }
+                    });
+            }
+            else
+            {
+                this.addListener(
+                    new ChangeListener()
+                    {
+                        @Override
+                        public void changed(ChangeEvent event, Actor actor)
+                        {
+                            joystick.setButton(button.Value, true);
+                            clearClickAfter = ToggleButton.STAY_PRESSED_FOR;
+                            setDisabled(true);
+                        }
+                    });
+            }
+        }
+
+        @Override
+        public void act(float delta)
+        {
+            super.act(delta);
+
+            if (this.clearClickAfter > 0.0)
+            {
+                this.clearClickAfter -= delta;
+                if (this.clearClickAfter <= 0.0)
+                {
+                    if (this.button == UserInputDeviceButton.POV)
+                    {
+                        this.joystick.clearPOV();
+                    }
+                    else
+                    {
+                        this.joystick.setButton(this.button.Value, false);
+                    }
+
+                    this.setDisabled(false);
+                }
             }
         }
     }
