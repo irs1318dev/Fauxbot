@@ -127,12 +127,6 @@ public class ForkliftSimulator extends SimulatorBase
     }
 
     @Override
-    public boolean getSensorTextBox(FauxbotSensorConnection connection)
-    {
-        return false;
-    }
-
-    @Override
     public String getSensorName(FauxbotSensorConnection connection)
     {
         return "Sensor " + connection;

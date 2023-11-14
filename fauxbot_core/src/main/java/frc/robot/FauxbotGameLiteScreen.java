@@ -132,24 +132,48 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
             FauxbotSensorBase sensor = FauxbotSensorManager.get(connection);
             if (sensor != null)
             {
-                boolean useTextBox = this.simulator.getSensorTextBox(connection);
                 String sensorName = this.simulator.getSensorName(connection) + ":";
-
-                Label sensorLabel = new Label(sensorName, this.skin);
-                innerInfoTable.add(sensorLabel).left();
 
                 if (sensor instanceof FauxbotDigitalInput)
                 {
+                    DigitalInputUI digitalInput = new DigitalInputUI((FauxbotDigitalInput)sensor, sensorName, this.skin);
+                    innerInfoTable.add(digitalInput).colspan(2).left();
                 }
                 else if (sensor instanceof FauxbotAnalogInput)
                 {
+                    Label sensorLabel = new Label(sensorName, this.skin);
+                    innerInfoTable.add(sensorLabel).left();
+
+                    float min = (float)this.simulator.getSensorMin(connection);
+                    float max = (float)this.simulator.getSensorMax(connection);
+
+                    AnalogInputUI analogInput = new AnalogInputUI((FauxbotAnalogInput)sensor, min, max, 0.1f, this.skin);
+                    innerInfoTable.add(analogInput).fillX();
                 }
                 else if (sensor instanceof FauxbotEncoder)
                 {
+                    Label sensorLabel = new Label(sensorName, this.skin);
+                    innerInfoTable.add(sensorLabel).left();
+
+                    float min = (float)this.simulator.getSensorMin(connection);
+                    float max = (float)this.simulator.getSensorMax(connection);
+
+                    EncoderUI encoder = new EncoderUI((FauxbotEncoder)sensor, min, max, this.skin);
+                    innerInfoTable.add(encoder).fillX();
                 }
                 else if (sensor instanceof FauxbotIMU)
                 {
+                    Label sensorLabel = new Label(sensorName, this.skin);
+                    innerInfoTable.add(sensorLabel).left();
+
+                    float min = (float)this.simulator.getSensorMin(connection);
+                    float max = (float)this.simulator.getSensorMax(connection);
+
+                    ImuUI imu = new ImuUI((FauxbotIMU)sensor, min, max, 0.1f, this.skin);
+                    innerInfoTable.add(imu).fillX();
                 }
+
+                innerInfoTable.row();
             }
         }
 
@@ -233,17 +257,17 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                         switch (digitalDescription.getButtonType())
                         {
                             case Click:
-                                ClickButton clickButton = new ClickButton(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue(), this.skin);
+                                ClickButtonUI clickButton = new ClickButtonUI(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue(), this.skin);
                                 infoTable.add(clickButton).colspan(2).left().fillX();
                                 break;
 
                             case Toggle:
-                                ToggleButton toggleButton = new ToggleButton(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue(), this.skin);
+                                ToggleButtonUI toggleButton = new ToggleButtonUI(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue(), this.skin);
                                 infoTable.add(toggleButton).colspan(2).left();
                                 break;
 
                             case Simple:
-                                ToggleSimpleButton simpleButton = new ToggleSimpleButton(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue(), this.skin);
+                                ToggleSimpleButtonUI simpleButton = new ToggleSimpleButtonUI(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue(), this.skin);
                                 infoTable.add(simpleButton).colspan(2).left();
                                 break;
                         }
@@ -298,17 +322,17 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                 switch (description.getButtonType())
                 {
                     case Click:
-                        ClickButton clickButton = new ClickButton(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue(), this.skin);
+                        ClickButtonUI clickButton = new ClickButtonUI(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue(), this.skin);
                         infoTable.add(clickButton).colspan(2).left().fillX();
                         break;
 
                     case Toggle:
-                        ClickButton toggleButton = new ClickButton(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue(), this.skin);
+                        ClickButtonUI toggleButton = new ClickButtonUI(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue(), this.skin);
                         infoTable.add(toggleButton).colspan(2).left();
                         break;
 
                     case Simple:
-                        ToggleSimpleButton simpleButton = new ToggleSimpleButton(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue(), this.skin);
+                        ToggleSimpleButtonUI simpleButton = new ToggleSimpleButtonUI(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue(), this.skin);
                         infoTable.add(simpleButton).colspan(2).left();
                         break;
                 }
@@ -316,7 +340,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
         }
     }
 
-    private class ClickButton extends TextButton
+    private class ClickButtonUI extends TextButton
     {
         private static final double STAY_PRESSED_FOR = 0.04;
 
@@ -325,7 +349,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
 
         private double clearClickAfter;
 
-        public ClickButton(String text, FauxbotJoystick joystick, UserInputDeviceButton button, int pov, Skin skin)
+        public ClickButtonUI(String text, FauxbotJoystick joystick, UserInputDeviceButton button, int pov, Skin skin)
         {
             super(text, skin);
 
@@ -342,7 +366,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                         public void changed(ChangeEvent event, Actor actor)
                         {
                             joystick.setPOV(pov);
-                            clearClickAfter = ClickButton.STAY_PRESSED_FOR;
+                            clearClickAfter = ClickButtonUI.STAY_PRESSED_FOR;
                         }
                     });
             }
@@ -355,7 +379,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                         public void changed(ChangeEvent event, Actor actor)
                         {
                             joystick.setButton(button.Value, true);
-                            clearClickAfter = ClickButton.STAY_PRESSED_FOR;
+                            clearClickAfter = ClickButtonUI.STAY_PRESSED_FOR;
                         }
                     });
             }
@@ -386,9 +410,9 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
         }
     }
 
-    private class ToggleSimpleButton extends CheckBox
+    private class ToggleSimpleButtonUI extends CheckBox
     {
-        public ToggleSimpleButton(String text, FauxbotJoystick joystick, UserInputDeviceButton button, int pov, Skin skin)
+        public ToggleSimpleButtonUI(String text, FauxbotJoystick joystick, UserInputDeviceButton button, int pov, Skin skin)
         {
             super(text, skin);
 
@@ -426,7 +450,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
         }
     }
 
-    private class ToggleButton extends CheckBox
+    private class ToggleButtonUI extends CheckBox
     {
         private static final double STAY_PRESSED_FOR = 0.04;
 
@@ -435,7 +459,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
 
         private double clearClickAfter;
 
-        public ToggleButton(String text, FauxbotJoystick joystick, UserInputDeviceButton button, int pov, Skin skin)
+        public ToggleButtonUI(String text, FauxbotJoystick joystick, UserInputDeviceButton button, int pov, Skin skin)
         {
             super(text, skin);
 
@@ -452,7 +476,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                         public void changed(ChangeEvent event, Actor actor)
                         {
                             joystick.setPOV(pov);
-                            clearClickAfter = ToggleButton.STAY_PRESSED_FOR;
+                            clearClickAfter = ToggleButtonUI.STAY_PRESSED_FOR;
                             setDisabled(true);
                         }
                     });
@@ -466,7 +490,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                         public void changed(ChangeEvent event, Actor actor)
                         {
                             joystick.setButton(button.Value, true);
-                            clearClickAfter = ToggleButton.STAY_PRESSED_FOR;
+                            clearClickAfter = ToggleButtonUI.STAY_PRESSED_FOR;
                             setDisabled(true);
                         }
                     });
@@ -495,6 +519,133 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                     this.setDisabled(false);
                 }
             }
+        }
+    }
+
+    private class DigitalInputUI extends CheckBox
+    {
+        private final FauxbotDigitalInput digitalInput;
+
+        public DigitalInputUI(FauxbotDigitalInput digitalInput, String text, Skin skin)
+        {
+            super(text, skin);
+
+            this.digitalInput = digitalInput;
+
+            this.setProgrammaticChangeEvents(false);
+            this.addListener(
+                new ChangeListener()
+                {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor)
+                    {
+                        digitalInput.set(isChecked());
+                    }
+                });
+        }
+
+        @Override
+        public void act(float delta)
+        {
+            super.act(delta);
+
+            this.setChecked(this.digitalInput.get());
+        }
+    }
+
+    private class AnalogInputUI extends Slider
+    {
+        private final FauxbotAnalogInput analogInput;
+
+        public AnalogInputUI(FauxbotAnalogInput analogInput, float min, float max, float step, Skin skin)
+        {
+            super(min, max, step, false, skin);
+
+            this.analogInput = analogInput;
+
+            this.setProgrammaticChangeEvents(false);
+            this.setValue(Math.min(Math.max(min, 0.0f), max));
+            this.addListener(
+                new ChangeListener()
+                {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor)
+                    {
+                        analogInput.set(getValue());
+                    }
+                });
+        }
+
+        @Override
+        public void act(float delta)
+        {
+            super.act(delta);
+
+            this.setValue((float)this.analogInput.get());
+        }
+    }
+
+    private class EncoderUI extends Slider
+    {
+        private final FauxbotEncoder encoder;
+
+        public EncoderUI(FauxbotEncoder encoder, float min, float max, Skin skin)
+        {
+            super(min, max, 1.0f, false, skin);
+
+            this.encoder = encoder;
+
+            this.setProgrammaticChangeEvents(false);
+            this.setValue(Math.min(Math.max(min, 0.0f), max));
+            this.addListener(
+                new ChangeListener()
+                {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor)
+                    {
+                        encoder.set(getValue());
+                    }
+                });
+        }
+
+        @Override
+        public void act(float delta)
+        {
+            super.act(delta);
+
+            this.setValue((float)this.encoder.get());
+        }
+    }
+
+    private class ImuUI extends Slider
+    {
+        private final FauxbotIMU imu;
+
+        public ImuUI(FauxbotIMU imu, float min, float max, float step, Skin skin)
+        {
+            super(min, max, step, false, skin);
+
+            this.imu = imu;
+
+            this.setProgrammaticChangeEvents(false);
+            this.setValue(Math.min(Math.max(min, 0.0f), max));
+            this.addListener(
+                new ChangeListener()
+                {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor)
+                    {
+                        imu.set(getValue());
+                    }
+                });
+        }
+
+        @Override
+        public void act(float delta)
+        {
+            super.act(delta);
+
+            this.setValue((float)this.imu.get());
         }
     }
 }

@@ -9,7 +9,6 @@ public abstract class SimulatorBase extends Group
 {
     public abstract FauxbotSensorConnection[] getSensors();
     public abstract FauxbotActuatorConnection[] getActuators();
-    public abstract boolean getSensorTextBox(FauxbotSensorConnection connection);
     public abstract String getSensorName(FauxbotSensorConnection connection);
     public abstract double getSensorMin(FauxbotSensorConnection connection);
     public abstract double getSensorMax(FauxbotSensorConnection connection);

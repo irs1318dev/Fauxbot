@@ -114,12 +114,6 @@ public class PrinterSimulator extends SimulatorBase
     }
 
     @Override
-    public boolean getSensorTextBox(FauxbotSensorConnection connection)
-    {
-        return false;
-    }
-
-    @Override
     public String getSensorName(FauxbotSensorConnection connection)
     {
         if (this.sensorNameMap.containsKey(connection))
