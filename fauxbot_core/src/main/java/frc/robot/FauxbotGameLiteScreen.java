@@ -49,22 +49,15 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
 
         this.primaryTable = new Table(this.skin);
         this.primaryTable.setFillParent(true);
-        this.primaryTable.setDebug(true);
-        this.stage.addActor(this.primaryTable);
+        // this.primaryTable.setDebug(true);
 
         Label title = new Label(this.selectedSimulation.toString() + " Simulation", this.skin, "title");
-        this.primaryTable.add(title).pad(20);
+        this.primaryTable.add(title).pad(20).top().colspan(4);
         this.primaryTable.row();
 
-        Table infoTable = new Table(this.skin);
-        infoTable.setDebug(true);
-
-        SplitPane pane = new SplitPane(infoTable, this.simulator, true, this.skin);
-        this.primaryTable.add(pane).expand().left().top().pad(5);
-        this.primaryTable.row();
-
+        this.primaryTable.add().expandX().padLeft(5);
         Label currentModeLabel = new Label("Mode", this.skin, "subtitle");
-        infoTable.add(currentModeLabel).left();
+        this.primaryTable.add(currentModeLabel);
 
         RobotMode[] robotModes = RobotMode.values();
         SelectBox<RobotMode> modeSelector = new SelectBox<RobotMode>(this.skin);
@@ -82,19 +75,16 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                 }
             });
 
-        infoTable.add(modeSelector).top();
-        infoTable.row();
+        this.primaryTable.add(modeSelector);
+        this.primaryTable.add().expandX().padRight(5);
+        this.primaryTable.row();
 
         Table innerInfoTable = new Table(this.skin);
-        innerInfoTable.setDebug(true);
-
-        //ScrollPane scrollPane = new ScrollPane(innerInfoTable, this.skin);
-        //infoTable.add(scrollPane).colspan(2);
-        infoTable.add(innerInfoTable).colspan(2).left().top().expand();
+        // innerInfoTable.setDebug(true);
 
         // Add Operations
         Label buttonsLabel = new Label("Operations:", this.skin, "subtitle");
-        innerInfoTable.add(buttonsLabel).colspan(2).left().padTop(10);
+        innerInfoTable.add(buttonsLabel).colspan(2).top().left().expandX().padTop(10);
         innerInfoTable.row();
 
         IButtonMap buttonMap = this.robot.getInjector().getInstance(IButtonMap.class);
@@ -110,7 +100,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
 
         // Add Macros
         Label macrosLabel = new Label("Macros:", this.skin, "subtitle");
-        innerInfoTable.add(macrosLabel).colspan(2).left().padTop(10);
+        innerInfoTable.add(macrosLabel).colspan(2).left().expandX().padTop(10);
         innerInfoTable.row();
 
         for (MacroOperationDescription description : buttonMap.getMacroOperationSchema())
@@ -122,6 +112,13 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
 
         // Add Actuators
 
+        ScrollPane scrollPane = new ScrollPane(innerInfoTable, this.skin);
+
+        SplitPane pane = new SplitPane(scrollPane, this.simulator, true, this.skin);
+        this.primaryTable.add(pane).colspan(4).expand().pad(5).fill();
+        this.primaryTable.row();
+
+        this.stage.addActor(this.primaryTable);
     }
 
     @Override
