@@ -80,7 +80,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
         this.primaryTable.row();
 
         Table innerInfoTable = new Table(this.skin);
-        // innerInfoTable.setDebug(true);
+        innerInfoTable.setDebug(true);
 
         // Add Operations
         Label buttonsLabel = new Label("Operations:", this.skin, "subtitle");
@@ -114,7 +114,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
 
         ScrollPane scrollPane = new ScrollPane(innerInfoTable, this.skin);
 
-        SplitPane pane = new SplitPane(scrollPane, this.simulator, true, this.skin);
+        SplitPane pane = new SplitPane(scrollPane, this.simulator, false, this.skin);
         this.primaryTable.add(pane).colspan(4).expand().pad(5).fill();
         this.primaryTable.row();
 
@@ -211,7 +211,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                         AnalogOperationDescription analogDescription = (AnalogOperationDescription)description;
 
                         Label label = new Label(description.getOperation().toString(), this.skin);
-                        infoTable.add(label);
+                        infoTable.add(label).left();
 
                         AnalogAxis axis = analogDescription.getUserInputDeviceAxis();
                         Slider slider = new Slider(-1.0f, 1.0f, 0.1f, false, this.skin);
@@ -225,7 +225,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                                     joystick.setAxis(axis.Value, slider.getValue());
                                 }
                             });
-                        infoTable.add(slider).fillX().padLeft(5);
+                        infoTable.add(slider).fillX().padLeft(5).padRight(5);
                         break;
 
                     case None:
