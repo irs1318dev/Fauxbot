@@ -385,9 +385,9 @@ public class FauxbotApplication extends Application implements IRefresh
                         Bindings.bindBidirectional(sensorSlider.valueProperty(), sensorProperty);
                     }
                 }
-                else if (sensor instanceof FauxbotNavx)
+                else if (sensor instanceof FauxbotIMU)
                 {
-                    DoubleProperty sensorProperty = ((FauxbotNavx)sensor).getProperty();
+                    DoubleProperty sensorProperty = ((FauxbotIMU)sensor).getProperty();
                     if (useTextBox)
                     {
                         TextField sensorTextBox = new TextField();

@@ -1,15 +1,11 @@
 package frc.lib.robotprovider;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-
-public class FauxbotNavx extends FauxbotSensorBase implements INavx
+public class FauxbotNavx extends FauxbotIMU implements INavx
 {
-    private final DoubleProperty angleProperty;
-
     public FauxbotNavx()
     {
-        this.angleProperty = new SimpleDoubleProperty();
+        super();
+
         FauxbotSensorManager.set(new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.NavX, this.getClass(), 0), this);
     }
 
@@ -20,22 +16,22 @@ public class FauxbotNavx extends FauxbotSensorBase implements INavx
 
     public double getAngle()
     {
-        return -1.0 * this.angleProperty.getValue();
+        return -1.0 * this.get();
     }
 
     public double getPitch()
     {
-        return -1.0 * this.angleProperty.getValue();
+        return -1.0 * this.get();
     }
 
     public double getRoll()
     {
-        return -1.0 * this.angleProperty.getValue();
+        return -1.0 * this.get();
     }
 
     public double getYaw()
     {
-        return -1.0 * this.angleProperty.getValue();
+        return -1.0 * this.get();
     }
 
     public double getDisplacementX()
@@ -55,20 +51,10 @@ public class FauxbotNavx extends FauxbotSensorBase implements INavx
 
     public void reset()
     {
-        this.angleProperty.setValue(0);
+        this.set(0);
     }
 
     public void resetDisplacement()
     {
-    }
-
-    public void set(double value)
-    {
-        this.angleProperty.setValue(value);
-    }
-
-    public DoubleProperty getProperty()
-    {
-        return this.angleProperty;
     }
 }

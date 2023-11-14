@@ -1,12 +1,11 @@
 package frc.lib.robotprovider;
 
-public class FauxbotNavx extends FauxbotSensorBase implements INavx
+public class FauxbotNavx extends FauxbotIMU implements INavx
 {
-    private double angle;
-
     public FauxbotNavx()
     {
-        this.angle = 0.0;
+        super();
+
         FauxbotSensorManager.set(new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.NavX, this.getClass(), 0), this);
     }
 
@@ -17,22 +16,22 @@ public class FauxbotNavx extends FauxbotSensorBase implements INavx
 
     public double getAngle()
     {
-        return -1.0 * this.angle;
+        return -1.0 * this.get();
     }
 
     public double getPitch()
     {
-        return -1.0 * this.angle;
+        return -1.0 * this.get();
     }
 
     public double getRoll()
     {
-        return -1.0 * this.angle;
+        return -1.0 * this.get();
     }
 
     public double getYaw()
     {
-        return -1.0 * this.angle;
+        return -1.0 * this.get();
     }
 
     public double getDisplacementX()
@@ -52,15 +51,10 @@ public class FauxbotNavx extends FauxbotSensorBase implements INavx
 
     public void reset()
     {
-        this.angle = 0;
+        this.set(0);
     }
 
     public void resetDisplacement()
     {
-    }
-
-    public void set(double value)
-    {
-        this.angle = value;
     }
 }

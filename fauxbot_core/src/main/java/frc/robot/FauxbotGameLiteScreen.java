@@ -25,9 +25,17 @@ import frc.lib.driver.descriptions.AnalogOperationDescription;
 import frc.lib.driver.descriptions.DigitalOperationDescription;
 import frc.lib.driver.descriptions.MacroOperationDescription;
 import frc.lib.driver.descriptions.OperationDescription;
+import frc.lib.robotprovider.FauxbotAnalogInput;
+import frc.lib.robotprovider.FauxbotDigitalInput;
 import frc.lib.robotprovider.FauxbotDriverStation;
+import frc.lib.robotprovider.FauxbotEncoder;
+import frc.lib.robotprovider.FauxbotIMU;
 import frc.lib.robotprovider.FauxbotJoystick;
 import frc.lib.robotprovider.FauxbotJoystickManager;
+import frc.lib.robotprovider.FauxbotNavx;
+import frc.lib.robotprovider.FauxbotSensorBase;
+import frc.lib.robotprovider.FauxbotSensorConnection;
+import frc.lib.robotprovider.FauxbotSensorManager;
 import frc.lib.robotprovider.RobotMode;
 
 public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Screen
@@ -109,6 +117,41 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
         }
 
         // Add Sensors
+        Label sensorsLabel = new Label("Sensors:", this.skin, "subtitle");
+        innerInfoTable.add(sensorsLabel).colspan(2).left().expandX().padTop(10);
+        innerInfoTable.row();
+
+        FauxbotSensorConnection[] sensors = this.simulator.getSensors();
+        if (sensors == null)
+        {
+            sensors = (FauxbotSensorConnection[])FauxbotSensorManager.sensorMap.keySet().toArray();
+        }
+
+        for (FauxbotSensorConnection connection : sensors)
+        {
+            FauxbotSensorBase sensor = FauxbotSensorManager.get(connection);
+            if (sensor != null)
+            {
+                boolean useTextBox = this.simulator.getSensorTextBox(connection);
+                String sensorName = this.simulator.getSensorName(connection) + ":";
+
+                Label sensorLabel = new Label(sensorName, this.skin);
+                innerInfoTable.add(sensorLabel).left();
+
+                if (sensor instanceof FauxbotDigitalInput)
+                {
+                }
+                else if (sensor instanceof FauxbotAnalogInput)
+                {
+                }
+                else if (sensor instanceof FauxbotEncoder)
+                {
+                }
+                else if (sensor instanceof FauxbotIMU)
+                {
+                }
+            }
+        }
 
         // Add Actuators
 

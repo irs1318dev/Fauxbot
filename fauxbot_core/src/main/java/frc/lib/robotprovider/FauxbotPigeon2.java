@@ -1,18 +1,17 @@
 package frc.lib.robotprovider;
 
-public class FauxbotPigeon2 extends FauxbotSensorBase implements IPigeon2
+public class FauxbotPigeon2 extends FauxbotIMU implements IPigeon2
 {
-    private double angle;
-
     public FauxbotPigeon2(int deviceNumber)
     {
-        this.angle = 0.0;
+        super();
+
         FauxbotSensorManager.set(new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.CAN, this.getClass(), deviceNumber), this);
     }
 
     public void getYawPitchRoll(double[] ypr_deg)
     {
-        ypr_deg[0] = this.angle;
+        ypr_deg[0] = this.get();
     }
 
     public void getRawGyro(double[] xyz_dps)
@@ -21,7 +20,7 @@ public class FauxbotPigeon2 extends FauxbotSensorBase implements IPigeon2
 
     public void setYaw(double angleDeg)
     {
-        this.angle = angleDeg;
+        this.set(angleDeg);
     }
 
     public void setYPRUpdatePeriod(int timeoutMs)
