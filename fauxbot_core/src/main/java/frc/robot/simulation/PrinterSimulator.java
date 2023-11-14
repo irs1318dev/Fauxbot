@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import frc.lib.robotprovider.*;
+import space.earlygrey.shapedrawer.ShapeDrawer;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -96,6 +98,8 @@ public class PrinterSimulator extends SimulatorBase
         this.prevY = 0.0;
         this.prevXVelocity = 0.0;
         this.prevYVelocity = 0.0;
+
+        this.setSize(difference, difference);
     }
 
     @Override
@@ -289,100 +293,109 @@ public class PrinterSimulator extends SimulatorBase
 
     /**
      * Draw a frame of animation based on the current state of the simulation.
-     * Remember that (0, 0) is at the top left!
+     * Remember that (0, 0) is at the bottom left!
      */
-    // @Override
-    // public void draw(Canvas canvas)
-    // {
-    //     double canvasHeight = canvas.getHeight();
-    //     double canvasWidth = canvas.getWidth();
-    //     GraphicsContext gc = canvas.getGraphicsContext2D();
-    //     gc.clearRect(0.0, 0.0, canvasWidth, canvasHeight);
+    @Override
+    public void draw(Batch batch, float parentAlpha)
+    {
+        super.draw(batch, parentAlpha);
 
-    //     // draw the past path:
-    //     PixelWriter writer = gc.getPixelWriter();
-    //     int difference = PrinterSimulator.PrinterMax - PrinterSimulator.PrinterMin;
-    //     for (int i = 0; i < difference; i++)
-    //     {
-    //         int xPos = PrinterSimulator.PrinterMin + i;
-    //         for (int j = 0; j < difference; j++)
-    //         {
-    //             int yPos = PrinterSimulator.PrinterMin + j;
-    //             if (this.drawnPixels[xPos][yPos])
-    //             {
-    //                 writer.setColor(xPos, yPos, Color.GREEN);
-    //             }
-    //         }
-    //     }
+        if (this.isTransform())
+        {
+            this.applyTransform(batch, this.computeTransform());
+        }
 
-    //     // draw the crosshair:
-    //     double lineLength = 5;
-    //     double lineSeparation = 2;
-    //     gc.setStroke(Color.BLACK);
-    //     gc.setLineWidth(1.0);
+        ShapeDrawer drawer = new ShapeDrawer(batch);
 
-    //     int x = (int)Math.round(this.prevX);
-    //     int y = (int)Math.round(this.prevY);
+        // // draw the past path:
+        // PixelWriter writer = gc.getPixelWriter();
+        // int difference = PrinterSimulator.PrinterMax - PrinterSimulator.PrinterMin;
+        // for (int i = 0; i < difference; i++)
+        // {
+        //     int xPos = PrinterSimulator.PrinterMin + i;
+        //     for (int j = 0; j < difference; j++)
+        //     {
+        //         int yPos = PrinterSimulator.PrinterMin + j;
+        //         if (this.drawnPixels[xPos][yPos])
+        //         {
+        //             writer.setColor(xPos, yPos, Color.GREEN);
+        //         }
+        //     }
+        // }
 
-    //     // left
-    //     if (x > PrinterSimulator.PrinterMinPosition + lineSeparation)
-    //     {
-    //         gc.strokeLine(
-    //             Math.max(PrinterSimulator.PrinterMinPosition, x - lineSeparation - lineLength),
-    //             y,
-    //             Math.max(PrinterSimulator.PrinterMinPosition, x - lineSeparation),
-    //             y); 
-    //     }
+        // // draw the crosshair:
+        // double lineLength = 5;
+        // double lineSeparation = 2;
+        // gc.setStroke(Color.BLACK);
+        // gc.setLineWidth(1.0);
 
-    //     // right
-    //     if (x < PrinterSimulator.PrinterMaxPosition + lineSeparation)
-    //     {
-    //         gc.strokeLine(
-    //             Math.min(PrinterSimulator.PrinterMaxPosition, x + lineSeparation),
-    //             y,
-    //             Math.min(PrinterSimulator.PrinterMaxPosition, x + lineSeparation + lineLength),
-    //             y); 
-    //     }
+        // int x = (int)Math.round(this.prevX);
+        // int y = (int)Math.round(this.prevY);
 
-    //     // top
-    //     if (y > PrinterSimulator.PrinterMinPosition + lineSeparation)
-    //     {
-    //         gc.strokeLine(
-    //             x,
-    //             Math.max(PrinterSimulator.PrinterMinPosition, y - lineSeparation - lineLength),
-    //             x,
-    //             Math.max(PrinterSimulator.PrinterMinPosition, y - lineSeparation)); 
-    //     }
+        // // left
+        // if (x > PrinterSimulator.PrinterMinPosition + lineSeparation)
+        // {
+        //     gc.strokeLine(
+        //         Math.max(PrinterSimulator.PrinterMinPosition, x - lineSeparation - lineLength),
+        //         y,
+        //         Math.max(PrinterSimulator.PrinterMinPosition, x - lineSeparation),
+        //         y); 
+        // }
 
-    //     // bottom
-    //     if (y < PrinterSimulator.PrinterMaxPosition + lineSeparation)
-    //     {
-    //         gc.strokeLine(
-    //             x,
-    //             Math.min(PrinterSimulator.PrinterMaxPosition, y + lineSeparation),
-    //             x,
-    //             Math.min(PrinterSimulator.PrinterMaxPosition, y + lineSeparation + lineLength)); 
-    //     }
+        // // right
+        // if (x < PrinterSimulator.PrinterMaxPosition + lineSeparation)
+        // {
+        //     gc.strokeLine(
+        //         Math.min(PrinterSimulator.PrinterMaxPosition, x + lineSeparation),
+        //         y,
+        //         Math.min(PrinterSimulator.PrinterMaxPosition, x + lineSeparation + lineLength),
+        //         y); 
+        // }
 
-    //     // draw the exterior of the point:
-    //     gc.setStroke(Color.RED);
-    //     gc.setFill(Color.RED);
-    //     gc.setLineWidth(1.0);
-    //     if (this.prevPenDown)
-    //     {
-    //         gc.fillOval(
-    //             x - lineSeparation,
-    //             y - lineSeparation,
-    //             lineSeparation * 2.0,
-    //             lineSeparation * 2.0);
-    //     }
-    //     else
-    //     {
-    //         gc.strokeOval(
-    //             x - lineSeparation,
-    //             y - lineSeparation,
-    //             lineSeparation * 2.0,
-    //             lineSeparation * 2.0);
-    //     }
-    // }
+        // // top
+        // if (y > PrinterSimulator.PrinterMinPosition + lineSeparation)
+        // {
+        //     gc.strokeLine(
+        //         x,
+        //         Math.max(PrinterSimulator.PrinterMinPosition, y - lineSeparation - lineLength),
+        //         x,
+        //         Math.max(PrinterSimulator.PrinterMinPosition, y - lineSeparation)); 
+        // }
+
+        // // bottom
+        // if (y < PrinterSimulator.PrinterMaxPosition + lineSeparation)
+        // {
+        //     gc.strokeLine(
+        //         x,
+        //         Math.min(PrinterSimulator.PrinterMaxPosition, y + lineSeparation),
+        //         x,
+        //         Math.min(PrinterSimulator.PrinterMaxPosition, y + lineSeparation + lineLength)); 
+        // }
+
+        // // draw the exterior of the point:
+        // gc.setStroke(Color.RED);
+        // gc.setFill(Color.RED);
+        // gc.setLineWidth(1.0);
+        // if (this.prevPenDown)
+        // {
+        //     gc.fillOval(
+        //         x - lineSeparation,
+        //         y - lineSeparation,
+        //         lineSeparation * 2.0,
+        //         lineSeparation * 2.0);
+        // }
+        // else
+        // {
+        //     gc.strokeOval(
+        //         x - lineSeparation,
+        //         y - lineSeparation,
+        //         lineSeparation * 2.0,
+        //         lineSeparation * 2.0);
+        // }
+
+        if (this.isTransform())
+        {
+            this.resetTransform(batch);
+        }
+    }
 }

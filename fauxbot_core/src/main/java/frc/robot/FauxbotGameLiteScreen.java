@@ -62,7 +62,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
 
         this.primaryTable = new Table(this.skin);
         this.primaryTable.setFillParent(true);
-        // this.primaryTable.setDebug(true);
+        ////this.primaryTable.setDebug(true);
 
         Label title = new Label(this.selectedSimulation.toString() + " Simulation", this.skin, "title");
         this.primaryTable.add(title).pad(20).top().colspan(4);
@@ -93,7 +93,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
         this.primaryTable.row();
 
         Table innerInfoTable = new Table(this.skin);
-        innerInfoTable.setDebug(true);
+        ////innerInfoTable.setDebug(true);
 
         // Add Operations
         Label buttonsLabel = new Label("Operations:", this.skin, "subtitle");
