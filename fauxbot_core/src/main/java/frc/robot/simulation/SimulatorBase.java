@@ -16,5 +16,4 @@ public abstract class SimulatorBase extends Group
     public abstract double getMotorMin(FauxbotActuatorConnection connection);
     public abstract double getMotorMax(FauxbotActuatorConnection connection);
 	public abstract boolean shouldSimulatePID();
-    public abstract void update();    
 }

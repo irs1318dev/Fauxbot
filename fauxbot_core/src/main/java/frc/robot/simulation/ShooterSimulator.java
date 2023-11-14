@@ -2,7 +2,6 @@ package frc.robot.simulation;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Calendar;
 
 import frc.lib.robotprovider.*;
 
@@ -77,7 +76,6 @@ public class ShooterSimulator extends SimulatorBase
 
     private static final double GravityAcceleration = 384.0;
 
-    private double prevTime;
     private boolean prevKick;
     private double prevAngle;
     private double prevAngleVelocity;
@@ -91,7 +89,6 @@ public class ShooterSimulator extends SimulatorBase
     @Inject
     public ShooterSimulator()
     {
-        this.prevTime = 0.0;
         this.prevKick = false;
         this.prevAngle = 0.0;
         this.prevAngleVelocity = 0.0;
@@ -173,9 +170,8 @@ public class ShooterSimulator extends SimulatorBase
     }
 
     @Override
-    public void update()
+    public void act(float delta)
     {
-        double currTime = Calendar.getInstance().getTime().getTime() / 1000.0;
         double currAngle = this.prevAngle;
         double currAngleVelocity = this.prevAngleVelocity;
         double currWheelVelocity = this.prevWheelVelocity;
@@ -204,15 +200,13 @@ public class ShooterSimulator extends SimulatorBase
             currKick = kickerSolenoid.get() == DoubleSolenoidValue.Forward;
         }
 
-        double dt = currTime - this.prevTime;
-
         // accelerate based on percentage of Shooter power
-        currAngleVelocity += angleMotorPower * ShooterSimulator.AngleMotorPower * dt;
-        currWheelVelocity += flyWheelMotorPower * ShooterSimulator.FlyWheelMotorPower * dt;
+        currAngleVelocity += angleMotorPower * ShooterSimulator.AngleMotorPower * delta;
+        currWheelVelocity += flyWheelMotorPower * ShooterSimulator.FlyWheelMotorPower * delta;
 
         // decelerate based on slowing ratio (friction)
-        currAngleVelocity -= ShooterSimulator.AngleSlowRatio * currAngleVelocity * dt;
-        currWheelVelocity -= ShooterSimulator.FlyWheelSlowRatio * currWheelVelocity * dt;
+        currAngleVelocity -= ShooterSimulator.AngleSlowRatio * currAngleVelocity * delta;
+        currWheelVelocity -= ShooterSimulator.FlyWheelSlowRatio * currWheelVelocity * delta;
 
         if (currAngleVelocity > ShooterSimulator.AngleMaxVelocity)
         {
@@ -240,7 +234,7 @@ public class ShooterSimulator extends SimulatorBase
             currWheelVelocity = 0.0;
         }
 
-        currAngle += (currAngleVelocity * dt);
+        currAngle += (currAngleVelocity * delta);
 
         if (currAngle > ShooterSimulator.AngleMaxPosition)
         {
@@ -274,12 +268,11 @@ public class ShooterSimulator extends SimulatorBase
         }
         else
         {
-            this.ballVerticalVelocity -= ShooterSimulator.GravityAcceleration * dt;
-            this.ballHeight += this.ballVerticalVelocity * dt;
-            this.ballDistance += this.ballHorizontalVelocity * dt;
+            this.ballVerticalVelocity -= ShooterSimulator.GravityAcceleration * delta;
+            this.ballHeight += this.ballVerticalVelocity * delta;
+            this.ballDistance += this.ballHorizontalVelocity * delta;
         }
 
-        this.prevTime = currTime;
         this.prevKick = currKick;
         this.prevAngle = currAngle;
         this.prevAngleVelocity = currAngleVelocity;

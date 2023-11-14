@@ -25,17 +25,22 @@ import frc.lib.driver.descriptions.AnalogOperationDescription;
 import frc.lib.driver.descriptions.DigitalOperationDescription;
 import frc.lib.driver.descriptions.MacroOperationDescription;
 import frc.lib.driver.descriptions.OperationDescription;
+import frc.lib.robotprovider.FauxbotActuatorBase;
+import frc.lib.robotprovider.FauxbotActuatorConnection;
+import frc.lib.robotprovider.FauxbotActuatorManager;
 import frc.lib.robotprovider.FauxbotAnalogInput;
 import frc.lib.robotprovider.FauxbotDigitalInput;
+import frc.lib.robotprovider.FauxbotDoubleSolenoid;
 import frc.lib.robotprovider.FauxbotDriverStation;
 import frc.lib.robotprovider.FauxbotEncoder;
 import frc.lib.robotprovider.FauxbotIMU;
 import frc.lib.robotprovider.FauxbotJoystick;
 import frc.lib.robotprovider.FauxbotJoystickManager;
-import frc.lib.robotprovider.FauxbotNavx;
+import frc.lib.robotprovider.FauxbotMotorBase;
 import frc.lib.robotprovider.FauxbotSensorBase;
 import frc.lib.robotprovider.FauxbotSensorConnection;
 import frc.lib.robotprovider.FauxbotSensorManager;
+import frc.lib.robotprovider.FauxbotSolenoid;
 import frc.lib.robotprovider.RobotMode;
 
 public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Screen
@@ -50,7 +55,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
     {
         super(game, selectedSimulation);
 
-        this.stage = new Stage(new ExtendViewport(800, 600));
+        this.stage = new Stage(new ExtendViewport(900, 750));
         Gdx.input.setInputProcessor(this.stage);
 
         this.skin = new Skin(Gdx.files.internal("skin/irs1318skin.json"));
@@ -172,12 +177,64 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                     ImuUI imu = new ImuUI((FauxbotIMU)sensor, min, max, 0.1f, this.skin);
                     innerInfoTable.add(imu).fillX();
                 }
+                else
+                {
+                    Label sensorLabel = new Label(sensorName, this.skin);
+                    innerInfoTable.add(sensorLabel).colspan(2).left();
+                }
 
                 innerInfoTable.row();
             }
         }
 
         // Add Actuators
+        Label actuatorsLabel = new Label("Actuators:", this.skin, "subtitle");
+        innerInfoTable.add(actuatorsLabel).colspan(2).left().expandX().padTop(10);
+        innerInfoTable.row();
+
+        FauxbotActuatorConnection[] actuators = this.simulator.getActuators();
+        if (actuators == null)
+        {
+            actuators = (FauxbotActuatorConnection[])FauxbotActuatorManager.actuatorMap.keySet().toArray();
+        }
+
+        for (FauxbotActuatorConnection connection : actuators)
+        {
+            FauxbotActuatorBase actuator = FauxbotActuatorManager.get(connection);
+            String actuatorName = this.simulator.getActuatorName(connection);
+
+            Label actuatorLabel = new Label(actuatorName, this.skin);
+            if (actuator instanceof FauxbotMotorBase)
+            {
+                innerInfoTable.add(actuatorLabel).left();
+
+                float min = (float)this.simulator.getMotorMin(connection);
+                float max = (float)this.simulator.getMotorMax(connection);
+
+                MotorUI motor = new MotorUI((FauxbotMotorBase)actuator, min, max, 0.1f, this.skin);
+                innerInfoTable.add(motor).fillX();
+            }
+            else if (actuator instanceof FauxbotSolenoid)
+            {
+                innerInfoTable.add(actuatorLabel).left();
+
+                SolenoidUI solenoid = new SolenoidUI((FauxbotSolenoid)actuator, this.skin);
+                innerInfoTable.add(solenoid).fillX();
+            }
+            else if (actuator instanceof FauxbotDoubleSolenoid)
+            {
+                innerInfoTable.add(actuatorLabel).left();
+
+                DoubleSolenoidUI doubleSolenoid = new DoubleSolenoidUI((FauxbotDoubleSolenoid)actuator, this.skin);
+                innerInfoTable.add(doubleSolenoid).fillX();
+            }
+            else
+            {
+                innerInfoTable.add(actuatorLabel).colspan(2).left();
+            }
+
+            innerInfoTable.row();
+        }
 
         ScrollPane scrollPane = new ScrollPane(innerInfoTable, this.skin);
 
@@ -270,6 +327,9 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                                 ToggleSimpleButtonUI simpleButton = new ToggleSimpleButtonUI(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue(), this.skin);
                                 infoTable.add(simpleButton).colspan(2).left();
                                 break;
+
+                            default:
+                                return;
                         }
 
                         break;
@@ -651,6 +711,88 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
             super.act(delta);
 
             this.setValue((float)this.imu.get());
+        }
+    }
+
+    private class MotorUI extends Slider
+    {
+        private final FauxbotMotorBase motor;
+
+        public MotorUI(FauxbotMotorBase motor, float min, float max, float step, Skin skin)
+        {
+            super(min, max, step, false, skin);
+
+            this.motor = motor;
+
+            this.setValue(Math.min(Math.max(min, 0.0f), max));
+        }
+
+        @Override
+        public void act(float delta)
+        {
+            super.act(delta);
+
+            this.setValue((float)this.motor.get());
+        }
+    }
+
+    private class SolenoidUI extends Slider
+    {
+        private final FauxbotSolenoid solenoid;
+
+        public SolenoidUI(FauxbotSolenoid solenoid, Skin skin)
+        {
+            super(0.0f, 1.0f, 1.0f, false, skin);
+
+            this.solenoid = solenoid;
+
+            this.setValue(0.0f);
+        }
+
+        @Override
+        public void act(float delta)
+        {
+            super.act(delta);
+
+            this.setValue(this.solenoid.get() ? 0.0f : -1.0f);
+        }
+    }
+
+    private class DoubleSolenoidUI extends Slider
+    {
+        private final FauxbotDoubleSolenoid doubleSolenoid;
+
+        public DoubleSolenoidUI(FauxbotDoubleSolenoid doubleSolenoid, Skin skin)
+        {
+            super(-1.0f, 1.0f, 1.0f, false, skin);
+
+            this.doubleSolenoid = doubleSolenoid;
+
+            this.setValue(0.0f);
+        }
+
+        @Override
+        public void act(float delta)
+        {
+            super.act(delta);
+
+            float value;
+            switch (this.doubleSolenoid.get())
+            {
+                case Forward:
+                    value = 1.0f;
+                    break;
+
+                case Reverse:
+                    value = -1.0f;
+                    break;
+
+                case Off:
+                default:
+                    value = 0.0f;
+            }
+
+            this.setValue(value);
         }
     }
 }

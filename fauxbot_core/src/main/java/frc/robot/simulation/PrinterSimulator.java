@@ -2,7 +2,6 @@ package frc.robot.simulation;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Calendar;
 
 import frc.lib.robotprovider.*;
 
@@ -73,7 +72,6 @@ public class PrinterSimulator extends SimulatorBase
     private static final double PrinterMaxVelocity = 20.0;
 
     private boolean[][] drawnPixels;
-    private double prevTime;
     private boolean prevPenDown;
     private double prevX;
     private double prevXVelocity;
@@ -93,7 +91,6 @@ public class PrinterSimulator extends SimulatorBase
             }
         }
 
-        this.prevTime = 0.0;
         this.prevPenDown = false;
         this.prevX = 0.0;
         this.prevY = 0.0;
@@ -166,9 +163,8 @@ public class PrinterSimulator extends SimulatorBase
     }
 
     @Override
-    public void update()
+    public void act(float delta)
     {
-        double currTime = Calendar.getInstance().getTime().getTime() / 1000.0;
         double currX = this.prevX;
         double currY = this.prevY;
         double currXVelocity = this.prevXVelocity;
@@ -198,15 +194,13 @@ public class PrinterSimulator extends SimulatorBase
             currPenDown = penSolenoid.get() == DoubleSolenoidValue.Forward;
         }
 
-        double dt = currTime - this.prevTime;
-
         // accelerate based on percentage of printer power
-        currXVelocity += xMotorPower * PrinterSimulator.PrinterMotorPower * dt;
-        currYVelocity += yMotorPower * PrinterSimulator.PrinterMotorPower * dt;
+        currXVelocity += xMotorPower * PrinterSimulator.PrinterMotorPower * delta;
+        currYVelocity += yMotorPower * PrinterSimulator.PrinterMotorPower * delta;
 
         // decelerate based on slowing ratio (friction)
-        currXVelocity -= PrinterSimulator.SlowRatio * currXVelocity * dt;
-        currYVelocity -= PrinterSimulator.SlowRatio * currYVelocity * dt;
+        currXVelocity -= PrinterSimulator.SlowRatio * currXVelocity * delta;
+        currYVelocity -= PrinterSimulator.SlowRatio * currYVelocity * delta;
 
         if (currXVelocity > PrinterSimulator.PrinterMaxVelocity)
         {
@@ -234,8 +228,8 @@ public class PrinterSimulator extends SimulatorBase
             currYVelocity = 0.0;
         }
 
-        currX += (currXVelocity * dt);
-        currY += (currYVelocity * dt);
+        currX += (currXVelocity * delta);
+        currY += (currYVelocity * delta);
 
         if (currX > PrinterSimulator.PrinterMaxPosition)
         {
@@ -272,7 +266,6 @@ public class PrinterSimulator extends SimulatorBase
             this.drawnPixels[x][y] = true;
         }
 
-        this.prevTime = currTime;
         this.prevPenDown = currPenDown;
         this.prevX = currX;
         this.prevY = currY;

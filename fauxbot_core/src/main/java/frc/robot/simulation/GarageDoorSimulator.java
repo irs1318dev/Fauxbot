@@ -62,6 +62,7 @@ public class GarageDoorSimulator extends SimulatorBase
     private static final String BenzPath = "/images/benz.jpeg";
 
     private static final int GarageFullyOpened = 250;
+    private static final double GarageSpeed = 50.0;
 
     private GarageState garageState;
     private double amountOpened;
@@ -144,7 +145,7 @@ public class GarageDoorSimulator extends SimulatorBase
     }
 
     @Override
-    public void update()
+    public void act(float delta)
     {
         boolean stateChanged = false;
         FauxbotActuatorBase actuator = FauxbotActuatorManager.get(GarageDoorSimulator.MotorConnection);
@@ -170,7 +171,7 @@ public class GarageDoorSimulator extends SimulatorBase
                 stateChanged = false;
             }
 
-            this.amountOpened += motorPower;
+            this.amountOpened += motorPower * delta * GarageDoorSimulator.GarageSpeed;
         }
 
         if (this.amountOpened > GarageDoorSimulator.GarageFullyOpened)

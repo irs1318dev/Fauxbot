@@ -3,7 +3,6 @@ package frc.robot.simulation;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Calendar;
 
 import frc.lib.robotprovider.*;
 import com.google.inject.Inject;
@@ -69,7 +68,6 @@ public class ElevatorSimulator extends SimulatorBase
     // private Image elevatorPerson;
 
     private double prevHeight;
-    private double prevTime;
     private double prevVelocity;
 
     @Inject
@@ -87,7 +85,6 @@ public class ElevatorSimulator extends SimulatorBase
         // this.elevatorPerson = new Image(this.elevatorPersonInputStream);
 
         this.prevHeight = 0.0;
-        this.prevTime = 0.0;
         this.prevVelocity = 0.0;
     }
 
@@ -156,9 +153,8 @@ public class ElevatorSimulator extends SimulatorBase
     }
 
     @Override
-    public void update()
+    public void act(float delta)
     {
-        double currTime = Calendar.getInstance().getTime().getTime() / 1000.0;
         double currHeight = this.prevHeight;
         double currVelocity = this.prevVelocity;
 
@@ -170,10 +166,8 @@ public class ElevatorSimulator extends SimulatorBase
             motorPower = motor.get();
         }
 
-        double dt = currTime - this.prevTime;
-
-        currVelocity += motorPower * ElevatorSimulator.MotorStrength * dt + ElevatorSimulator.Gravity * dt;
-        currHeight += (currVelocity * dt);
+        currVelocity += motorPower * ElevatorSimulator.MotorStrength * delta + ElevatorSimulator.Gravity * delta;
+        currHeight += (currVelocity * delta);
 
         if (currVelocity > ElevatorSimulator.ElevatorMaxVelocity)
         {
@@ -196,7 +190,6 @@ public class ElevatorSimulator extends SimulatorBase
         }
 
         this.prevHeight = currHeight;
-        this.prevTime = currTime;
         this.prevVelocity = currVelocity;
 
         FauxbotSensorBase sensor = FauxbotSensorManager.get(ElevatorSimulator.EncoderAChannel);

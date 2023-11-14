@@ -1,7 +1,6 @@
 package frc.robot.simulation;
 
 import java.io.FileInputStream;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,7 +81,6 @@ public class ForkliftSimulator extends SimulatorBase
     private double angle;
     private double prevLeftDistance;
     private double prevRightDistance;
-    private double prevTime;
 
     @Inject
     public ForkliftSimulator()
@@ -98,7 +96,6 @@ public class ForkliftSimulator extends SimulatorBase
         this.angle = ForkliftSimulator.STARTING_ANGLE_R * (180.0 / Math.PI);
         this.prevLeftDistance = 0.0;
         this.prevRightDistance = 0.0;
-        this.prevTime = Calendar.getInstance().getTime().getTime() / 1000.0;
 
         try
         {
@@ -174,7 +171,7 @@ public class ForkliftSimulator extends SimulatorBase
     }
 
     @Override
-    public void update()
+    public void act(float delta)
     {
         FauxbotActuatorBase leftDriveActuator = FauxbotActuatorManager.get(ForkliftSimulator.LeftMotorConnection);
         FauxbotActuatorBase rightDriveActuator = FauxbotActuatorManager.get(ForkliftSimulator.RightMotorConnection);
@@ -194,17 +191,14 @@ public class ForkliftSimulator extends SimulatorBase
             this.forkliftUp = lifterSolenoid.get() == DoubleSolenoidValue.Forward;
         }
 
-        this.updateOdometry();
+        this.updateOdometry(delta);
     }
 
-    private void updateOdometry()
+    private void updateOdometry(float delta)
     {
-        double currTime = Calendar.getInstance().getTime().getTime() / 1000.0;
-        double deltaT = currTime - this.prevTime;
-
         // check the current distance recorded by the encoders
-        double leftDistance = this.prevLeftDistance + this.leftPower * ForkliftSimulator.FORKLIFT_SPEED * deltaT;
-        double rightDistance = this.prevRightDistance + this.rightPower * ForkliftSimulator.FORKLIFT_SPEED * deltaT;
+        double leftDistance = this.prevLeftDistance + this.leftPower * ForkliftSimulator.FORKLIFT_SPEED * delta;
+        double rightDistance = this.prevRightDistance + this.rightPower * ForkliftSimulator.FORKLIFT_SPEED * delta;
 
         // calculate the angle (in radians) based on the total distance traveled
         double angleR = ForkliftSimulator.STARTING_ANGLE_R + (rightDistance - leftDistance) / ForkliftSimulator.WHEEL_SEPARATION_DISTANCE;
@@ -226,8 +220,6 @@ public class ForkliftSimulator extends SimulatorBase
         // record distance for next time
         this.prevLeftDistance = leftDistance;
         this.prevRightDistance = rightDistance;
-
-        this.prevTime = currTime;
     }
 
     // @Override

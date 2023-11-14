@@ -99,7 +99,7 @@ public class FauxbotRunner implements Runnable
             }
 
             long endTime = Calendar.getInstance().getTime().getTime();
-            long elapsed = startTime - endTime;
+            long elapsed = endTime - startTime;
             if (elapsed <= 20)
             {
                 try
