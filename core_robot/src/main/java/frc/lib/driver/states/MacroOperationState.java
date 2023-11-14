@@ -194,7 +194,7 @@ public class MacroOperationState extends OperationState implements IMacroOperati
                     else
                     {
                         ExceptionHelpers.Assert(operation instanceof DigitalOperation, "Expect operation of type DigitalOperation");
-                        this.analogOperationStateMap.get((AnalogOperation)operation).setIsInterrupted(true);
+                        this.analogOperationStateMap.get((DigitalOperation)operation).setIsInterrupted(true);
                     }
                 }
 
