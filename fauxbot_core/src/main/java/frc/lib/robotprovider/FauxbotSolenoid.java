@@ -2,7 +2,7 @@ package frc.lib.robotprovider;
 
 public class FauxbotSolenoid extends FauxbotActuatorBase implements ISolenoid
 {
-    private double currentValue;
+    private boolean currentValue;
 
     public FauxbotSolenoid(PneumaticsModuleType moduleType, int port)
     {
@@ -13,18 +13,22 @@ public class FauxbotSolenoid extends FauxbotActuatorBase implements ISolenoid
     {
         FauxbotActuatorManager.set(new FauxbotActuatorConnection(this.getModule(moduleNumber), port), this);
 
-        this.currentValue = 0.0;
+        this.currentValue = false;
     }
 
     public void set(boolean on)
     {
-        if (on)
+        synchronized (this)
         {
-            this.currentValue = 1.0;
+            this.currentValue = on;
         }
-        else
+    }
+
+    public boolean get()
+    {
+        synchronized (this)
         {
-            this.currentValue = 0.0;
+            return this.currentValue;
         }
     }
 

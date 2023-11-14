@@ -335,7 +335,12 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                         ToggleSimpleButtonUI simpleButton = new ToggleSimpleButtonUI(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue(), this.skin);
                         infoTable.add(simpleButton).colspan(2).left();
                         break;
+
+                    default:
+                        return;
                 }
+
+                infoTable.row();
             }
         }
     }

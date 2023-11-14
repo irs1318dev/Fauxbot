@@ -20,13 +20,16 @@ public class FauxbotJoystick implements IJoystick
 
     public boolean getRawButton(int buttonNumber)
     {
-        if (!this.buttons.containsKey(buttonNumber))
+        synchronized (this)
         {
-            return false;
-        }
+            if (!this.buttons.containsKey(buttonNumber))
+            {
+                return false;
+            }
 
-        boolean result = this.buttons.get(buttonNumber);
-        return result;
+            boolean result = this.buttons.get(buttonNumber);
+            return result;
+        }
     }
 
     public boolean isConnected()
@@ -36,17 +39,23 @@ public class FauxbotJoystick implements IJoystick
 
     public int getPOV()
     {
-        return this.pov;
+        synchronized (this)
+        {
+            return this.pov;
+        }
     }
 
     public double getAxis(int relevantAxis)
     {
-        if (!this.axes.containsKey(relevantAxis))
+        synchronized (this)
         {
-            return 0.0;
-        }
+            if (!this.axes.containsKey(relevantAxis))
+            {
+                return 0.0;
+            }
 
-        return this.axes.get(relevantAxis);
+            return this.axes.get(relevantAxis);
+        }
     }
 
     public void setRumble(JoystickRumbleType type, double value)
@@ -55,21 +64,30 @@ public class FauxbotJoystick implements IJoystick
 
     public void setButton(int buttonNumber, boolean value)
     {
-        this.buttons.put(buttonNumber, value);
+        synchronized (this)
+        {
+            this.buttons.put(buttonNumber, value);
+        }
     }
 
     public void setPOV(int value)
     {
-        this.pov = value;
+        synchronized (this)
+        {
+            this.pov = value;
+        }
     }
 
     public void clearPOV()
     {
-        this.pov = -1;
+        this.setPOV(-1);
     }
 
     public void setAxis(int axis, double value)
     {
-        this.axes.put(axis, value);
+        synchronized (this)
+        {
+            this.axes.put(axis, value);
+        }
     }
 }

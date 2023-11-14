@@ -11,11 +11,17 @@ public class FauxbotMotorBase extends FauxbotActuatorBase implements IMotor
 
     public void set(double newValue)
     {
-        this.currentPower = newValue;
+        synchronized (this)
+        {
+            this.currentPower = newValue;
+        }
     }
 
     public double get()
     {
-        return this.currentPower;
+        synchronized (this)
+        {
+            return this.currentPower;
+        }
     }
 }

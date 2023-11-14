@@ -35,17 +35,26 @@ public class FauxbotEncoder extends FauxbotSensorBase implements IEncoder
 
     public double getRate()
     {
-        return this.rate;
+        synchronized (this)
+        {
+            return this.rate;
+        }
     }
 
     public double getDistance()
     {
-        return this.value * this.distancePerPulse;
+        synchronized (this)
+        {
+            return this.value * this.distancePerPulse;
+        }
     }
 
     public int get()
     {
-        return (int)this.value;
+        synchronized (this)
+        {
+            return (int)this.value;
+        }
     }
 
     public void setDistancePerPulse(double distancePerPulse)
@@ -55,28 +64,37 @@ public class FauxbotEncoder extends FauxbotSensorBase implements IEncoder
 
     public void reset()
     {
-        this.value = 0.0;
-        this.rate = 0.0;
-        this.prevTime = this.timer.get();
+        synchronized (this)
+        {
+            this.value = 0.0;
+            this.rate = 0.0;
+            this.prevTime = this.timer.get();
+        }
     }
 
     public void set(double newValue)
     {
-        double currTime = this.timer.get();
-        double prevValue = this.value;
+        synchronized (this)
+        {
+            double currTime = this.timer.get();
+            double prevValue = this.value;
 
-        this.value = newValue;
-        this.rate = (newValue - prevValue) / (currTime - this.prevTime);
+            this.value = newValue;
+            this.rate = (newValue - prevValue) / (currTime - this.prevTime);
 
-        this.prevTime = currTime;
+            this.prevTime = currTime;
+        }
     }
 
     public void setRate(double newValue)
     {
-        double currTime = this.timer.get();
-        double currTicks = this.value + newValue * (currTime - this.prevTime);
-        this.rate = newValue;
-        this.value = currTicks;
-        this.prevTime = currTime;
+        synchronized (this)
+        {
+            double currTime = this.timer.get();
+            double currTicks = this.value + newValue * (currTime - this.prevTime);
+            this.rate = newValue;
+            this.value = currTicks;
+            this.prevTime = currTime;
+        }
     }
 }

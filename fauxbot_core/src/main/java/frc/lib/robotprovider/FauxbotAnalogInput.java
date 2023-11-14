@@ -15,16 +15,25 @@ public class FauxbotAnalogInput extends FauxbotSensorBase implements IAnalogInpu
      */
     public double get()
     {
-        return this.value;
+        synchronized (this)
+        {
+            return this.value;
+        }
     }
 
     public void set(double newValue)
     {
-        this.value = newValue;
+        synchronized (this)
+        {
+            this.value = newValue;
+        }
     }
 
     public double getVoltage()
     {
-        return this.value;
+        synchronized (this)
+        {
+            return this.value;
+        }
     }
 }

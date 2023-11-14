@@ -12,7 +12,10 @@ public class FauxbotDutyCycle extends FauxbotSensorBase implements IDutyCycle
 
     public double getOutput()
     {
-        return this.dutyCycle;
+        synchronized (this)
+        {
+            return this.dutyCycle;
+        }
     }
 
     public int getFrequency()
@@ -22,6 +25,9 @@ public class FauxbotDutyCycle extends FauxbotSensorBase implements IDutyCycle
 
     public void set(double newValue)
     {
-        this.dutyCycle = newValue;
+        synchronized (this)
+        {
+            this.dutyCycle = newValue;
+        }
     }
 }

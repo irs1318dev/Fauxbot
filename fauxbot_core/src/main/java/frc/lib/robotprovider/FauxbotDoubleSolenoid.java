@@ -2,7 +2,7 @@ package frc.lib.robotprovider;
 
 public class FauxbotDoubleSolenoid extends FauxbotActuatorBase implements IDoubleSolenoid
 {
-    private double currentValue;
+    private DoubleSolenoidValue currentValue;
 
     public FauxbotDoubleSolenoid(PneumaticsModuleType moduleType, int forwardPort, int reversePort)
     {
@@ -14,38 +14,23 @@ public class FauxbotDoubleSolenoid extends FauxbotActuatorBase implements IDoubl
         FauxbotActuatorManager.set(new FauxbotActuatorConnection(this.getModule(moduleNumber, true), forwardPort), this);
         FauxbotActuatorManager.set(new FauxbotActuatorConnection(this.getModule(moduleNumber, false), reversePort), null);
 
-        this.currentValue = 0.0;
+        this.currentValue = DoubleSolenoidValue.Off;
     }
 
     public void set(DoubleSolenoidValue value)
     {
-        if (value == DoubleSolenoidValue.Off)
+        synchronized (this)
         {
-            this.currentValue = 0.0;
-        }
-        else if (value == DoubleSolenoidValue.Forward)
-        {
-            this.currentValue = 1.0;
-        }
-        else if (value == DoubleSolenoidValue.Reverse)
-        {
-            this.currentValue = -1.0;
+            this.currentValue = value;
         }
     }
 
     public DoubleSolenoidValue get()
     {
-        if (this.currentValue > 0.0)
+        synchronized (this)
         {
-            return DoubleSolenoidValue.Forward;
+            return this.currentValue;
         }
-
-        if (this.currentValue < 0.0)
-        {
-            return DoubleSolenoidValue.Reverse;
-        }
-
-        return DoubleSolenoidValue.Off;
     }
 
     private FauxbotActuatorConnection.ActuatorConnector getModule(int moduleNumber, boolean isA)

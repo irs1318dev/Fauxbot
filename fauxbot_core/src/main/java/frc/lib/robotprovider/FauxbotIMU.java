@@ -11,11 +11,17 @@ public class FauxbotIMU extends FauxbotSensorBase
 
     public double get()
     {
-        return this.angle;
+        synchronized (this)
+        {
+            return this.angle;
+        }
     }
 
     public void set(double value)
     {
-        this.angle = value;
+        synchronized (this)
+        {
+            this.angle = value;
+        }
     }
 }

@@ -12,16 +12,22 @@ public class FauxbotCounter extends FauxbotSensorBase implements ICounter
 
     public int get()
     {
-        return this.count;
+        synchronized (this)
+        {
+            return this.count;
+        }
     }
 
     public void reset()
     {
-        this.count = 0;
+        this.set(0);
     }
 
     public void set(int newValue)
     {
-        this.count = newValue;
+        synchronized (this)
+        {
+            this.count = newValue;
+        }
     }
 }

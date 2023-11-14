@@ -16,11 +16,17 @@ public class FauxbotDigitalInput extends FauxbotSensorBase implements IDigitalIn
      */
     public boolean get()
     {
-        return this.isSet;
+        synchronized (this)
+        {
+            return this.isSet;
+        }
     }
 
     public void set(boolean newValue)
     {
-        this.isSet = newValue;
+        synchronized (this)
+        {
+            this.isSet = newValue;
+        }
     }
 }
