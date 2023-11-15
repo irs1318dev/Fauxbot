@@ -236,8 +236,11 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
         }
 
         ScrollPane scrollPane = new ScrollPane(innerInfoTable, this.skin);
+        Table simulatorTable = new Table(this.skin);
+        ////simulatorTable.setDebug(true);
+        simulatorTable.add(this.simulator).center().expand();
 
-        SplitPane pane = new SplitPane(scrollPane, this.simulator, false, this.skin);
+        SplitPane pane = new SplitPane(scrollPane, simulatorTable, false, this.skin);
         this.primaryTable.add(pane).colspan(4).expand().pad(5).fill();
         this.primaryTable.row();
 
@@ -270,6 +273,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
     {
         super.dispose();
         this.stage.dispose();
+        this.simulator.dispose();
     }
 
     @Override

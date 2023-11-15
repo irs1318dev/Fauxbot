@@ -4,8 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import frc.lib.robotprovider.*;
-import space.earlygrey.shapedrawer.ShapeDrawer;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -66,32 +70,34 @@ public class PrinterSimulator extends SimulatorBase
     private static final double PrinterMaxPosition = 200.0;
     private static final int PrinterMax = (int)PrinterSimulator.PrinterMaxPosition;
 
-    private static final double PrinterMotorPower = 40.0;
+    private static final double PrinterMotorPower = 10.0;
     private static final double SlowRatio = 1.0; // friction?
     private static final double PrinterMinAbsoluteVelocity = 0.1;
 
     private static final double PrinterMinVelocity = -20.0;
     private static final double PrinterMaxVelocity = 20.0;
 
-    private boolean[][] drawnPixels;
+    private Pixmap pixMap;
+    private Texture currentPixMapTexture;
     private boolean prevPenDown;
     private double prevX;
     private double prevXVelocity;
     private double prevY;
     private double prevYVelocity;
+    private Texture crosshairOpen;
+    private Texture crosshairClosed;
 
     @Inject
     public PrinterSimulator()
     {
         int difference = PrinterSimulator.PrinterMax - PrinterSimulator.PrinterMin;
-        this.drawnPixels = new boolean[difference][difference];
-        for (int i = 0; i < difference; i++)
-        {
-            for (int j = 0; j < difference; j++)
-            {
-                this.drawnPixels[PrinterSimulator.PrinterMin + i][PrinterSimulator.PrinterMin + j] = false;
-            }
-        }
+        this.pixMap = new Pixmap(difference, difference, Format.RGB888);
+        this.pixMap.setColor(Color.WHITE);
+        this.pixMap.fill();
+        this.currentPixMapTexture = new Texture(this.pixMap);
+        this.crosshairOpen = new Texture(Gdx.files.internal("images/printer_crosshairs.png"));
+        this.crosshairClosed = new Texture(Gdx.files.internal("images/printer_crosshairs_filled.png"));
+        this.pixMap.setColor(Color.GREEN);
 
         this.prevPenDown = false;
         this.prevX = 0.0;
@@ -99,7 +105,7 @@ public class PrinterSimulator extends SimulatorBase
         this.prevXVelocity = 0.0;
         this.prevYVelocity = 0.0;
 
-        this.setSize(difference, difference);
+        this.setSize(2.0f * difference, 2.0f * difference);
     }
 
     @Override
@@ -267,7 +273,8 @@ public class PrinterSimulator extends SimulatorBase
 
             int x = (int)Math.round(currX);
             int y = (int)Math.round(currY);
-            this.drawnPixels[x][y] = true;
+            this.pixMap.drawPixel(x, y);
+            this.currentPixMapTexture.draw(this.pixMap, 0, 0);
         }
 
         this.prevPenDown = currPenDown;
@@ -300,12 +307,26 @@ public class PrinterSimulator extends SimulatorBase
     {
         super.draw(batch, parentAlpha);
 
-        if (this.isTransform())
+        // ShapeDrawer drawer = new ShapeDrawer(batch);
+        batch.setColor(1f, 1f, 1f, parentAlpha);
+        batch.draw(this.currentPixMapTexture, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+
+        Texture crosshair;
+        if (this.prevPenDown)
         {
-            this.applyTransform(batch, this.computeTransform());
+            crosshair = this.crosshairClosed;
+        }
+        else
+        {
+            crosshair = this.crosshairOpen;
         }
 
-        ShapeDrawer drawer = new ShapeDrawer(batch);
+        batch.draw(
+            crosshair,
+            this.getX() + 2.0f * (float)this.prevX - crosshair.getWidth() / 4.0f,
+            this.getY() + this.getHeight() - 2.0f * (float)this.prevY - crosshair.getHeight() / 4.0f,
+            crosshair.getWidth() / 2.0f,
+            crosshair.getHeight() / 2.0f);
 
         // // draw the past path:
         // PixelWriter writer = gc.getPixelWriter();
@@ -392,10 +413,14 @@ public class PrinterSimulator extends SimulatorBase
         //         lineSeparation * 2.0,
         //         lineSeparation * 2.0);
         // }
+    }
 
-        if (this.isTransform())
-        {
-            this.resetTransform(batch);
-        }
+    @Override
+    public void dispose()
+    {
+        this.currentPixMapTexture.dispose();
+        this.pixMap.dispose();
+        this.crosshairOpen.dispose();
+        this.crosshairClosed.dispose();
     }
 }
