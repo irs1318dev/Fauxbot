@@ -4,18 +4,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 import frc.lib.robotprovider.*;
+import space.earlygrey.shapedrawer.ShapeDrawer;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-// import javafx.scene.canvas.Canvas;
-// import javafx.scene.canvas.GraphicsContext;
-// import javafx.scene.paint.Color;
-// import javafx.scene.shape.ArcType;
 
 @Singleton
 public class ShooterSimulator extends SimulatorBase
 {
+    private static final float RADIANS_PER_DEGREE = (float)(Math.PI / 180.0);
     private static final FauxbotActuatorConnection AngleMotorConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.CAN, 0);
     private static final FauxbotActuatorConnection FlyWheelMotorConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.CAN, 1);
     private static final FauxbotSensorConnection AngleEncoderConnection = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.CAN, FauxbotTalonXBase.class, 0);
@@ -59,20 +62,22 @@ public class ShooterSimulator extends SimulatorBase
         }
     };
 
+    private static final float FrameDimension = 400.0f;
+
     private static final double AngleMinPosition = 0.0;
     private static final double AngleMaxPosition = 90.0;
 
     private static final double AngleMotorPower = 40.0;
     private static final double AngleSlowRatio = 1.0; // friction?
     private static final double AngleMinAbsoluteVelocity = 0.1;
-    private static final double FlyWheelMotorPower = 300.0;
+    private static final double FlyWheelMotorPower = 600.0;
     private static final double FlyWheelSlowRatio = 1.0; // friction?
     private static final double FlyWheelMinAbsoluteVelocity = 0.1;
 
     private static final double AngleMinVelocity = -22.5;
     private static final double AngleMaxVelocity = 22.5;
     private static final double FlyWheelMinVelocity = 0.0;
-    private static final double FlyWheelMaxVelocity = 400.0;
+    private static final double FlyWheelMaxVelocity = 800.0;
 
     private static final double GravityAcceleration = 384.0;
 
@@ -86,6 +91,8 @@ public class ShooterSimulator extends SimulatorBase
     private double ballHorizontalVelocity;
     private double ballVerticalVelocity;
 
+    private Texture drawerTexture;
+
     @Inject
     public ShooterSimulator()
     {
@@ -93,6 +100,14 @@ public class ShooterSimulator extends SimulatorBase
         this.prevAngle = 0.0;
         this.prevAngleVelocity = 0.0;
         this.prevWheelVelocity = 0.0;
+
+        Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.drawPixel(0, 0);
+        this.drawerTexture = new Texture(pixmap);
+        pixmap.dispose();
+
+        this.setSize(ShooterSimulator.FrameDimension, ShooterSimulator.FrameDimension);
     }
 
     @Override
@@ -255,11 +270,11 @@ public class ShooterSimulator extends SimulatorBase
 
             // have the starting location be where the front edge of the hood meets the fly-wheel 
             double angleRad = (this.prevAngle + 90.0) * Math.PI / 180.0;
-            this.ballDistance = 11 + 7.5 * Math.cos(angleRad) - 2.5;
-            this.ballHeight = 11 + 7.5 * Math.sin(angleRad) + 2.5;
+            this.ballDistance = 21 + 7.5 * Math.cos(angleRad) - 2.5;
+            this.ballHeight = 26 + 7.5 * Math.sin(angleRad) + 2.5;
         }
         else if (this.ballHorizontalVelocity < 0.0 ||
-            this.ballDistance > 200.0)
+            this.ballDistance > 400.0)
         {
             this.ballHorizontalVelocity = -1.0;
             this.ballVerticalVelocity = 0.0;
@@ -295,33 +310,48 @@ public class ShooterSimulator extends SimulatorBase
 
     /**
      * Draw a frame of animation based on the current state of the simulation.
-     * Remember that (0, 0) is at the top left!
+     * Remember that (0, 0) is at the bottom left!
      */
-    // @Override
-    // public void draw(Canvas canvas)
-    // {
-    //     double canvasHeight = canvas.getHeight();
-    //     double canvasWidth = canvas.getWidth();
-    //     GraphicsContext gc = canvas.getGraphicsContext2D();
-    //     gc.clearRect(0.0, 0.0, canvasWidth, canvasHeight);
+    @Override
+    public void draw(Batch batch, float parentAlpha)
+    {
+        super.draw(batch, parentAlpha);
 
-    //     // draw the shooter apparatus:
-    //     gc.setStroke(Color.BLACK);
-    //     gc.setFill(Color.BLACK);
-    //     gc.setLineWidth(1.0);
+        float frameX = this.getX();
+        float frameY = this.getY();
 
-    //     // fly-wheel:
-    //     gc.fillOval(6, canvasHeight - 16, 10, 10);
+        ShapeDrawer drawer = new ShapeDrawer(batch, new TextureRegion(this.drawerTexture, 0, 0, 1, 1));
 
-    //     // hood:
-    //     gc.strokeArc(1, canvasHeight - 21, 20, 20, this.prevAngle + 90.0, 90.0, ArcType.OPEN);
+        // draw the shooter apparatus:
+        drawer.setColor(Color.BLACK);
+        drawer.setDefaultLineWidth(1.0f);
 
-    //     // draw the ball
-    //     gc.setStroke(Color.RED);
-    //     gc.setFill(Color.RED);
-    //     if (this.ballDistance != 0.0 && this.ballHeight != 0.0)
-    //     {
-    //         gc.fillOval(this.ballDistance, canvasHeight - this.ballHeight, 5, 5);
-    //     }
-    // }
+        // fly-wheel:
+        drawer.filledCircle(frameX + 21, frameY + 21, 10);
+
+        // hood:
+        drawer.arc(
+            frameX + 21,
+            frameY + 21,
+            20,
+            (float)(this.prevAngle + 90.0f) * RADIANS_PER_DEGREE,
+            90.0f * RADIANS_PER_DEGREE);
+
+        // draw the ball
+        drawer.setColor(Color.BLACK);
+        if (this.ballDistance > 0.0 && this.ballHeight > 0.0 && this.ballDistance < 400.0)
+        {
+            drawer.filledCircle(
+                frameX + (float)this.ballDistance,
+                frameY + (float)this.ballHeight,
+                5);
+        }
+    }
+
+    @Override
+    public void dispose()
+    {
+        super.dispose();
+        this.drawerTexture.dispose();
+    }
 }

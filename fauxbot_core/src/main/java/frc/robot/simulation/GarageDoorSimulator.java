@@ -81,6 +81,8 @@ public class GarageDoorSimulator extends SimulatorBase
         this.garageState = GarageState.Stopped;
         this.amountOpened = 0.0;
 
+        this.doorColor = Color.GRAY;
+
         this.loadRandomImage();
 
         Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);

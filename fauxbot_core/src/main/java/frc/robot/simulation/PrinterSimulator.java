@@ -235,8 +235,6 @@ public class PrinterSimulator extends SimulatorBase
             currYVelocity = 0.0;
         }
 
-        System.out.println("vels: " + currXVelocity + ", " + currYVelocity);
-
         currX += (currXVelocity * delta);
         currY += (currYVelocity * delta);
 

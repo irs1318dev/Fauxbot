@@ -10,7 +10,7 @@ public class DesktopLauncher
     {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setForegroundFPS(100);
-        config.setWindowedMode(800, 600);
+        config.setWindowedMode(900, 750);
         config.setTitle("Fauxbot");
         new Lwjgl3Application(new FauxbotGame(), config);
     }

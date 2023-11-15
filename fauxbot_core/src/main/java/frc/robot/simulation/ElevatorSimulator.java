@@ -202,6 +202,7 @@ public class ElevatorSimulator extends SimulatorBase
             encoder.set((int)this.prevHeight);
         }
     }
+
     /**
      * Draw a frame of animation based on the current state of the simulation.
      * Remember that (0, 0) is at the bottom left!

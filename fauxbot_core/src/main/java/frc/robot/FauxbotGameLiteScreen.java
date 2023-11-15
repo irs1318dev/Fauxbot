@@ -237,7 +237,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
 
         ScrollPane scrollPane = new ScrollPane(innerInfoTable, this.skin);
         Table simulatorTable = new Table(this.skin);
-        ////simulatorTable.setDebug(true);
+        simulatorTable.setDebug(true);
         simulatorTable.add(this.simulator).center().expand();
 
         SplitPane pane = new SplitPane(scrollPane, simulatorTable, false, this.skin);
@@ -520,7 +520,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
 
     private class ToggleButtonUI extends CheckBox
     {
-        private static final double STAY_PRESSED_FOR = 0.04;
+        private static final double STAY_PRESSED_FOR = 0.25;
 
         private final FauxbotJoystick joystick;
         private final UserInputDeviceButton button;
