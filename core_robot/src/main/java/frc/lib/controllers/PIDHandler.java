@@ -246,7 +246,7 @@ public class PIDHandler
             }
 
             // apply complementary filter to slow ramp-up/ramp-down
-            this.output = this.outputFilter.getValue();
+            this.output = this.outputFilter.update(result);
         }
         else if (dt < 0.0)
         {
