@@ -19,8 +19,8 @@ import com.google.inject.Singleton;
 @Singleton
 public class ForkliftSimulator extends SimulatorBase
 {
-    private static final float WHEEL_SEPARATION_DISTANCE = 10.0f; // in inches/pixels
-    private static final float FORKLIFT_SPEED = 10.0f; // in inches/pixels / sec
+    private static final double WHEEL_SEPARATION_DISTANCE = 10.0f; // in inches/pixels
+    private static final double FORKLIFT_SPEED = 10.0f; // in inches/pixels / sec
 
     private static final FauxbotActuatorConnection LeftMotorConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PWM, 0);
     private static final FauxbotActuatorConnection RightMotorConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PWM, 1);
@@ -59,12 +59,12 @@ public class ForkliftSimulator extends SimulatorBase
     private static final float FORKLIFT_HALF_LENGTH = ForkliftSimulator.FORKLIFT_LENGTH / 2.0f;
     private static final float FORKLIFT_HALF_WIDTH = ForkliftSimulator.FORKLIFT_WIDTH / 2.0f;
 
-    private static final float MAX_X = 250.0f;
-    private static final float MAX_Y = 400.0f;
-    private static final float STARTING_ANGLE_R = (float)Math.PI / 2.0f; // 90deg to the left (image-up)
-    private static final float STARTING_X = ForkliftSimulator.MAX_X / 2.0f;
-    private static final float STARTING_Y = ForkliftSimulator.MAX_Y / 2.0f;
-    private static final float MAX_WALL_DISTANCE =
+    private static final double MAX_X = 250.0;
+    private static final double MAX_Y = 400.0;
+    private static final double STARTING_ANGLE_R = (float)Math.PI / 2.0f; // 90deg to the left (image-up)
+    private static final double STARTING_X = ForkliftSimulator.MAX_X / 2.0f;
+    private static final double STARTING_Y = ForkliftSimulator.MAX_Y / 2.0f;
+    private static final double MAX_WALL_DISTANCE =
         (float)Math.sqrt(FORKLIFT_HALF_LENGTH * FORKLIFT_HALF_LENGTH + FORKLIFT_HALF_WIDTH * FORKLIFT_HALF_WIDTH);
 
     private float leftPower;
@@ -77,11 +77,11 @@ public class ForkliftSimulator extends SimulatorBase
     private Texture drawerTexture;
 
     // odometry coordinates (x forward, y left, angle counter-clockwise)
-    private float x;
-    private float y;
-    private float angle;
-    private float prevLeftDistance;
-    private float prevRightDistance;
+    private double x;
+    private double y;
+    private double angle;
+    private double prevLeftDistance;
+    private double prevRightDistance;
 
     @Inject
     public ForkliftSimulator()
@@ -196,20 +196,20 @@ public class ForkliftSimulator extends SimulatorBase
     private void updateOdometry(float delta)
     {
         // check the current distance recorded by the encoders
-        float leftDistance = this.prevLeftDistance + this.leftPower * ForkliftSimulator.FORKLIFT_SPEED * delta;
-        float rightDistance = this.prevRightDistance + this.rightPower * ForkliftSimulator.FORKLIFT_SPEED * delta;
+        double leftDistance = this.prevLeftDistance + this.leftPower * ForkliftSimulator.FORKLIFT_SPEED * delta;
+        double rightDistance = this.prevRightDistance + this.rightPower * ForkliftSimulator.FORKLIFT_SPEED * delta;
 
         // calculate the angle (in radians) based on the total distance traveled
-        float angleR = ForkliftSimulator.STARTING_ANGLE_R + (rightDistance - leftDistance) / ForkliftSimulator.WHEEL_SEPARATION_DISTANCE;
+        double angleR = ForkliftSimulator.STARTING_ANGLE_R + (rightDistance - leftDistance) / ForkliftSimulator.WHEEL_SEPARATION_DISTANCE;
 
         // calculate the average distance traveled
-        float averagePositionChange = ((leftDistance - this.prevLeftDistance) + (rightDistance - this.prevRightDistance)) / 2.0f;
+        double averagePositionChange = ((leftDistance - this.prevLeftDistance) + (rightDistance - this.prevRightDistance)) / 2.0f;
 
         // calculate the change since last time, and update our relative position
-        float newX = this.x + averagePositionChange * (float)Math.cos(angleR);
-        float newY = this.y + averagePositionChange * (float)Math.sin(angleR);
+        double newX = this.x + averagePositionChange * (float)Math.cos(angleR);
+        double newY = this.y + averagePositionChange * (float)Math.sin(angleR);
 
-        float newAngle = (angleR * 360.0f / (2.0f * (float)Math.PI)) % 360.0f;
+        double newAngle = (angleR * 360.0 / (2.0 * (float)Math.PI)) % 360.0;
 
         // quick check for collision with walls
         this.x = ForkliftSimulator.clamp(newX, ForkliftSimulator.MAX_WALL_DISTANCE, ForkliftSimulator.MAX_X - ForkliftSimulator.MAX_WALL_DISTANCE);
@@ -300,9 +300,9 @@ public class ForkliftSimulator extends SimulatorBase
         
         batch.draw(
             forkliftToDraw,
-            frameX + ForkliftSimulator.MAX_X + 5.0f,
+            frameX + (float)ForkliftSimulator.MAX_X + 5.0f,
             frameY + frameHeight / 4.0f,
-            frameWidth - (ForkliftSimulator.MAX_X + 5),
+            frameWidth - ((float)ForkliftSimulator.MAX_X + 5.0f),
             frameHeight / 2.0f);
     }
 
@@ -315,7 +315,7 @@ public class ForkliftSimulator extends SimulatorBase
         this.forkliftUpImage.dispose();
     }
 
-    private static float clamp(float value, float min, float max)
+    private static double clamp(double value, double min, double max)
     {
         if (value < min)
         {

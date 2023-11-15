@@ -64,11 +64,11 @@ public class GarageDoorSimulator extends SimulatorBase
     private static final String BenzPath = "images/benz.jpeg";
 
     private static final float FrameDimension = 400.0f;
-    private static final float GarageFullyOpened = 400.0f;
-    private static final float GarageSpeed = 80.0f;
+    private static final double GarageFullyOpened = 400.0f;
+    private static final double GarageSpeed = 80.0f;
 
     private GarageState garageState;
-    private float amountOpened;
+    private double amountOpened;
     private boolean isThroughBeamBroken;
 
     private Texture image;
@@ -79,7 +79,7 @@ public class GarageDoorSimulator extends SimulatorBase
     public GarageDoorSimulator()
     {
         this.garageState = GarageState.Stopped;
-        this.amountOpened = 0.0f;
+        this.amountOpened = 0.0;
 
         this.loadRandomImage();
 
@@ -190,9 +190,9 @@ public class GarageDoorSimulator extends SimulatorBase
         {
             this.amountOpened = GarageDoorSimulator.GarageFullyOpened;
         }
-        else if (this.amountOpened < 0.0f)
+        else if (this.amountOpened < 0.0)
         {
-            this.amountOpened = 0.0f;
+            this.amountOpened = 0.0;
         }
 
         FauxbotSensorBase openSensor = FauxbotSensorManager.get(GarageDoorSimulator.OpenSensorConnection);
@@ -213,7 +213,7 @@ public class GarageDoorSimulator extends SimulatorBase
         if (closedSensor != null && closedSensor instanceof FauxbotDigitalInput)
         {
             FauxbotDigitalInput closedSwitch = (FauxbotDigitalInput)closedSensor;
-            if (this.amountOpened <= 0.0f)
+            if (this.amountOpened <= 0.0)
             {
                 closedSwitch.set(true);
             }
@@ -239,7 +239,7 @@ public class GarageDoorSimulator extends SimulatorBase
             }
         }
 
-        if (this.garageState == GarageState.Stopped && this.amountOpened <= 0.0f && stateChanged)
+        if (this.garageState == GarageState.Stopped && this.amountOpened <= 0.0 && stateChanged)
         {
             this.loadRandomImage();
         }
@@ -340,7 +340,7 @@ public class GarageDoorSimulator extends SimulatorBase
         ShapeDrawer drawer = new ShapeDrawer(batch, new TextureRegion(this.drawerTexture, 0, 0, 1, 1));
 
         // determine the garage door color based on whether it is fully opened or not:
-        float openRatio = this.amountOpened / GarageDoorSimulator.GarageFullyOpened;
+        float openRatio = (float)this.amountOpened / (float)GarageDoorSimulator.GarageFullyOpened;
         if (openRatio >= 0.95f)
         {
             drawer.setColor(Color.GREEN);
