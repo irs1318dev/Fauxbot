@@ -1,21 +1,17 @@
 package frc.lib.robotprovider;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-
-public class FauxbotPigeonIMU extends FauxbotSensorBase implements IPigeonIMU
+public class FauxbotPigeonIMU extends FauxbotIMU implements IPigeonIMU
 {
-    private final DoubleProperty angleProperty;
-
     public FauxbotPigeonIMU(int deviceNumber)
     {
-        this.angleProperty = new SimpleDoubleProperty();
+        super();
+
         FauxbotSensorManager.set(new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.CAN, this.getClass(), deviceNumber), this);
     }
 
     public void getYawPitchRoll(double[] ypr_deg)
     {
-        ypr_deg[0] = this.angleProperty.getValue();
+        ypr_deg[0] = this.get();
     }
 
     public void getRawGyro(double[] xyz_dps)
@@ -24,7 +20,7 @@ public class FauxbotPigeonIMU extends FauxbotSensorBase implements IPigeonIMU
 
     public void setYaw(double angleDeg)
     {
-        this.angleProperty.setValue(angleDeg);
+        this.set(angleDeg);
     }
 
     public PigeonState getState()
@@ -34,10 +30,5 @@ public class FauxbotPigeonIMU extends FauxbotSensorBase implements IPigeonIMU
 
     public void enterTemperatureCalibrationMode()
     {
-    }
-
-    public DoubleProperty getProperty()
-    {
-        return this.angleProperty;
     }
 }

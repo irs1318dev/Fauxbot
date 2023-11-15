@@ -194,7 +194,7 @@ public class MacroOperationState extends OperationState implements IMacroOperati
                     else
                     {
                         ExceptionHelpers.Assert(operation instanceof DigitalOperation, "Expect operation of type DigitalOperation");
-                        this.analogOperationStateMap.get((AnalogOperation)operation).setIsInterrupted(true);
+                        this.digitalOperationStateMap.get((DigitalOperation)operation).setIsInterrupted(true);
                     }
                 }
 
@@ -232,7 +232,7 @@ public class MacroOperationState extends OperationState implements IMacroOperati
                         else
                         {
                             ExceptionHelpers.Assert(operation instanceof DigitalOperation, "Expect operation of type DigitalOperation");
-                            this.analogOperationStateMap.get((AnalogOperation)operation).setIsInterrupted(false);
+                            this.digitalOperationStateMap.get((DigitalOperation)operation).setIsInterrupted(false);
                         }
                     }
                 }
@@ -257,7 +257,7 @@ public class MacroOperationState extends OperationState implements IMacroOperati
                 else
                 {
                     ExceptionHelpers.Assert(operation instanceof DigitalOperation, "Expect operation of type DigitalOperation");
-                    this.analogOperationStateMap.get((AnalogOperation)operation).setIsInterrupted(false);
+                    this.digitalOperationStateMap.get((DigitalOperation)operation).setIsInterrupted(false);
                 }
             }
         }
