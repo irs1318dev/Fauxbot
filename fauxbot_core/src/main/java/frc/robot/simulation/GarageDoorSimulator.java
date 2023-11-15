@@ -5,14 +5,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import frc.lib.robotprovider.*;
+import space.earlygrey.shapedrawer.ShapeDrawer;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-// import javafx.scene.canvas.Canvas;
-// import javafx.scene.canvas.GraphicsContext;
-// import javafx.scene.image.Image;
-// import javafx.scene.paint.Color;
 
 @Singleton
 public class GarageDoorSimulator extends SimulatorBase
@@ -54,30 +57,40 @@ public class GarageDoorSimulator extends SimulatorBase
         }
     };
 
-    private static final String CerberusPath = "/images/cerberus.jpg";
-    private static final String GolfCartPath = "/images/golfCart.jpg";
-    private static final String LamborghiniPath = "/images/lamborghini.jpg";
-    private static final String PorschePath = "/images/porsche.jpg";
-    private static final String CessnaCitationPath = "/images/cesssnaCitX.jpg";
-    private static final String BenzPath = "/images/benz.jpeg";
+    private static final String CerberusPath = "images/cerberus.jpg";
+    private static final String GolfCartPath = "images/golfCart.jpg";
+    private static final String LamborghiniPath = "images/lamborghini.jpg";
+    private static final String PorschePath = "images/porsche.jpg";
+    private static final String CessnaCitationPath = "images/cesssnaCitX.jpg";
+    private static final String BenzPath = "images/benz.jpeg";
 
-    private static final int GarageFullyOpened = 250;
-    private static final double GarageSpeed = 50.0;
+    private static final float SquareDimension = 400.0f;
+    private static final float GarageFullyOpened = 400.0f;
+    private static final float GarageSpeed = 80.0f;
 
     private GarageState garageState;
-    private double amountOpened;
+    private float amountOpened;
     private boolean isThroughBeamBroken;
 
-    // private Image image;
-    // private Color doorColor;
+    private Texture image;
+    private Color doorColor;
+    private Texture drawerTexture;
 
     @Inject
     public GarageDoorSimulator()
     {
         this.garageState = GarageState.Stopped;
-        this.amountOpened = 0.0;
+        this.amountOpened = 0.0f;
 
         this.loadRandomImage();
+
+        Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.drawPixel(0, 0);
+        this.drawerTexture = new Texture(pixmap); // remember to dispose of later
+        pixmap.dispose();
+
+        this.setSize(GarageDoorSimulator.SquareDimension, GarageDoorSimulator.SquareDimension);
     }
 
     @Override
@@ -178,9 +191,9 @@ public class GarageDoorSimulator extends SimulatorBase
         {
             this.amountOpened = GarageDoorSimulator.GarageFullyOpened;
         }
-        else if (this.amountOpened < 0.0)
+        else if (this.amountOpened < 0.0f)
         {
-            this.amountOpened = 0.0;
+            this.amountOpened = 0.0f;
         }
 
         FauxbotSensorBase openSensor = FauxbotSensorManager.get(GarageDoorSimulator.OpenSensorConnection);
@@ -201,7 +214,7 @@ public class GarageDoorSimulator extends SimulatorBase
         if (closedSensor != null && closedSensor instanceof FauxbotDigitalInput)
         {
             FauxbotDigitalInput closedSwitch = (FauxbotDigitalInput)closedSensor;
-            if (this.amountOpened <= 0)
+            if (this.amountOpened <= 0.0f)
             {
                 closedSwitch.set(true);
             }
@@ -219,15 +232,15 @@ public class GarageDoorSimulator extends SimulatorBase
             
             if (this.isThroughBeamBroken)
             {
-                // this.doorColor = Color.YELLOW;
+                this.doorColor = Color.YELLOW;
             }
             else
             {
-                // this.doorColor = Color.GRAY;
+                this.doorColor = Color.GRAY;
             }
         }
 
-        if (this.garageState == GarageState.Stopped && this.amountOpened <= 0.0 && stateChanged)
+        if (this.garageState == GarageState.Stopped && this.amountOpened <= 0.0f && stateChanged)
         {
             this.loadRandomImage();
         }
@@ -235,44 +248,50 @@ public class GarageDoorSimulator extends SimulatorBase
 
     private void loadRandomImage()
     {
-        String usedImg = null;
+        String filename = null;
         int randCar = (int)(Math.random() * 6);
 
         switch (randCar)
         {
             case 0:
-                usedImg = this.getClass().getResource(GarageDoorSimulator.LamborghiniPath).getPath();
+                filename = GarageDoorSimulator.LamborghiniPath;
                 break;
 
             case 1:
-                usedImg = this.getClass().getResource(GarageDoorSimulator.PorschePath).getPath();
+                filename = GarageDoorSimulator.PorschePath;
                 break;
 
             case 2:
-                usedImg = this.getClass().getResource(GarageDoorSimulator.GolfCartPath).getPath();
+                filename = GarageDoorSimulator.GolfCartPath;
                 break;
 
             case 3:
-                usedImg = this.getClass().getResource(GarageDoorSimulator.BenzPath).getPath();
+                filename = GarageDoorSimulator.BenzPath;
                 break;
 
             case 4:
-                usedImg = this.getClass().getResource(GarageDoorSimulator.CessnaCitationPath).getPath();
+                filename = GarageDoorSimulator.CessnaCitationPath;
                 break;
 
             case 5:
-                usedImg = this.getClass().getResource(GarageDoorSimulator.CerberusPath).getPath();
+            default:
+                filename = GarageDoorSimulator.CerberusPath;
                 break;
         }
 
         try 
         {
-            FileInputStream imageInput = new FileInputStream(usedImg); 
-            // this.image = new Image(imageInput);
+            if (this.image != null)
+            {
+                this.image.dispose();
+                this.image = null;
+            }
+
+            this.image = new Texture(Gdx.files.internal(filename));
         }
         catch (Exception e)
         {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 
@@ -285,70 +304,87 @@ public class GarageDoorSimulator extends SimulatorBase
 
     /**
      * Draw a frame of animation based on the current state of the simulation.
-     * Remember that (0, 0) is at the top left!
+     * Remember that (0, 0) is at the bottom left!
      */
-    // @Override
-    // public void draw(Canvas canvas)
-    // {
-    //     double canvasHeight = canvas.getHeight();
-    //     double canvasWidth = canvas.getWidth();
-    //     GraphicsContext gc = canvas.getGraphicsContext2D();
-    //     gc.clearRect(0.0, 0.0, canvasWidth, canvasHeight);
+    @Override
+    public void draw(Batch batch, float parentAlpha)
+    {
+        super.draw(batch, parentAlpha);
 
-    //     double height = this.image.getHeight();
-    //     double width = this.image.getWidth();
+        float frameHeight = this.getHeight();
+        float frameWidth = this.getWidth();
+        float frameX = this.getX();
+        float frameY = this.getY();
 
-    //     //Auto Resize for images
-    //     //Based on a 3 to 2 width/height ratio
-    //     int scale;
-    //     if (height < 400 || width < 400)
-    //     {
-    //         scale = 4;
-    //     }
-    //     else if ((height > 600 || width > 400) && (height < 1200 || width < 800))
-    //     {
-    //         scale = 5;
-    //     }
-    //     else if ((height > 1200 || width > 800) && (height < 2400 || width < 1600))
-    //     {
-    //         scale = 6;
-    //     }
-    //     else if (height > 5400 || width > 3600)
-    //     {
-    //         scale = 20;
-    //     }
-    //     else
-    //     {
-    //         scale = 30;
-    //     }
+        batch.setColor(1f, 1f, 1f, parentAlpha);
 
-    //     //int tempScale = 19;
-    //     double imageHeight = this.image.getHeight() / scale; 
-    //     double imageWidth = this.image.getWidth() / scale;
+        float imageHeight = this.image.getHeight();
+        float imageWidth = this.image.getWidth();
 
-    //     gc.drawImage(this.image, 0, (canvasHeight - imageHeight), imageWidth, imageHeight);
+        // Resize images to maintain their aspect ratio
+        float imageScale;
+        if (imageHeight > imageWidth)
+        {
+            imageScale = frameHeight / imageHeight;
+        }
+        else // if (imageHeight <= imageWidth)
+        {
+            imageScale = frameWidth / imageWidth;
+        }
 
-    //     // determine the garage door color based on whether it is fully opened or not:
-    //     double openRatio = this.amountOpened / GarageDoorSimulator.GarageFullyOpened;
-    //     gc.setFill(doorColor);
-    //     if (openRatio >= 0.98)
-    //     {
-    //         gc.setFill(Color.GREEN);
-    //     }
-    //     else
-    //     {
-    //         gc.setFill(doorColor);
-    //     }
+        float scaledImageHeight = this.image.getHeight() * imageScale; 
+        float scaledImageWidth = this.image.getWidth() * imageScale;
 
-    //     gc.setLineWidth(4.0);
+        float horizontalOffset = frameHeight - scaledImageWidth;
+        float verticalOffset = frameHeight - scaledImageHeight;
 
-    //     // draw the midway-bar:
-    //     if (openRatio < 0.5)
-    //     {
-    //         gc.strokeLine(0.0, canvasHeight / 2.0, canvasWidth, canvasHeight / 2.0);
-    //     }
+        batch.draw(
+            this.image,
+            frameX + horizontalOffset / 2.0f,
+            frameY + verticalOffset / 2.0f,
+            scaledImageWidth,
+            scaledImageHeight);
 
-    //     // draw the garage door:
-    //     gc.fillRect(0.0, 0.0, canvasWidth, (1 - openRatio) * canvasHeight);
-    // }
+        ShapeDrawer drawer = new ShapeDrawer(batch, new TextureRegion(this.drawerTexture, 0, 0, 1, 1));
+
+        // determine the garage door color based on whether it is fully opened or not:
+        float openRatio = this.amountOpened / GarageDoorSimulator.GarageFullyOpened;
+        if (openRatio >= 0.95f)
+        {
+            drawer.setColor(Color.GREEN);
+        }
+        else
+        {
+            drawer.setColor(this.doorColor);
+        }
+
+        drawer.setDefaultLineWidth(4.0f);
+
+        // draw the garage door:
+        float doorHeight = (1.0f - openRatio) * frameHeight;
+        drawer.filledRectangle(
+            frameX,
+            frameY + openRatio * frameHeight,
+            frameWidth,
+            doorHeight);
+
+        drawer.setColor(Color.DARK_GRAY);
+
+        // draw the bottom of the door:
+        drawer.line(
+            frameX, 
+            frameY + openRatio * frameHeight,
+            frameX + frameWidth,
+            frameY + openRatio * frameHeight);
+
+        // draw the midway-bar:
+        if (openRatio < 0.95f)
+        {
+            drawer.line(
+                frameX, 
+                frameY + openRatio * frameHeight + doorHeight / 2.0f,
+                frameX + frameWidth,
+                frameY + openRatio * frameHeight + doorHeight / 2.0f);
+        }
+    }
 }
