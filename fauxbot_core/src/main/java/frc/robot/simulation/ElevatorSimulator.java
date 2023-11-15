@@ -263,5 +263,6 @@ public class ElevatorSimulator extends SimulatorBase
     {
         super.dispose();
         this.drawerTexture.dispose();
+        this.elevatorPassenger.dispose();
     }
 }

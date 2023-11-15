@@ -385,5 +385,6 @@ public class GarageDoorSimulator extends SimulatorBase
     {
         super.dispose();
         this.drawerTexture.dispose();
+        this.image.dispose();
     }
 }
