@@ -14,11 +14,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-// import javafx.scene.canvas.Canvas;
-// import javafx.scene.canvas.GraphicsContext;
-// import javafx.scene.image.PixelWriter;
-// import javafx.scene.paint.Color;
-
 @Singleton
 public class PrinterSimulator extends SimulatorBase
 {
@@ -70,7 +65,7 @@ public class PrinterSimulator extends SimulatorBase
     private static final double PrinterMaxPosition = 200.0;
     private static final int PrinterMax = (int)PrinterSimulator.PrinterMaxPosition;
 
-    private static final double PrinterMotorPower = 10.0;
+    private static final double PrinterMotorPower = 40.0;
     private static final double SlowRatio = 1.0; // friction?
     private static final double PrinterMinAbsoluteVelocity = 0.1;
 
@@ -238,6 +233,8 @@ public class PrinterSimulator extends SimulatorBase
             currYVelocity = 0.0;
         }
 
+        System.out.println("vels: " + currXVelocity + ", " + currYVelocity);
+
         currX += (currXVelocity * delta);
         currY += (currYVelocity * delta);
 
@@ -268,7 +265,7 @@ public class PrinterSimulator extends SimulatorBase
             double distance = Math.sqrt(Math.pow(Math.abs(currX - this.prevX), 2) * Math.pow(Math.abs(currY - this.prevY), 2));
             if (distance > 1.0)
             {
-                throw new RuntimeException("don't expect to be moving that fast");
+                ////throw new RuntimeException("don't expect to be moving that fast");
             }
 
             int x = (int)Math.round(currX);
@@ -307,7 +304,6 @@ public class PrinterSimulator extends SimulatorBase
     {
         super.draw(batch, parentAlpha);
 
-        // ShapeDrawer drawer = new ShapeDrawer(batch);
         batch.setColor(1f, 1f, 1f, parentAlpha);
         batch.draw(this.currentPixMapTexture, this.getX(), this.getY(), this.getWidth(), this.getHeight());
 
@@ -327,92 +323,6 @@ public class PrinterSimulator extends SimulatorBase
             this.getY() + this.getHeight() - 2.0f * (float)this.prevY - crosshair.getHeight() / 4.0f,
             crosshair.getWidth() / 2.0f,
             crosshair.getHeight() / 2.0f);
-
-        // // draw the past path:
-        // PixelWriter writer = gc.getPixelWriter();
-        // int difference = PrinterSimulator.PrinterMax - PrinterSimulator.PrinterMin;
-        // for (int i = 0; i < difference; i++)
-        // {
-        //     int xPos = PrinterSimulator.PrinterMin + i;
-        //     for (int j = 0; j < difference; j++)
-        //     {
-        //         int yPos = PrinterSimulator.PrinterMin + j;
-        //         if (this.drawnPixels[xPos][yPos])
-        //         {
-        //             writer.setColor(xPos, yPos, Color.GREEN);
-        //         }
-        //     }
-        // }
-
-        // // draw the crosshair:
-        // double lineLength = 5;
-        // double lineSeparation = 2;
-        // gc.setStroke(Color.BLACK);
-        // gc.setLineWidth(1.0);
-
-        // int x = (int)Math.round(this.prevX);
-        // int y = (int)Math.round(this.prevY);
-
-        // // left
-        // if (x > PrinterSimulator.PrinterMinPosition + lineSeparation)
-        // {
-        //     gc.strokeLine(
-        //         Math.max(PrinterSimulator.PrinterMinPosition, x - lineSeparation - lineLength),
-        //         y,
-        //         Math.max(PrinterSimulator.PrinterMinPosition, x - lineSeparation),
-        //         y); 
-        // }
-
-        // // right
-        // if (x < PrinterSimulator.PrinterMaxPosition + lineSeparation)
-        // {
-        //     gc.strokeLine(
-        //         Math.min(PrinterSimulator.PrinterMaxPosition, x + lineSeparation),
-        //         y,
-        //         Math.min(PrinterSimulator.PrinterMaxPosition, x + lineSeparation + lineLength),
-        //         y); 
-        // }
-
-        // // top
-        // if (y > PrinterSimulator.PrinterMinPosition + lineSeparation)
-        // {
-        //     gc.strokeLine(
-        //         x,
-        //         Math.max(PrinterSimulator.PrinterMinPosition, y - lineSeparation - lineLength),
-        //         x,
-        //         Math.max(PrinterSimulator.PrinterMinPosition, y - lineSeparation)); 
-        // }
-
-        // // bottom
-        // if (y < PrinterSimulator.PrinterMaxPosition + lineSeparation)
-        // {
-        //     gc.strokeLine(
-        //         x,
-        //         Math.min(PrinterSimulator.PrinterMaxPosition, y + lineSeparation),
-        //         x,
-        //         Math.min(PrinterSimulator.PrinterMaxPosition, y + lineSeparation + lineLength)); 
-        // }
-
-        // // draw the exterior of the point:
-        // gc.setStroke(Color.RED);
-        // gc.setFill(Color.RED);
-        // gc.setLineWidth(1.0);
-        // if (this.prevPenDown)
-        // {
-        //     gc.fillOval(
-        //         x - lineSeparation,
-        //         y - lineSeparation,
-        //         lineSeparation * 2.0,
-        //         lineSeparation * 2.0);
-        // }
-        // else
-        // {
-        //     gc.strokeOval(
-        //         x - lineSeparation,
-        //         y - lineSeparation,
-        //         lineSeparation * 2.0,
-        //         lineSeparation * 2.0);
-        // }
     }
 
     @Override
