@@ -1,17 +1,20 @@
 package frc.robot.simulation;
 
-import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 import frc.lib.robotprovider.*;
+import space.earlygrey.shapedrawer.ShapeDrawer;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-// import javafx.scene.canvas.Canvas;
-// import javafx.scene.canvas.GraphicsContext;
-// import javafx.scene.image.Image;
-// import javafx.scene.paint.Color;
 
 @Singleton
 public class ElevatorSimulator extends SimulatorBase
@@ -50,42 +53,42 @@ public class ElevatorSimulator extends SimulatorBase
         }
     };
 
-    private static final double ElevatorMinHeight = 0.0;
-    private static final double ElevatorMaxHeight = 250.0;
+    private static final float[] FloorHeightPercentages = new float[] { 0.0f, 0.2f, 0.4f, 0.6f, 0.8f };
+    private static final float PercentageAllowance = 0.01f;
+    private static final float ElevatorCarWidth = 30.0f;
+    private static final float ElevatorCarHeight = 70.0f;
 
-    private static final double MotorStrength = 700.0;
-    private static final double Gravity = -386.0;
+    private static final float FrameDimension = 400.0f;
+    private static final float ElevatorMinHeight = 0.0f;
+    private static final float ElevatorMaxHeight = 250.0f;
 
-    private static final double ElevatorMinVelocity = -20.0;
-    private static final double ElevatorMaxVelocity = 20.0;
+    private static final float MotorStrength = 700.0f;
+    private static final float Gravity = -386.0f;
 
-    private static final double[] FloorHeightPercentages = new double[] { 0.0, 0.2, 0.4, 0.6, 0.8 };
-    private static final double PercentageAllowance = 0.01;
-    private static final double ElevatorCarWidth = 15.0;
-    private static final double ElevatorCarHeight = 35.0;
+    private static final float ElevatorMinVelocity = -20.0f;
+    private static final float ElevatorMaxVelocity = 20.0f;
 
-    private FileInputStream elevatorPersonInputStream;
-    // private Image elevatorPerson;
+    private Texture elevatorPassenger;
+    private Texture drawerTexture;
 
-    private double prevHeight;
-    private double prevVelocity;
+    private float prevHeight;
+    private float prevVelocity;
 
     @Inject
     public ElevatorSimulator()
     {
-        try
-        {
-            this.elevatorPersonInputStream = new FileInputStream(this.getClass().getResource("/images/stickFigure.png").getPath());
-        }
-        catch (Exception e)
-        {
-            System.out.println("ERROR: INVALID IMAGE");
-        }
+        this.elevatorPassenger = new Texture(Gdx.files.internal("images/stickFigure.png"));
 
-        // this.elevatorPerson = new Image(this.elevatorPersonInputStream);
+        Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.drawPixel(0, 0);
+        this.drawerTexture = new Texture(pixmap);
+        pixmap.dispose();
 
-        this.prevHeight = 0.0;
-        this.prevVelocity = 0.0;
+        this.prevHeight = 0.0f;
+        this.prevVelocity = 0.0f;
+
+        this.setSize(ElevatorSimulator.FrameDimension, ElevatorSimulator.FrameDimension);
     }
 
     @Override
@@ -155,15 +158,15 @@ public class ElevatorSimulator extends SimulatorBase
     @Override
     public void act(float delta)
     {
-        double currHeight = this.prevHeight;
-        double currVelocity = this.prevVelocity;
+        float currHeight = this.prevHeight;
+        float currVelocity = this.prevVelocity;
 
-        double motorPower = 0.0;
+        float motorPower = 0.0f;
         FauxbotActuatorBase actuator = FauxbotActuatorManager.get(ElevatorSimulator.MotorChannel);
         if (actuator != null && actuator instanceof FauxbotMotorBase)
         {
             FauxbotMotorBase motor = (FauxbotMotorBase)actuator;
-            motorPower = motor.get();
+            motorPower = (float)motor.get();
         }
 
         currVelocity += motorPower * ElevatorSimulator.MotorStrength * delta + ElevatorSimulator.Gravity * delta;
@@ -181,12 +184,12 @@ public class ElevatorSimulator extends SimulatorBase
         if (this.prevHeight > ElevatorSimulator.ElevatorMaxHeight)
         {
             currHeight = ElevatorSimulator.ElevatorMaxHeight;
-            currVelocity = 0.0;
+            currVelocity = 0.0f;
         }
         else if (this.prevHeight < ElevatorSimulator.ElevatorMinHeight)
         {
             currHeight = ElevatorSimulator.ElevatorMinHeight;
-            currVelocity = 0.0;
+            currVelocity = 0.0f;
         }
 
         this.prevHeight = currHeight;
@@ -199,48 +202,66 @@ public class ElevatorSimulator extends SimulatorBase
             encoder.set((int)this.prevHeight);
         }
     }
-
     /**
      * Draw a frame of animation based on the current state of the simulation.
-     * Remember that (0, 0) is at the top left!
+     * Remember that (0, 0) is at the bottom left!
      */
-    // @Override
-    // public void draw(Canvas canvas)
-    // {
-    //     double elevatorHeightRatio = this.prevHeight / (ElevatorSimulator.ElevatorMaxHeight - ElevatorSimulator.ElevatorMinHeight);
+    @Override
+    public void draw(Batch batch, float parentAlpha)
+    {
+        super.draw(batch, parentAlpha);
 
-    //     double canvasHeight = canvas.getHeight();
-    //     double canvasWidth = canvas.getWidth();
-    //     GraphicsContext gc = canvas.getGraphicsContext2D();
-    //     gc.clearRect(0.0, 0.0, canvasWidth, canvasHeight);
+        float elevatorHeightRatio = this.prevHeight / (ElevatorSimulator.ElevatorMaxHeight - ElevatorSimulator.ElevatorMinHeight);
 
-    //     // cycle through the floors:
-    //     Color elevatorCarColor = Color.RED;
-    //     for (double ratio : ElevatorSimulator.FloorHeightPercentages)
-    //     {
-    //         // if we are within a small allowance from the floor, change elevator color to Green
-    //         if (Math.abs(elevatorHeightRatio - ratio) < ElevatorSimulator.PercentageAllowance)
-    //         {
-    //             elevatorCarColor = Color.GREEN;
-    //         }
+        float frameX = this.getX();
+        float frameY = this.getY();
+        float frameHeight = this.getHeight();
+        float frameWidth = this.getWidth();
 
-    //         // draw the floor:
-    //         gc.setStroke(Color.BLACK);
-    //         gc.setLineWidth(1.0);
-    //         gc.strokeLine(ElevatorSimulator.ElevatorCarWidth, (1 - ratio) * canvasHeight, canvasWidth, (1 - ratio) * canvasHeight); 
-    //     }
+        ShapeDrawer drawer = new ShapeDrawer(batch, new TextureRegion(this.drawerTexture, 0, 0, 1, 1));
 
-    //     // draw the elevator car:
-    //     gc.setStroke(elevatorCarColor);
-    //     gc.setLineWidth(1.0);
-    //     gc.strokeRect(
-    //         0.0,
-    //         (1.0 - elevatorHeightRatio) * canvasHeight - ElevatorSimulator.ElevatorCarHeight,
-    //         ElevatorSimulator.ElevatorCarWidth,
-    //         ElevatorSimulator.ElevatorCarHeight);
+        // cycle through the floors:
+        Color elevatorCarColor = Color.RED;
+        for (float ratio : ElevatorSimulator.FloorHeightPercentages)
+        {
+            // if we are within a small allowance from the floor, change elevator color to Green
+            if (Math.abs(elevatorHeightRatio - ratio) < ElevatorSimulator.PercentageAllowance)
+            {
+                elevatorCarColor = Color.GREEN;
+            }
 
-    //     // draw the elevator rider:
-    //     gc.drawImage(this.elevatorPerson, 0.0, (1.0 - elevatorHeightRatio) * canvasHeight - ElevatorSimulator.ElevatorCarHeight, 
-    //                     ElevatorSimulator.ElevatorCarWidth,  ElevatorSimulator.ElevatorCarHeight);
-    // }
+            // draw the floor:
+            drawer.setColor(Color.BLACK);
+            drawer.setDefaultLineWidth(1.0f);
+            drawer.line(
+                frameX + ElevatorSimulator.ElevatorCarWidth,
+                frameY + ratio * frameHeight,
+                frameX + frameWidth,
+                frameY + ratio * frameHeight); 
+        }
+
+        // draw the elevator car:
+        drawer.setColor(elevatorCarColor);
+        drawer.setDefaultLineWidth(1.0f);
+        drawer.filledRectangle(
+            frameX,
+            frameY + elevatorHeightRatio * frameHeight,
+            ElevatorSimulator.ElevatorCarWidth,
+            ElevatorSimulator.ElevatorCarHeight);
+
+        // draw the elevator rider:
+        batch.draw(
+            this.elevatorPassenger,
+            frameX,
+            frameY + elevatorHeightRatio * frameHeight,
+            ElevatorSimulator.ElevatorCarWidth,
+            ElevatorSimulator.ElevatorCarHeight);
+    }
+
+    @Override
+    public void dispose()
+    {
+        super.dispose();
+        this.drawerTexture.dispose();
+    }
 }

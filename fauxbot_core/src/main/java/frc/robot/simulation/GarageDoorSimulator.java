@@ -1,6 +1,5 @@
 package frc.robot.simulation;
 
-import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,7 +63,7 @@ public class GarageDoorSimulator extends SimulatorBase
     private static final String CessnaCitationPath = "images/cesssnaCitX.jpg";
     private static final String BenzPath = "images/benz.jpeg";
 
-    private static final float SquareDimension = 400.0f;
+    private static final float FrameDimension = 400.0f;
     private static final float GarageFullyOpened = 400.0f;
     private static final float GarageSpeed = 80.0f;
 
@@ -90,7 +89,7 @@ public class GarageDoorSimulator extends SimulatorBase
         this.drawerTexture = new Texture(pixmap); // remember to dispose of later
         pixmap.dispose();
 
-        this.setSize(GarageDoorSimulator.SquareDimension, GarageDoorSimulator.SquareDimension);
+        this.setSize(GarageDoorSimulator.FrameDimension, GarageDoorSimulator.FrameDimension);
     }
 
     @Override
@@ -279,20 +278,13 @@ public class GarageDoorSimulator extends SimulatorBase
                 break;
         }
 
-        try 
+        if (this.image != null)
         {
-            if (this.image != null)
-            {
-                this.image.dispose();
-                this.image = null;
-            }
+            this.image.dispose();
+            this.image = null;
+        }
 
-            this.image = new Texture(Gdx.files.internal(filename));
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        this.image = new Texture(Gdx.files.internal(filename));
     }
 
     public enum GarageState
@@ -386,5 +378,12 @@ public class GarageDoorSimulator extends SimulatorBase
                 frameX + frameWidth,
                 frameY + openRatio * frameHeight + doorHeight / 2.0f);
         }
+    }
+
+    @Override
+    public void dispose()
+    {
+        super.dispose();
+        this.drawerTexture.dispose();
     }
 }

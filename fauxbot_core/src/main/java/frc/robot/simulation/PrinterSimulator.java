@@ -86,10 +86,12 @@ public class PrinterSimulator extends SimulatorBase
     public PrinterSimulator()
     {
         int difference = PrinterSimulator.PrinterMax - PrinterSimulator.PrinterMin;
+
         this.pixMap = new Pixmap(difference, difference, Format.RGB888);
         this.pixMap.setColor(Color.WHITE);
         this.pixMap.fill();
         this.currentPixMapTexture = new Texture(this.pixMap);
+
         this.crosshairOpen = new Texture(Gdx.files.internal("images/printer_crosshairs.png"));
         this.crosshairClosed = new Texture(Gdx.files.internal("images/printer_crosshairs_filled.png"));
         this.pixMap.setColor(Color.GREEN);
