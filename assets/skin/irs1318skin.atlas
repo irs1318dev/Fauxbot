@@ -84,7 +84,7 @@ plus
   index: -1
 poppins-bold
   rotate: false
-  xy: 515, 1221
+  xy: 1, 193
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
@@ -98,21 +98,21 @@ poppins-large
   index: -1
 poppins-light
   rotate: false
-  xy: 1, 193
+  xy: 515, 1221
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 poppins-regular
   rotate: false
-  xy: 1, 707
+  xy: 515, 707
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 poppins-subtitle
   rotate: false
-  xy: 515, 707
+  xy: 1, 707
   size: 512, 512
   orig: 512, 512
   offset: 0, 0

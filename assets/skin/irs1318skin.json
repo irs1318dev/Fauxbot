@@ -1,5 +1,11 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	font: {
+		file: poppins-regular.fnt
+		scaledSize: -1
+		markupEnabled: false
+		flip: false
+	}
 	font-over: {
 		file: poppins-light.fnt
 		scaledSize: -1
@@ -20,12 +26,6 @@ com.badlogic.gdx.graphics.g2d.BitmapFont: {
 	}
 	font-title: {
 		file: poppins-large.fnt
-		scaledSize: -1
-		markupEnabled: false
-		flip: false
-	}
-	font: {
-		file: poppins-regular.fnt
 		scaledSize: -1
 		markupEnabled: false
 		flip: false
@@ -61,6 +61,18 @@ com.badlogic.gdx.graphics.Color: {
 		g: 0.87058824
 		b: 0.5137255
 		a: 1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable: {
+	split-pane-horizontal: {
+		region: split-pane-horizontal
+		minWidth: 3
+		minHeight: 9
+	}
+	split-pane-vertical: {
+		region: split-pane-vertical
+		minWidth: 9
+		minHeight: 3
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
@@ -171,10 +183,12 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	split-pane-horizontal-c: {
 		name: split-pane-horizontal
 		color: color
+		minWidth: 3
 	}
 	split-pane-vertical-c: {
 		name: split-pane-vertical
 		color: color
+		minHeight: 3
 	}
 	selected: {
 		name: white
@@ -317,7 +331,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		fontColor: text
 	}
 	pressed: {
-		font: font
+		font: font-selected
 		fontColor: text
 	}
 	title: {
