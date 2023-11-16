@@ -1,98 +1,93 @@
 package frc.robot;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.controllers.Controller;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ScreenUtils;
 
-public class FauxbotGameScreen implements Screen
+import frc.lib.robotprovider.FauxbotJoystick;
+import frc.lib.robotprovider.FauxbotJoystickManager;
+import frc.lib.robotprovider.FauxbotSmartDashboardLogger;
+import frc.lib.robotprovider.IJoystick;
+import frc.lib.robotprovider.ISmartDashboardLogger;
+
+public class FauxbotGameScreen extends FauxbotGameScreenBase implements Screen
 {
-    private final FauxbotGame game;
-
-    private OrthographicCamera camera;
-    private Texture img;
-    private Rectangle rect;
-
-    public FauxbotGameScreen(final FauxbotGame game, Simulation simulation, Array<Controller> controllers)
+    public FauxbotGameScreen(final FauxbotGame game, Simulation selectedSimulation, Array<Controller> controllers)
     {
-        this.game = game;
+        super(game, selectedSimulation);
 
-        this.camera = new OrthographicCamera();
-        this.camera.setToOrtho(false, 800, 480);
+        for (int i = 0; i < controllers.size; i++)
+        {
+            IJoystick joystick = FauxbotJoystickManager.get(i);
+            if (joystick != null && joystick instanceof FauxbotJoystick)
+            {
+                FauxbotJoystick fauxbotJoystick = (FauxbotJoystick)joystick;
+                fauxbotJoystick.setController(controllers.get(i));
+            }
+        }
+    }
 
-        this.img = new Texture("images/badlogic.jpg");
+    @Override
+    protected void populateInnerInfoTable(Table innerInfoTable)
+    {
+        // Add Logging data
+        Label buttonsLabel = new Label("Logging:", this.skin, "subtitle");
+        innerInfoTable.add(buttonsLabel).colspan(2).top().left().expandX().padTop(10);
+        innerInfoTable.row();
 
-        this.rect = new Rectangle();
-        this.rect.x = 800 / 2 - 64 / 2;
-        this.rect.y = 20;
-        this.rect.width = 64;
-        this.rect.height = 64;
+        FauxbotSmartDashboardLogger logger =
+            (FauxbotSmartDashboardLogger)this.robot.getInjector().getInstance(ISmartDashboardLogger.class);
+
+        LoggingKey[] keys = LoggingKey.values();
+        for (LoggingKey key : keys)
+        {
+            Label keyLabel = new Label(key.value, this.skin);
+            innerInfoTable.add(keyLabel).left();
+
+            LoggingKeyUI loggedValue = new LoggingKeyUI(key, logger, this.skin);
+            innerInfoTable.add(loggedValue).left();
+
+            innerInfoTable.row();
+        }
     }
 
     @Override
     public void render(float delta)
     {
-        ScreenUtils.clear(0, 0, 0, 1);
-        this.camera.update();
-
-        this.game.batch.setProjectionMatrix(this.camera.combined);
-        this.game.batch.begin();
-        this.game.batch.draw(this.img, this.rect.x, this.rect.y);
-        this.game.batch.end();
-
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
-        {
-            this.rect.x -= 200 * delta;
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-        {
-            this.rect.x += 200 * delta;
-        }
-
-        if (this.rect.x < 0)
-        {
-            this.rect.x = 0;
-        }
-
-        if (this.rect.x > 800 - 64)
-        {
-            this.rect.x = 800 - 64;
-        }
+        super.render(delta);
     }
 
     public void dispose()
     {
-        this.img.dispose();
+        super.dispose();
     }
 
-    @Override
-    public void show()
+    private class LoggingKeyUI extends TextField
     {
-    }
+        private final LoggingKey key;
+        private final FauxbotSmartDashboardLogger logger;
 
-    @Override
-    public void resize(int width, int height)
-    {
-    }
+        public LoggingKeyUI(LoggingKey key, FauxbotSmartDashboardLogger logger, Skin skin)
+        {
+            super("", skin);
 
-    @Override
-    public void pause()
-    {
-    }
+            this.key = key;
+            this.logger = logger;
 
-    @Override
-    public void resume()
-    {
-    }
+            this.setProgrammaticChangeEvents(false);
+            this.setDisabled(true);
+        }
 
-    @Override
-    public void hide()
-    {
+        @Override
+        public void act(float delta)
+        {
+            super.act(delta);
+
+            this.setText(this.logger.getString(this.key));
+        }
     }
 }

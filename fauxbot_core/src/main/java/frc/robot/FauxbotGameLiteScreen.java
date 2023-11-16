@@ -1,22 +1,14 @@
 package frc.robot;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
-import com.badlogic.gdx.scenes.scene2d.ui.SplitPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import frc.lib.driver.AnalogAxis;
 import frc.lib.driver.IButtonMap;
@@ -31,7 +23,6 @@ import frc.lib.robotprovider.FauxbotActuatorManager;
 import frc.lib.robotprovider.FauxbotAnalogInput;
 import frc.lib.robotprovider.FauxbotDigitalInput;
 import frc.lib.robotprovider.FauxbotDoubleSolenoid;
-import frc.lib.robotprovider.FauxbotDriverStation;
 import frc.lib.robotprovider.FauxbotEncoder;
 import frc.lib.robotprovider.FauxbotIMU;
 import frc.lib.robotprovider.FauxbotJoystick;
@@ -41,60 +32,17 @@ import frc.lib.robotprovider.FauxbotSensorBase;
 import frc.lib.robotprovider.FauxbotSensorConnection;
 import frc.lib.robotprovider.FauxbotSensorManager;
 import frc.lib.robotprovider.FauxbotSolenoid;
-import frc.lib.robotprovider.RobotMode;
 
 public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Screen
 {
-    private final Stage stage;
-    private final Table primaryTable;
-    private final Skin skin;
-
-    private RobotMode currentMode;
-
     public FauxbotGameLiteScreen(final FauxbotGame game, Simulation selectedSimulation)
     {
         super(game, selectedSimulation);
+    }
 
-        this.stage = new Stage(new ExtendViewport(900, 750));
-        Gdx.input.setInputProcessor(this.stage);
-
-        this.skin = new Skin(Gdx.files.internal("skin/irs1318skin.json"));
-
-        this.primaryTable = new Table(this.skin);
-        this.primaryTable.setFillParent(true);
-        ////this.primaryTable.setDebug(true);
-
-        Label title = new Label(this.selectedSimulation.toString() + " Simulation", this.skin, "title");
-        this.primaryTable.add(title).pad(20).top().colspan(4);
-        this.primaryTable.row();
-
-        this.primaryTable.add().expandX().padLeft(5);
-        Label currentModeLabel = new Label("Mode", this.skin, "subtitle");
-        this.primaryTable.add(currentModeLabel);
-
-        RobotMode[] robotModes = RobotMode.values();
-        SelectBox<RobotMode> modeSelector = new SelectBox<RobotMode>(this.skin);
-        modeSelector.getSelection().setRequired(true);
-        modeSelector.setItems(robotModes);
-        modeSelector.setSelected(RobotMode.Disabled);
-        this.currentMode = RobotMode.Disabled;
-        modeSelector.addListener(
-            new ChangeListener()
-            {
-                @Override
-                public void changed(ChangeEvent event, Actor actor)
-                {
-                    currentMode = modeSelector.getSelected();
-                }
-            });
-
-        this.primaryTable.add(modeSelector);
-        this.primaryTable.add().expandX().padRight(5);
-        this.primaryTable.row();
-
-        Table innerInfoTable = new Table(this.skin);
-        ////innerInfoTable.setDebug(true);
-
+    @Override
+    public void populateInnerInfoTable(Table innerInfoTable)
+    {
         // Add Operations
         Label buttonsLabel = new Label("Operations:", this.skin, "subtitle");
         innerInfoTable.add(buttonsLabel).colspan(2).top().left().expandX().padTop(10);
@@ -234,66 +182,6 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
 
             innerInfoTable.row();
         }
-
-        ScrollPane scrollPane = new ScrollPane(innerInfoTable, this.skin);
-        Table simulatorTable = new Table(this.skin);
-        simulatorTable.setDebug(true);
-        simulatorTable.add(this.simulator).center().expand();
-
-        SplitPane pane = new SplitPane(scrollPane, simulatorTable, false, this.skin);
-        this.primaryTable.add(pane).colspan(4).expand().pad(5).fill();
-        this.primaryTable.row();
-
-        this.stage.addActor(this.primaryTable);
-    }
-
-    @Override
-    public void render(float delta)
-    {
-        Gdx.gl.glClearColor(Color.PURPLE.r, Color.PURPLE.g, Color.PURPLE.b, Color.PURPLE.a);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // update mode
-        this.runner.setMode(this.currentMode);
-        FauxbotDriverStation.Instance.setMode(this.currentMode);
-
-        this.stage.act(delta);
-        this.stage.draw();
-    }
-
-    @Override
-    public void resize(int width, int height)
-    {
-        // update the viewport
-        this.stage.getViewport().update(width, height, true);
-    }
-
-    @Override
-    public void dispose()
-    {
-        super.dispose();
-        this.stage.dispose();
-        this.simulator.dispose();
-    }
-
-    @Override
-    public void pause()
-    {
-    }
-
-    @Override
-    public void resume()
-    {
-    }
-
-    @Override
-    public void show()
-    {
-    }
-
-    @Override
-    public void hide()
-    {
     }
 
     private void addOperationDescription(OperationDescription description, Table infoTable)
