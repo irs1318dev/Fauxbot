@@ -21,6 +21,7 @@ public class ForkliftSimulator extends SimulatorBase
 {
     private static final double WHEEL_SEPARATION_DISTANCE = 10.0f; // in inches/pixels
     private static final double FORKLIFT_SPEED = 10.0f; // in inches/pixels / sec
+    private static final double RADIANS_PER_DEGREE = Math.PI / 180.0;
 
     private static final FauxbotActuatorConnection LeftMotorConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PWM, 0);
     private static final FauxbotActuatorConnection RightMotorConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PWM, 1);
@@ -237,55 +238,55 @@ public class ForkliftSimulator extends SimulatorBase
 
         ShapeDrawer drawer = new ShapeDrawer(batch, new TextureRegion(this.drawerTexture, 0, 0, 1, 1));
 
-        /*
+        // draw the forklift
         drawer.setColor(Color.BLACK);
-        drawer.filledRectangle(frameX, frameY, MAX_X, MAX_Y);
-        gc.strokeRect(0, 0, MAX_X, MAX_Y);
-        gc.save();
-
-        gc.transform(new Affine(new Rotate(-this.angle, this.x, ForkliftSimulator.MAX_Y - this.y)));
-        gc.setFill(Color.RED);
-        gc.fillRect(
-            this.x - ForkliftSimulator.FORKLIFT_HALF_LENGTH,
-            (ForkliftSimulator.MAX_Y - this.y) - ForkliftSimulator.FORKLIFT_HALF_WIDTH,
-            ForkliftSimulator.FORKLIFT_LENGTH,
-            ForkliftSimulator.FORKLIFT_WIDTH);
-        gc.restore();
-
-        gc.setFill(Color.BLUE);
-        gc.fillOval(this.x - 1, (ForkliftSimulator.MAX_Y - this.y) - 1, 2, 2);
-        */
-
-        float halfHeight = frameHeight / 2.0f;
-        float powerIndicatorWidth = frameWidth / 10.0f;
-
-        float leftHeight = Math.abs(leftPower * halfHeight);
-        float leftBottom;
-        if (leftPower > 0.0)
-        {
-            leftBottom = halfHeight;
-        }
-        else
-        {
-            leftBottom = halfHeight - leftHeight;
-        }
-
-        drawer.setColor(Color.BLUE); 
-        drawer.filledRectangle(frameX, frameY + leftBottom, powerIndicatorWidth, leftHeight);
-
-        float rightHeight = Math.abs(rightPower * halfHeight);
-        float rightBottom;
-        if (rightPower > 0.0)
-        {
-            rightBottom = halfHeight;
-        }
-        else
-        {
-            rightBottom = halfHeight - rightHeight;
-        }
+        drawer.rectangle(frameX, frameY, (float)ForkliftSimulator.MAX_X, (float)ForkliftSimulator.MAX_Y);
 
         drawer.setColor(Color.RED);
-        drawer.filledRectangle(frameX + powerIndicatorWidth * 2.0f, frameY + rightBottom, powerIndicatorWidth, rightHeight);
+        drawer.filledRectangle(
+            frameX + (float)this.x - ForkliftSimulator.FORKLIFT_HALF_LENGTH,
+            frameY + (float)this.y - ForkliftSimulator.FORKLIFT_HALF_WIDTH,
+            ForkliftSimulator.FORKLIFT_LENGTH,
+            ForkliftSimulator.FORKLIFT_WIDTH,
+            (float)(this.angle * RADIANS_PER_DEGREE));
+
+        drawer.setColor(Color.BLUE);
+        drawer.circle(
+            frameX + (float)this.x - 1,
+            frameY + (float)this.y - 1,
+            2);
+
+        // display "bars" showing power level for left and right drive motors
+        // float halfHeight = frameHeight / 2.0f;
+        // float powerIndicatorWidth = frameWidth / 10.0f;
+
+        // float leftHeight = Math.abs(leftPower * halfHeight);
+        // float leftBottom;
+        // if (leftPower > 0.0)
+        // {
+        //     leftBottom = halfHeight;
+        // }
+        // else
+        // {
+        //     leftBottom = halfHeight - leftHeight;
+        // }
+
+        // drawer.setColor(Color.BLUE); 
+        // drawer.filledRectangle(frameX, frameY + leftBottom, powerIndicatorWidth, leftHeight);
+
+        // float rightHeight = Math.abs(rightPower * halfHeight);
+        // float rightBottom;
+        // if (rightPower > 0.0)
+        // {
+        //     rightBottom = halfHeight;
+        // }
+        // else
+        // {
+        //     rightBottom = halfHeight - rightHeight;
+        // }
+
+        // drawer.setColor(Color.RED);
+        // drawer.filledRectangle(frameX + powerIndicatorWidth * 2.0f, frameY + rightBottom, powerIndicatorWidth, rightHeight);
 
         // draw the forklift in its current state
         Texture forkliftToDraw = null;
