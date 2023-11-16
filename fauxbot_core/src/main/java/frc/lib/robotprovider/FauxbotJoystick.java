@@ -7,7 +7,34 @@ import com.badlogic.gdx.controllers.Controller;
 
 public class FauxbotJoystick implements IJoystick
 {
-    private static final int PovAxis = 0;
+    // Sadly, the button mapping isn't consistent between what WPILib wants and what SDL wants.
+    // Map of buttonNumber/axis passed to IJoystick API to the corresponding GDX Controller button number
+    // Also note that for POV, up == 11, down == 12, left == 13, right == 14.
+    private static int[] XBONE_BUTTON_MAP =
+        new int[]
+        {
+            -1, // (No such button)
+            0, // XBONE_A_BUTTON(1),
+            1, // XBONE_B_BUTTON(2),
+            2, // XBONE_X_BUTTON(3),
+            3, // XBONE_Y_BUTTON(4),
+            9, // XBONE_LEFT_BUTTON(5), // LB
+            10, // XBONE_RIGHT_BUTTON(6), // RB
+            4, // XBONE_SELECT_BUTTON(7), // aka "View", the one with the squares
+            6, // XBONE_START_BUTTON(8), // aka "Menu", the hamburgler one
+            7, // XBONE_LEFT_STICK_BUTTON(9), // LS
+            8, // XBONE_RIGHT_STICK_BUTTON(10), // RS
+        };
+    private static int[] XBONE_AXIS_MAP =
+        new int[]
+        {
+            0, // XBONE_LSX(0),
+            1, // XBONE_LSY(1),
+            4, // XBONE_LT(2),
+            5, // XBONE_RT(3),
+            2, // XBONE_RSX(4),
+            3, // XBONE_RSY(5),
+        };
 
     private final Map<Integer, Boolean> buttons;
     private final Map<Integer, Double> axes;
@@ -38,7 +65,7 @@ public class FauxbotJoystick implements IJoystick
         {
             if (this.controller != null)
             {
-                return this.controller.getButton(buttonNumber);
+                return this.controller.getButton(FauxbotJoystick.XBONE_BUTTON_MAP[buttonNumber]);
             }
 
             if (!this.buttons.containsKey(buttonNumber))
@@ -70,7 +97,27 @@ public class FauxbotJoystick implements IJoystick
         {
             if (this.controller != null)
             {
-                return (int)this.controller.getAxis(FauxbotJoystick.PovAxis);
+                // for XBONE: for POV, up == 11, down == 12, left == 13, right == 14.
+                if (this.controller.getButton(11))
+                {
+                    return 0;
+                }
+                else if (this.controller.getButton(12))
+                {
+                    return 180;
+                }
+                else if (this.controller.getButton(13))
+                {
+                    return 270;
+                }
+                else if (this.controller.getButton(14))
+                {
+                    return 90;
+                }
+                else
+                {
+                    return -1;
+                }
             }
 
             return this.pov;
@@ -83,7 +130,7 @@ public class FauxbotJoystick implements IJoystick
         {
             if (this.controller != null)
             {
-                return this.controller.getAxis(relevantAxis);
+                return this.controller.getAxis(FauxbotJoystick.XBONE_AXIS_MAP[relevantAxis]);
             }
 
             if (!this.axes.containsKey(relevantAxis))
