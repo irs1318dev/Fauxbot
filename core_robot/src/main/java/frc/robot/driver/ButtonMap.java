@@ -42,7 +42,7 @@ public class ButtonMap implements IButtonMap
             ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
             TuningConstants.DRIVETRAIN_X_DEAD_ZONE),*/
 
-        /*
+        /**/
         new AnalogOperationDescription(
             AnalogOperation.ForkliftDriveLeft,
             UserInputDevice.Driver,
@@ -56,7 +56,7 @@ public class ButtonMap implements IButtonMap
             ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
             TuningConstants.FORKLIFT_DRIVE_DEAD_ZONE),
         /**/
-        /**/
+        /*
         new AnalogOperationDescription(
             AnalogOperation.PrinterMoveX,
             UserInputDevice.Driver,
@@ -86,7 +86,7 @@ public class ButtonMap implements IButtonMap
         new DigitalOperationDescription(
             DigitalOperation.SomeDigitalOperation,
             UserInputDevice.Driver,
-            UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
+            UserInputDeviceButton.XBONE_A_BUTTON,
             ButtonType.Toggle),
         */
 
@@ -94,22 +94,22 @@ public class ButtonMap implements IButtonMap
         new DigitalOperationDescription(
             DigitalOperation.ElevatorOneButton,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_A,
+            UserInputDeviceButton.XBONE_A_BUTTON,
             ButtonType.Click),
         new DigitalOperationDescription(
             DigitalOperation.ElevatorTwoButton,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_B,
+            UserInputDeviceButton.XBONE_B_BUTTON,
             ButtonType.Click),
         new DigitalOperationDescription(
             DigitalOperation.ElevatorThreeButton,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_X,
+            UserInputDeviceButton.XBONE_X_BUTTON,
             ButtonType.Click),
         new DigitalOperationDescription(
             DigitalOperation.ElevatorFourButton,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_Y,
+            UserInputDeviceButton.XBONE_Y_BUTTON,
             ButtonType.Click),
         new DigitalOperationDescription(
             DigitalOperation.ElevatorFiveButton,
@@ -117,47 +117,47 @@ public class ButtonMap implements IButtonMap
             0,
             ButtonType.Click),
         /**/
-        /*
+        /**/
         new DigitalOperationDescription(
             DigitalOperation.ForkliftUp,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_A,
+            UserInputDeviceButton.XBONE_A_BUTTON,
             ButtonType.Click),
         new DigitalOperationDescription(
             DigitalOperation.ForkliftDown,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_B,
+            UserInputDeviceButton.XBONE_B_BUTTON,
             ButtonType.Click),
         /**/
         /*
         new DigitalOperationDescription(
             DigitalOperation.GarageDoorButton,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_A,
+            UserInputDeviceButton.XBONE_A_BUTTON,
             ButtonType.Click),
         /**/
-
+        /*
         new DigitalOperationDescription(
             DigitalOperation.PrinterPenDown,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_A,
+            UserInputDeviceButton.XBONE_A_BUTTON,
             ButtonType.Click),
         new DigitalOperationDescription(
             DigitalOperation.PrinterPenUp,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_B,
+            UserInputDeviceButton.XBONE_B_BUTTON,
             ButtonType.Click),
         /**/
         /*
         new DigitalOperationDescription(
             DigitalOperation.ShooterSpin,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_A,
+            UserInputDeviceButton.XBONE_A_BUTTON,
             ButtonType.Toggle),
         new DigitalOperationDescription(
             DigitalOperation.ShooterFire,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_B,
+            UserInputDeviceButton.XBONE_B_BUTTON,
             ButtonType.Click),
         /**/
     };
@@ -177,10 +177,11 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.SomeDigitalOperation,
             }),*/
             
+        /*
         new MacroOperationDescription(
             MacroOperation.WriteHiTask,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_Y,
+            UserInputDeviceButton.XBONE_Y_BUTTON,
             ButtonType.Toggle,
             () -> SequentialTask.Sequence(
                 new PenWriteTask(false),
@@ -207,6 +208,7 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.PrinterPenDown,
                 DigitalOperation.PrinterPenUp,
             }),
+        /**/
     };
 
     @Override
