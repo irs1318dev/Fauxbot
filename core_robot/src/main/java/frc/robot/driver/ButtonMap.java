@@ -46,14 +46,14 @@ public class ButtonMap implements IButtonMap
         new AnalogOperationDescription(
             AnalogOperation.ForkliftDriveLeft,
             UserInputDevice.Driver,
-            AnalogAxis.XBONE_LSX,
-            ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
+            AnalogAxis.XBONE_LSY,
+            ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
             TuningConstants.FORKLIFT_DRIVE_DEAD_ZONE),
         new AnalogOperationDescription(
             AnalogOperation.ForkliftDriveRight,
             UserInputDevice.Driver,
-            AnalogAxis.XBONE_LSY,
-            ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
+            AnalogAxis.XBONE_RSY,
+            ElectronicsConstants.INVERT_XBONE_RIGHT_Y_AXIS,
             TuningConstants.FORKLIFT_DRIVE_DEAD_ZONE),
         /**/
         /*
