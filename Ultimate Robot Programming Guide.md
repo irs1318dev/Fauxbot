@@ -365,6 +365,8 @@ public enum GarageDoorState
         Closed,
         Closing
     }
+private GarageDoorState state;
+// then use this "state" enum variable to conduct actions
 ```
 If you are unsure how to define actuators, refer to the Forklift exercise.
 
