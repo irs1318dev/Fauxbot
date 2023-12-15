@@ -19,7 +19,7 @@ public class FauxbotSmartDashboardLogger extends StringLogger implements ISmartD
     }
 
     @Override
-    public void logString(LoggingKey key, String value)
+    public void internalLogString(LoggingKey key, String value)
     {
         synchronized (this)
         {
