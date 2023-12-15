@@ -252,6 +252,7 @@ public class CoreRobot<T extends AbstractModule>
             {
                 // lazily flush the log, in case of power-off.
                 this.logger.flush();
+                this.loggerUpdates = 0;
             }
         }
         catch (RuntimeException ex)
