@@ -13,7 +13,7 @@ public class ConsoleLogger extends StringLogger
      * @param value to write
      */
     @Override
-    public void logString(LoggingKey key, String value)
+    public void internalLogString(LoggingKey key, String value)
     {
         System.out.println(key.value + ": " + value);
     }

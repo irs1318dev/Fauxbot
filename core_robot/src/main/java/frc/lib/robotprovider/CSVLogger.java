@@ -25,7 +25,7 @@ public class CSVLogger extends StringLogger
         this.schema = new ArrayList<String>();
         for (LoggingKey key : keys)
         {
-            if (key.shouldLog)
+            if (key.shouldLogToCsv)
             {
                 this.schema.add(key.value);
             }
@@ -67,7 +67,7 @@ public class CSVLogger extends StringLogger
      * @param value to write
      */
     @Override
-    public void logString(LoggingKey key, String value)
+    public void internalLogString(LoggingKey key, String value)
     {
         int index = this.schema.indexOf(key.value);
         if (index >= 0)
@@ -88,6 +88,8 @@ public class CSVLogger extends StringLogger
     @Override
     public void update()
     {
+        super.update();
+
         try
         {
             for (int i = 0; i < this.schema.size(); i++)
