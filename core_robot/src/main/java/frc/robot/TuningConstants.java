@@ -28,6 +28,8 @@ public class TuningConstants
     public static final boolean LOG_FILE_ONLY_COMPETITION_MATCHES = false;
     public static final long LOG_FILE_REQUIRED_FREE_SPACE = 50 * 1024 * 1024; // require at least 50 MB of space
     public static final int LOG_FLUSH_THRESHOLD = 25;
+    public static final boolean USE_LOGGING_FREQUENCY = true; // TuningConstants.COMPETITION_ROBOT;
+    public static final int DEFAULT_LOGGING_FREQUENCY = 10; // number of entries to ignore between logging
 
     //================================================== Autonomous ==============================================================
 

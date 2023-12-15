@@ -4,12 +4,25 @@ import frc.robot.LoggingKey;
 
 public abstract class StringLogger implements ILogger
 {
+    private int loggingCounter;
+
+    public StringLogger()
+    {
+        this.loggingCounter = 0;
+    }
+
     /**
      * Write a string to the log
      * @param key to write to
      * @param value to write
      */
-    public abstract void logString(LoggingKey key, String value);
+    public void logString(LoggingKey key, String value)
+    {
+        if ((this.loggingCounter % key.loggingFrequency) == 0)
+        {
+            this.internalLogString(key, value);
+        }
+    }
 
     /**
      * Write a boolean to the log
@@ -19,7 +32,10 @@ public abstract class StringLogger implements ILogger
     @Override
     public void logBoolean(LoggingKey key, boolean value)
     {
-        this.logString(key, String.valueOf(value));
+        if ((this.loggingCounter % key.loggingFrequency) == 0)
+        {
+            this.internalLogString(key, String.valueOf(value));
+        }
     }
 
     /**
@@ -30,21 +46,24 @@ public abstract class StringLogger implements ILogger
     @Override
     public void logBooleanArray(LoggingKey key, boolean[] value)
     {
-        String str = "";
-        if (value != null)
+        if ((this.loggingCounter % key.loggingFrequency) == 0)
         {
-            for (int i = 0; i < value.length; i++)
+            String str = "";
+            if (value != null)
             {
-                if (i > 0)
+                for (int i = 0; i < value.length; i++)
                 {
-                    str += ",";
+                    if (i > 0)
+                    {
+                        str += ",";
+                    }
+
+                    str += String.valueOf(value[i]);
                 }
-
-                str += String.valueOf(value[i]);
             }
-        }
 
-        this.logString(key, str);
+            this.internalLogString(key, str);
+        }
     }
 
     /**
@@ -55,7 +74,10 @@ public abstract class StringLogger implements ILogger
     @Override
     public void logNumber(LoggingKey key, double value)
     {
-        this.logString(key, String.valueOf(value));
+        if ((this.loggingCounter % key.loggingFrequency) == 0)
+        {
+            this.internalLogString(key, String.valueOf(value));
+        }
     }
 
     /**
@@ -66,7 +88,10 @@ public abstract class StringLogger implements ILogger
     @Override
     public void logNumber(LoggingKey key, Double value)
     {
-        this.logString(key, String.valueOf(value));
+        if ((this.loggingCounter % key.loggingFrequency) == 0)
+        {
+            this.internalLogString(key, String.valueOf(value));
+        }
     }
 
     /**
@@ -77,7 +102,10 @@ public abstract class StringLogger implements ILogger
     @Override
     public void logInteger(LoggingKey key, int value)
     {
-        this.logString(key, String.valueOf(value));
+        if ((this.loggingCounter % key.loggingFrequency) == 0)
+        {
+            this.internalLogString(key, String.valueOf(value));
+        }
     }
 
     /**
@@ -88,7 +116,10 @@ public abstract class StringLogger implements ILogger
     @Override
     public void logInteger(LoggingKey key, Integer value)
     {
-        this.logString(key, String.valueOf(value));
+        if ((this.loggingCounter % key.loggingFrequency) == 0)
+        {
+            this.internalLogString(key, String.valueOf(value));
+        }
     }
 
     /**
@@ -100,7 +131,10 @@ public abstract class StringLogger implements ILogger
     @Override
     public void logInteger(LoggingKey key, int value, String formatString)
     {
-        this.logString(key, String.format(formatString, value));
+        if ((this.loggingCounter % key.loggingFrequency) == 0)
+        {
+            this.internalLogString(key, String.format(formatString, value));
+        }
     }
 
     /**
@@ -109,6 +143,7 @@ public abstract class StringLogger implements ILogger
     @Override
     public void update()
     {
+        this.loggingCounter++;
     }
 
     /**
@@ -118,4 +153,11 @@ public abstract class StringLogger implements ILogger
     public void flush()
     {
     }
+
+    /**
+     * Write a string to the log
+     * @param key to write to
+     * @param value to write
+     */
+    protected abstract void internalLogString(LoggingKey key, String value);
 }
