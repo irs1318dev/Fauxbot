@@ -55,7 +55,7 @@ public class ElevatorMechanism implements IMechanism
     }
 
     @Override
-    public void update()
+    public void update(RobotMode mode)
     {
         if (this.driver.getDigital(DigitalOperation.ElevatorOneButton))
         {

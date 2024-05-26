@@ -58,7 +58,10 @@ public class ConcurrentTask extends ControlTaskBase
         super.initialize(analogOperationStateMap, digitalOperationStateMap, injector);
         for (IControlTask task : this.tasks)
         {
-            task.initialize(analogOperationStateMap, digitalOperationStateMap, injector);
+            if (task != null)
+            {
+                task.initialize(analogOperationStateMap, digitalOperationStateMap, injector);
+            }
         }
     }
 
@@ -90,7 +93,10 @@ public class ConcurrentTask extends ControlTaskBase
     {
         for (IControlTask task : this.tasks)
         {
-            task.begin();
+            if (task != null)
+            {
+                task.begin();
+            }
         }
     }
 
@@ -107,20 +113,27 @@ public class ConcurrentTask extends ControlTaskBase
                 continue;
             }
 
-            if (this.tasks[i].hasCompleted())
+            IControlTask task = this.tasks[i];
+            if (task == null)
             {
                 this.completedTasks[i] = true;
-                this.tasks[i].end();
                 continue;
             }
 
-            if (this.tasks[i].shouldCancel())
+            if (task.hasCompleted())
+            {
+                this.completedTasks[i] = true;
+                task.end();
+                continue;
+            }
+
+            if (task.shouldCancel())
             {
                 this.shouldCancelTasks = true;
                 continue;
             }
 
-            this.tasks[i].update();
+            task.update();
         }
     }
 
@@ -134,7 +147,11 @@ public class ConcurrentTask extends ControlTaskBase
         {
             if (!this.completedTasks[i])
             {
-                this.tasks[i].end();
+                IControlTask task = this.tasks[i];
+                if (task != null)
+                {
+                    task.end();
+                }
             }
         }
     }

@@ -2,7 +2,6 @@ package frc.lib.driver.states;
 
 import java.util.EnumMap;
 import java.util.EnumSet;
-import java.util.Map;
 
 import frc.robot.TuningConstants;
 import frc.lib.driver.IControlTask;
@@ -16,7 +15,6 @@ import frc.lib.driver.buttons.ToggleButton;
 import frc.lib.driver.descriptions.MacroOperationDescription;
 import frc.lib.driver.descriptions.UserInputDevice;
 import frc.lib.helpers.ExceptionHelpers;
-import frc.lib.helpers.Helpers;
 import frc.lib.helpers.SetHelper;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
@@ -185,18 +183,7 @@ public class MacroOperationState extends OperationState implements IMacroOperati
         {
             if (this.task == null)
             {
-                for (IOperation operation : this.getAffectedOperations())
-                {
-                    if (operation instanceof AnalogOperation)
-                    {
-                        this.analogOperationStateMap.get((AnalogOperation)operation).setIsInterrupted(true);
-                    }
-                    else
-                    {
-                        ExceptionHelpers.Assert(operation instanceof DigitalOperation, "Expect operation of type DigitalOperation");
-                        this.digitalOperationStateMap.get((DigitalOperation)operation).setIsInterrupted(true);
-                    }
-                }
+                this.setInterrupts(true);
 
                 // start task
                 this.task = ((MacroOperationDescription)this.getDescription()).constructTask();
@@ -223,18 +210,7 @@ public class MacroOperationState extends OperationState implements IMacroOperati
                 MacroOperationDescription description = (MacroOperationDescription)this.getDescription();
                 if (description.shouldClearInterrupt())
                 {
-                    for (IOperation operation : this.getAffectedOperations())
-                    {
-                        if (operation instanceof AnalogOperation)
-                        {
-                            this.analogOperationStateMap.get((AnalogOperation)operation).setIsInterrupted(false);
-                        }
-                        else
-                        {
-                            ExceptionHelpers.Assert(operation instanceof DigitalOperation, "Expect operation of type DigitalOperation");
-                            this.digitalOperationStateMap.get((DigitalOperation)operation).setIsInterrupted(false);
-                        }
-                    }
+                    this.setInterrupts(false);
                 }
             }
             else
@@ -248,18 +224,7 @@ public class MacroOperationState extends OperationState implements IMacroOperati
             this.task.stop();
             this.task = null;
 
-            for (IOperation operation : this.getAffectedOperations())
-            {
-                if (operation instanceof AnalogOperation)
-                {
-                    this.analogOperationStateMap.get((AnalogOperation)operation).setIsInterrupted(false);
-                }
-                else
-                {
-                    ExceptionHelpers.Assert(operation instanceof DigitalOperation, "Expect operation of type DigitalOperation");
-                    this.digitalOperationStateMap.get((DigitalOperation)operation).setIsInterrupted(false);
-                }
-            }
+            this.setInterrupts(false);
         }
     }
 
@@ -267,5 +232,21 @@ public class MacroOperationState extends OperationState implements IMacroOperati
     {
         this.task = null;
         this.button.clearState();
+    }
+
+    private void setInterrupts(boolean enable)
+    {
+        for (IOperation operation : this.getAffectedOperations())
+        {
+            if (operation instanceof AnalogOperation)
+            {
+                this.analogOperationStateMap.get((AnalogOperation)operation).setIsInterrupted(enable);
+            }
+            else
+            {
+                ExceptionHelpers.Assert(operation instanceof DigitalOperation, "Expect operation of type DigitalOperation");
+                this.digitalOperationStateMap.get((DigitalOperation)operation).setIsInterrupted(enable);
+            }
+        }
     }
 }

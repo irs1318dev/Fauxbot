@@ -38,6 +38,22 @@ public class TrajectoryManager
                 this.map.put(name, trajectory);
                 this.trajectoryBuilderMap.remove(name);
             }
+            else
+            {
+                if (this.map.containsKey(name))
+                {
+                    trajectory = this.map.get(name);
+                    System.out.println("HashMap.getOrDefault bug?");
+                }
+                else
+                {
+                    System.out.println(
+                        String.format(
+                            "couldn't find trajectory '%s' in '%s'",
+                            name,
+                            String.join(",", this.map.keySet())));
+                }
+            }
         }
 
         return trajectory;

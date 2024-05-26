@@ -70,6 +70,7 @@
          7. [Write task stop function (optional)](#write-task-stop-function-optional)
       2. [Adding Macros](#adding-macros)
       3. [Adding Autonomous Routines](#adding-autonomous-routines)
+          1. [PathPlanner](#PathPlanner)
       4. [Composing Tasks together](#composing-tasks-together)
          1. [SequentialTask.Sequence()](#sequentialtasksequence)
          2. [ConcurrentTask.AnyTasks()](#concurrenttaskanytasks)
@@ -591,7 +592,7 @@ To add a new Autonomous Routine, you should add a new function to the ```Autonom
                   new DriveForwardTask(3.5),
                   new NavxTurnTask(-90),
                   new WaitTask(3.0),
-                  new DriveForwaardTask(3.5));
+                  new DriveForwardTask(3.5));
     }
 ```
 
@@ -653,3 +654,19 @@ With PID, there are different constant values that need to be discovered experim
 
 ### Vision
 To-Do.
+
+### PathPlanner
+PathPlanner is a library that is used to create autonomus paths that are called in the ```AutonomousRoutineSelector```
+
+Every robot path called trajectory need to have a ```trajecotryManager``` which stores all generated paths and needs to be passed in as the first parameter of the path to store all the paths. ```pathPlanner.buildTrajectory()``` builds the trejectory and takes in a Maximum velocity and maximum acceleration the robot can reach on a given path. It also takes any number of ```PathPlannerWaypoint()``` which are the points the robots travels along and the last paramerter is the name of the Path. The ```PathPlannerWaypoint()``` takes a X-Coordinate, Y-Coordinate, a headding which is the direction the robot will move into the point, and the orientation which is the direction the robot will face in which while traveling to the given point.
+
+```java
+addTrajectory(
+            trajectoryManager,
+            pathPlanner.buildTrajectory(
+                TuningConstants.DRIVETRAIN_TRUE_MAX_PATH_TRANSLATIONAL_VELOCITY,
+                TuningConstants.DRIVETRAIN_MAX_PATH_TRANSLATIONAL_ACCELERATION,
+                new PathPlannerWaypoint(200, 200, -180, 0),
+                new PathPlannerWaypoint(100, 100, -180, 0)),
+                "TheBestPathEveryWritten");
+```

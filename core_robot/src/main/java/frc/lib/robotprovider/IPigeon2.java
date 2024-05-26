@@ -9,10 +9,10 @@ public interface IPigeon2
     void getYawPitchRoll(double[] ypr_deg);
 
     /**
-     * Get Raw Gyro data.
+     * Get Roll, Pitch, and Yaw Rate data.
      * @param xyz_dps Array to fill with x[0], y[1], and z[2] data in degrees per second.
      */
-    void getRawGyro(double[] xyz_dps);
+    void getRollPitchYawRates(double[] xyz_dps);
 
     /**
      * Sets the Yaw register to the specified value.
@@ -21,14 +21,14 @@ public interface IPigeon2
     void setYaw(double angleDeg);
 
     /**
-     * Sets the update period for the YPR frames.
-     * @param timeoutMs update period in milliseconds
+     * Sets the update frequency for the YPR data.
+     * @param frequencyHz frequency in #times/sec
      */
-    void setYPRUpdatePeriod(int timeoutMs);
+    void setYPRUpdateFrequency(double frequencyHz);
 
     /**
-     * Sets the update period for the Gyro frames.
-     * @param timeoutMs update period in milliseconds
+     * Sets the update frequency for the RPY Rate data.
+     * @param frequencyHz frequency in #times/sec
      */
-    void setGyroUpdatePeriod(int timeoutMs);
+    void setRPYRateUpdateFrequency(double frequencyHz);
 }

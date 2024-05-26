@@ -2,6 +2,7 @@ package frc.lib.mechanisms;
 
 import java.util.List;
 
+import frc.lib.robotprovider.RobotMode;
 import frc.robot.TuningConstants;
 
 public class MechanismManager implements IMechanism
@@ -34,13 +35,13 @@ public class MechanismManager implements IMechanism
     }
 
     @Override
-    public void update()
+    public void update(RobotMode mode)
     {
         for (IMechanism mechanism : this.mechanismList)
         {
             try
             {
-                mechanism.update();
+                mechanism.update(mode);
             }
             catch (Exception ex)
             {

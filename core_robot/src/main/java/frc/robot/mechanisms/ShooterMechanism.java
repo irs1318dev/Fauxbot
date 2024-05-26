@@ -29,8 +29,8 @@ public class ShooterMechanism implements IMechanism
         this.logger = logger;
 
         this.angleMotor = provider.getTalonSRX(ElectronicsConstants.SHOOTER_ANGLE_MOTOR_CAN_ID);
-        this.angleMotor.setSensorType(TalonXFeedbackDevice.QuadEncoder);
-        this.angleMotor.setControlMode(TalonXControlMode.Position);
+        this.angleMotor.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
+        this.angleMotor.setControlMode(TalonSRXControlMode.Position);
         this.angleMotor.setPIDF(
             TuningConstants.SHOOTER_ANGLE_MOTOR_KP,
             TuningConstants.SHOOTER_ANGLE_MOTOR_KI,
@@ -39,8 +39,8 @@ public class ShooterMechanism implements IMechanism
             0);
 
         this.flyWheelMotor = provider.getTalonSRX(ElectronicsConstants.SHOOTER_FLY_WHEEL_MOTOR_CAN_ID);
-        this.flyWheelMotor.setSensorType(TalonXFeedbackDevice.QuadEncoder);
-        this.flyWheelMotor.setControlMode(TalonXControlMode.Velocity);
+        this.flyWheelMotor.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
+        this.flyWheelMotor.setControlMode(TalonSRXControlMode.Velocity);
         this.flyWheelMotor.setPIDF(
             TuningConstants.SHOOTER_FLY_WHEEL_MOTOR_KP,
             TuningConstants.SHOOTER_FLY_WHEEL_MOTOR_KI,
@@ -59,7 +59,7 @@ public class ShooterMechanism implements IMechanism
     }
 
     @Override
-    public void update()
+    public void update(RobotMode mode)
     {
         double desiredAngle = this.driver.getAnalog(AnalogOperation.ShooterAngle);
         desiredAngle = ((desiredAngle + 1.0) / 2.0) * (HardwareConstants.SHOOTER_MAX_ANGLE - HardwareConstants.SHOOTER_MIN_ANGLE) + HardwareConstants.SHOOTER_MIN_ANGLE;

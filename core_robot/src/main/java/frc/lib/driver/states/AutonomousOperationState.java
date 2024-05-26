@@ -2,8 +2,6 @@ package frc.lib.driver.states;
 
 import java.util.EnumMap;
 import java.util.EnumSet;
-import java.util.Map;
-import java.util.Set;
 
 import frc.lib.driver.IControlTask;
 import frc.lib.driver.IOperation;

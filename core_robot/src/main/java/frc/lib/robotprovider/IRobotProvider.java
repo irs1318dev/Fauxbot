@@ -7,6 +7,7 @@ public interface IRobotProvider
     public IDigitalOutput getDigitalOutput(int channel);
     public ICounter getCounter(int channel);
     public IDutyCycle getDutyCycle(int digitalInputChannel);
+    public IDutyCycleEncoder getDutyCycleEncoder(int digitalInputChannel);
     public ITalonSRX getTalonSRX(int deviceNumber);
     public ITalonFX getTalonFX(int deviceNumber);
     public ITalonFX getTalonFX(int deviceNumber, String canbus);

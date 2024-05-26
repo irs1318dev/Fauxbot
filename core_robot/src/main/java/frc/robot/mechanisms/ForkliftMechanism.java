@@ -33,7 +33,7 @@ public class ForkliftMechanism implements IMechanism
     }
 
     @Override
-    public void update()
+    public void update(RobotMode mode)
     {
         double leftPower = this.driver.getAnalog(AnalogOperation.ForkliftDriveLeft);
         double rightPower = this.driver.getAnalog(AnalogOperation.ForkliftDriveRight);

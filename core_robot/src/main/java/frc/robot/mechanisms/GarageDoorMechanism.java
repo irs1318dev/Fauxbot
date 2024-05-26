@@ -51,7 +51,7 @@ public class GarageDoorMechanism implements IMechanism
     }
 
     @Override
-    public void update()
+    public void update(RobotMode mode)
     {
         boolean buttonPressed = this.driver.getDigital(DigitalOperation.GarageDoorButton);
         if (this.state == GarageDoorState.Closed)

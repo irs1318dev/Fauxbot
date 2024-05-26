@@ -13,25 +13,15 @@ public class SmartDashboardSelectionManager
 
     public enum StartPosition
     {
-        Mid,
-        Load,
-        Guard
+        None,
+        Something,
     }
 
     public enum AutoRoutine
     {
         None,
-        Place,
-        Taxi,
-        Charge,
-        OnePlusTaxi,
-        OnePlusCharge,
-        OnePlusPickup,
-        OnePickupCharge,
-        OnePlusOne,
-        ThreePiece
+        Something,
     }
-
     /**
      * Initializes a new SmartDashboardSelectionManager
      */
@@ -41,29 +31,18 @@ public class SmartDashboardSelectionManager
     {
         INetworkTableProvider networkTableProvider = provider.getNetworkTableProvider();
 
-        this.routineChooser = networkTableProvider.getSendableChooser();
+        this.routineChooser = networkTableProvider.getSendableChooser("Auto Routine");
         this.routineChooser.addDefault("None", AutoRoutine.None);
-        this.routineChooser.addObject("Taxi", AutoRoutine.Taxi);
-        this.routineChooser.addObject("Charge", AutoRoutine.Charge);
-        this.routineChooser.addObject("One Pickup", AutoRoutine.OnePlusPickup);
-        this.routineChooser.addObject("One Plus Taxi", AutoRoutine.OnePlusTaxi);
-        this.routineChooser.addObject("One Plus Charge", AutoRoutine.OnePlusCharge);
-        this.routineChooser.addObject("One Pickup Charge", AutoRoutine.OnePickupCharge);
-        this.routineChooser.addObject("One Plus One", AutoRoutine.OnePlusOne);
-        this.routineChooser.addObject("Three Piece", AutoRoutine.ThreePiece);
-        this.routineChooser.addObject("Place", AutoRoutine.Place);
-        networkTableProvider.addChooser("Auto Routine", this.routineChooser);
+        this.routineChooser.addObject("Something", AutoRoutine.Something);
 
-        this.positionChooser = networkTableProvider.getSendableChooser();
-        this.positionChooser.addDefault("middle", StartPosition.Mid);
-        this.positionChooser.addObject("load", StartPosition.Load);
-        this.positionChooser.addObject("guard", StartPosition.Guard);
-        networkTableProvider.addChooser("Start Position", this.positionChooser);
+        this.positionChooser = networkTableProvider.getSendableChooser("Start Position");
+        this.positionChooser.addDefault("None", StartPosition.None);
+        this.positionChooser.addObject("Something", StartPosition.Something);
     }
 
     public StartPosition getSelectedStartPosition()
     {
-        return SmartDashboardSelectionManager.GetSelectedOrDefault(this.positionChooser, StartPosition.Mid);
+        return SmartDashboardSelectionManager.GetSelectedOrDefault(this.positionChooser, StartPosition.None);
     }
 
     public AutoRoutine getSelectedAutoRoutine()

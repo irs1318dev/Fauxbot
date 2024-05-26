@@ -1,4 +1,4 @@
-package frc.robot.driver;
+ package frc.robot.driver;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -7,6 +7,7 @@ import frc.lib.driver.IControlTask;
 import frc.lib.driver.TrajectoryManager;
 import frc.lib.mechanisms.LoggingManager;
 import frc.lib.robotprovider.*;
+import frc.robot.AutonLocManager;
 import frc.robot.LoggingKey;
 import frc.robot.TuningConstants;
 import frc.robot.driver.SmartDashboardSelectionManager.AutoRoutine;
@@ -21,6 +22,7 @@ public class AutonomousRoutineSelector
     private final TrajectoryManager trajectoryManager;
     private final SmartDashboardSelectionManager selectionManager;
     private final IDriverStation driverStation;
+    private final AutonLocManager locManager;
 
     /**
      * Initializes a new AutonomousRoutineSelector
@@ -37,6 +39,8 @@ public class AutonomousRoutineSelector
         this.selectionManager = selectionManager;
 
         this.driverStation = provider.getDriverStation();
+
+        this.locManager = new AutonLocManager(provider);
     }
 
     /**
@@ -55,12 +59,13 @@ public class AutonomousRoutineSelector
 
         if (mode == RobotMode.Autonomous)
         {
+            this.locManager.updateAlliance();
             StartPosition startPosition = this.selectionManager.getSelectedStartPosition();
             AutoRoutine routine = this.selectionManager.getSelectedAutoRoutine();
 
-            boolean isRed = this.driverStation.getAlliance() == Alliance.Red;
+            boolean isRed = this.locManager.getIsRed();
 
-            this.logger.logString(LoggingKey.AutonomousSelection, startPosition.toString() + "." + routine.toString() + "(" + (isRed ? "red" : "blue") + ")");
+            this.logger.logString(LoggingKey.AutonomousSelection, startPosition.toString() + "." + routine.toString());
 
             return GetFillerRoutine();
         }
@@ -79,7 +84,7 @@ public class AutonomousRoutineSelector
 
 
 
-
+//IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS
 
 
 

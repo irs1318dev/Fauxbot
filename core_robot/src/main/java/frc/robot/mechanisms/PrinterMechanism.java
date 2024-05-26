@@ -28,8 +28,8 @@ public class PrinterMechanism implements IMechanism
     {
         this.driver = driver;
         this.xMotor = provider.getTalonSRX(ElectronicsConstants.PRINTER_X_MOTOR_CAN_ID);
-        this.xMotor.setSensorType(TalonXFeedbackDevice.QuadEncoder);
-        this.xMotor.setControlMode(TalonXControlMode.Position);
+        this.xMotor.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
+        this.xMotor.setControlMode(TalonSRXControlMode.Position);
         this.xMotor.setPIDF(
             TuningConstants.PRINTER_X_MOTOR_KP,
             TuningConstants.PRINTER_X_MOTOR_KI,
@@ -38,8 +38,8 @@ public class PrinterMechanism implements IMechanism
             0);
 
         this.yMotor = provider.getTalonSRX(ElectronicsConstants.PRINTER_Y_MOTOR_CAN_ID);
-        this.yMotor.setSensorType(TalonXFeedbackDevice.QuadEncoder);
-        this.yMotor.setControlMode(TalonXControlMode.Position);
+        this.yMotor.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
+        this.yMotor.setControlMode(TalonSRXControlMode.Position);
         this.yMotor.setPIDF(
             TuningConstants.PRINTER_Y_MOTOR_KP,
             TuningConstants.PRINTER_Y_MOTOR_KI,
@@ -58,7 +58,7 @@ public class PrinterMechanism implements IMechanism
     }
 
     @Override
-    public void update()
+    public void update(RobotMode mode)
     {
         double xPosition = (this.driver.getAnalog(AnalogOperation.PrinterMoveX) + 1.0) / 2.0;
         xPosition = xPosition * (HardwareConstants.PRINTER_MAX_X - HardwareConstants.PRINTER_MIN_X) + HardwareConstants.PRINTER_MIN_X;

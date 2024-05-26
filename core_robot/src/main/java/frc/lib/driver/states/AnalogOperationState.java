@@ -217,7 +217,7 @@ public class AnalogOperationState extends OperationState
             return Helpers.WithinRange(value1 * value1 + value2 * value2, deadZoneMin, deadZoneMax);
         }
 
-        return Helpers.WithinRange(value1, deadZoneMax, deadZoneMin) && 
-            Helpers.WithinRange(value2, deadZoneMax, deadZoneMin);
+        return Helpers.WithinRange(value1, deadZoneMin, deadZoneMax) && 
+            Helpers.WithinRange(value2, deadZoneMin, deadZoneMax);
     }
 }

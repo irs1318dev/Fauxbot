@@ -1,41 +1,50 @@
 package frc.robot;
 
+import frc.lib.robotprovider.LoggingType;
+
 /**
  * Keys describing logging 
  */
 public enum LoggingKey
 {
-    RobotState("r.state", 1, true),
-    RobotTime("r.time", 1, true),
-    RobotMatch("r.match", 50),
-    RobotCrash("r.crash", true),
-    DriverMode("driver.mode", 1, true),
-    DriverActiveMacros("driver.activeMacros", true),
-    DriverActiveShifts("driver.activeShifts"),
-    AutonomousSelection("auto.selected"),
-    AutonomousDSMessage("auto.dsMessage"),
-    ShooterAngle("shooter.angle"),
-    ShooterSpeed("shooter.speed");
+    RobotState("r/state", LoggingType.String, false, 1, true),
+    RobotTime("r/time", LoggingType.Number, false, 1, true),
+    RobotMatch("r/match", LoggingType.String, false, 50),
+    RobotCrash("r/crash", LoggingType.String, false, true),
+    DriverMode("driver/mode", LoggingType.String, false, 1, true),
+    DriverActiveMacros("driver/activeMacros", LoggingType.String, false, 1, true),
+    DriverActiveShifts("driver/activeShifts", LoggingType.String, false),
+    AutonomousSelection("auto/selected", LoggingType.String, false),
+    AutonomousDSMessage("auto/dsMessage", LoggingType.String, false),
+    ShooterAngle("shooter.angle", LoggingType.Number, false),
+    ShooterSpeed("shooter.speed", LoggingType.Number, false);
 
     public final String value;
+    public final LoggingType type;
+    public final boolean isInput;
     public final int loggingFrequency;
     public final boolean shouldLogToCsv;
-    private LoggingKey(String value)
+    private LoggingKey(String value, LoggingType type)
     {
-        this(value, TuningConstants.DEFAULT_LOGGING_FREQUENCY, false);
+        this(value, type, false, TuningConstants.DEFAULT_LOGGING_FREQUENCY, false);
     }
 
-    private LoggingKey(String value, int loggingFrequency)
+    private LoggingKey(String value, LoggingType type, boolean isInput)
     {
-        this(value, loggingFrequency, false);
+        this(value, type, isInput, TuningConstants.DEFAULT_LOGGING_FREQUENCY, false);
     }
 
-    private LoggingKey(String value, boolean shouldLogToCsv)
+    private LoggingKey(String value, LoggingType type, boolean isInput, int loggingFrequency)
     {
-        this(value, TuningConstants.DEFAULT_LOGGING_FREQUENCY, shouldLogToCsv);
+        this(value, type, isInput, loggingFrequency, false);
     }
 
-    private LoggingKey(String value, int loggingFrequency, boolean shouldLogToCsv)
+    private LoggingKey(String value, LoggingType type, boolean isInput, boolean shouldLogToCsv)
+    {
+        this(value, type, isInput, TuningConstants.DEFAULT_LOGGING_FREQUENCY, shouldLogToCsv);
+    }
+
+    private LoggingKey(String value, LoggingType type, boolean isInput, int loggingFrequency, boolean shouldLogToCsv)
     {
         if (loggingFrequency <= 0)
         {
@@ -43,6 +52,8 @@ public enum LoggingKey
         }
 
         this.value = value;
+        this.type = type;
+        this.isInput = isInput;
         this.loggingFrequency = loggingFrequency;
         this.shouldLogToCsv = shouldLogToCsv;
     }

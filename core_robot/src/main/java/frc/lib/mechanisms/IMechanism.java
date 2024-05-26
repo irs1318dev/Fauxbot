@@ -1,5 +1,7 @@
 package frc.lib.mechanisms;
 
+import frc.lib.robotprovider.RobotMode;
+
 /**
  * The mechanism defines the logic that controls a mechanism given inputs and operator-requested actions, and 
  * translates those into the abstract functions that should be applied to the outputs.
@@ -16,8 +18,9 @@ public interface IMechanism
 
     /**
      * calculate the various outputs to use based on the inputs and apply them to the outputs for the relevant mechanism
+     * @param mode the current robot mode
      */
-    public void update();
+    public void update(RobotMode mode);
 
     /**
      * stop the relevant mechanism

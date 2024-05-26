@@ -16,14 +16,14 @@ import frc.robot.driver.Shift;
  */
 public abstract class OperationState implements IOperationState
 {
-    private final OperationDescription description;
+    private final OperationDescription<?> description;
 
-    protected OperationState(OperationDescription description)
+    protected OperationState(OperationDescription<?> description)
     {
         this.description = description;
     }
 
-    protected OperationDescription getDescription()
+    protected OperationDescription<?> getDescription()
     {
         return this.description;
     }
@@ -53,7 +53,7 @@ public abstract class OperationState implements IOperationState
      * @param description to use for creating the state
      * @return state corresponding to the description
      */
-    public static OperationState createFromDescription(OperationDescription description)
+    public static OperationState createFromDescription(OperationDescription<?> description)
     {
         if (description instanceof AnalogOperationDescription)
         {

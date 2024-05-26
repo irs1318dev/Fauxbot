@@ -1,5 +1,7 @@
 package frc.robot.driver;
 
+import java.util.EnumSet;
+
 import javax.inject.Singleton;
 
 import frc.lib.driver.*;
@@ -36,11 +38,11 @@ public class ButtonMap implements IButtonMap
     {
         /** Example Analog operation entry:
         new AnalogOperationDescription(
-            Operation.SomeAnalogOperation,
+            AnalogOperation.ExampleOne,
             UserInputDevice.Driver,
             AnalogAxis.XBONE_LSX,
-            ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
-            TuningConstants.DRIVETRAIN_X_DEAD_ZONE),*/
+            ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
+            0.1),*/
 
         /**/
         new AnalogOperationDescription(
@@ -84,11 +86,10 @@ public class ButtonMap implements IButtonMap
     {
         /** Example Digital operation entry:
         new DigitalOperationDescription(
-            DigitalOperation.SomeDigitalOperation,
+            DigitalOperation.ExampleA,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_A_BUTTON,
-            ButtonType.Toggle),
-        */
+            ButtonType.Toggle),*/
 
         /*
         new DigitalOperationDescription(
@@ -166,15 +167,15 @@ public class ButtonMap implements IButtonMap
     {
         /** Example Macro operation entry:
         new MacroOperationDescription(
-            MacroOperation.SomeMacroOperation,
+            MacroOperation.ExampleAlpha,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_A,
+            UserInputDeviceButton.XBONE_RIGHT_BUTTON,
             ButtonType.Toggle,
             () -> SequentialTask.Sequence(),
             new IOperation[]
             {
-                AnalogOperation.SomeAnalogOperation,
-                DigitalOperation.SomeDigitalOperation,
+                AnalogOperation.ExampleOne,
+                DigitalOperation.ExampleA,
             }),*/
             
         /*

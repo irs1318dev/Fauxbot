@@ -8,7 +8,7 @@ public abstract class UpdateCycleTask extends ControlTaskBase
 {
     private final int requiredUpdates;
 
-    private int currentUpdates;
+    protected int currentUpdates;
 
     /**
      * Initializes a new UpdateCycleTask

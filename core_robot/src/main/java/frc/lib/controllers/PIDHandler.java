@@ -23,8 +23,8 @@ public class PIDHandler
     private final Double minOutput;
     private final Double maxOutput;
 
-    private final ComplementaryFilter errorFilter;
-    private final ComplementaryFilter outputFilter;
+    private final FadingMemoryFilter errorFilter;
+    private final FadingMemoryFilter outputFilter;
 
     // instance PIDFS constants
     private double kp;        // proportion for proportional
@@ -105,8 +105,8 @@ public class PIDHandler
         this.kf = kf;
         this.ks = ks;
 
-        this.errorFilter = new ComplementaryFilter(kEO, kEN);
-        this.outputFilter = new ComplementaryFilter(kO, kN);
+        this.errorFilter = new FadingMemoryFilter(kEO, kEN);
+        this.outputFilter = new FadingMemoryFilter(kO, kN);
 
         this.minOutput = minOutput;
         this.maxOutput = maxOutput;
