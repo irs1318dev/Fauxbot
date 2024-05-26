@@ -1,11 +1,9 @@
 package frc.lib.driver;
 
 import java.util.EnumMap;
-import java.util.Map;
 
 import frc.lib.driver.states.AnalogOperationState;
 import frc.lib.driver.states.DigitalOperationState;
-import frc.lib.driver.states.OperationState;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
 

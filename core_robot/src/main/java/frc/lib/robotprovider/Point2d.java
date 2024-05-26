@@ -15,4 +15,10 @@ public class Point2d
         this.x = x;
         this.y = y;
     }
+
+    @Override
+    public String toString()
+    {
+        return String.format("(%.2f, %.2f)", this.x, this.y);
+    }
 }

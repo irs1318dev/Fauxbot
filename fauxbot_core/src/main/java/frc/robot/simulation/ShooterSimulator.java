@@ -21,8 +21,8 @@ public class ShooterSimulator extends SimulatorBase
     private static final float RADIANS_PER_DEGREE = (float)(Math.PI / 180.0);
     private static final FauxbotActuatorConnection AngleMotorConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.CAN, 0);
     private static final FauxbotActuatorConnection FlyWheelMotorConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.CAN, 1);
-    private static final FauxbotSensorConnection AngleEncoderConnection = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.CAN, FauxbotTalonXBase.class, 0);
-    private static final FauxbotSensorConnection FlyWheelEncoderConnection = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.CAN, FauxbotTalonXBase.class, 1);
+    private static final FauxbotSensorConnection AngleEncoderConnection = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.CAN, FauxbotTalonSRX.class, 0);
+    private static final FauxbotSensorConnection FlyWheelEncoderConnection = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.CAN, FauxbotTalonSRX.class, 1);
     private static final FauxbotActuatorConnection KickerForwardConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PCM0A, 7);
     private static final FauxbotActuatorConnection KickerReverseConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PCM0B, 8);
 

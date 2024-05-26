@@ -2,9 +2,6 @@ package frc.lib.driver;
 
 import java.util.EnumMap;
 import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 import javax.inject.Singleton;
 
@@ -285,16 +282,17 @@ public class Driver implements IDriver
             else if (SetHelper.<MacroOperation>Count(relevantMacroOperations) > 1)
             {
                 EnumSet<MacroOperation> newRelevantMacroOperations = SetHelper.<MacroOperation>RelativeComplement(previouslyActiveMacroOperations, relevantMacroOperations);
-                if (newRelevantMacroOperations.isEmpty())
-                {
-                    // some disobey rule #2 (remove only those that were previously active, and not the 1 that is newly active...)
-                    macroOperationsToCancel.addAll(SetHelper.<MacroOperation>RelativeComplement(newRelevantMacroOperations, relevantMacroOperations));
-                }
-                else if (SetHelper.<MacroOperation>Count(newRelevantMacroOperations) > 1)
+                if (SetHelper.<MacroOperation>Count(newRelevantMacroOperations) > 1)
                 {
                     // disobeys rule #3:
                     // (there are 2 or more active macros that weren't previously active)
                     macroOperationsToCancel.addAll(relevantMacroOperations);
+                }
+                else
+                {
+                    // some disobey rule #2 (remove only those that were previously active, and not the 1 that is newly active...)
+                    ExceptionHelpers.Assert(!newRelevantMacroOperations.isEmpty(), "how did we end up with conflicting relevant macros for %s when there are no new ones (among %s)?", operation, relevantMacroOperations);
+                    macroOperationsToCancel.addAll(SetHelper.<MacroOperation>RelativeComplement(newRelevantMacroOperations, relevantMacroOperations));
                 }
             }
         }
@@ -312,16 +310,17 @@ public class Driver implements IDriver
             else if (SetHelper.<MacroOperation>Count(relevantMacroOperations) > 1)
             {
                 EnumSet<MacroOperation> newRelevantMacroOperations = SetHelper.<MacroOperation>RelativeComplement(previouslyActiveMacroOperations, relevantMacroOperations);
-                if (newRelevantMacroOperations.isEmpty())
-                {
-                    // some disobey rule #2 (remove only those that were previously active, and not the 1 that is newly active...)
-                    macroOperationsToCancel.addAll(SetHelper.<MacroOperation>RelativeComplement(newRelevantMacroOperations, relevantMacroOperations));
-                }
-                else if (SetHelper.<MacroOperation>Count(newRelevantMacroOperations) > 1)
+                if (SetHelper.<MacroOperation>Count(newRelevantMacroOperations) > 1)
                 {
                     // disobeys rule #3:
                     // (there are 2 or more active macros that weren't previously active)
                     macroOperationsToCancel.addAll(relevantMacroOperations);
+                }
+                else
+                {
+                    // some disobey rule #2 (remove only those that were previously active, and not the 1 that is newly active...)
+                    ExceptionHelpers.Assert(!newRelevantMacroOperations.isEmpty(), "how did we end up with conflicting relevant macros for %s when there are no new ones (among %s)?", operation, relevantMacroOperations);
+                    macroOperationsToCancel.addAll(SetHelper.<MacroOperation>RelativeComplement(newRelevantMacroOperations, relevantMacroOperations));
                 }
             }
         }

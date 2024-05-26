@@ -4,7 +4,7 @@ import frc.lib.helpers.ExceptionHelpers;
 import frc.lib.helpers.Helpers;
 import frc.lib.robotprovider.ITimer;
 
-public class SlewRateLimiter
+public class SlewRateLimiter implements ISimpleFilter
 {
     private final double maxPositiveRate;
     private final double maxNegativeRate;
@@ -60,6 +60,11 @@ public class SlewRateLimiter
 
         this.prevValue = newValue;
         this.prevTime = currTime;
+        return this.prevValue;
+    }
+
+    public double getValue()
+    {
         return this.prevValue;
     }
 

@@ -365,6 +365,7 @@ public enum GarageDoorState
         Closed,
         Closing
     }
+
 private GarageDoorState state;
 // then use this "state" enum variable to conduct actions
 ```

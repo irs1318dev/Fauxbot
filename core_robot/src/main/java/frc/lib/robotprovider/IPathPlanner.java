@@ -25,15 +25,15 @@ public interface IPathPlanner
      * Build a trajectory involving the provided waypoints with the provided velocity/acceleration constraints
      * @param maxVelocity in inches per second
      * @param maxAcceleration in inches per second
-     * @param firstWaypoint the starting position
-     * @param secondWaypoint the second waypoint
-     * @param otherWaypoints any subsequent waypoints
+     * @param maxAngularVelocity in degrees per second
+     * @param maxAngularAcceleration in degrees per second
+     * @param goalPoints the set of waypoints for translation (and any intermediate holonomic rotations)
      * @return trajectory to follow
      */
     public ITrajectory buildTrajectory(
         double maxVelocity,
         double maxAcceleration,
-        PathPlannerWaypoint firstWaypoint,
-        PathPlannerWaypoint secondWaypoint,
-        PathPlannerWaypoint... otherWaypoints);
+        double maxAngularVelocity,
+        double maxAngularAcceleration,
+        IPathPlannerGoal... goalPoints);
 }

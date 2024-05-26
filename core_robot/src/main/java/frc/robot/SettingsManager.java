@@ -46,15 +46,14 @@ public class SettingsManager
         String eventName = driverStation.getEventName();
         int matchNumber = driverStation.getMatchNumber();
         int replayNumber = driverStation.getReplayNumber();
-        Alliance alliance = driverStation.getAlliance();
-        int location = driverStation.getLocation();
+        Optional<Alliance> alliance = driverStation.getAlliance();
+        OptionalInt location = driverStation.getLocation();
         IFile file;
         if (eventName == null ||
             matchType == MatchType.None ||
             matchNumber == 0 ||
-            alliance == Alliance.Invalid ||
-            location <= 0 ||
-            location >= 4)
+            !alliance.isPresent() ||
+            !location.isPresent())
         {
             if (TuningConstants.LOG_FILE_ONLY_COMPETITION_MATCHES)
             {
@@ -94,8 +93,8 @@ public class SettingsManager
                     matchType.value,
                     matchNumber,
                     replayNumber == 0 ? "" : String.format("R%1$d", replayNumber),
-                    alliance.value,
-                    location,
+                    alliance.get().value,
+                    location.getAsInt(),
                     mode.toString().toLowerCase());
 
             file.open(fileName);
@@ -111,8 +110,8 @@ public class SettingsManager
                             matchType.value,
                             matchNumber,
                             replayNumber == 0 ? "" : String.format("R%1$d", replayNumber),
-                            alliance.value,
-                            location,
+                            alliance.get().value,
+                            location.getAsInt(),
                             mode.toString().toLowerCase(),
                             i);
 

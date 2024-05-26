@@ -54,8 +54,9 @@ public abstract class DecisionSequentialTask extends ControlTaskBase
 
     /**
      * Extension point that will be available so that child classes can decide what to do after any given task ends
+     * @param finishedTask the task that just finished executing
      */
-    protected void finishedTask()
+    protected void finishedTask(IControlTask finishedTask)
     {
     }
 
@@ -113,7 +114,7 @@ public abstract class DecisionSequentialTask extends ControlTaskBase
             if (this.currentTask.hasCompleted())
             {
                 this.currentTask.end();
-                this.finishedTask();
+                this.finishedTask(this.currentTask);
                 this.currentTask = null;
             }
             else if (this.currentTask.shouldCancel())

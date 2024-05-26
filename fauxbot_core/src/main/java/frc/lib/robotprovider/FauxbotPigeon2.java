@@ -23,11 +23,19 @@ public class FauxbotPigeon2 extends FauxbotIMU implements IPigeon2
         this.set(angleDeg);
     }
 
-    public void setYPRUpdatePeriod(int timeoutMs)
+    public void setGyroUpdatePeriod(int timeoutMs)
     {
     }
 
-    public void setGyroUpdatePeriod(int timeoutMs)
+    public void getRollPitchYawRates(double[] xyz_dps)
+    {
+    }
+
+    public void setYPRUpdateFrequency(double frequencyHz)
+    {
+    }
+
+    public void setRPYRateUpdateFrequency(double frequencyHz)
     {
     }
 }

@@ -43,16 +43,16 @@ abstract class FauxbotGameScreenBase implements Screen
         FauxbotCommonModule desiredModule = null;;
         switch (this.selectedSimulation)
         {
-            case Elevator:
-                desiredModule = new ElevatorFauxbotModule();
-                break;
-
             case Forklift:
                 desiredModule = new ForkliftFauxbotModule();
                 break;
 
             case GarageDoor:
                 desiredModule = new GarageDoorFauxbotModule();
+                break;
+
+            case Elevator:
+                desiredModule = new ElevatorFauxbotModule();
                 break;
 
             case Shooter:

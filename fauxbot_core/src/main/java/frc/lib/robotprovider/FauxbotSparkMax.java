@@ -90,19 +90,37 @@ public class FauxbotSparkMax extends FauxbotAdvancedMotorBase implements ISparkM
     }
 
     @Override
-    public void set(double newValue)
+    public void set(double value)
     {
-        if (this.currentMode == SparkMaxControlMode.Velocity)
+        this.set(this.currentMode, value, 0.0);
+    }
+
+    @Override
+    public void set(double value, double feedForward)
+    {
+        this.set(this.currentMode, value, feedForward);
+    }
+
+    @Override
+    public void set(SparkMaxControlMode controlMode, double value)
+    {
+        this.set(controlMode, value, 0.0);
+    }
+
+    @Override
+    public void set(SparkMaxControlMode controlMode, double value, double feedForward)
+    {
+        if (controlMode == SparkMaxControlMode.Velocity)
         {
-            super.set(this.pidHandler.calculateVelocity(newValue, innerEncoder.getRate()));
+            super.set(this.pidHandler.calculateVelocity(value, innerEncoder.getRate()) + feedForward);
         }
-        else if (this.currentMode == SparkMaxControlMode.Position)
+        else if (controlMode == SparkMaxControlMode.Position)
         {
-            super.set(this.pidHandler.calculatePosition(newValue, innerEncoder.get()));
+            super.set(this.pidHandler.calculatePosition(value, innerEncoder.get()) + feedForward);
         }
         else
         {
-            super.set(newValue);
+            super.set(value + feedForward);
         }
     }
 

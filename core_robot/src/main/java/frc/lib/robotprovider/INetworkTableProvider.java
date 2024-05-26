@@ -7,8 +7,7 @@ public interface INetworkTableProvider
     IDoubleSubscriber getNumberSlider(String title, double initialValue);
     IIntegerSubscriber getIntegerSlider(String title, int initialValue);
     IBooleanSubscriber getCheckbox(String title, boolean initialValue);
-    <V> ISendableChooser<V> getSendableChooser();
-    <V> void addChooser(String name, ISendableChooser<V> chooser);
+    <V> ISendableChooser<V> getSendableChooser(String name);
     IDoubleSubscriber getDoubleSubscriber(String key);
     IDoubleSubscriber getDoubleSubscriber(String key, double defaultValue);
     IBooleanSubscriber getBooleanSubscriber(String key);

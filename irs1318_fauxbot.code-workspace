@@ -4,16 +4,10 @@
 			"path": "core_robot"
 		},
 		{
-			"path": "fauxbot_common"
-		},
-		{
 			"path": "fauxbot_core"
 		},
 		{
 			"path": "fauxbot_desktop"
-		},
-		{
-			"path": "fauxbot_javafx"
 		}
 	],
 	"settings": {
@@ -28,15 +22,6 @@
 	"launch": {
 		"configurations": [
 			{
-				"type": "java",
-				"name": "Fauxbot JavaFX Debug",
-				"request": "launch",
-				"console": "internalConsole",
-				"stopOnEntry": false,
-				"mainClass": "Fauxbot",
-				"args": "",
-				"projectName": "fauxbot_javafx"
-			},			{
 				"type": "java",
 				"name": "Fauxbot libGDX Debug",
 				"request": "launch",

@@ -2,6 +2,10 @@ package frc.lib.robotprovider;
 
 public interface ISparkMax extends IMotor
 {
+    void set(double value);
+    void set(double value, double feedForward);
+    void set(SparkMaxControlMode controlMode, double value);
+    void set(SparkMaxControlMode controlMode, double value, double feedForward);
     void follow(ISparkMax sparkMax);
     void setControlMode(SparkMaxControlMode mode);
     void setAbsoluteEncoder();

@@ -5,7 +5,7 @@ pluginManagement {
     repositories {
         mavenLocal()
         gradlePluginPortal()
-        String frcYear = '2023'
+        String frcYear = '2024'
         File frcHome
         if (OperatingSystem.current().isWindows()) {
             String publicFolder = System.getenv('PUBLIC')
@@ -26,10 +26,11 @@ pluginManagement {
         }
     }
 }
+
+Properties props = System.getProperties();
+props.setProperty("org.gradle.internal.native.headers.unresolved.dependencies.ignore", "true");
 */
 
 include 'core_robot'
-include 'fauxbot_common'
 include 'fauxbot_core'
 include 'fauxbot_desktop'
-include 'fauxbot_javafx'

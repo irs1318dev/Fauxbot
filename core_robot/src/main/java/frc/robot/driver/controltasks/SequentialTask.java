@@ -18,7 +18,10 @@ public class SequentialTask extends DecisionSequentialTask
 
         for (IControlTask task : tasks)
         {
-            this.AppendTask(task);
+            if (task != null)
+            {
+                this.AppendTask(task);
+            }
         }
     }
 

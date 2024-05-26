@@ -40,20 +40,4 @@ public interface ICANCoder
      *            is spun counter-clockwise when observer is facing the LED side of CANCoder.
      */
     void configSensorDirection(boolean clockwisePositive);
-
-    /**
-     * Sets the signage and range of the "Absolute Position" signal.
-     * @param useZeroToThreeSixty whether to use a range of [0, 360), or [-180, 180)
-     */
-    void configAbsoluteRange(boolean useZeroToThreeSixty);
-
-    /**
-     * Adjusts the zero point for the absolute position register.
-     * The absolute position of the sensor will always have a discontinuity (360 -> 0 deg) or (+180 -> -180)
-     * and a hard-limited mechanism may have such a discontinuity in its functional range.
-     * In which case use this config to move the discontinuity outside of the function range.
-     * @param offsetDegrees
-     *            Offset in degrees (unit string and coefficient DO NOT apply for this config).
-     */
-    void configMagnetOffset(double offsetDegrees);
 }
