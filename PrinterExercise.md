@@ -1,7 +1,7 @@
 # Printer Exercise
 
 ## Introduction
-The goal of the Printer exercise is to get students used to writing code for a mechanism that has a lot of imprecision while running PID loops on TalonSRX motor controolers.  This printer behaves closest to how 3D printers works, but only in 2 dimensions - it has two motors to control the printer head travelling over the X and Y axis, plus a double-solenoid that controls pressing a pen to the surface of the paper.
+The goal of the Printer exercise is to get students used to writing code for a mechanism that has a lot of imprecision while running positional PID loops on TalonSRX motor controolers.  This printer behaves closest to how 3D printers works, but only in 2 dimensions - it has two motors to control the printer head travelling over the X and Y axis, plus a double-solenoid that controls pressing a pen to the surface of the paper.
 
 ## Implementing PrinterMechanism
 We'll now cover the basics that will need to be understood for implementing the PrinterMechanism.  More specific instructions exist in the [Robot Programming Guide](#/Robot%20Programming%20Guide.md)

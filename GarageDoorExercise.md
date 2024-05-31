@@ -1,7 +1,7 @@
 # GarageDoor Exercise
 
 ## Introduction
-The goal of the GarageDoor exercise is to introduce students to writing code for a non-trivial mechanism.  It is expected that students will have seen and operated a Garage Door in the past, and thus be familiar with the concept of a through-beam sensor and the way that the button works.
+The goal of the GarageDoor exercise is to introduce students to writing code for a non-trivial mechanism that controls a motor based on both driver inputs as well as sensors.  It is expected that students will have seen and operated a Garage Door in the past, and thus be familiar with the concept of a through-beam sensor and the way that the button works.
 
 ## Implementing GarageDoorMechanism
 We'll now cover the basics that will need to be understood for implementing the GarageDoorMechanism.  More specific instructions exist in the [Robot Programming Guide](#/Robot%20Programming%20Guide.md)

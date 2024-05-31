@@ -1,7 +1,7 @@
 # Forklift Exercise
 
 ## Introduction
-The goal of the Forklift exercise is to show possible things that could be required of a mechanism.
+The goal of the Forklift exercise is to introduce students to writing code for a mechanism using inputs from the driver to control motors and pneumatics.
 
 ## Implementing ForkliftMechanism
 We'll now cover the basics that will need to be understood for implementing the ForkliftMechanism.  More specific instructions exist in the [Robot Programming Guide](#/Robot%20Programming%20Guide.md)
@@ -14,7 +14,7 @@ The left DriveTrain motor controls movement on the left side of the DriveTrain. 
 The right DriveTrain motor controls movement on the right side of the DriveTrain.  You can assume that the positive direction moves forward and negative moves backwards.  The motor is connected to the RoboRIO's PWM channel 1.
 
 #### Lifter (DoubleSolenoid)
-The lifter for our purposes is a pneumatic piston DriveTrain motor controls the movement of the forklift part.  You can assume that the "forward" direction moves the lifter up and "reverse" direction moves the lifter down.  The forward direction is connected to PCM channel 7, and reverse direction is connected to PCM channel 8.
+The lifter for our purposes is a pneumatic piston which controls the movement of the forks.  You can assume that the "forward" direction moves the lifter up and "reverse" direction moves the lifter down.  The forward direction is connected to PCM channel 7, and reverse direction is connected to PCM channel 8.
 
 ### Sensors
 There are no sensors required for this exercise.

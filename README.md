@@ -10,5 +10,6 @@ Exercises for learning how to write code for robots with a UI.
 1. [Forklift](ForkliftExercise.md)
 2. [GarageDoor](GarageDoorExercise.md)
 3. [Elevator](ElevatorExercise.md)
-4. [Shooter](ShooterExercise.md)
-5. [Printer](PrinterExercise.md)
+4. [Printer](PrinterExercise.md)
+5. [Shooter](ShooterExercise.md)
+6. [PrinterMacro](PrinterMacroExercise.md)
