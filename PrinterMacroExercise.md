@@ -4,10 +4,10 @@
 The goal of the Printer Macro exercise is to introduce students to writing code for control tasks and macros in order to have the printer "robot" automatically draw something.
 
 ## Implementing Printer Macros
-First, make sure that you have implemented PrinterMechanism as a part of the PrinterMechanism exercise.  Also make sure that you indeed used the Positional PID mode on the X- and Y-axis TalonSRX motors.  I'll recommend a few pieces that you can implement in order to make this easier.  Some more specific instructions exist in the [Robot Programming Guide](#/Robot%20Programming%20Guide.md)
+First, make sure that you have implemented PrinterMechanism as a part of the [Printer exercise](#/PrinterExercise.md).  Also make sure that you indeed used the positional PID mode on the X- and Y-axis TalonSRX motors.  I'll recommend a few pieces that you can implement in order to make this easier.  Some more specific instructions exist in the [Robot Programming Guide](#/Robot%20Programming%20Guide.md)
 
 ## Update to PrinterMechanism
-You will want to update PrinterMechanism to have functions that return the current X and Y position from the encoders that are connected to the TalonSRX motor controllers.  Please make sure that the positions are read during readSensor(), stored in a class member variable, and returned by these functions.  Also, you should ensure that it is using Positional PID mode when controlling the Talon SRX motors.
+You will want to update PrinterMechanism to have "getter" functions that return the current X and Y position from the encoders that are connected to the TalonSRX motor controllers.  Please make sure that the positions are read during readSensor(), stored in a class member variable, and returned by these functions.  Also, you should ensure that the mechanism is using positional PID mode when controlling the Talon SRX motors.
 
 ### ControlTasks
 #### Pen Write task (extending from CompositeOperationTask)
