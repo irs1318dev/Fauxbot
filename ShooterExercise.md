@@ -3,6 +3,10 @@
 ## Introduction
 The goal of the Shooter exercise is to get students used to writing code for a mechanism that runs PID loops on TalonSRX motor controllers.  Some students will have seen a flywheel Shooter in the past.  This version will use positional PID for controlling the position of the "hood" which controls direction, will use velocity PID for controlling the speed of the flywheel, and will also have a pneumatic kicker that launches the ball into the flywheel.
 
+## Difficulty
+Programming: 2
+Robotics: 3 (Position, Velocity PID control on motor controller)
+
 ## Implementing ShooterMechanism
 We'll now cover the basics that will need to be understood for implementing the ShooterMechanism.  More specific instructions exist in the [Robot Programming Guide](#/Robot%20Programming%20Guide.md)
 

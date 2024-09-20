@@ -89,13 +89,105 @@ Examples of actuators include motors and pistons.
 
 Motors are devices that convert electrical power into rotational motion. They can move a variety of parts such as wheels, flywheels (for shooting things), electric fans, elevators, garage doors, linear actuators, and much more.
 
-Pistons are mechanisms powered by pneumatics or hydraulics, and utilize pressure to extend or retract. Pistons have binary states, as they are controlled by pressure of gas or sometimes liquid. So, for example,
+```java
+this.Imotor = 1.0;
+```
+This is an example of a motor running clockwise, at max power, which will not stop until a separate command is called, setting this motor to 0.0.
+**It MUST be a double, not an integer.** 
 
-Some piston-looking mechanisms may not actually be pistons, however, as there are mechanisms called linear actuators that look similar but have motorized control systems.
+```java
+this.Imotor = -1.0;
+```
+This is an exaple of the same motor, at the exact same speed, except it is running counter clockwise. The same principles apply, except it is a negative value, indicating a counter clockwise movement.
+
+Pistons are mechanisms powered by pneumatics or hydraulics, and utilize pressure to extend or retract. Pistons have binary states, like a minecraft piston as they are controlled by pressure of gas or sometimes liquid.
+
+```java
+this.piston.set(DoubleSolenoidValue.Forward);
+this.piston.set(DoubleSolenoidValue.Reverse);
+```
+This code extends the piston, and then immediately retracts it back to its original position.
+**Remember, the only two values for double solenoids are forward, and reverse.**
+
+Some piston-looking mechanisms may not actually be pistons, however, as there are mechanisms called linear actuators that look similar but have motorized control systems. Linear actuators are similar to pistons, in the sense that they extend, and retract, but, the linear actuators have electronic encoders, which measure the length extended, so you are able to control, the whole extend, and retraction, to any degree you like, allowing it to stop in between.
+
+```java
+this.linearActuator.setPosition(0.0);
+this.linearActuator.set(1.0);
+this.linearActuator.set(0.0);
+```
+This code demonstrates defining a linear actuator's start position, extending it, and retracting it. Setting the position (first line of code) essentially tells the system where the linear actuator is, so if it is fully retracted, it would be 0.0, and if was fully extended, it would be 1.0. Thus, when we set it to 1.0, it would extend the needed amount to reach the maximum limit of the actuator. Then, it retracts it back to 0.0, which it assumes to be the starting position. 
+**Be aware that unlike a piston, linear actuators have many possible positions. While we have used the range of *[0.0, 1.0]* for this example, it could be set to any measurable unit, such as an inch, a centimeter, or a milimeter.** 
 
 ### Sensors
 
 The word "sensor" encapsulates many different types of sensors, including limit switches, encoders, through-beam sensors, and distance sensors. Essentially, the word means "something that reports information." They sense certain behaviors of objects. One example a garage door's through beam sensor, that senses if something is in the way of the door closing and stops the door. Another example of a sensor is an encoder inside of a wheel, that counts how many times that wheel has spun. These are numbers that can be accessed in code and used to detect things such as if the robot is carrying cargo, or how far it has travelled.
+
+#### Limit Switches
+
+Limit switches are devices that determine when two physical things are touching. When they are touching, usually the switch will stop the motor from continuing to move in that direction, which will prevent damage to the motor, and other 
+components.
+
+#### Encoders
+
+Encoders in the simplest form of measure the movement of an actuator. They determine the distance that a motor has rotated, or the distance that a linear actuator has extended.
+
+#### Through-Beam Sensors
+
+This is one of the most simple sensors that is easy to break down. This sensor determines if an invisible beam has been broken, indicating a object is in the way. This is used for determining if an intake has something in it.
+
+#### Distance Sensors
+
+This sensor depicts how far the sensor is from another object. This can also be used to determine how far the sensor has moved, reading how many feet, meters etc. the sensor moved. There are many types, such as ultrasound, or light.
+
+### Other
+#### Logger
+
+A Logger takes information that is used and outputs it to one of three places:
+
+* The driver station console,
+* The smart-dashboard,
+* Into a file stored on the RoboRIO,
+
+It is in your best interest as a programmer to log all sensor information and most output information, to ensure that the robot is following its instructions. If an issue were to arise, the logged information will allow us to ascertain whether the issue is:
+
+1. A hardware problem (electronics, mechanical)
+**or**
+2. A software problem (logic, calculation)
+
+#### LED Lights
+
+LED lights are used as an indicator, specifically to indicate whether or not the robot (or certain mechanisms on the robot) are active. There are a number of ways that these lights can be controlled within WPILib, including, but not limited to:
+
+1. Using DigitalOutput
+2. A Solenoid slot on the PCM
+3. A Relay
+4. A Motor controller
+
+### User Input Devices
+#### Controllers
+
+The main type of user input device that we use are controllers with USB input. Our setup typically includes both the driver and the co-driver having their own controllers, and can each control different parts of the robot. **Note that the function of all the buttons on each of these controllers is defined in the ButtonMap.**
+
+##### Button Map:
+
+```java
+new AnalogOperationDescription(
+            AnalogOperation.DriveTrainMoveForward,
+            //Indicates the Analog Operation that the joystick should be mapped to
+            UserInputDevice.Driver,
+            //Defines the Controller that should be used, Driver in this case.
+            AnalogAxis.XBONE_LSY,
+            //Defines which button/joystick should be used for the analog operation.
+            ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
+            //Determine whether or not the left joystick's y axis is inverted.
+            -TuningConstants.DRIVETRAIN_DEAD_ZONE_VELOCITY_Y,
+            TuningConstants.DRIVETRAIN_DEAD_ZONE_VELOCITY_Y,
+            1.0,
+            //Determine the drivetrain's dead zone velocity.
+            TuningConstants.DRIVETRAIN_EXPONENTIAL),
+            //Determine the drivetrain mode.
+```
 
 
 ## RoboRIO

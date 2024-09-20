@@ -3,6 +3,10 @@
 ## Introduction
 The goal of the Printer Macro exercise is to introduce students to writing code for control tasks and macros in order to have the printer "robot" automatically draw something.
 
+## Difficulty
+Programming: 4 (implementing a control task class extending ControlTaskBase parent class)
+Robotics: 2 (macros)
+
 ## Implementing Printer Macros
 First, make sure that you have implemented PrinterMechanism as a part of the [Printer exercise](#/PrinterExercise.md).  Also make sure that you indeed used the positional PID mode on the X- and Y-axis TalonSRX motors.  I'll recommend a few pieces that you can implement in order to make this easier.  Some more specific instructions exist in the [Robot Programming Guide](#/Robot%20Programming%20Guide.md)
 

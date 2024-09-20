@@ -3,6 +3,10 @@
 ## Introduction
 The goal of the Elevator exercise is to introduce students to writing code for a mechanism that uses a PID controller.  It is expected that students will have seen an Elevator in the past.  Unlike a real Elevator, this version will only pay attention the the last-pressed floor button and won't schedule visits to several floors.
 
+## Difficulty
+Programming: 2 (using inputs from sensors, processing them, using them in outputs)
+Robotics: 3 (input from sensors, Position PID control in PIDHandler object)
+
 ## Implementing ElevatorMechanism
 We'll now cover the basics that will need to be understood for implementing the ElevatorMechanism.  More specific instructions exist in the [Robot Programming Guide](#/Robot%20Programming%20Guide.md)
 
