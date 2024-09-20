@@ -3,6 +3,10 @@
 ## Introduction
 The goal of the Forklift exercise is to introduce students to writing code for a mechanism using inputs from the driver to control motors and pneumatics.
 
+## Difficulty
+Programming: 1
+Robotics: 1
+
 ## Implementing ForkliftMechanism
 We'll now cover the basics that will need to be understood for implementing the ForkliftMechanism.  More specific instructions exist in the [Robot Programming Guide](#/Robot%20Programming%20Guide.md)
 
