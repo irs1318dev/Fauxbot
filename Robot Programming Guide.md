@@ -233,17 +233,17 @@ The [NavX MXP](http://www.pdocs.kauailabs.com/navx-mxp/software/) has a library 
 ### Setting up your Environment
 To prepare your computer for Robot programming with our team, you will need to follow the following steps:
 1. Installing everything:
-   1. Install development environment.  Run the [WPILib installer](https://github.com/wpilibsuite/allwpilib/releases) to install WPI's special version of VS Code, the JDK, WPILib, and other dependencies.  Be sure to select the version appropriate for your operating system.  You could alternatively choose not to install all of the FIRST system and just install and set up JDK 11 on your own.
+   1. Install development environment.  There are two options, either installing the WPILib VS Code along with other WPILib tools, or just installing and configuring the most recent "Long-Term Support" version of the JDK.
+      1. To install WPILib VS Code, run the [WPILib installer](https://github.com/wpilibsuite/allwpilib/releases).  It will install WPI's special version of VS Code, the JDK, WPILib library dependencies, other dependencies, and some special tools.  Be sure to select the version appropriate for your operating system.
+      2. To install the latest "Long-Term Support" JDK (17, 21, ...), download the correct installer for your operating system from [Oracle's JDK page](https://www.oracle.com/java/technologies/downloads/).  You will then need to configure the JAVA_HOME environment variable, in "Configuraing things" step 2 below.
    2. Install regular VS Code.  Run the [VS Code Installer](https://code.visualstudio.com/) to install the regular version of VS Code.  Be sure to select the version appropriate for your operating system.
    3. Install Git.  Run the [Git installer](https://git-scm.com/downloads) to install the Git client.  Be sure to select the version appropriate for your operating system.
    4. Install the Java Extension Pack for VS Code.  In VS Code, open the extensions side bar by either clicking on the corresponding icon or clicking View --> Open View..., typing "Extensions", and selecting "Extensions" (side bar).  Within the Extensions side bar, search for the "Java Extension Pack" published by Microsoft, and then click to install it.  Optionally, I would also recommend installing the "Live Share Extension Pack" published by Microsoft.
    5. Install GitHub Desktop (optional).  Our team uses GitHub as the host for our source control system, so if you are more comfortable having a GUI for interacting with it, then GitHub Desktop will be the best supported.  Install the appropriate version of [GitHub Desktop](https://desktop.github.com/) for your operating system.
-   6. Install NAVX MXP UI (optional).  Run the [KuauiLabs navX-MXP installer](https://pdocs.kauailabs.com/navx-mxp/software/navx-mxp-ui/).  I believe that this is Windows-only.
-   7. Install CTRE Phoenix (optional).  Run the [CTRE Phoenix installer](http://www.ctr-electronics.com/control-system/hro.html#product_tabs_technical_resources).  I believe that this is Windows-only.
-   8. Install Spark MAX client application (optional).  Run the [Spark MAX Client installer](http://www.revrobotics.com/sparkmax-software/#spark-max-client-application).  I believe that this is Windows-only.
 2. Configuring things:
    1. Git uses VIM as the default text editor for commit messages.  Normal people not very familiar with VIM usage, so it is strongly recommended to change to a more normal windowed application as VIM can be very confusing for beginners.  I would recommend switching to use VS Code as your editor and default diff tool.
       1. Use VS Code as your default text editor by running ```git config --global core.editor "code --wait"``` from a Command Prompt window.
+         1. If you are on a non-Windows system, you may need to make sure that running the command "code" from the command line (Terminal) successfully opens VS Code.  If it does not, Open VS Code, then open its command window (CTRL+P on Linux, COMMAND+P on Mac??), type "> path" into the window that appears, and select the option that mentions updating "path" or installing the "code" command for opening VS Code.
       2. Modify your Global settings by running ```git config --global -e```, and then adding the following entries to the end of the file:
       ```
       [diff]
@@ -256,7 +256,7 @@ To prepare your computer for Robot programming with our team, you will need to f
       2. Click the option that says "Edit the system environment variables".  
       3. Click the "Environment Variables..." button at the bottom of the window.
       4. Within the "System variables" section, click the "New..." button.
-      5. In the "New System Variable" dialog, use the Variable name "JAVA_HOME" and value "C:\Program Files\Java\jdk-11", then click Ok.
+      5. In the "New System Variable" dialog, use the Variable name "JAVA_HOME" and value "C:\Program Files\Java\jdk-21", then click Ok.
       6. Click ok to close the Environment Variables and System Properties windows.
       7. Restart your computer.
 3. Get the code onto your local machine.
