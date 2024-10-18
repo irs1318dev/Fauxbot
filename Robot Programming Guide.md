@@ -243,6 +243,7 @@ To prepare your computer for Robot programming with our team, you will need to f
 2. Configuring things:
    1. Git uses VIM as the default text editor for commit messages.  Normal people not very familiar with VIM usage, so it is strongly recommended to change to a more normal windowed application as VIM can be very confusing for beginners.  I would recommend switching to use VS Code as your editor and default diff tool.
       1. Use VS Code as your default text editor by running ```git config --global core.editor "code --wait"``` from a Command Prompt window.
+         1. If you are on a non-Windows system, you may need to make sure that running the command "code" from the command line (Terminal) successfully opens VS Code.  If it does not, Open VS Code, then open its command window (CTRL+P on Linux, COMMAND+P on Mac??), type "> path" into the window that appears, and select the option that mentions updating "path" or installing the "code" command for opening VS Code.
       2. Modify your Global settings by running ```git config --global -e```, and then adding the following entries to the end of the file:
       ```
       [diff]
