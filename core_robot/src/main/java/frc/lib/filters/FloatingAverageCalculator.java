@@ -4,6 +4,9 @@ import frc.lib.helpers.ExceptionHelpers;
 import frc.lib.helpers.Helpers;
 import frc.lib.robotprovider.ITimer;
 
+/**
+ * A floating-average calculator filter, where it will collect the weighted-average of the raw value over the look-back period to return the filtered value
+ */
 public class FloatingAverageCalculator implements ISimpleFilter
 {
     private static final double RECALC_PERIOD = 1.0;
@@ -53,8 +56,10 @@ public class FloatingAverageCalculator implements ISimpleFilter
         this.reset();
     }
 
-    /*
-     * Provides a sample to add to the array
+    /**
+     * Updates the filter and returns the filtered value
+     * @param value raw, without any filtering
+     * @return filtered value
      */
     public double update(double value)
     {
@@ -116,11 +121,18 @@ public class FloatingAverageCalculator implements ISimpleFilter
         return this.floatingAverage;
     }
 
+    /**
+     * Retrieve the most recent filtered value
+     * @return the filtered value after the last update
+     */
     public double getValue()
     {
         return this.floatingAverage;
     }
 
+    /**
+     * Resets this filter to accomodate a gap in time
+     */
     public void reset()
     {
         this.lastRecalcTime = -1.0;

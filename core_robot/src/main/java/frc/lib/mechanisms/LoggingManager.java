@@ -8,16 +8,28 @@ import frc.robot.LoggingKey;
 import frc.robot.SettingsManager;
 import frc.lib.robotprovider.*;
 
+/**
+ * Logging manager class, to help log data to Shuffleboard/SmartDashboard/AdvantageKit/etc.
+ */
 @Singleton
 public class LoggingManager implements ILogger
 {
     private ILogger currentLogger;
 
+    /**
+     * Initializes a new instance of the LoggingManager class.
+     * Guice constructor.
+     */
     @Inject
     public LoggingManager()
     {
     }
 
+    /**
+     * Initializes a new instance of the LoggingManager class.
+     * Unit-test constructor
+     * @param logger to use
+     */
     public LoggingManager(ILogger logger)
     {
         this.currentLogger = logger;
@@ -25,6 +37,7 @@ public class LoggingManager implements ILogger
 
     /**
      * Refresh the current logger that is being used based on the logger creator function
+     * @param injector to use to get the appropriate logger
      */
     public void refresh(Injector injector)
     {
@@ -65,7 +78,7 @@ public class LoggingManager implements ILogger
     }
 
     /**
-     * Write a number (Double) to the log
+     * Write a number (nullable Double) to the log
      * @param key to write to
      * @param value to write
      */
@@ -87,7 +100,7 @@ public class LoggingManager implements ILogger
     }
 
     /**
-     * Write a number (integer) to the log
+     * Write a number (nullable Integer) to the log
      * @param key to write to
      * @param value to write
      */

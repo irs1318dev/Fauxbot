@@ -7,6 +7,9 @@ import frc.lib.helpers.ExceptionHelpers;
 import frc.lib.robotprovider.IJoystick;
 import frc.robot.driver.Shift;
 
+/**
+ * Describes a modifier that will change the behavior of the buttons/axes on the controller device.
+ */
 public class ShiftDescription
 {
     private final Shift shift;
@@ -17,16 +20,36 @@ public class ShiftDescription
     private final double userInputDeviceAxisRangeMin;
     private final double userInputDeviceAxisRangeMax;
 
+    /**
+     * Initializes a new ShiftDescription based on a user interaction
+     * @param shift the identity of the shift being described
+     * @param userInputDevice which device will indicate the shift (driver or codriver joystick) 
+     * @param userInputDeviceButton the button on the device that performs the shift
+     */
     public ShiftDescription(Shift shift, UserInputDevice userInputDevice, UserInputDeviceButton userInputDeviceButton)
     {
         this(shift, userInputDevice, userInputDeviceButton, -1, AnalogAxis.NONE, 0.0, 0.0);
     }
 
+    /**
+     * Initializes a new ShiftDescription based on a user interaction
+     * @param shift the identity of the shift being described
+     * @param userInputDevice which device will indicate the shift (driver or codriver joystick) 
+     * @param povValue the value of the POV (hat) used to perform the shift
+     */
     public ShiftDescription(Shift shift, UserInputDevice userInputDevice, int povValue)
     {
         this(shift, userInputDevice, UserInputDeviceButton.POV, povValue, AnalogAxis.NONE, 0.0, 0.0);
     }
 
+    /**
+     * Initializes a new ShiftDescription based on a user interaction on an axis
+     * @param shift the identity of the shift being described
+     * @param userInputDevice which device will indicate the shift (driver or codriver joystick)
+     * @param analogAxis the analog axis used to perform the shift
+     * @param axisRangeMinValue the min value of the range that triggers the shift
+     * @param axisRangeMaxValue the max value of the range that triggers the shift
+     */
     public ShiftDescription(
         Shift shift,
         UserInputDevice userInputDevice,

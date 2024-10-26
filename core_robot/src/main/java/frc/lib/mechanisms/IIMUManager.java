@@ -1,5 +1,8 @@
 package frc.lib.mechanisms;
 
+/**
+ * Generic interface for interacting with an IMU (Inertial Measurement Unit)
+ */
 public interface IIMUManager extends IMechanism
 {
     /**

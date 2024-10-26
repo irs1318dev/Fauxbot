@@ -256,16 +256,29 @@ public class PIDHandler
         return this.output;
     }
 
+    /**
+     * Gets the last-calculated output from the PID calculation
+     * 
+     * @return the most recent output of calculatePosition/calculateVelocity
+     */
     public double getOutput()
     {
         return this.output;
     }
 
+    /**
+     * Gets the last-calculated error from the PID calculation
+     * 
+     * @return the most recent error calue from calculatePosition/calculateVelocity
+     */
     public double getError()
     {
         return this.prevError;
     }
 
+    /**
+     * Resets the PIDHandler to account for gaps in time (e.g. Robot disabled)
+     */
     public void reset()
     {
         this.prevError = 0.0;

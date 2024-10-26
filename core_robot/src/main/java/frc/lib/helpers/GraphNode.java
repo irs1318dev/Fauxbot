@@ -2,6 +2,10 @@ package frc.lib.helpers;
 
 import java.util.ArrayList;
 
+/**
+ * Base class for a node in a weighted graph.
+ * See: Graph.java
+ */
 public abstract class GraphNode
 {
     final ArrayList<GraphLink> edgesFrom;

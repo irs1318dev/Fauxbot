@@ -2,7 +2,6 @@ package frc.lib.driver.buttons;
 
 /**
  * Interface for different types of button to handle how the code responds to user input devices.
- * 
  */
 public interface IButton
 {

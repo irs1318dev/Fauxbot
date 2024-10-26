@@ -5,7 +5,7 @@ import frc.lib.driver.descriptions.UserInputDevice;
 import frc.robot.driver.*;
 
 /**
- * Interface describing the Driver that operates the robot.  This is either autonomous or teleop/user driver.
+ * Interface describing the Driver that operates the robot.  This is either autonomous or teleop/user driver in the real world, a mock for unit tests, or a fake for Fauxbot.
  *
  */
 public interface IDriver

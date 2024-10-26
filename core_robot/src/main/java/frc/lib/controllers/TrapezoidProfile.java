@@ -20,11 +20,24 @@ public class TrapezoidProfile
     private final double decelMaxDuration; // amount of time it takes to decelerate from max velocity
     private final double decelMaxDist; // distance traveled while decelerating from max velocity
 
+    /**
+     * Initializes a new instance of the TrapezoidProfile class.
+     * 
+     * @param maxVel the maximum velocity that should be used, in units/second
+     * @param maxAccel the maximum acceleration/deceleration that should be used, in units/second/second
+     */
     public TrapezoidProfile(double maxVel, double maxAccel)
     {
         this(maxVel, maxAccel, maxAccel);
     }
 
+    /**
+     * Initializes a new instance of the TrapezoidProfile class.
+     * 
+     * @param maxVel the maximum velocity that should be used, in units/second
+     * @param maxAccel the maximum acceleration that should be used, in units/second/second
+     * @param maxDecel the maximum deceleration that should be used, in units/second/second
+     */
     public TrapezoidProfile(double maxVel, double maxAccel, double maxDecel)
     {
         ExceptionHelpers.Assert(maxVel > 0.0, "Max velocity must be positive");
@@ -44,8 +57,8 @@ public class TrapezoidProfile
 
     /**
      * Updates the curr position into the desired position after a given time delta since the last update.
-     * It modifies and returns the curr instead of allocating another one for performance reasons.
-     * @param timeDelta from the last update cycle
+     * It modifies and returns the curr (instead of allocating another one) for performance reasons.
+     * @param timeDelta from the last update cycle, in seconds
      * @param curr current position, velocity
      * @param goal desired final/end position, velocity
      * @return true if we still have more progress to make, false if it was already at the goal
@@ -168,27 +181,48 @@ public class TrapezoidProfile
         return inProgress;
     }
 
+    /**
+     * Object containing the position and velocity at a given moment of time
+     */
     public static class State
     {
         private double position;
         private double velocity;
 
+        /**
+         * Initializes a new instance of the State class.
+         * @param position at the current moment of time
+         * @param velocity at the current moment of time
+         */
         public State(double position, double velocity)
         {
             this.position = position;
             this.velocity = velocity;
         }
 
+        /**
+         * Retrieve the position
+         * @return the position
+         */
         public double getPosition()
         {
             return this.position;
         }
 
+        /**
+         * Retrieve the velocity
+         * @return the velocity
+         */
         public double getVelocity()
         {
             return this.velocity;
         }
 
+        /**
+         * Updates the position for this state
+         * @param position to apply, in units
+         * @return true if the position has meaningfully changed
+         */
         public boolean updatePosition(double position)
         {
             if (Helpers.RoughEquals(this.position, position, 1e-5))
@@ -200,6 +234,10 @@ public class TrapezoidProfile
             return true;
         }
 
+        /**
+         * Updates the velocity for this state
+         * @param velocity to apply, in units/sec
+         */
         public void setVelocity(double velocity)
         {
             this.velocity = velocity;

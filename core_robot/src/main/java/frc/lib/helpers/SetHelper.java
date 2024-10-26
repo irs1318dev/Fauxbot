@@ -4,6 +4,10 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Helper functions for interacting with sets of various kinds, such as EnumSet and regular Set.
+ * https://en.wikipedia.org/wiki/Set_(mathematics)
+ */
 public class SetHelper
 {
     /**

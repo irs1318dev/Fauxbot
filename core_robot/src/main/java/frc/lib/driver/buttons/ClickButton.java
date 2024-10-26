@@ -1,7 +1,7 @@
 package frc.lib.driver.buttons;
 
 /**
- * Defines a simple button that activates when clicked and deactivates when measured
+ * Defines a simple button that activates when clicked and remains activated for exactly one update cycle
  * 
  * Register on press behavior:
  * 

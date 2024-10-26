@@ -2,6 +2,9 @@ package frc.lib.robotprovider;
 
 import frc.robot.LoggingKey;
 
+/**
+ * Class to make it easier to log to multiple ILoggers
+ */
 public class MultiLogger implements ILogger
 {
     private final ILogger[] loggers;

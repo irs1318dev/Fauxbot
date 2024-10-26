@@ -1,5 +1,10 @@
 package frc.lib.helpers;
 
+/**
+ * Helper class to provide bilinear interpolation.
+ * Basically, given a 2-dimensional space (e.g. an x/y grid) with samples taken at various points, calculates the weighted average of any location between those samples
+ * See: https://en.wikipedia.org/wiki/Bilinear_interpolation
+ */
 public class BilinearInterpolator
 {
     private final double[] xSamplePoints;
@@ -7,6 +12,12 @@ public class BilinearInterpolator
 
     private final double[][] samples;
 
+    /**
+     * Initializes a new instance of the BilinearInterpolator class.
+     * @param xSamplePoints array of locations where samples were taken along the x axis
+     * @param ySamplePoints array of locations where samples were taken along the y axis
+     * @param samples 2-dimensional array of samples taken at the provided x and y locations
+     */
     public BilinearInterpolator(double[] xSamplePoints, double[] ySamplePoints, double[][] samples)
     {
         ExceptionHelpers.Assert(xSamplePoints != null && xSamplePoints.length != 0, "xSamplePoints cannot be null!");
@@ -30,6 +41,12 @@ public class BilinearInterpolator
         }
     }
 
+    /**
+     * Retrieve the best sample for the given position/location
+     * @param x position/location
+     * @param y position/location
+     * @return value using bilinear interpolation of the samples closest to x/y
+     */
     public double sample(double x, double y)
     {
         int row1 = 0;

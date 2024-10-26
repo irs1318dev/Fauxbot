@@ -1,5 +1,8 @@
 package frc.lib.robotprovider;
 
+/**
+ * The type of match the robot may participate in
+ */
 public enum MatchType
 {
     None("N"),

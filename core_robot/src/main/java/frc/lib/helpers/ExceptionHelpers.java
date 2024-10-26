@@ -2,6 +2,9 @@ package frc.lib.helpers;
 
 import frc.robot.TuningConstants;
 
+/**
+ * Helper functions for Exceptions
+ */
 public class ExceptionHelpers
 {
     /**
@@ -31,6 +34,11 @@ public class ExceptionHelpers
         }
     }
 
+    /**
+     * Generate a string including the exception message as well as the callstack
+     * @param ex to generate string for
+     * @return generated string about the exception
+     */
     public static String exceptionString(Exception ex)
     {
         StringBuilder b = new StringBuilder();

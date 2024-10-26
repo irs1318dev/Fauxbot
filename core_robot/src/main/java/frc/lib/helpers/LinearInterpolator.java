@@ -1,10 +1,20 @@
 package frc.lib.helpers;
 
+/**
+ * Helper class to provide linear interpolation.
+ * Basically, given a 1-dimensional space (e.g. points along an axis) with samples taken at various points, calculates the weighted average of any location between those samples
+ * See: https://en.wikipedia.org/wiki/Linear_interpolation
+ */
 public class LinearInterpolator
 {
     private final double[] samplePoints;
     private final double[] samples;
 
+    /**
+     * Initializes a new instance of the LinearInterpolator class.
+     * @param samplePoints array of locations where samples were taken
+     * @param samples array of samples taken at the provided locations
+     */
     public LinearInterpolator(double[] samplePoints, double[] samples)
     {
         ExceptionHelpers.Assert(samplePoints != null && samples.length != 0, "samplePoints cannot be null or empty!");
@@ -15,6 +25,11 @@ public class LinearInterpolator
         this.samples = samples;
     }
 
+    /**
+     * Retrieve the best sample for the given position/location
+     * @param value position/location
+     * @return value using linear interpolation of the samples closest to value
+     */
     public double sample(double value)
     {
         int idx1 = 0;
