@@ -1,5 +1,8 @@
 package frc.lib.robotprovider;
 
+/**
+ * Represents a rotation goal that the robot should achieve as a part of running through a trajectory
+ */
 public class PathPlannerRotationTarget implements IPathPlannerGoal
 {
     public final double orientation;

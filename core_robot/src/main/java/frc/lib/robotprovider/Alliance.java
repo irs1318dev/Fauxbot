@@ -1,8 +1,10 @@
 package frc.lib.robotprovider;
 
+/**
+ * The alliance of the robot
+ */
 public enum Alliance
 {
-    Invalid("I"),
     Red("R"),
     Blue("B");
 

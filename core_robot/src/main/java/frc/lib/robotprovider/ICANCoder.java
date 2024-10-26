@@ -1,5 +1,8 @@
 package frc.lib.robotprovider;
 
+/**
+ * Represents a CANCoder device
+ */
 public interface ICANCoder
 {
     /**

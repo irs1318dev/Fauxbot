@@ -2,6 +2,9 @@ package frc.lib.robotprovider;
 
 import java.util.OptionalDouble;
 
+/**
+ * Represents a waypoint along a trajectory that the robot should drive through
+ */
 public class PathPlannerWaypoint implements IPathPlannerGoal
 {
     public final double x;

@@ -16,11 +16,21 @@ public class ButtonMapVerifier
         ButtonMapVerifier.Verify(new ButtonMap(), true, true);
     }
 
+    /**
+     * Verify the button map according the the rules to ensure that there is no overlap
+     * @param buttonMap to verify
+     */
     public static void Verify(IButtonMap buttonMap)
     {
         ButtonMapVerifier.Verify(buttonMap, true, false);
     }
 
+    /**
+     * Verify the button map according the the rules to ensure that there is no overlap
+     * @param buttonMap to verify
+     * @param failOnError whether to throw an exception if there is a failed rule
+     * @param printMapping whether to print the mapping of buttons to operations
+     */
     public static void Verify(IButtonMap buttonMap, boolean failOnError, boolean printMapping)
     {
         EnumSet<DigitalOperation> digitalOperations = EnumSet.noneOf(DigitalOperation.class);

@@ -1,5 +1,8 @@
 package frc.lib.robotprovider;
 
+/**
+ * The desired state of a robot following a trajectory at some point in time
+ */
 public class TrajectoryState
 {
     public final double xPosition; // in inches

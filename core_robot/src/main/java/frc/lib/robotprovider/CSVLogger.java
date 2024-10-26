@@ -6,6 +6,9 @@ import java.util.Arrays;
 
 import frc.robot.LoggingKey;
 
+/**
+ * Logs data into a CSV (comma-separated values) file that is saved to the provided location.
+ */
 public class CSVLogger extends StringLogger
 {
     private final IFileWriter fileWriter;

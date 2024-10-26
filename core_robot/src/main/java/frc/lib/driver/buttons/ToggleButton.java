@@ -1,7 +1,7 @@
 package frc.lib.driver.buttons;
 
 /**
- * Defines a simple button that switches between true and false.
+ * Defines a simple button that switches between activated/deactivated each time it is pressed (from released)
  * 
  * Toggle on press behavior:
  * 

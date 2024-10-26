@@ -1,5 +1,8 @@
 package frc.lib.helpers;
 
+/**
+ * Helper functions and constants
+ */
 public class Helpers
 {
     // Conversion constants...

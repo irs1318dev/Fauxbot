@@ -1,5 +1,8 @@
 package frc.lib.robotprovider;
 
+/**
+ * Represents a Pigeon2 IMU device
+ */
 public interface IPigeon2
 {
     /**

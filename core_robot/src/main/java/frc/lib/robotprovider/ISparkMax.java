@@ -1,5 +1,8 @@
 package frc.lib.robotprovider;
 
+/**
+ * Represents a SparkMax motor controller
+ */
 public interface ISparkMax extends IMotor
 {
     void set(double value);

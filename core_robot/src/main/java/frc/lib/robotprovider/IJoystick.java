@@ -1,5 +1,8 @@
 package frc.lib.robotprovider;
 
+/**
+ * Represents some kind of joystick or controller used for the robot
+ */
 public interface IJoystick
 {
     /**

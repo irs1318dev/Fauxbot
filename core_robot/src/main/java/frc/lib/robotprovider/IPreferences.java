@@ -2,6 +2,9 @@ package frc.lib.robotprovider;
 
 import java.util.Collection;
 
+/**
+ * Represents a Preferences dictionary from NetworkTables
+ */
 public interface IPreferences
 {
     /**

@@ -11,7 +11,7 @@ public enum UserInputDevice
     Codriver(1),
     Test1(2),
     Test2(3),
-    MaxCount(4);
+    MaxCount(4); // Note: MaxCount must be the last of the user input devices listed
 
     private final int joystickId;
     private UserInputDevice(int joystickId)

@@ -10,7 +10,6 @@ import frc.robot.driver.Shift;
 
 /**
  * Describes an operation that will give a boolean (true or false) value.
- * 
  */
 public class DigitalOperationDescription extends OperationDescription<DigitalOperation>
 {

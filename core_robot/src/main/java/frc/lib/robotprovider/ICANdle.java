@@ -1,5 +1,8 @@
 package frc.lib.robotprovider;
 
+/**
+ * Represents a CANdle device
+ */
 public interface ICANdle
 {
     /**

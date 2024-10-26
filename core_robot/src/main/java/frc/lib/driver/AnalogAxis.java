@@ -3,6 +3,8 @@ package frc.lib.driver;
 /**
  * All constants that describe how the name of each axis on the joystick maps to its axis number.
  * 
+ * All values are continuous -1.0 to 1.0, unless stated otherwise**
+ * 
  * Axis guide:
  * -----------------------
  * Logitech Xtreme 3D Pro:
@@ -10,11 +12,6 @@ package frc.lib.driver;
  * 1 - Y (stick, Y)
  * 2 - Twist (stick, twist)
  * 3 - Throttle: -1 to 1
- * -----------------------
- * Razer Tartarus button pad
- * 0 - DPAD X (all or nothing: -1, 0, or 1)
- * 1 - DPAD Y (all or nothing: -1, 0, or 1)
- * 2 - Thumb button (all or nothing: 0 or 1)
  * -----------------------
  * XBox One Controller (and Logitech F310):
  * 0 - LS_X (left stick, X)
@@ -35,19 +32,22 @@ package frc.lib.driver;
 public enum AnalogAxis
 {
     NONE(-1),
+
+    // Logitech Xtreme 3D Pro joystick axes
     JOYSTICK_X(0),
     JOYSTICK_Y(1),
     JOYSTICK_TWIST(2),
     JOYSTICK_THROTTLE(3),
-    BUTTONPAD_DPAD_X(0),
-    BUTTONPAD_DPAD_Y(1),
-    BUTTONPAD_THUMB_BUTTON(1),
+
+    // Xbox One controller axes
     XBONE_LSX(0),
     XBONE_LSY(1),
     XBONE_LT(2),
     XBONE_RT(3),
     XBONE_RSX(4),
     XBONE_RSY(5),
+
+    // PlayStation 4 controller axes
     PS4_LSX(0),
     PS4_LSY(1),
     PS4_LT(3),
@@ -55,6 +55,9 @@ public enum AnalogAxis
     PS4_RSX(2),
     PS4_RSY(5);
 
+    /**
+     * The WPILIB "value" of the given axis
+     */
     public final int Value;
     private AnalogAxis(int value)
     {

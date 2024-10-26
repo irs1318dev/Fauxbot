@@ -4,6 +4,9 @@ import frc.lib.helpers.ExceptionHelpers;
 import frc.lib.helpers.Helpers;
 import frc.lib.robotprovider.ITimer;
 
+/**
+ * A slew-rate limiting filter, where it will adjust the output value based on the constraints so that the value doesn't increase/decrease at too fast a rate
+ */
 public class SlewRateLimiter implements ISimpleFilter
 {
     private final double maxPositiveRate;
@@ -36,8 +39,10 @@ public class SlewRateLimiter implements ISimpleFilter
         this.prevTime = 0.0;
     }
 
-    /*
-     * re-asses the value to use based on a new input
+    /**
+     * Updates the filter and returns the filtered value
+     * @param value raw, without any filtering
+     * @return filtered value
      */
     public double update(double value)
     {
@@ -63,11 +68,18 @@ public class SlewRateLimiter implements ISimpleFilter
         return this.prevValue;
     }
 
+    /**
+     * Retrieve the most recent filtered value
+     * @return the filtered value after the last update
+     */
     public double getValue()
     {
         return this.prevValue;
     }
 
+    /**
+     * Resets this filter to accomodate a gap in time
+     */
     public void reset()
     {
         this.prevValue = this.initialValue;

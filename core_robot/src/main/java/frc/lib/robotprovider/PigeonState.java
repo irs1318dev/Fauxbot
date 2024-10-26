@@ -1,5 +1,8 @@
 package frc.lib.robotprovider;
 
+/**
+ * The possible states that a Pigeon IMU can have
+ */
 public enum PigeonState
 {
     Unknown(-1),

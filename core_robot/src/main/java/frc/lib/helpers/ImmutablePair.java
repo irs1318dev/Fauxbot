@@ -5,9 +5,21 @@ package frc.lib.helpers;
  */
 public class ImmutablePair<T1, T2>
 {
+    /**
+     * the first value in the pair
+     */
     public final T1 first;
+
+    /**
+     * the second value in the pair
+     */
     public final T2 second;
 
+    /**
+     * Initializes a new instance of the ImmutablePair class, holding two values and not allowing them to be changed.
+     * @param first value to hold
+     * @param second value to hold
+     */
     public ImmutablePair(T1 first, T2 second)
     {
         this.first = first;

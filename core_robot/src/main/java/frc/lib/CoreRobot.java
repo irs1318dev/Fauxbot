@@ -26,7 +26,6 @@ import com.google.inject.Injector;
  * - Mechanisms - define the logic that controls a mechanism given inputs/outputs.
  * - Logger - defines what should be logged and to where (dashboard, etc.).
  * 
- * @author Will
  */
 public class CoreRobot<T extends AbstractModule>
 {

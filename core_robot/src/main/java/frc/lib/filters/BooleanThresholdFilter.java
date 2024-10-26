@@ -1,5 +1,8 @@
 package frc.lib.filters;
 
+/**
+ * Provides a simple threshold that will maintain the current value until the value has been consistently different for the certain number of times
+ */
 public class BooleanThresholdFilter
 {
     private int updateThreshold;
@@ -7,12 +10,21 @@ public class BooleanThresholdFilter
     private int updates;
     private boolean currentValue;
 
+    /**
+     * Initializes a new instance of the BooleanThresholdFilter class.
+     * @param threshold number of times the value must be different before changing
+     */
     public BooleanThresholdFilter(int threshold)
     {
         this.updateThreshold = threshold;
         this.currentValue = false;
     }
 
+    /**
+     * Updates the filter and returns the filtered value
+     * @param value without any filtering
+     * @return filtered value
+     */
     public boolean update(boolean value)
     {
         if (this.currentValue == value)
@@ -32,6 +44,10 @@ public class BooleanThresholdFilter
         return this.currentValue;
     }
 
+    /**
+     * Change the threhold to use for this filter going forward
+     * @param threshold to use
+     */
     public void setThreshold(int threshold)
     {
         this.updateThreshold = threshold;

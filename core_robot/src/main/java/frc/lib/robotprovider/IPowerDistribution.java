@@ -1,5 +1,8 @@
 package frc.lib.robotprovider;
 
+/**
+ * Represents a PowerDistributionHub (or PowerDistributionPanel) device
+ */
 public interface IPowerDistribution
 {
     /**
