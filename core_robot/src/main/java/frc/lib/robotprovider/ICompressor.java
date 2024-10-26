@@ -1,5 +1,8 @@
 package frc.lib.robotprovider;
 
+/**
+ * Represents interactions with a Compressor plugged into a Pneumatics Control Module or Pneumatics Hub
+ */
 public interface ICompressor
 {
     /**

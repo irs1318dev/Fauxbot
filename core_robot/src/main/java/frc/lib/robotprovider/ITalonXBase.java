@@ -1,5 +1,8 @@
 package frc.lib.robotprovider;
 
+/**
+ * Represents a TalonSRX/TalonFX motor controller
+ */
 public interface ITalonXBase extends IMotor
 {
     void setSelectedSlot(int slotId);

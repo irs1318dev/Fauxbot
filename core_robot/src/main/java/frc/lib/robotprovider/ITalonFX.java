@@ -1,5 +1,8 @@
 package frc.lib.robotprovider;
 
+/**
+ * Represents a TalonFX motor controller
+ */
 public interface ITalonFX extends ITalonXBase
 {
     void set(double value);

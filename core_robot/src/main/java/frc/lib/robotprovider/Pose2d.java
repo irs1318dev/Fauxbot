@@ -1,5 +1,8 @@
 package frc.lib.robotprovider;
 
+/**
+ * A representation of a pose in 2 dimensions
+ */
 public class Pose2d extends Point2d
 {
     public double angle;

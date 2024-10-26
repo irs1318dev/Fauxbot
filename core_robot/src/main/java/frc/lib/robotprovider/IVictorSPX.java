@@ -1,5 +1,8 @@
 package frc.lib.robotprovider;
 
+/**
+ * Represents a VictorSPX motor controller
+ */
 public interface IVictorSPX extends IMotor
 {
     void follow(ITalonSRX talonSRX);

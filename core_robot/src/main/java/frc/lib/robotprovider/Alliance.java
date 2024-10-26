@@ -5,7 +5,6 @@ package frc.lib.robotprovider;
  */
 public enum Alliance
 {
-    Invalid("I"),
     Red("R"),
     Blue("B");
 

@@ -2,11 +2,14 @@ package frc.lib.robotprovider;
 
 import frc.robot.LoggingKey;
 
+/**
+ * String Logger abstract class to make it easier to write loggers that log strings
+ */
 public abstract class StringLogger implements ILogger
 {
     private int loggingCounter;
 
-    public StringLogger()
+    protected StringLogger()
     {
         this.loggingCounter = 0;
     }

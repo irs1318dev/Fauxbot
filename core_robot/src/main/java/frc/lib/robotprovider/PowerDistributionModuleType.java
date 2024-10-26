@@ -1,7 +1,10 @@
 package frc.lib.robotprovider;
 
+/**
+ * The supported types of power distribution devices.
+ */
 public enum PowerDistributionModuleType
 {
-    PowerDistributionHub,
-    PowerDistributionPanel;
+    PowerDistributionHub, // "PDH"
+    PowerDistributionPanel; // "PDP"
 }

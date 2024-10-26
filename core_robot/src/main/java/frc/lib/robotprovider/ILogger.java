@@ -2,6 +2,9 @@ package frc.lib.robotprovider;
 
 import frc.robot.LoggingKey;
 
+/**
+ * Logger interface, to describe what is required for logging data to some destination
+ */
 public interface ILogger
 {
     /**

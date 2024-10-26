@@ -1,5 +1,8 @@
 package frc.lib.robotprovider;
 
+/**
+ * Represents a NavX IMU device
+ */
 public interface INavx
 {
     /**

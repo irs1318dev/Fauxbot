@@ -1,5 +1,8 @@
 package frc.lib.robotprovider;
 
+/**
+ * Represents the PathPlanner library functionality
+ */
 public interface IPathPlanner
 {
     /**

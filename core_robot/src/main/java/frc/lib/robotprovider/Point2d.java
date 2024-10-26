@@ -1,5 +1,8 @@
 package frc.lib.robotprovider;
 
+/**
+ * A representation of a point in 2 dimensions
+ */
 public class Point2d
 {
     public double x;
