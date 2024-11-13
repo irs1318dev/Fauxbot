@@ -46,20 +46,21 @@
 4. [Instructions](#instructions)
    1. [Setting up your Environment](#setting-up-your-environment)
    2. [Simple Command Line operations and Git usage](#simple-command-line-operations-and-git-usage)
-   3. [Your normal end-to-end git workflow](#your-normal-end-to-end-git-workflow)
+   3. [A normal end-to-end git workflow](#a-normal-end-to-end-git-workflow)
    4. [So you started coding before creating a topic branch](#so-you-started-coding-before-creating-a-topic-branch)
-   5. [Making Simple Operation changes](#making-simple-operation-changes)
-   6. [Adding a new Electronics Constant](#adding-a-new-electronics-constant)
-   7. [Adding a new Hardware or Tuning Constant](#adding-a-new-hardware-or-tuning-constant)
-   8. [Adding a new Logging Key](#adding-a-new-logging-key)
-   9. [Writing a new Mechanism](#writing-a-new-mechanism)
+   5. [Where should I put code I'm working on?](#where-should-i-put-code-im-working-on)
+   6. [Making Simple Operation changes](#making-simple-operation-changes)
+   7. [Adding a new Electronics Constant](#adding-a-new-electronics-constant)
+   8. [Adding a new Hardware or Tuning Constant](#adding-a-new-hardware-or-tuning-constant)
+   9. [Adding a new Logging Key](#adding-a-new-logging-key)
+   10. [Writing a new Mechanism](#writing-a-new-mechanism)
       1. [Define mechanism class and member variables](#define-mechanism-class-and-member-variables)
       2. [Write mechanism constructor](#write-mechanism-constructor)
       3. [Write mechanism readSensors function](#write-mechanism-readsensors-function)
       4. [Write mechanism update function](#write-mechanism-update-function)
       5. [Write mechanism stop function](#write-mechanism-stop-function)
       6. [Write any getter functions](#write-any-getter-functions)
-   10. [Writing Macros and Autonomous Routines](#writing-macros-and-autonomous-routines)
+   11. [Writing Macros and Autonomous Routines](#writing-macros-and-autonomous-routines)
       1. [Writing Tasks](#writing-tasks)
          1. [Define task class, member variables, and constructor](#define-task-class-member-variables-and-constructor)
          2. [Write task begin function](#write-task-begin-function)
@@ -300,7 +301,7 @@ For more information about Git in command prompt, look here:
 [GitHub's Git cheat-sheet](https://services.github.com/on-demand/downloads/github-git-cheat-sheet/)
 [GitHub's Git Handbook](https://guides.github.com/introduction/git-handbook/)
 
-### Your normal end-to-end git workflow
+### A normal end-to-end git workflow
 When working with branches, you will typically follow a workflow like below:
 
 1. Switch to master branch.  Run "```git checkout master```".  This will fail if you have pending changes.  If you don't have any pending changes that you care about, you can run "```git clean -d -f```".  If that doesn't solve the problem, run "```git stash```".  If you have changes that you cared about from a previous topic branch, see step 5 and come back here after step 7 or 8.  If you started making changes before following these steps, look at the [So you started coding before creating a topic branch](#so-you-started-coding-before-creating-a-topic-branch) section below.
@@ -322,10 +323,16 @@ If you started coding in "the wrong branch", usually you can recover from it as 
 5. Retrieve your changes from the stash.  Run "```git stash pop```".
 6. Continue making changes to your code.  Follow steps 5-8 in the section above ([Your normal end-to-end git workflow](#your-normal-end-to-end-git-workflow)).
 
-### Making Simple Operation changes
-To add a new action that the robot can take with a mechanism, first open the ```AnalogOperation``` or ```DigitalOperation``` enum (AnalogOperation.java or DigitalOperation.java) and add a new value to the list in that file.  We try to keep the various operations organized, so we keep them listed in a different section for each Mechanism.  The operation should be named starting with the mechanism (e.g. "DriveTrain", "Intake", etc.), and then a description of the action (e.g. "Turn", "RaiseArm", etc.) to make one single pascal-case value (e.g. "DriveTrainTurn", "IntakeRaiseArm", etc.).  Remember that Analog/Digital Operations are a single, simple thing that is done by the robot.  Any more complex action that we want the robot to take will be a Macro which composes these Analog/Digital Operations together (which we will talk about later).
+### Where should I put code I'm working on?
+Generally, all code that you write should go somewhere under core_robot\src\main\java\frc\robot.  Some of the key places are:
+core_robot\src\main\java\frc\robot\driver - mostly ButtonMap.java, AnalogOperation.java, DigitalOperation.java, AutonomousRoutineSelector.java, and the controltasks subdirectory.
+core_robot\src\main\java\frc\robot\mechanisms - mechanisms will go here
+core_robot\src\main\java\frac\robot - mostly ElectronicsConstants.java, HardwareConstants.java, TuningConstants.java, and SettingsManager.java
 
-Next, you will open the ButtonMap.java file and add another mapping into the AnalogOperationSchema/DigitalOperationSchema that describes the AnalogOperation/DigitalOperation that you just added.  Remember that Analog Operations represent things that are done to a certain extent, using double (decimal) values typically between -1.0 and 1.0.  Digital Operations represent things that are either done or not done, using Boolean values (true or false).  Each type of Operation, Analog or Digital, has their own corresponding type of Description.
+### Making Simple Operation changes
+To add a new action that the robot can take with a mechanism, first open the ```AnalogOperation``` or ```DigitalOperation``` enum (AnalogOperation.java or DigitalOperation.java under core_robot\src\main\java\frc\robot\driver) and add a new value to the list in that file.  We try to keep the various operations organized, so we keep them listed in a different section for each Mechanism.  The operation should be named starting with the mechanism (e.g. "DriveTrain", "Intake", etc.), and then a description of the action (e.g. "Turn", "RaiseArm", etc.) to make one single pascal-case value (e.g. "DriveTrainTurn", "IntakeRaiseArm", etc.).  Remember that Analog/Digital Operations are a single, simple thing that is done by the robot.  Any more complex action that we want the robot to take will be a Macro which composes these Analog/Digital Operations together (which we will talk about later).
+
+Next, you will open the ButtonMap.java file (under core_robot\src\main\java\frc\robot\driver) and add another mapping into the AnalogOperationSchema/DigitalOperationSchema that describes the AnalogOperation/DigitalOperation that you just added.  Remember that Analog Operations represent things that are done to a certain extent, using double (decimal) values typically between -1.0 and 1.0.  Digital Operations represent things that are either done or not done, using Boolean values (true or false).  Each type of Operation, Analog or Digital, has their own corresponding type of Description.
 
 ```java
     new AnalogOperationDescription(
@@ -349,7 +356,7 @@ The Analog description takes parameters describing the User Input Device (Driver
 The Digital description takes arguments describing the User Input Device, the button on the joystick, and the type of button (Simple, Toggle, or Click).  Simple buttons are typically used for continuous actions (such as running an intake), Toggle actions are typically used for macros, and Click actions are typically used for single-shot actions (such as extending an arm).
 
 ### Adding a new Electronics Constant
-To add a new constant that describes how the robot is wired/configured electronically, first open the ```ElectronicsConstants``` class (ElectronicsConstants.java) and add a new constant value.  We try to keep the various constants organized, so we keep them listed in a different section for each Mechanism.  Each constant is of the form:
+To add a new constant that describes how the robot is wired/configured electronically, first open the ```ElectronicsConstants``` class (ElectronicsConstants.java under core_robot\src\main\java\frc\robot) and add a new constant value.  We try to keep the various constants organized, so we keep them listed in a different section for each Mechanism.  Each constant is of the form:
 ```java
     public static final Type NAME = value;
 ```
@@ -384,7 +391,7 @@ Put together, an entry for the DriveTrain's Left Distance would look like:
 ```
 
 ### Writing a new Mechanism
-Mechanisms handle the interactions with the actuators (e.g. motors, pneumatic solenoids) and sensors (e.g. encoders, limit switches) of each part of the robot, controlling them based on the operations from the Driver.  A mechanism is a class that implements the ```IMechanism``` interface with a name based on the name of that portion of the robot (e.g. DriveTrain, Intake) combined with "Mechanism", such as ThingMechanism.  It should be placed within the mechanisms folder with the other mechanisms and managers.
+Mechanisms handle the interactions with the actuators (e.g. motors, pneumatic solenoids) and sensors (e.g. encoders, limit switches) of each part of the robot, controlling them based on the operations from the Driver.  A mechanism is a class that implements the ```IMechanism``` interface with a name based on the name of that portion of the robot (e.g. DriveTrain, Intake) combined with "Mechanism", such as ThingMechanism.  It should be placed within the mechanisms folder (under core_robot\src\main\java\frc\robot\mechanisms) with the other mechanisms and managers.
 
 #### Define mechanism class and member variables
 ```java
