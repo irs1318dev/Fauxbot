@@ -127,7 +127,7 @@ The joystick is a normal computer joystick, much like you’d find for playing a
 The button pads we use are PC gaming button pads which have 12 buttons.  Our team historically used a button pad for the Co-Driver’s input method, or as a secondary driver input method.
 
 #### Controllers
-Another controller type is an Xbox 360, Xbox One, PS4 controller, or a 3rd-party controller that has USB input.  This is an alternative that can be used by a Driver and/or Operator of the robot if the control scheme is preferable based on that year's challenge.  Since 2020, we have switched to typically having a Driver and Operator each with their own controller to work together to perform tasks.
+Another controller type is an Xbox 360, Xbox One, PS4 controller, or a 3rd-party controller that has USB input.  This is an alternative that can be used by a Driver and/or Codriver of the robot if the control scheme is preferable based on that year's challenge.  Since 2020, we have switched to typically having a Driver and Codriver each with their own controller to work together to perform tasks.
 
 #### Dip Switches
 Dip Switches are simple toggle switches which are used to switch between different modes on the Robot.  Our team historically used dip switches to allow us to select which of several different pre-programmed autonomous routines to use without having to change anything within the code or rely on the smart dashboard.  In 2019, we started using the Smart Dashboard to choose the autonomous routine.
@@ -201,7 +201,7 @@ The ```ButtonMap``` contains the mapping of various joystick/controller buttons 
 Macros are groupings of different Operations that need to happen in a certain order and with certain conditions between the various operations.  This is typically done by defining a bunch of individual "tasks" that perform one operation until it has completed, and then composing them together using different types of logic.  One example of a macro from 2019 would be the climb macro, which moved the robot forwards, engaged the arms, rotated the cam, drove forward, and finally lifted the elevator and reset the arms and cam.  Another example of a macro from 2019 would be the Vision-based alignment and approach of the rocket and cargo ship.
 
 ##### Shifts
-Sometimes there aren't enough buttons on the joystick in order to accomodate the number of operations and macros that we want to have available to the driver and/or operator.  We have the ability to define "shifts" that allow the same button to mean different things depending on when another button is pressed.  These shifts are described in the ```ButtonMap```.
+Sometimes there aren't enough buttons on the joystick in order to accomodate the number of operations and macros that we want to have available to the driver and/or codriver.  We have the ability to define "shifts" that allow the same button to mean different things depending on when another button is pressed.  These shifts are described in the ```ButtonMap```.
 
 #### Autonomous Routines
 Autonomous routines are designed very similarly to macros, except that they are triggered automatically by the Driver when the autonomous mode starts instead of by buttons on the joystick.  Autonomous routine selection occurs in the ```AutonomousRoutineSelector``` class, with the specific routines defined in that class as well. 
@@ -343,12 +343,12 @@ Next, you will open the ButtonMap.java file (under core_robot\src\main\java\frc\
         TuningConstants.DRIVETRAIN_X_DEAD_ZONE),
 ```
 
-The Analog description takes parameters describing the User Input Device (Driver or Operator controller) and the axis of the joystick (X, Y, Throttle, etc.).  It also includes the ability to invert the axis (so that the "forward" direction matches positive) and the ability to provie a dead zone (as joysticks are often imperfect at mesauring the middle).
+The Analog description takes parameters describing the User Input Device (Driver or Codriver controller) and the axis of the joystick (X, Y, Throttle, etc.).  It also includes the ability to invert the axis (so that the "forward" direction matches positive) and the ability to provie a dead zone (as joysticks are often imperfect at mesauring the middle).
 
 ```java
     new DigitalOperationDescription(
         DigitalOperation.IntakeIn,
-        UserInputDevice.Operator,
+        UserInputDevice.Codriver,
         UserInputDeviceButton.XBONE_A_BUTTON,
         ButtonType.Simple),
 ```
@@ -665,7 +665,7 @@ To-Do.
 ### PathPlanner
 PathPlanner is a library that is used to create autonomus paths that are called in the ```AutonomousRoutineSelector```
 
-Every robot path called trajectory need to have a ```trajecotryManager``` which stores all generated paths and needs to be passed in as the first parameter of the path to store all the paths. ```pathPlanner.buildTrajectory()``` builds the trejectory and takes in a Maximum velocity and maximum acceleration the robot can reach on a given path. It also takes any number of ```PathPlannerWaypoint()``` which are the points the robots travels along and the last paramerter is the name of the Path. The ```PathPlannerWaypoint()``` takes a X-Coordinate, Y-Coordinate, a headding which is the direction the robot will move into the point, and the orientation which is the direction the robot will face in which while traveling to the given point.
+Every robot path called trajectory need to have a ```trajectoryManager``` which stores all generated paths and needs to be passed in as the first parameter of the path to store all the paths. ```pathPlanner.buildTrajectory()``` builds the trejectory and takes in a Maximum velocity and maximum acceleration the robot can reach on a given path. It also takes any number of ```PathPlannerWaypoint()``` which are the points the robots travels along and the last paramerter is the name of the Path. The ```PathPlannerWaypoint()``` takes a X-Coordinate, Y-Coordinate, a headding which is the direction the robot will move into the point, and the orientation which is the direction the robot will face in which while traveling to the given point.
 
 ```java
 addTrajectory(
