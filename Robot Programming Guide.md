@@ -212,23 +212,23 @@ The robot code makes use of a number of external libraries in order to make prog
 #### Guice
 [Guice](https://github.com/google/guice) (pronounced "juice") is a dependency injection library, which is responsible for the various "@Inject" and "@Singleton" markup that is seen throughout the code.  The purpose of Guice is to make it easier to plug together the entire system in such a way that it is still unit-testable and able to be simulated in Fauxbot.  You will need to use Guice's @Singleton and @Inject markup when writing a mechanism.
 
-#### OpenCV
-[OpenCV](https://opencv.org/) is a computer vision library that is used for fast and efficient processing of images.  We use OpenCV functions to capture images, manipulate them (undistort, HSV filtering), write them, and discover important parts of them (find contours).
-
 #### CTRE Phoenix
-[CTRE Phoenix](https://github.com/CrossTheRoadElec/Phoenix-Documentation) is a library that provides the ability to communicate with and control various motors using the TalonSRX, TalonFX, and VictorSPX over CAN.  We use CTRE Phoenix to control the majority of our TalonSRXs/TalonFXs so that we can run PID on the TalonSRX/TalonFX itself for a faster update rate.
+[CTRE Phoenix](https://docs.ctr-electronics.com/) is a library that provides the ability to communicate with and control various motors using the TalonSRX, TalonFX, and VictorSPX over CAN.  We use CTRE Phoenix to control the majority of our TalonSRXs/TalonFXs so that we can run PID on the TalonSRX/TalonFX itself for a faster update rate.
 
 #### Spark MAX API
 The [Spark MAX](http://www.revrobotics.com/sparkmax-software/) has a library that provides the ability to communicate with and control various motors using the SparkMAX over CAN.  We use the Spark MAX to control NEO Motors so that we can use these brushless motors and run PID on the SparkMAX itself for a fast update rate.
-
-#### NavX MXP
-The [NavX MXP](http://www.pdocs.kauailabs.com/navx-mxp/software/) has a library that is used to interact with the NavX MXP.  The NavX uses its Gyroscope and Accelerometers in order to provide orientation measurements for field positioning purposes.
 
 #### JUnit
 [JUnit](https://junit.org/junit4/) is a unit testing library for Java.  JUnit is fairly simple and provides some comparison functions and a framework for running unit tests.
 
 #### Mockito
 [Mockito](http://site.mockito.org/) is a library for mocking objects for unit testing.  Mockito provides a way to create fake versions of objects that have behaviors that you can describe in a very succinct way.
+
+#### OpenCV
+[OpenCV](https://opencv.org/) is a computer vision library that is used for fast and efficient processing of images.  We use OpenCV functions to capture images, manipulate them (undistort, HSV filtering), write them, and discover important parts of them (find contours).
+
+#### AprilTag
+[AprilTag](https://github.com/AprilRobotics/apriltag) is a computer vision library that is used for finding and using AprilTag fiducials in images.  Most of the code directly interacting with the AprilTag library is already written and won't need significant regular updates.
 
 ## Instructions
 ### Setting up your Environment
@@ -242,7 +242,7 @@ To prepare your computer for Robot programming with our team, you will need to f
    4. Install the Java Extension Pack for VS Code.  In VS Code, open the extensions side bar by either clicking on the corresponding icon or clicking View --> Open View..., typing "Extensions", and selecting "Extensions" (side bar).  Within the Extensions side bar, search for the "Java Extension Pack" published by Microsoft, and then click to install it.  Optionally, I would also recommend installing the "Live Share Extension Pack" published by Microsoft.
    5. Install GitHub Desktop (optional).  Our team uses GitHub as the host for our source control system, so if you are more comfortable having a GUI for interacting with it, then GitHub Desktop will be the best supported.  Install the appropriate version of [GitHub Desktop](https://desktop.github.com/) for your operating system.
 2. Configuring things:
-   1. Git uses VIM as the default text editor for commit messages.  Normal people not very familiar with VIM usage, so it is strongly recommended to change to a more normal windowed application as VIM can be very confusing for beginners.  I would recommend switching to use VS Code as your editor and default diff tool.
+   1. Git uses VIM as the default text editor for commit messages.  Normal people not very familiar with VIM usage, so it is strongly recommended to change to a more normal windowed application as VIM can be very confusing for anyone without VIM experience.  I would recommend switching to use VS Code as your editor and default diff tool.
       1. Use VS Code as your default text editor by running ```git config --global core.editor "code --wait"``` from a Command Prompt window.
          1. If you are on a non-Windows system, you may need to make sure that running the command "code" from the command line (Terminal) successfully opens VS Code.  If it does not, Open VS Code, then open its command window (CTRL+P on Linux, COMMAND+P on Mac??), type "> path" into the window that appears, and select the option that mentions updating "path" or installing the "code" command for opening VS Code.
       2. Modify your Global settings by running ```git config --global -e```, and then adding the following entries to the end of the file:
@@ -378,23 +378,25 @@ The Type will depend on what is being tracked, usually an  "```int```", "```doub
 The naming convention for our tuning constants is that all of them start with "MECHANISMNAME_" and then is followed with a description of what is being kept in the constant.  The Name uses "yelling snake-case", which is an all-caps form of snake-case, where each word or compound-word is separated by the underscore character "_".
 
 ### Adding a new Logging Key
-To add a new key for logging purposes, first open the ```LoggingKey``` enum (LoggingKey.java) and add a new value to the list in that file.  We try to keep the various logging keys organizated by mechanism, so please keep them sorted in a sensible order.  Each logging key is of the form:
+To add a new key for logging purposes, first open the ```LoggingKey``` enum (LoggingKey.java) and add a new value to the list in that file.  We try to keep the various logging keys organizated by mechanism, so please keep them sorted in a sensible order.  Each logging key is of the form below, with a given name, and with the first parameter being the name displayed in the dashboard, the second being the type, and the third being whether it is an input from a sensor (true) or not (false):
 ```java
-    Name("value"),
+    Name("value", LoggingType.String, false),
 ```
 
-The name is of the form "MechanismState", where the first part is the name of the mechanism (e.g. "Intake" or "DriveTrain") and the second part is the state that is being logged (e.g. "IsExtended" or "LeftDistance").  The name uses pascal-case, where multiple words are included and separated by capitalizing the first letter of each word.  The value is of the form "m.state", where the first part is a 1- to 2-letter abbreviation for the mechanism (e.g. "i" for intake or "dt" for DriveTrain) that is unique for the mechanisms on the robot and the second part is a camel-case form of the state.  Camel-case is like pascal-case, except the first letter of the element is lower-case.
+The name is of the form "MechanismState", where the first part is the name of the mechanism (e.g. "Intake" or "DriveTrain") and the second part is the state that is being logged (e.g. "IsExtended" or "LeftDistance").  The name uses pascal-case, where multiple words are included and separated by capitalizing the first letter of each word.  The value is of the form "m/state", where the first part is an abbreviation for the mechanism (e.g. "i" for intake or "dt" for DriveTrain) that is unique for the mechanisms on the robot and the second part is a camel-case form of the state.  Camel-case is like pascal-case, except the first letter of the element is lower-case.
 
-Put together, an entry for the DriveTrain's Left Distance would look like:
+Put together, an entry for a differential (Tank) DriveTrain's Left Distance would look like:
 ```java
-    DriveTrainLeftDistance("dt.leftDistance"),
+    DriveTrainLeftDistance("dt/leftDistance", LoggingType.Number, true),
 ```
 
 ### Writing a new Mechanism
-Mechanisms handle the interactions with the actuators (e.g. motors, pneumatic solenoids) and sensors (e.g. encoders, limit switches) of each part of the robot, controlling them based on the operations from the Driver.  A mechanism is a class that implements the ```IMechanism``` interface with a name based on the name of that portion of the robot (e.g. DriveTrain, Intake) combined with "Mechanism", such as ThingMechanism.  It should be placed within the mechanisms folder (under core_robot\src\main\java\frc\robot\mechanisms) with the other mechanisms and managers.
+Mechanisms handle the interactions with the actuators (e.g. motors, pneumatic solenoids) and sensors (e.g. encoders, limit switches) of each part of the robot, controlling them based on the operations from the Driver.  A mechanism is a class that implements the ```IMechanism``` interface with a name based on the name of that portion of the robot (e.g. DriveTrain, Intake) combined with "Mechanism", such as IntakeMechanism.  It should be placed within the mechanisms folder (under core_robot\src\main\java\frc\robot\mechanisms) with the other mechanisms and managers.
 
 #### Define mechanism class and member variables
 ```java
+package frc.robot.mechanisms;
+
 @Singleton
 public class ThingMechanism implements IMechanism
 {
@@ -403,7 +405,7 @@ public class ThingMechanism implements IMechanism
 
   // sensors and actuators
   private final ISomeSensor nameOfSensor;
-  private final ISomeActuator nameOfAcutator;
+  private final ISomeActuator nameOfActuator;
 
   // logger
   private final ILogger logger;
@@ -415,7 +417,7 @@ public class ThingMechanism implements IMechanism
   private boolean someState;
 ```
 
-At the top of the class, you should have the driver ("```private IDriver driver;```"), followed by a list of the definitions of your different actuators and sensors ("```private final ISomeActuator nameOfActuator;```" and "```private final ISomeSensor nameOfSensor;```").  These will be initialized in the constructor.  After the driver and set of actuators and sensors are defined, you will also need to define the logger ("```private ILogger logger;```"), anything that will be read from the sensors ("```private boolean someSetting;```"), and any state that needs to be kept for the operation of the mechanism ("```private boolean someState;```").
+At the top of the file, you should indicate the package (which should be "frc.robot.mechanisms") and then define the class with the "@Singleton" attribute markup. Within the class, you should first define the driver ("```private IDriver driver;```"), and then define each of the actuators and sensors controlled by the mechanism ("```private final ISomeActuator nameOfActuator;```" and "```private final ISomeSensor nameOfSensor;```", using the proper type for the sensors/actuators of course).  These will all be initialized in the constructor.  After the driver and set of actuators and sensors are defined, you may also need to define the logger ("```private ILogger logger;```"), anything that will be read from the sensors ("```private boolean someSetting;```"), and any state that needs to be kept for the operation of the mechanism ("```private boolean someState;```").
 
 #### Write mechanism constructor
 ```java
@@ -424,8 +426,8 @@ At the top of the class, you should have the driver ("```private IDriver driver;
   {
     this.driver = driver;
 
-    this.nameOfSensor = provider.GetSomeSensor(ElectronicsConstants.THING_NAMEOFSENSOR_PWM_CHANNEL);
-    this.nameOfActuator = provider.GetSomeActuator(ElectronicsConstants.THING_NAMEOFACTUATOR_PWM_CHANNEL);
+    this.nameOfSensor = provider.getSomeSensor(ElectronicsConstants.THING_NAMEOFSENSOR_DIO_CHANNEL);
+    this.nameOfActuator = provider.getSomeActuator(ElectronicsConstants.THING_NAMEOFACTUATOR_PWM_CHANNEL);
 
     this.logger = logger;
 
@@ -435,7 +437,7 @@ At the top of the class, you should have the driver ("```private IDriver driver;
   ...
 ```
 
-After defining all of the class's variables, you will define a constructor named like "```public ThingMechanism(IDriver driver, IRobotProvider provider, LoggingManager logger)```".  Since 2017 we’ve made use of Google’s Guice to control dependency injection, which is the reason why the special ```@Inject``` markup is required.  You will first set the driver to the value that is provided to the constructor by Guice.  You will then set the value for each actuator and sensor you defined earler by calling the corresponding function on the ```IRobotProvider``` that is also passed into the constructor.  These functions will take some number of arguments based on how the actuators/sensors are physically plugged together in the robot (such as CAN Ids, DIO channel, Analog channel, PCM channel, or PWM channel).  These arguments should be placed as constants in the ElectronicsConstants file with names such as THING_NAMEOFACTUATOR_PWM_CHANNEL.  We don’t necessarily know in advance how the robot plugs together, so they can be initialized with a value of -1 until we do.  After initializing the sensors and actuators, you should set the logger as provided and the settings and states to their default values.
+After defining all of the class's variables, you will define a constructor named like "```public ThingMechanism(IDriver driver, IRobotProvider provider, LoggingManager logger)```".  Since 2017 we’ve made use of Google’s Guice to control dependency injection, which is the reason why the special ```@Inject``` attribute markup is required.  Guice can/will provide some of the parameters that you will need, including the IDriver, IRobotProvider, and LoggingManager.  It can also provide an ITimer if needed.  Within the constructor, you should first set the class's driver instance/member variable to the value that is passed into the constructor.  You will then set the value for each actuator and sensor you defined earler by calling the corresponding function on the ```IRobotProvider``` that is also passed into the constructor.  These functions will take some number of arguments based on how the actuators/sensors are physically plugged together in the robot (such as CAN Ids, DIO channel, Analog channel, PCM channel, or PWM channel).  These arguments should be placed as constants in the ElectronicsConstants file with names such as THING_NAMEOFACTUATOR_PWM_CHANNEL.  We don’t necessarily know in advance how the robot plugs together, so they can be initialized with a value of -1 until we do.  After initializing the sensors and actuators, you should set the logger as provided and the settings and states to their default values.
 
 #### Write mechanism readSensors function
 ```java
@@ -448,12 +450,12 @@ After defining all of the class's variables, you will define a constructor named
   }
 ```
 
-The ```readSensors()``` function reads from the relevant sensors for that mechanism, stores the results in class member variables, and then logs the results to the logger.  Most simple sensor types have a simple ```get()``` function or similar to read the current value from that sensor.  An entry in the ```LoggingKey``` enum will need to be added to correspond to each setting that we want to log.
+The ```readSensors()``` function reads from the relevant sensors for that mechanism, stores the results in class member variables, and then logs the results to the logger.  Most simple sensor types have a simple ```get()``` function or similar to read the current value from that sensor.  Sometimes there are functions named something like ```getXX()``` function to get more specific data about "XX".  An entry in the ```LoggingKey``` enum will need to be added to correspond to each thing that we want to log.
 
 #### Write mechanism update function
 ```java
   @Override
-  public void update()
+  public void update(RobotMode mode)
   {
     boolean shouldThingAction = this.driver.getDigital(DigitalOperation.ThingAction);
 
