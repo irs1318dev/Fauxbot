@@ -1,37 +1,39 @@
 package frc.robot.driver;
 
-import java.util.EnumSet;
-
 import javax.inject.Singleton;
 
-import frc.lib.driver.*;
-import frc.lib.driver.buttons.*;
-import frc.lib.driver.descriptions.*;
-import frc.lib.helpers.Helpers;
-import frc.robot.*;
-import frc.robot.driver.controltasks.*;
+import frc.lib.driver.AnalogAxis;
+import frc.lib.driver.IButtonMap;
+import frc.lib.driver.UserInputDeviceButton;
+import frc.lib.driver.buttons.ButtonType;
+import frc.lib.driver.descriptions.AnalogOperationDescription;
+import frc.lib.driver.descriptions.DigitalOperationDescription;
+import frc.lib.driver.descriptions.MacroOperationDescription;
+import frc.lib.driver.descriptions.ShiftDescription;
+import frc.lib.driver.descriptions.UserInputDevice;
+import frc.robot.ElectronicsConstants;
 
 @Singleton
 public class ButtonMap implements IButtonMap
 {
     private static ShiftDescription[] ShiftButtonSchema = new ShiftDescription[]
     {
+
         new ShiftDescription(
             Shift.DriverDebug,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_SELECT_BUTTON),
+
         new ShiftDescription(
             Shift.CodriverDebug,
             UserInputDevice.Codriver,
             UserInputDeviceButton.XBONE_LEFT_BUTTON),
+
         new ShiftDescription(
             Shift.Test1Debug,
             UserInputDevice.Test1,
-            UserInputDeviceButton.XBONE_LEFT_BUTTON),
-        // new ShiftDescription(
-        //     Shift.Test2Debug,
-        //     UserInputDevice.Test2,
-        //     UserInputDeviceButton.XBONE_LEFT_BUTTON),
+            UserInputDeviceButton.XBONE_LEFT_BUTTON),    
+            
     };
 
     public static AnalogOperationDescription[] AnalogOperationSchema = new AnalogOperationDescription[]
@@ -43,6 +45,20 @@ public class ButtonMap implements IButtonMap
             AnalogAxis.XBONE_LSX,
             ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
             0.1),*/
+
+        new AnalogOperationDescription(
+            AnalogOperation.LeftPower,
+            UserInputDevice.Driver,
+            AnalogAxis.XBONE_LSX,
+            ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
+            0.1),
+
+        new AnalogOperationDescription(
+            AnalogOperation.RightPower,
+            UserInputDevice.Driver,
+            AnalogAxis.XBONE_RSX,
+            ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
+            0.1),        
     };
 
     public static DigitalOperationDescription[] DigitalOperationSchema = new DigitalOperationDescription[]
@@ -53,6 +69,19 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_A_BUTTON,
             ButtonType.Toggle),*/
+
+        new DigitalOperationDescription(
+            DigitalOperation.ForkliftUp,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_A_BUTTON,
+            ButtonType.Click),
+
+        new DigitalOperationDescription(
+            DigitalOperation.ForkliftDown,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_B_BUTTON,
+            ButtonType.Click),
+
     };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
@@ -70,7 +99,7 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.ExampleA,
             }),*/
     };
-
+    
     @Override
     public ShiftDescription[] getShiftSchema()
     {
