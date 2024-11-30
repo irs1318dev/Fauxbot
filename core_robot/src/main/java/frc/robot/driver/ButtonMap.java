@@ -43,6 +43,8 @@ public class ButtonMap implements IButtonMap
             AnalogAxis.XBONE_LSX,
             ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
             0.1),*/
+        new AnalogOperationDescription(AnalogOperation.DriveTrainLeft, UserInputDevice.Driver, AnalogAxis.XBONE_LSX, false, 0.1),
+        new AnalogOperationDescription(AnalogOperation.DriveTrainRight, UserInputDevice.Driver, AnalogAxis.XBONE_RSX, false, 0.1),    
     };
 
     public static DigitalOperationDescription[] DigitalOperationSchema = new DigitalOperationDescription[]
@@ -53,7 +55,10 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_A_BUTTON,
             ButtonType.Toggle),*/
+        new DigitalOperationDescription(DigitalOperation.ForkliftDown, UserInputDevice.Driver, UserInputDeviceButton.XBONE_A_BUTTON, ButtonType.Simple), 
+        new DigitalOperationDescription(DigitalOperation.ForkliftUp, UserInputDevice.Driver, UserInputDeviceButton.XBONE_B_BUTTON, ButtonType.Simple),     
     };
+
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
     {
