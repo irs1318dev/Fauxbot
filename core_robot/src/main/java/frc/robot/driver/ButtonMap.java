@@ -76,11 +76,48 @@ public class ButtonMap implements IButtonMap
             //     UserInputDevice.Driver,
             //     UserInputDeviceButton.XBONE_B_BUTTON,
             //     ButtonType.Toggle),
+            // new DigitalOperationDescription(
+            //     DigitalOperation.Button,
+            //     UserInputDevice.Driver,
+            //     UserInputDeviceButton.XBONE_X_BUTTON,
+            //     ButtonType.Toggle),
+            
             new DigitalOperationDescription(
-                DigitalOperation.Button,
+            DigitalOperation.ElevatorFirstFloorButton,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_A_BUTTON,
+            ButtonType.Click),
+
+            new DigitalOperationDescription(
+                DigitalOperation.ElevatorSecondFloorButton,
+                UserInputDevice.Driver,
+                UserInputDeviceButton.XBONE_Y_BUTTON,
+                ButtonType.Click),
+
+            new DigitalOperationDescription(
+                DigitalOperation.ElevatorThirdFloorButton,
                 UserInputDevice.Driver,
                 UserInputDeviceButton.XBONE_X_BUTTON,
-                ButtonType.Toggle),            
+                ButtonType.Click),
+        
+
+            new DigitalOperationDescription(
+                DigitalOperation.ElevatorFourthFloorButton,
+                UserInputDevice.Driver,
+                UserInputDeviceButton.XBONE_B_BUTTON,
+                ButtonType.Click),
+
+
+            new DigitalOperationDescription(
+                 DigitalOperation.ElevatorFifthFloorButton,
+                UserInputDevice.Driver,
+                 UserInputDeviceButton.BUTTON_PAD_BUTTON_1,
+                ButtonType.Click)
+
+            
+            
+            
+
 
 
         

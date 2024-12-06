@@ -58,7 +58,9 @@ public class ElectronicsConstants
     public static final int GARAGEDOOR_THROUGHBEAM = 0;
 
     //================================================== Elevator ==========================================================
-
+    public static final int ELEVATOR_CH_MOTOR_ID = 0;
+    public static final int ELEVATOR_CH_A_ID = 0;
+    public static final int ELEVATOR_CH_B_ID = 1;
     //================================================== Forklift =======================================================
     public static final int FORKLIFT_LEFT_MOTOR_CHANNEL = 0;
     public static final int FORKLIFT_RIGHT_MOTOR_CHANNEL = 1;
