@@ -52,13 +52,18 @@ public class ElectronicsConstants
     public static final double PNEUMATICS_MAX_PSI = 120.0;
 
     //================================================== Garage Door =======================================================
-
+    public static final int GARAGE_DOOR_MOTOR = 0;
+    public static final int GARAGE_DOOR_MOTOR_OPEN = 1;
+    public static final int GARAGE_DOOR_MOTOR_CLOSED = 2;
+    public static final int GARAGE_DOOR_THROUGH_BEAM = 0;
     //================================================== Elevator ==========================================================
 
     //================================================== Forklift =======================================================
-
+    public static final int FORKLIFT_RIGHT_MOTOR_CHANNEL =0;
+    public static final int FORKLIFT_LEFT_MOTOR_CHANNEL =0;
     //================================================== Forklift =======================================================
-
+    public static final int FORKLIFT_DOUBLE_SOLENOID_FORWARD = 7;
+    public static final int FORKLIFT_DOUBLE_SOLENOID_REVERSE = 8;
     //================================================== Shooter =======================================================
 
     //================================================== Printer =======================================================
