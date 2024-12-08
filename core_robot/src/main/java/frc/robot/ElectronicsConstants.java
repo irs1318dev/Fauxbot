@@ -51,12 +51,24 @@ public class ElectronicsConstants
     //================================================== Garage Door =======================================================
 
     //================================================== Elevator ==========================================================
-
+    public static final int ELEVATOR_MOTOR_CHANNEL = 0;
+    public static final int ELEVATOR_ENCODER_CHANNEL_A = 0;
+    public static final int ELEVATOR_ENCODER_CHANNEL_B = 1;
     //================================================== Forklift =======================================================
-
+    public static final int FORKLIFT_MOTOR_LEFT_CHANNEL = 0 ;
+    public static final int FORKLIFT_MOTOR_RIGHT_CHANNEL = 1;
+    public static final int FORKLIFT_DOUBLE_SOLENOID_FORWARD = 7;
+    public static final int FORKLIFT_DOUBLE_SOLENOID_REVERSE = 8;
     //================================================== Forklift =======================================================
 
     //================================================== Shooter =======================================================
+    public static final int PNEUMATIC_KICKER_FORWARD_CHANNEL = 0;
+    public static final int PNEUMATIC_KICKER_REVERSE_CHANNEL = 1;
+    public static final int HOOD_MOTOR_CHANNEL = 0;
+    public static final int FLYWHEEL_MOTOR_CHANNEL = 1;
+    public static final int FLYWHEEL_ROTATION_RATE = 200;
 
     //================================================== Printer =======================================================
+    public static final int PEN_SOLENOID_FORWARD_CHANNEL = 7;
+    public static final int PEN_SOLENOID_REVERSE_CHANNEL = 8;
 }
