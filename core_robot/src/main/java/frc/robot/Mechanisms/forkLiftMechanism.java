@@ -1,19 +1,6 @@
 package frc.robot.Mechanisms;
 
-import com.google.inject.inject;
-import com.google.inject.Singleton;
-
-import frc.lib.driver.IDriver;
 import frc.lib.mechanisms.IMechanism;
-import frc.lib.robotprovider.DoubleSolenoidValue;
-import frc.lib.robotprovider.IDoubleSolenoid;
-import frc.lib.robotprovider.IMotor;
-import frc.lib.robotprovider.IRobotProvider;
-import frc.lib.robotprovider.PheumaticModuleType;
-import frc.robot.ElectronicsConstants;
-import frc.robot.driver.AnalogOperation;
-import frc.robot.driver.DigitalOperation;
-
 
 @Singleton
 public class ForkLiftMechanism implements IMechanism
@@ -50,13 +37,6 @@ public class ForkLiftMechanism implements IMechanism
     @Override
     public void update()
     {
-        private double leftPower;
-        private double rightPower;
-        this.leftMotor = leftMotor;
-        this.rightMotor = rightMotor;
-        leftPower = this.driver.getAnalogOperation(AnalogOperation.TurnLeft);
-        rightPower = this.driver.getAnalogOperation(AnalogOperation.TurnRight);
-
 
         if (this.driver.getDigitalOperation(getDigitalOperation.Lifter))
         {

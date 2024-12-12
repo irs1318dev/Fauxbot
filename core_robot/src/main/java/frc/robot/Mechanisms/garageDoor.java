@@ -20,7 +20,7 @@ import frc.robot.driver.common.Idriver;
 
 //GarageDoor exercise introduces a non-trivial mechanism that controls a motor based on driver inputs + sensors
 
-public class garageDoorMechanism implements IMechanism {
+public class garageDoor implements IMechanism {
     // Defining
     // Motors
     private final IMotor motor;
