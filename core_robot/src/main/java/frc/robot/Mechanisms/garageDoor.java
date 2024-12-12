@@ -7,8 +7,13 @@ import java.security.Provider;
 import com.google.inject.Inject;
 import com.google.inject.singleton;
 
+import frc.lib.driver.IDriver;
 import frc.lib.mechanisms.GarageDoor;
 import frc.lib.mechanisms.GarageDoor.GarageDoorState;
+import frc.lib.robotprovider.IDigitalInput;
+import frc.lib.robotprovider.IMotor;
+import frc.lib.robotprovider.IRobotProvider;
+import frc.robot.ElectronicsConstants;
 import frc.robot.EletronicsConstants;
 import frc.robot.LoggingKey;
 import frc.robot.TuningConstants;
@@ -31,7 +36,7 @@ public class garageDoor implements IMechanism {
     // Sensors
     private final IDigitalInput openSensor;
     private final IDigitalInput closedSensor;
-    private final IDIgitalInput throughBeamSensor;
+    private final IDigitalInput throughBeamSensor;
 
     // Boolean derived from sensors
     private boolean openedSensed;
@@ -39,12 +44,6 @@ public class garageDoor implements IMechanism {
     private boolean throughBeamBroken;
 
     // garage door state constructers
-    public enum GarageDoorState {
-        Opened,
-        Opening,
-        Closed,
-        Closing
-    }
     private GarageDoorState state;
 
 
@@ -66,7 +65,9 @@ public class garageDoor implements IMechanism {
     @Override
     public void readSensors()
     {
-
+        this.openedSensed = openSensor.get();
+        this.closedSensed = closedSensor.get();
+        this.throughBeamBroken = throughBeamSensor.get();
     }
 
     @Override
@@ -117,19 +118,21 @@ public class garageDoor implements IMechanism {
 
         //Begin execution for motor
         if (this.state == GarageDoorState.Opening) {
-            this.motor.set(power:1.0);
+            this.motor.set(1.0);
         }
         else if (this.state == GarageDoorState.Closing) {
             this.motor.set(-1.0);
         }
         else {
-            this.motor.set(power:0);
+            this.motor.set(0);
         }
     }
 
     @Override
     public void stop() {
-        this.motor.set(power:0);
+        this.motor.set(1.0); // For opening the door
+        this.motor.set(-1.0); // For closing the door
+        this.motor.set(0); // For stopping the motor
     }
 
 
