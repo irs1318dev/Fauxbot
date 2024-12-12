@@ -1,15 +1,14 @@
 package frc.robot.driver;
 
-import java.util.EnumSet;
-
 import javax.inject.Singleton;
 
-import frc.lib.driver.*;
-import frc.lib.driver.buttons.*;
-import frc.lib.driver.descriptions.*;
-import frc.lib.helpers.Helpers;
-import frc.robot.*;
-import frc.robot.driver.controltasks.*;
+import frc.lib.driver.IButtonMap;
+import frc.lib.driver.UserInputDeviceButton;
+import frc.lib.driver.descriptions.AnalogOperationDescription;
+import frc.lib.driver.descriptions.DigitalOperationDescription;
+import frc.lib.driver.descriptions.MacroOperationDescription;
+import frc.lib.driver.descriptions.ShiftDescription;
+import frc.lib.driver.descriptions.UserInputDevice;
 
 @Singleton
 public class ButtonMap implements IButtonMap
@@ -53,12 +52,6 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_A_BUTTON,
             ButtonType.Toggle),*/
-        new DigitalOperationDescription {
-            DigitalOperation.Button,
-            UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_Y_BUTTON,
-            ButtonType.Click
-        }
     };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
@@ -93,7 +86,6 @@ public class ButtonMap implements IButtonMap
     public DigitalOperationDescription[] getDigitalOperationSchema()
     {
         return ButtonMap.DigitalOperationSchema;
-        
     }
 
     @Override
