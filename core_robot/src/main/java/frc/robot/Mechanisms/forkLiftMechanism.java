@@ -9,6 +9,7 @@ import frc.lib.robotprovider.DoubleSolenoidValue;
 import frc.lib.robotprovider.IDoubleSolenoid;
 import frc.lib.robotprovider.IMotor;
 import frc.lib.robotprovider.IRobotProvider;
+import frc.lib.robotprovider.PneumaticsModuleType;
 import frc.lib.robotprovider.RobotMode;
 import frc.robot.ElectronicsConstants;
 import frc.robot.driver.AnalogOperation;
@@ -30,7 +31,7 @@ public class ForkLiftMechanism implements IMechanism {
         this.leftMotor = provider.getTalon(ElectronicsConstants.FORKLIFT_LEFT_MOTOR_CHANNEL);
         this.rightMotor = provider.getTalon(ElectronicsConstants.FORKLIFT_RIGHT_MOTOR_CHANNEL);
         this.lifter = provider.getDoubleSolenoid(
-            PneumaticModuleType.PneumaticsControlModule,
+            PneumaticsModuleType.PneumaticsControlModule,
             ElectronicsConstants.FORKLIFT_DOUBLE_SOLENOID_FORWARD,
             ElectronicsConstants.FORKLIFT_DOUBLE_SOLENOID_REVERSE
         );
@@ -51,12 +52,10 @@ public class ForkLiftMechanism implements IMechanism {
         }
 
         // Motor control based on analog input
-        if (this.driver.getAnalog(AnalogOperation.TurnRight)) 
-        {
+        if (this.driver.getAnalog(AnalogOperation.TurnRight)) {
             this.rightMotor.set(1.0);
         } 
-        else if (this.driver.getAnalog(AnalogOperation.TurnLeft)) 
-        {
+        else if (this.driver.getAnalog(AnalogOperation.TurnLeft)) {
             this.leftMotor.set(1.0);
         }
     }

@@ -1,14 +1,17 @@
 package frc.robot.mechanisms;
 
-import frc.lib.robotprovider.*;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
 import frc.lib.controllers.PIDHandler;
 import frc.lib.driver.IDriver;
 import frc.lib.mechanisms.IMechanism;
-import frc.robot.driver.DigitalOperation;
+import frc.lib.robotprovider.IEncoder;
+import frc.lib.robotprovider.IMotor;
+import frc.lib.robotprovider.IRobotProvider;
+import frc.lib.robotprovider.RobotMode;
 import frc.robot.ElectronicsConstants;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import frc.robot.driver.DigitalOperation;
 
 
 @Singleton
@@ -18,7 +21,7 @@ public class ElevatorMechanism implements IMechanism {
     private final IMotor elevatorMotor;
     private final IEncoder elevatorEncoder;
     // PID Controller
-    private PIDHandler pidController;
+    private final PIDHandler pidController;
     // Driver (for button input)
     private final IDriver driver;
     // Target height based on button presses

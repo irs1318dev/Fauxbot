@@ -97,4 +97,11 @@ public class FauxbotEncoder extends FauxbotSensorBase implements IEncoder
             this.prevTime = currTime;
         }
     }
+
+    @Override
+    public double getPosition()
+    {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getPosition'");
+    }
 }
