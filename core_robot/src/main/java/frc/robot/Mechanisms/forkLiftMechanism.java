@@ -16,7 +16,7 @@ import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
 
 @Singleton
-public class ForkLiftMechanism implements IMechanism {
+public class forkLiftMechanism implements IMechanism {
     // Lifter
     private final IDoubleSolenoid lifter;
     // Motors
@@ -26,7 +26,7 @@ public class ForkLiftMechanism implements IMechanism {
     private final IDriver driver;
 
     @Inject
-    public ForkLiftMechanism(IRobotProvider provider, IDriver driver) {
+    public forkLiftMechanism(IRobotProvider provider, IDriver driver) {
         this.driver = driver;
         this.leftMotor = provider.getTalon(ElectronicsConstants.FORKLIFT_LEFT_MOTOR_CHANNEL);
         this.rightMotor = provider.getTalon(ElectronicsConstants.FORKLIFT_RIGHT_MOTOR_CHANNEL);
