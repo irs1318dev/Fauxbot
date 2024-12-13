@@ -1,7 +1,7 @@
 package frc.lib.controllers;
 
-import frc.lib.filters.*;
-import frc.lib.robotprovider.*;
+import frc.lib.filters.FadingMemoryFilter;
+import frc.lib.robotprovider.ITimer;
 
 /**
  * This class is a PID handler with a feed-forward handler and a complementary filter.
@@ -289,5 +289,17 @@ public class PIDHandler
 
         this.errorFilter.reset();
         this.outputFilter.reset();
+    }
+
+    public void setCurrentPosition(double currentHeight)
+    {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setCurrentPosition'");
+    }
+
+    public double calculatePID(double targetHeight)
+    {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'calculatePID'");
     }
 }

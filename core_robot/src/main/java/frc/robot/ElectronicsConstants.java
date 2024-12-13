@@ -58,6 +58,12 @@ public class ElectronicsConstants
     public static final int FORKLIFT_RIGHT_MOTOR_CHANNEL = 0;
     public static final int FORKLIFT_DOUBLE_SOLENOID_FORWARD = 0;
     public static final int FORKLIFT_DOUBLE_SOLENOID_REVERSE = 0;
+    public static final int ELEVATOR_MOTOR_CHANNEL = 0;
+    public static final int ELEVATOR_ENCODER_CHANNEL_A = 0;
+    public static final int ELEVATOR_ENCODER_CHANNEL_B = 0;
+    public static final double PID_P = 0;
+    public static final double PID_I = 0;
+    public static final double PID_D = 0;
 
     //================================================== Garage Door =======================================================
 

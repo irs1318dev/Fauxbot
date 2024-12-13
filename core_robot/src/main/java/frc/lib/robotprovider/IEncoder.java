@@ -33,4 +33,6 @@ public interface IEncoder
      * Reset the current value to 0
      */
     void reset();
+
+    double getPosition();
 }

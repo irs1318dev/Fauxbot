@@ -34,7 +34,7 @@ public class ElevatorMechanism implements IMechanism {
         this.elevatorEncoder = provider.getEncoder(ElectronicsConstants.ELEVATOR_ENCODER_CHANNEL_A, ElectronicsConstants.ELEVATOR_ENCODER_CHANNEL_B);
 
         // Initialize the PID controller (assuming PID constants are defined in ElectronicsConstants)
-        this.pidController = new PIDHandler(ElectronicsConstants.PID_P, ElectronicsConstants.PID_I, ElectronicsConstants.PID_D);
+        this.pidController = new PIDHandler(ElectronicsConstants.PID_P, ElectronicsConstants.PID_I, ElectronicsConstants.PID_D, targetHeight, targetHeight, targetHeight, targetHeight, targetHeight, targetHeight, targetHeight, targetHeight, null);
     }
 
     @Override
@@ -49,23 +49,23 @@ public class ElevatorMechanism implements IMechanism {
     public void update(RobotMode mode) 
     {
         // Check for button presses to update the target height
-        if (driver.getDigitalOperation(DigitalOperation.FirstFloor)) 
+        if (driver.getDigital(DigitalOperation.FirstFloor)) 
         {
             targetHeight = 0.0;
         } 
-        else if (driver.getDigitalOperation(DigitalOperation.SecondFloor)) 
+        else if (driver.getDigital(DigitalOperation.SecondFloor)) 
         {
             targetHeight = 50.0;
         } 
-        else if (driver.getDigitalOperation(DigitalOperation.ThirdFloor)) 
+        else if (driver.getDigital(DigitalOperation.ThirdFloor)) 
         {
             targetHeight = 100.0;
         } 
-        else if (driver.getDigitalOperation(DigitalOperation.FourthFloor)) 
+        else if (driver.getDigital(DigitalOperation.FourthFloor)) 
         {
             targetHeight = 150.0;
         } 
-        else if (driver.getDigitalOperation(DigitalOperation.FifthFloor)) 
+        else if (driver.getDigital(DigitalOperation.FifthFloor)) 
         {
             targetHeight = 200.0;
         }
