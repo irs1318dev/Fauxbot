@@ -50,6 +50,10 @@ public class ElectronicsConstants
     public static final boolean PNEUMATICS_USE_ANALOG = false;
     public static final double PNEUMATICS_MIN_PSI = 110.0;
     public static final double PNEUMATICS_MAX_PSI = 120.0;
+    public static final int GARAGE_DOOR_MOTOR = 0;
+    public static final int GARAGE_DOOR_SENSOR_OPEN = 0;
+    public static final int GARAGE_DOOR_SENSOR_CLOSED = 0;
+    public static final int GARAGE_DOOR_THROUGH_BEAM = 0;
 
     //================================================== Garage Door =======================================================
 

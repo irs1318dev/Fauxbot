@@ -1,19 +1,16 @@
-package frc.robot.Mechanisms;
+package frc.robot.mechanisms;
 
 import frc.lib.mechanisms.IMechanism;
-import frc.robot.common.*;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
 import frc.lib.driver.IDriver;
-import frc.lib.robotprovider.IDigitalInput;
-import frc.lib.robotprovider.IMotor;
-import frc.lib.robotprovider.IRobotProvider;
+import frc.lib.robotprovider.*;
 import frc.robot.ElectronicsConstants;
 import frc.robot.LoggingKey;
 import frc.robot.TuningConstants;
-import frc.robot.common.robotprovider.*;
 import frc.robot.driver.*;
-import frc.robot.driver.common.Idriver;
 
 @Singleton
 public class ForkLiftMechanism implements IMechanism {
@@ -43,7 +40,7 @@ public class ForkLiftMechanism implements IMechanism {
     }
 
     @Override
-    public void update() {
+    public void update(RobotMode mode) {
         // Lifter control based on button presses
         if (this.driver.getDigitalOperation(DigitalOperation.LifterUp)) {
             this.lifter.set(DoubleSolenoidValue.Forward);

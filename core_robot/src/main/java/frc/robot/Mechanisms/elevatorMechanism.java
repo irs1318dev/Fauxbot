@@ -1,16 +1,18 @@
-package frc.robot.Mechanisms;
+package frc.robot.mechanisms;
 
-import frc.robot.common.*;
 import frc.lib.robotprovider.*;
-import frc.lib.mechanisms.PIDHandler;
+import frc.lib.controllers.PIDHandler;
+import frc.lib.driver.IDriver;
+import frc.lib.mechanisms.IMechanism;
+import frc.robot.driver.DigitalOperation;
 import frc.robot.ElectronicsConstants;
-import frc.robot.driver.IDriver;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+
 @Singleton
-public class elevatorMechanism implements IMechanism {
+public class ElevatorMechanism implements IMechanism {
 
     // Motor and Encoder
     private final IMotor elevatorMotor;
@@ -23,7 +25,7 @@ public class elevatorMechanism implements IMechanism {
     private double targetHeight = 0.0;
 
     @Inject
-    public elevatorMechanism(IRobotProvider provider, IDriver driver) 
+    public ElevatorMechanism(IRobotProvider provider, IDriver driver) 
     {
         this.driver = driver;
         
@@ -44,7 +46,7 @@ public class elevatorMechanism implements IMechanism {
     }
 
     @Override
-    public void update() 
+    public void update(RobotMode mode) 
     {
         // Check for button presses to update the target height
         if (driver.getDigitalOperation(DigitalOperation.FirstFloor)) 
