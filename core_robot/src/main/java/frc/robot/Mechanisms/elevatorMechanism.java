@@ -15,7 +15,7 @@ import frc.robot.driver.DigitalOperation;
 
 
 @Singleton
-public class ElevatorMechanism implements IMechanism {
+public class elevatorMechanism implements IMechanism {
 
     // Motor and Encoder
     private final IMotor elevatorMotor;
@@ -28,7 +28,7 @@ public class ElevatorMechanism implements IMechanism {
     private double targetHeight = 0.0;
 
     @Inject
-    public ElevatorMechanism(IRobotProvider provider, IDriver driver) 
+    public elevatorMechanism(IRobotProvider provider, IDriver driver) 
     {
         this.driver = driver;
         
