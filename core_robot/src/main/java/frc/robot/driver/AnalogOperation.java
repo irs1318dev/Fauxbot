@@ -5,7 +5,7 @@ import frc.lib.driver.IOperation;
 public enum AnalogOperation implements IOperation
 {
     ExampleOne,
-    ExampleTwo,
+    ExampleTwo, TurnRight, TurnLeft,
 
     // Forklift operations: 
 

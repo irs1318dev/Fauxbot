@@ -1,16 +1,18 @@
 package frc.robot.mechanisms;
 
-import frc.lib.mechanisms.IMechanism;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import frc.lib.driver.IDriver;
-import frc.lib.robotprovider.*;
+import frc.lib.mechanisms.IMechanism;
+import frc.lib.robotprovider.DoubleSolenoidValue;
+import frc.lib.robotprovider.IDoubleSolenoid;
+import frc.lib.robotprovider.IMotor;
+import frc.lib.robotprovider.IRobotProvider;
+import frc.lib.robotprovider.RobotMode;
 import frc.robot.ElectronicsConstants;
-import frc.robot.LoggingKey;
-import frc.robot.TuningConstants;
-import frc.robot.driver.*;
+import frc.robot.driver.AnalogOperation;
+import frc.robot.driver.DigitalOperation;
 
 @Singleton
 public class ForkLiftMechanism implements IMechanism {
@@ -42,16 +44,19 @@ public class ForkLiftMechanism implements IMechanism {
     @Override
     public void update(RobotMode mode) {
         // Lifter control based on button presses
-        if (this.driver.getDigitalOperation(DigitalOperation.LifterUp)) {
+        if (this.driver.getDigital(DigitalOperation.LifterUp)) {
             this.lifter.set(DoubleSolenoidValue.Forward);
-        } else if (this.driver.getDigitalOperation(DigitalOperation.LifterDown)) {
+        } else if (this.driver.getDigital(DigitalOperation.LifterDown)) {
             this.lifter.set(DoubleSolenoidValue.Reverse);
         }
 
         // Motor control based on analog input
-        if (this.driver.getAnalogOperation(AnalogOperation.TurnRight)) {
+        if (this.driver.getAnalog(AnalogOperation.TurnRight)) 
+        {
             this.rightMotor.set(1.0);
-        } else if (this.driver.getAnalogOperation(AnalogOperation.TurnLeft)) {
+        } 
+        else if (this.driver.getAnalog(AnalogOperation.TurnLeft)) 
+        {
             this.leftMotor.set(1.0);
         }
     }

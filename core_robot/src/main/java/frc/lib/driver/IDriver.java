@@ -1,8 +1,10 @@
 package frc.lib.driver;
 
-import frc.lib.robotprovider.*;
 import frc.lib.driver.descriptions.UserInputDevice;
-import frc.robot.driver.*;
+import frc.lib.robotprovider.JoystickRumbleType;
+import frc.lib.robotprovider.RobotMode;
+import frc.robot.driver.AnalogOperation;
+import frc.robot.driver.DigitalOperation;
 
 /**
  * Interface describing the Driver that operates the robot.  This is either autonomous or teleop/user driver in the real world, a mock for unit tests, or a fake for Fauxbot.
@@ -43,7 +45,7 @@ public interface IDriver
      * @param analogOperation to get
      * @return the current value of the analog operation
      */
-    public double getAnalog(AnalogOperation analogOperation);
+    public boolean getAnalog(AnalogOperation analogOperation);
 
     /**
      * Instructs the joystick to rumble (if supported)

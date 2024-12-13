@@ -54,6 +54,10 @@ public class ElectronicsConstants
     public static final int GARAGE_DOOR_SENSOR_OPEN = 0;
     public static final int GARAGE_DOOR_SENSOR_CLOSED = 0;
     public static final int GARAGE_DOOR_THROUGH_BEAM = 0;
+    public static final int FORKLIFT_LEFT_MOTOR_CHANNEL = 0;
+    public static final int FORKLIFT_RIGHT_MOTOR_CHANNEL = 0;
+    public static final int FORKLIFT_DOUBLE_SOLENOID_FORWARD = 0;
+    public static final int FORKLIFT_DOUBLE_SOLENOID_REVERSE = 0;
 
     //================================================== Garage Door =======================================================
 
