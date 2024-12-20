@@ -16,7 +16,7 @@ public interface ITalonSRX extends ITalonXBase
     void setPIDFFramePeriod(int periodMS);
     void configureVelocityMeasurements(int periodMS, int windowSize);
     void configureAllowableClosedloopError(int slotId, int error);
-    void setPIDF(double p, double i, double d, double f, int izone, double closeLoopRampRate, int slotId);
+    void setPIDF(double p, double i, double d, double f, double izone, double closeLoopRampRate, double slotId);
     void setInvertSensor(boolean flip);
     double getOutput();
 }
