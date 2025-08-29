@@ -16,6 +16,21 @@ public interface INetworkTableProvider
     void stopShuffleboardRecording();
 
     /**
+     * Create an alert to display on Shuffleboard/SmartDashboard
+     * @param text to display (may be updated later)
+     * @param type severity of the alert (info, warning, error)
+     * @return alert object to update text and enable/disable the alert
+     */
+    IAlert createAlert(String text, AlertType type);
+
+    /**
+     * Create a Field2d widget in Shuffleboard/SmartDashboard
+     * @param name of the widget
+     * @return field object to update the robot pose
+     */
+    IField2d getField2d(String name);
+
+    /**
      * Create a number slider for input on Shuffleboard/SmartDashboard
      * @param title of the slider
      * @param initialValue of the slider

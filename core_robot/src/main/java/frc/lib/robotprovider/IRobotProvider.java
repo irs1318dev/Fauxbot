@@ -83,7 +83,15 @@ public interface IRobotProvider
      * @param motorType that is connected to the SparkMax motor controller (brushed, brushless)
      * @return SparkMax object
      */
-    public ISparkMax getSparkMax(int canId, SparkMaxMotorType motorType);
+    public ISparkMax getSparkMax(int canId, SparkMotorType motorType);
+
+    /**
+     * Create a SparkFlex object connected to the specified CAN device
+     * @param canId that the device has been assigned on the default canbus
+     * @param motorType that is connected to the SparkFlex motor controller (brushed, brushless)
+     * @return SparkFlex object
+     */
+    public ISparkFlex getSparkFlex(int canId, SparkMotorType motorType);
 
     /**
      * Create a Compressor object for the default pneumatics device (moduleId == 0)

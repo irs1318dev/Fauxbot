@@ -3,6 +3,7 @@ package frc.lib.driver.states;
 import java.util.EnumSet;
 
 import frc.lib.robotprovider.IJoystick;
+import frc.robot.driver.OperationContext;
 import frc.robot.driver.Shift;
 
 /**
@@ -26,8 +27,9 @@ public interface IOperationState
     /**
      * Checks whether the operation state should change based on the joysticks and active stifts. 
      * @param joysticks to update from
-     * @param activeShifts to update from
+     * @param activeShifts shifts currently applied by operator
+     * @param currentContext operation context currently applied to the driver 
      * @return true if there was any active user input that triggered a state change
      */
-    public boolean checkInput(IJoystick[] joysticks, EnumSet<Shift> activeShifts);
+    public boolean checkInput(IJoystick[] joysticks, EnumSet<Shift> activeShifts, OperationContext currentContext);
 }

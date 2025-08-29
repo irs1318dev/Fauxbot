@@ -6,23 +6,54 @@ package frc.lib.robotprovider;
 public interface IPathPlanner
 {
     /**
-     * Load a trajectory that was created by the external PathPlanner tool
-     * @param name of the file (without the .path)
-     * @param maxVelocity in inches per second
-     * @param maxAcceleration in inches per second squared
-     * @return trajectory to follow
+     * Get whether the path planner has been configured yet or not
+     * @return true if configured, otherwise false
      */
-    public ITrajectory loadTrajectory(String name, double maxVelocity, double maxAcceleration);
+    boolean isConfigured();
+
+    /**
+     * Configure a swerve drive robot for use with path planner
+     * Note: this MUST happen before loading/building any trajectories
+     * Note: assumes 4 swerve modules, each located consistent distances from the center of the robot
+     * @param robotWeight in pounds
+     * @param robotMomentOfInertia in pound * square-foot
+     * @param swerveModuleWheelRadius in inches
+     * @param swerveModuleMaxVelocity in inches
+     * @param swerveModuleWheelCoefficientOfFriction unitless
+     * @param swerveDriveGearReduction gear reduction ratio for the swerve module's drive motor
+     * @param swerveDriveMotorType motor type used in the swerve module for driving
+     * @param swerveDriveMotorCount number of drive motors per swerve module
+     * @param swerveDriveMotorCurrentLimit current limit for the swerve drive motors, in amps
+     * @param horizontalModuleCenterDistance robot "y" distance from center to modules in inches
+     * @param verticalModuleCenterDistance robot "x" distance from center to modules in inches
+     */
+    void configureRobot(
+        double robotWeight,
+        double robotMomentOfInertia,
+        double swerveModuleWheelRadius,
+        double swerveModuleMaxVelocity,
+        double swerveModuleWheelCoefficientOfFriction,
+        double swerveDriveGearReduction,
+        MotorType swerveDriveMotorType,
+        int swerveDriveMotorCount,
+        double swerveDriveMotorCurrentLimit,
+        double horizontalModuleCenterDistance,
+        double verticalModuleCenterDistance);
 
     /**
      * Load a trajectory that was created by the external PathPlanner tool
      * @param name of the file (without the .path)
-     * @param maxVelocity in inches per second
-     * @param maxAcceleration in inches per second squared
+     * @return trajectory to follow
+     */
+    public ITrajectory loadTrajectory(String name);
+
+    /**
+     * Load a trajectory that was created by the external PathPlanner tool
+     * @param name of the file (without the .path)
      * @param reversed whether to return the path in reversed direction
      * @return trajectory to follow
      */
-    public ITrajectory loadTrajectory(String name, double maxVelocity, double maxAcceleration, boolean reversed);
+    public ITrajectory loadTrajectory(String name, boolean reversed);
 
     /**
      * Build a trajectory involving the provided waypoints with the provided velocity/acceleration constraints

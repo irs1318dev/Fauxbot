@@ -14,6 +14,7 @@ import frc.lib.driver.descriptions.DigitalOperationDescription;
 import frc.lib.driver.descriptions.UserInputDevice;
 import frc.lib.helpers.ExceptionHelpers;
 import frc.lib.helpers.SetHelper;
+import frc.robot.driver.OperationContext;
 import frc.robot.driver.Shift;
 
 /**
@@ -80,17 +81,25 @@ public class DigitalOperationState extends OperationState
     /**
      * Checks whether the operation state should change based on the joysticks and active stifts. 
      * @param joysticks to update from
-     * @param activeShifts to update from
+     * @param activeShifts shifts currently applied by operator
+     * @param currentContext operation context currently applied to the driver 
      * @return true if there was any active user input that triggered a state change
      */
     @Override
-    public boolean checkInput(IJoystick[] joysticks, EnumSet<Shift> activeShifts)
+    public boolean checkInput(IJoystick[] joysticks, EnumSet<Shift> activeShifts, OperationContext currentContext)
     {
         DigitalOperationDescription description = (DigitalOperationDescription)this.getDescription();
 
         UserInputDevice userInputDevice = description.getUserInputDevice();
         if (userInputDevice == UserInputDevice.None)
         {
+            return false;
+        }
+
+        EnumSet<OperationContext> relevantContexts = description.getRelevantContexts();
+        if (relevantContexts != null && !relevantContexts.contains(currentContext))
+        {
+            this.button.updateState(false);
             return false;
         }
 
@@ -118,7 +127,7 @@ public class DigitalOperationState extends OperationState
         UserInputDeviceButton relevantButton = description.getUserInputDeviceButton();
         if (relevantButton == UserInputDeviceButton.POV)
         {
-            buttonPressed = relevantJoystick.getPOV() == description.getUserInputDevicePovValue();
+            buttonPressed = relevantJoystick.getPOV() == description.getUserInputDevicePovValue().Value;
         }
         else if (relevantButton == UserInputDeviceButton.ANALOG_AXIS_RANGE)
         {

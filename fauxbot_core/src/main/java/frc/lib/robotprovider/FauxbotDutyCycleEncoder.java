@@ -56,6 +56,10 @@ public class FauxbotDutyCycleEncoder extends FauxbotSensorBase implements IDutyC
     {
     }
 
+    public void setInverted(boolean inverted)
+    {
+    }
+
     public void setPositionOffset(double offset)
     {
         this.offset = offset;

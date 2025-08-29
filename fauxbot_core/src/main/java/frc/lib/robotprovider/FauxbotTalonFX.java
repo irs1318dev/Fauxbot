@@ -64,6 +64,11 @@ public class FauxbotTalonFX extends FauxbotAdvancedMotorBase implements ITalonFX
     }
 
     @Override
+    public void setOutputUpdateRate(double frequencyHz)
+    {
+    }
+
+    @Override
     public void setForwardLimitSwitchUpdateRate(double frequencyHz)
     {
     }
@@ -110,6 +115,11 @@ public class FauxbotTalonFX extends FauxbotAdvancedMotorBase implements ITalonFX
 
     @Override
     public void setMotionMagicPIDVS(double p, double i, double d, double v, double s, double cruiseVelocity, double maxAcceleration, double maxJerk, int slotId)
+    {
+    }
+
+    @Override
+    public void setMotionMagicExpoPIDVS(double p, double i, double d, double v, double s, double cruiseVelocity, double velocityVoltage, double accelerationVoltage, int slotId)
     {
     }
 
@@ -219,6 +229,12 @@ public class FauxbotTalonFX extends FauxbotAdvancedMotorBase implements ITalonFX
 
     @Override
     public double getError()
+    {
+        return 0.0;
+    }
+
+    @Override
+    public double getOutput()
     {
         return 0.0;
     }

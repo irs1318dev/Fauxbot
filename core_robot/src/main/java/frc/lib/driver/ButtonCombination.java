@@ -6,10 +6,10 @@ class ButtonCombination implements Comparable<ButtonCombination>
 {
     public final UserInputDevice device;
     public final UserInputDeviceButton button;
-    public final int pov;
+    public final UserInputDevicePOV pov;
     public final AnalogAxis axis;
 
-    public ButtonCombination(UserInputDevice device, UserInputDeviceButton button, int pov, AnalogAxis axis)
+    public ButtonCombination(UserInputDevice device, UserInputDeviceButton button, UserInputDevicePOV pov, AnalogAxis axis)
     {
         this.device = device;
         this.button = button;
@@ -20,7 +20,7 @@ class ButtonCombination implements Comparable<ButtonCombination>
     @Override
     public int hashCode()
     {
-        return this.device.hashCode() ^ this.button.hashCode() ^ this.pov ^ this.axis.hashCode();
+        return this.device.hashCode() ^ this.button.hashCode() ^ this.pov.Value ^ this.axis.hashCode();
     }
 
     @Override
@@ -79,7 +79,7 @@ class ButtonCombination implements Comparable<ButtonCombination>
             return buttonComparison;
         }
 
-        int povComparison = Integer.compare(this.pov, o.pov);
+        int povComparison = Integer.compare(this.pov.Value, o.pov.Value);
         if (povComparison != 0)
         {
             return povComparison;

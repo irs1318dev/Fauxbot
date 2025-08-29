@@ -6,6 +6,9 @@
 /.gradle/
 /.settings/
 /.vscode/
+/*/bin/
+/*/build/
+/*/out/
 !gradle/wrapper/gradle-wrapper.jar
 .project
 .classpath

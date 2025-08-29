@@ -1,6 +1,7 @@
 package frc.lib.driver.states;
 
-import frc.lib.driver.IOperation;
+import java.util.EnumSet;
+
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
 
@@ -10,11 +11,9 @@ import frc.robot.driver.DigitalOperation;
  */
 public interface IMacroOperationState extends IOperationState
 {
-    public AnalogOperation[] getMacroCancelAnalogOperations();
+    public EnumSet<AnalogOperation> getMacroCancelAnalogOperations();
 
-    public DigitalOperation[] getMacroCancelDigitalOperations();
-
-    public IOperation[] getAffectedOperations();
+    public EnumSet<DigitalOperation> getMacroCancelDigitalOperations();
 
     public boolean getIsActive();
 

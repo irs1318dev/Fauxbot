@@ -9,11 +9,11 @@ public enum LoggingKey
 {
     RobotState("r/state", LoggingType.String, false, 1, true),
     RobotTime("r/time", LoggingType.Number, false, 1, true),
-    RobotMatch("r/match", LoggingType.String, false, 50),
     RobotCrash("r/crash", LoggingType.String, false, true),
     DriverMode("driver/mode", LoggingType.String, false, 1, true),
     DriverActiveMacros("driver/activeMacros", LoggingType.String, false, 1, true),
     DriverActiveShifts("driver/activeShifts", LoggingType.String, false),
+    DriverActiveContext("driver/activeContext", LoggingType.String, false),
     AutonomousSelection("auto/selected", LoggingType.String, false),
     AutonomousDSMessage("auto/dsMessage", LoggingType.String, false),
     ShooterAngle("shooter.angle", LoggingType.Number, false),
@@ -58,3 +58,5 @@ public enum LoggingKey
         this.shouldLogToCsv = shouldLogToCsv;
     }
 }
+
+

@@ -11,8 +11,10 @@ public class TuningConstants
 {
     public static final boolean COMPETITION_ROBOT = false;
     public static final boolean USE_ADVANTAGE_KIT = true;
-    public static final boolean LOG_NULL_WHILE_DISABLED = true;
+    public static final boolean READ_SENSORS_WHILE_DISABLED = true;
+    public static final boolean LOG_NULL_WHILE_DISABLED = true && !TuningConstants.READ_SENSORS_WHILE_DISABLED;
     public static final boolean RETREIVE_PDH_FIRST = true;
+    public static final boolean TRACER_ENABLED = false;
 
     public static boolean THROW_EXCEPTIONS = true;
     public static boolean LOG_EXCEPTIONS = true;
@@ -31,7 +33,7 @@ public class TuningConstants
 
     //================================================== Logging  ==============================================================
 
-    public static final int CALENDAR_YEAR = 2024;
+    public static final int CALENDAR_YEAR = 2025;
     public static final boolean LOG_TO_FILE = false; // TuningConstants.COMPETITION_ROBOT;
     public static final boolean LOG_FILE_ONLY_COMPETITION_MATCHES = false;
     public static final long LOG_FILE_REQUIRED_FREE_SPACE = 50 * 1024 * 1024; // require at least 50 MB of space

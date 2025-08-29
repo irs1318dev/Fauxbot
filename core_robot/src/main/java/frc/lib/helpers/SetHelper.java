@@ -61,6 +61,13 @@ public class SetHelper
      */
     public static <T extends Enum<T>> EnumSet<T> RelativeComplement(EnumSet<T> notIn, Set<T> in)
     {
+        if (in.isEmpty())
+        {
+            EnumSet<T> empty = notIn.clone();
+            empty.clear();
+            return empty;
+        }
+
         EnumSet<T> result = EnumSet.copyOf(in);
         result.removeAll(notIn);
         return result;

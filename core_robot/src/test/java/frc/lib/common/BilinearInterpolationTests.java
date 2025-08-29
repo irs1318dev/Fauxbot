@@ -7,7 +7,7 @@ import frc.lib.helpers.BilinearInterpolator;
 
 public class BilinearInterpolationTests
 {
-    // @Test
+    @Test
     public void checkSimpleBilinearSystem()
     {
         double[] xSamplePoints = new double[] { 0.0, 1.0, 2.0 };

@@ -77,9 +77,15 @@ public class FauxbotProvider implements IRobotProvider
     }
 
     @Override
-    public ISparkMax getSparkMax(int deviceID, SparkMaxMotorType motorType)
+    public ISparkMax getSparkMax(int deviceId, SparkMotorType motorType)
     {
-        return new FauxbotSparkMax(deviceID, motorType);
+        return new FauxbotSparkMax(deviceId, motorType);
+    }
+
+    @Override
+    public ISparkFlex getSparkFlex(int deviceId, SparkMotorType motorType)
+    {
+        return new FauxbotSparkFlex(deviceId, motorType);
     }
 
     @Override

@@ -23,7 +23,7 @@ import com.google.inject.Injector;
  *
  */
 @Singleton
-public class Driver implements IDriver
+public class Driver implements IDriver, IOperationModifier
 {
     private final ILogger logger;
 
@@ -42,6 +42,7 @@ public class Driver implements IDriver
     private IControlTask autonomousTask;
 
     private RobotMode currentMode;
+    private OperationContext currentContext;
 
     /**
      * Initializes a new Driver
@@ -119,12 +120,11 @@ public class Driver implements IDriver
                 (MacroOperation)description.getOperation(),
                 new MacroOperationState(
                     description,
-                    this.analogOperationStateMap,
-                    this.digitalOperationStateMap,
+                    this,
                     this.injector));
         }
 
-        ButtonMapVerifier.Verify(buttonMap);
+        ButtonMapVerifier.verify(buttonMap);
 
         this.joysticks = new IJoystick[UserInputDevice.MaxCount.getId()];
         for (UserInputDevice device : UserInputDevice.values())
@@ -138,8 +138,9 @@ public class Driver implements IDriver
         }
 
         this.currentMode = RobotMode.Disabled;
+        this.currentContext = OperationContext.General;
 
-        // initialize the path manager and load all of the paths
+        // initialize the trajectory manager singleton, if it hasn't been already
         injector.getInstance(TrajectoryManager.class);
     }
 
@@ -176,7 +177,7 @@ public class Driver implements IDriver
         for (Shift shift : this.shiftMap.keySet())
         {
             ShiftDescription shiftDescription = this.shiftMap.get(shift);
-            if (this.currentMode != RobotMode.Autonomous && shiftDescription.checkInput(this.joysticks))
+            if (this.currentMode != RobotMode.Autonomous && shiftDescription.checkInput(this.joysticks, this.currentContext))
             {
                 activeShifts.add(shift);
             }
@@ -189,7 +190,7 @@ public class Driver implements IDriver
         for (AnalogOperation analogOperation : this.allAnalogOperations)
         {
             AnalogOperationState opState = this.analogOperationStateMap.get(analogOperation);
-            boolean receivedInput = this.currentMode != RobotMode.Autonomous && opState.checkInput(this.joysticks, activeShifts);
+            boolean receivedInput = this.currentMode != RobotMode.Autonomous && opState.checkInput(this.joysticks, activeShifts, this.currentContext);
             if (receivedInput)
             {
                 modifiedAnalogOperations.add(analogOperation);
@@ -208,7 +209,7 @@ public class Driver implements IDriver
         for (DigitalOperation digitalOperation : this.allDigitalOperations)
         {
             DigitalOperationState opState = this.digitalOperationStateMap.get(digitalOperation);
-            boolean receivedInput = this.currentMode != RobotMode.Autonomous && opState.checkInput(this.joysticks, activeShifts);
+            boolean receivedInput = this.currentMode != RobotMode.Autonomous && opState.checkInput(this.joysticks, activeShifts, this.currentContext);
             if (receivedInput)
             {
                 modifiedDigitalOperations.add(digitalOperation);
@@ -230,7 +231,7 @@ public class Driver implements IDriver
             IMacroOperationState macroState = this.macroStateMap.get(macroOperation);
             if (this.currentMode != RobotMode.Autonomous)
             {
-                macroState.checkInput(this.joysticks, activeShifts);
+                macroState.checkInput(this.joysticks, activeShifts, this.currentContext);
             }
 
             if (macroState.getIsActive())
@@ -358,6 +359,7 @@ public class Driver implements IDriver
 
         this.logger.logString(LoggingKey.DriverActiveMacros, macroString);
         this.logger.logString(LoggingKey.DriverActiveShifts, activeShifts.toString());
+        this.logger.logString(LoggingKey.DriverActiveContext, this.currentContext.toString());
     }
 
     /**
@@ -367,11 +369,14 @@ public class Driver implements IDriver
     public void stop()
     {
         this.currentMode = RobotMode.Disabled;
+        this.logger.logString(LoggingKey.DriverMode, this.currentMode.toString());
 
         if (this.macroStateMap.containsKey(MacroOperation.AutonomousRoutine))
         {
             this.macroStateMap.remove(MacroOperation.AutonomousRoutine);
         }
+
+        this.autonomousTask = null;
 
         // cancel all interruption of buttons:
         for (AnalogOperationState state : this.analogOperationStateMap.values())
@@ -393,6 +398,19 @@ public class Driver implements IDriver
     }
 
     /**
+     * Prepares the autonomous routine
+     */
+    @Override
+    public void prepAutoMode()
+    {
+        this.autonomousTask = this.routineSelector.selectRoutine(RobotMode.Autonomous);
+        if (this.autonomousTask != null)
+        {
+            this.autonomousTask.initialize(this, injector);
+        }
+    }
+
+    /**
      * Starts a particular mode of the match
      * @param mode that is being started
      */
@@ -401,13 +419,23 @@ public class Driver implements IDriver
     {
         this.currentMode = mode;
 
-        this.autonomousTask = this.routineSelector.selectRoutine(mode);
-        if (this.autonomousTask != null)
+        if (mode == RobotMode.Autonomous)
         {
-            this.autonomousTask.initialize(this.analogOperationStateMap, this.digitalOperationStateMap, injector);
-            this.macroStateMap.put(
-                MacroOperation.AutonomousRoutine,
-                new AutonomousOperationState(this.autonomousTask, this.analogOperationStateMap, this.digitalOperationStateMap));
+            if (this.autonomousTask == null)
+            {
+                this.autonomousTask = this.routineSelector.selectRoutine(mode);
+                if (this.autonomousTask != null)
+                {
+                    this.autonomousTask.initialize(this, injector);
+                }
+            }
+
+            if (this.autonomousTask != null)
+            {
+                this.macroStateMap.put(
+                    MacroOperation.AutonomousRoutine,
+                    new AutonomousOperationState(this.autonomousTask, this));
+            }
         }
     }
 
@@ -416,6 +444,7 @@ public class Driver implements IDriver
      * @param digitalOperation to get
      * @return the current value of the digital operation
      */
+    @Override
     public boolean getDigital(DigitalOperation digitalOperation)
     {
         DigitalOperationState state = this.digitalOperationStateMap.get(digitalOperation);
@@ -427,6 +456,7 @@ public class Driver implements IDriver
      * @param analogOperation to get
      * @return the current value of the analog operation
      */
+    @Override
     public double getAnalog(AnalogOperation analogOperation)
     {
         AnalogOperationState state = this.analogOperationStateMap.get(analogOperation);
@@ -439,6 +469,7 @@ public class Driver implements IDriver
      * @param type whether left or right rumbler
      * @param value between 0.0 for no rumble and 1.0 for full rumble
      */
+    @Override
     public void setRumble(UserInputDevice device, JoystickRumbleType type, double value)
     {
         IJoystick joystick = this.joysticks[device.getId()];
@@ -449,5 +480,73 @@ public class Driver implements IDriver
         }
 
         joystick.setRumble(type, value);
+    }
+
+    /**
+     * Retrieves the current context.
+     * @returns the current context
+     */
+    @Override
+    public OperationContext getContext()
+    {
+        return this.currentContext;
+    }
+
+    /**
+     * Updates the driver to be in the specified context.
+     * @param context to apply
+     */
+    @Override
+    public void setContext(OperationContext context)
+    {
+        this.currentContext = context;
+    }
+
+    /**
+     * Sets the operation's interrupted state
+     * @param operation to set the interrupt state for
+     * @param interrupted whether the operation is interrupted
+     */
+    @Override
+    public void setAnalogOperationInterrupt(AnalogOperation operation, boolean interrupted)
+    {
+        AnalogOperationState operationState = this.analogOperationStateMap.get(operation);
+        operationState.setIsInterrupted(interrupted);
+    }
+
+    /**
+     * Sets the operation's interrupted state
+     * @param operation to set the interrupt state for
+     * @param interrupted whether the operation is interrupted
+     */
+    @Override
+    public void setDigitalOperationInterrupt(DigitalOperation operation, boolean interrupted)
+    {
+        DigitalOperationState operationState = this.digitalOperationStateMap.get(operation);
+        operationState.setIsInterrupted(interrupted);
+    }
+
+    /**
+     * Sets the interrupted value for the operation state for a given analog operation to the provided value
+     * @param operation to set the interrupt state for
+     * @param value to set as the interrupt
+     */
+    @Override
+    public void setAnalogOperationValue(AnalogOperation operation, double value)
+    {
+        AnalogOperationState operationState = this.analogOperationStateMap.get(operation);
+        operationState.setInterruptState(value);
+    }
+
+    /**
+     * Sets the interrupted value for the operation state for a given digital operation to the provided value
+     * @param operation to set the interrupt state for
+     * @param value to set as the interrupt
+     */
+    @Override
+    public void setDigitalOperationValue(DigitalOperation operation, boolean value)
+    {
+        DigitalOperationState operationState = this.digitalOperationStateMap.get(operation);
+        operationState.setInterruptState(value);
     }
 }

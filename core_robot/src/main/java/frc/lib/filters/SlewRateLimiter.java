@@ -9,11 +9,11 @@ import frc.lib.robotprovider.ITimer;
  */
 public class SlewRateLimiter implements ISimpleFilter
 {
-    private final double maxPositiveRate;
-    private final double maxNegativeRate;
-    private final double initialValue;
-
     private final ITimer timer;
+
+    private final double initialValue;
+    private double maxPositiveRate;
+    private double maxNegativeRate;
 
     private double prevTime;
     private double prevValue;
@@ -27,13 +27,14 @@ public class SlewRateLimiter implements ISimpleFilter
      */
     public SlewRateLimiter(ITimer timer, double maxNegativeRate, double maxPositiveRate, double initialValue)
     {
-        ExceptionHelpers.Assert(maxPositiveRate >= 0.0, "Expect maxPostivieRate to be positive (non-negative)");
-        ExceptionHelpers.Assert(maxNegativeRate <= 0.0, "Expect maxNegativeRate to be negative (non-positive)");
+        ExceptionHelpers.Assert(maxPositiveRate >= 0.0, "Expect maxPostivieRate to be positive (non-negative): %f", maxPositiveRate);
+        ExceptionHelpers.Assert(maxNegativeRate <= 0.0, "Expect maxNegativeRate to be negative (non-positive): %f", maxNegativeRate);
 
         this.timer = timer;
+        this.initialValue = initialValue;
+
         this.maxNegativeRate = maxNegativeRate;
         this.maxPositiveRate = maxPositiveRate;
-        this.initialValue = initialValue;
 
         this.prevValue = this.initialValue;
         this.prevTime = 0.0;
@@ -57,7 +58,7 @@ public class SlewRateLimiter implements ISimpleFilter
         else
         {
             newValue =
-                Helpers.EnforceRange(
+                Helpers.enforceRange(
                     value,
                     this.prevValue + delta * this.maxNegativeRate,
                     this.prevValue + delta * this.maxPositiveRate);
@@ -84,5 +85,19 @@ public class SlewRateLimiter implements ISimpleFilter
     {
         this.prevValue = this.initialValue;
         this.prevTime = 0.0;
+    }
+
+    /**
+     * Updates the limiter to use the newly-provided rates
+     * @param maxNegativeRate to determine how to cap value decreases between updates
+     * @param maxPositiveRate to determine how to cap value increases between updates
+     */
+    public void configureRate(double maxNegativeRate, double maxPositiveRate)
+    {
+        ExceptionHelpers.Assert(maxPositiveRate >= 0.0, "Expect maxPostivieRate to be positive (non-negative): %f", maxPositiveRate);
+        ExceptionHelpers.Assert(maxNegativeRate <= 0.0, "Expect maxNegativeRate to be negative (non-positive): %f", maxNegativeRate);
+
+        this.maxNegativeRate = maxNegativeRate;
+        this.maxPositiveRate = maxPositiveRate;
     }
 }

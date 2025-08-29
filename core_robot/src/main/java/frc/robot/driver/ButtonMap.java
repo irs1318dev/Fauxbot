@@ -14,6 +14,10 @@ import frc.robot.driver.controltasks.*;
 @Singleton
 public class ButtonMap implements IButtonMap
 {
+    static
+    {
+    }
+
     private static ShiftDescription[] ShiftButtonSchema = new ShiftDescription[]
     {
         new ShiftDescription(

@@ -1,7 +1,8 @@
 package frc.lib.filters;
 
 /**
- * Provides a simple threshold that will maintain the current value until the value has been consistently different for the certain number of times
+ * Provides a simple threshold that will maintain the current value until the value has been consistently different for the certain number of times.
+ * Similar to the WPILib "Debouncer", but uses a count threshold (update cycles, typically 20ms each) instead of a time-based threshold.
  */
 public class BooleanThresholdFilter
 {

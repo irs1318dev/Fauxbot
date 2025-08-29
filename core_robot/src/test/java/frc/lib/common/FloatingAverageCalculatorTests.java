@@ -11,11 +11,11 @@ import frc.lib.robotprovider.ITimer;
 
 public class FloatingAverageCalculatorTests
 {
-    // @Test
+    @Test
     public void testFloatingAverageOverOneSecond()
     {
         ITimer timer = mock(ITimer.class);
-        FloatingAverageCalculator calc = new FloatingAverageCalculator(timer, 1000.0, 1.0, 50.0);
+        FloatingAverageCalculator calc = new FloatingAverageCalculator(timer, 0.0, 1000.0, 1.0, 50.0);
 
         when(timer.get()).thenReturn(0.1);
         double result = calc.update(3.0);
@@ -58,11 +58,11 @@ public class FloatingAverageCalculatorTests
         Assertions.assertEquals(3.5, result, 0.0001, "expect floating average to maintain equivalent value when the next update has the same value");
     }
 
-    // @Test
+    @Test
     public void testFloatingAverageOverHalfSecond()
     {
         ITimer timer = mock(ITimer.class);
-        FloatingAverageCalculator calc = new FloatingAverageCalculator(timer, 1000.0, 0.5, 50.0);
+        FloatingAverageCalculator calc = new FloatingAverageCalculator(timer, 0.0, 1000.0, 0.5, 50.0);
 
         when(timer.get()).thenReturn(0.1);
         double result = calc.update(13.0);
@@ -101,11 +101,11 @@ public class FloatingAverageCalculatorTests
         Assertions.assertEquals(13.5, result, 0.0001, "expect floating average to maintain equivalent value when the next update has the same value");
     }
 
-    // @Test
+    @Test
     public void testFloatingAverageOverTwoSeconds()
     {
         ITimer timer = mock(ITimer.class);
-        FloatingAverageCalculator calc = new FloatingAverageCalculator(timer, 1000.0, 2.0, 50.0);
+        FloatingAverageCalculator calc = new FloatingAverageCalculator(timer, 0.0, 1000.0, 2.0, 50.0);
 
         when(timer.get()).thenReturn(1.0);
         double result = calc.update(10.0);
@@ -144,11 +144,11 @@ public class FloatingAverageCalculatorTests
         Assertions.assertEquals(10.125, result, 0.0001, "expect floating average to maintain equivalent value when the next update has the same value");
     }
 
-    // @Test
+    @Test
     public void testFloatingAverageOverQuarterSecond()
     {
         ITimer timer = mock(ITimer.class);
-        FloatingAverageCalculator calc = new FloatingAverageCalculator(timer, 20.0, 0.25, 100.0);
+        FloatingAverageCalculator calc = new FloatingAverageCalculator(timer, 0.0, 20.0, 0.25, 100.0);
 
         when(timer.get()).thenReturn(0.1);
         double result = calc.update(13.0);

@@ -3,7 +3,9 @@ package frc.robot.driver;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import frc.lib.robotprovider.*;
+import frc.lib.robotprovider.INetworkTableProvider;
+import frc.lib.robotprovider.IRobotProvider;
+import frc.lib.robotprovider.ISendableChooser;
 
 @Singleton
 public class SmartDashboardSelectionManager
@@ -22,6 +24,7 @@ public class SmartDashboardSelectionManager
         None,
         Something,
     }
+
     /**
      * Initializes a new SmartDashboardSelectionManager
      */
@@ -31,10 +34,12 @@ public class SmartDashboardSelectionManager
     {
         INetworkTableProvider networkTableProvider = provider.getNetworkTableProvider();
 
+        // Routine Chooser
         this.routineChooser = networkTableProvider.getSendableChooser("Auto Routine");
         this.routineChooser.addDefault("None", AutoRoutine.None);
         this.routineChooser.addObject("Something", AutoRoutine.Something);
 
+        // Position Chooser
         this.positionChooser = networkTableProvider.getSendableChooser("Start Position");
         this.positionChooser.addDefault("None", StartPosition.None);
         this.positionChooser.addObject("Something", StartPosition.Something);

@@ -4,8 +4,10 @@ import java.util.EnumSet;
 
 import frc.lib.driver.AnalogAxis;
 import frc.lib.driver.UserInputDeviceButton;
+import frc.lib.driver.UserInputDevicePOV;
 import frc.lib.driver.buttons.ButtonType;
 import frc.robot.driver.DigitalOperation;
+import frc.robot.driver.OperationContext;
 import frc.robot.driver.Shift;
 
 /**
@@ -14,7 +16,7 @@ import frc.robot.driver.Shift;
 public class DigitalOperationDescription extends OperationDescription<DigitalOperation>
 {
     private final UserInputDeviceButton userInputDeviceButton;
-    private final int userInputDevicePovValue;
+    private final UserInputDevicePOV userInputDevicePovValue;
     private final AnalogAxis userInputDeviceAxis;
     private final ButtonType buttonType;
 
@@ -29,10 +31,11 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
             operation,
             UserInputDevice.None,
             UserInputDeviceButton.NONE,
-            -1,
+            UserInputDevicePOV.NONE,
             AnalogAxis.NONE,
             0.0,
             0.0,
+            null,
             null,
             null,
             ButtonType.Simple);
@@ -55,10 +58,11 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
             operation,
             userInputDevice,
             userInputDeviceButton,
-            -1,
+            UserInputDevicePOV.NONE,
             AnalogAxis.NONE,
             0.0,
             0.0,
+            null,
             null,
             null,
             buttonType);
@@ -71,6 +75,7 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
      * @param userInputDeviceButton the button on the device that performs the operation
      * @param relevantShifts the shifts that should be considered when checking if we should perform the operation
      * @param requiredShifts the shift button(s) that must be applied to perform operation
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
      * @param buttonType the behavior type to use for the operation
      */
     public DigitalOperationDescription(
@@ -79,18 +84,20 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
         UserInputDeviceButton userInputDeviceButton,
         EnumSet<Shift> relevantShifts,
         EnumSet<Shift> requiredShifts,
+        EnumSet<OperationContext> relevantContexts,
         ButtonType buttonType)
     {
         this(
             operation,
             userInputDevice,
             userInputDeviceButton,
-            -1,
+            UserInputDevicePOV.NONE,
             AnalogAxis.NONE,
             0.0,
             0.0,
             relevantShifts,
             requiredShifts,
+            relevantContexts,
             buttonType);
     }
 
@@ -104,7 +111,7 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
     public DigitalOperationDescription(
         DigitalOperation operation,
         UserInputDevice userInputDevice,
-        int povValue,
+        UserInputDevicePOV povValue,
         ButtonType buttonType)
     {
         this(
@@ -115,6 +122,7 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
             AnalogAxis.NONE,
             0.0,
             0.0,
+            null,
             null,
             null,
             buttonType);
@@ -127,14 +135,16 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
      * @param povValue the value of the POV (hat) used to perform the operation
      * @param relevantShifts the shifts that should be considered when checking if we should perform the operation
      * @param requiredShifts the shift button(s) that must be applied to perform operation
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
      * @param buttonType the behavior type to use for the operation
      */
     public DigitalOperationDescription(
         DigitalOperation operation,
         UserInputDevice userInputDevice,
-        int povValue,
+        UserInputDevicePOV povValue,
         EnumSet<Shift> relevantShifts,
         EnumSet<Shift> requiredShifts,
+        EnumSet<OperationContext> relevantContexts,
         ButtonType buttonType)
     {
         this(
@@ -147,6 +157,7 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
             0.0,
             relevantShifts,
             requiredShifts,
+            relevantContexts,
             buttonType);
     }
 
@@ -171,10 +182,11 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
             operation,
             userInputDevice,
             UserInputDeviceButton.ANALOG_AXIS_RANGE,
-            -1,
+            UserInputDevicePOV.NONE,
             analogAxis,
             axisRangeMinValue,
             axisRangeMaxValue,
+            null,
             null,
             null,
             buttonType);
@@ -189,6 +201,7 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
      * @param axisRangeMaxValue the max value of the range that triggers the operation
      * @param relevantShifts the shifts that should be considered when checking if we should perform the operation
      * @param requiredShifts the shift button(s) that must be applied to perform operation
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
      * @param buttonType the behavior type to use for the operation
      */
     public DigitalOperationDescription(
@@ -199,18 +212,20 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
         double axisRangeMaxValue,
         EnumSet<Shift> relevantShifts,
         EnumSet<Shift> requiredShifts,
+        EnumSet<OperationContext> relevantContexts,
         ButtonType buttonType)
     {
         this(
             operation,
             userInputDevice,
             UserInputDeviceButton.ANALOG_AXIS_RANGE,
-            -1,
+            UserInputDevicePOV.NONE,
             analogAxis,
             axisRangeMinValue,
             axisRangeMaxValue,
             relevantShifts,
             requiredShifts,
+            relevantContexts,
             buttonType);
     }
 
@@ -218,15 +233,16 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
         DigitalOperation operation,
         UserInputDevice userInputDevice,
         UserInputDeviceButton userInputDeviceButton,
-        int povValue,
+        UserInputDevicePOV povValue,
         AnalogAxis analogAxis,
         double axisRangeMinValue,
         double axisRangeMaxValue,
         EnumSet<Shift> relevantShifts,
         EnumSet<Shift> requiredShifts,
+        EnumSet<OperationContext> relevantContexts,
         ButtonType buttonType)
     {
-        super(operation, OperationType.Digital, userInputDevice, axisRangeMinValue, axisRangeMaxValue, relevantShifts, requiredShifts);
+        super(operation, OperationType.Digital, userInputDevice, axisRangeMinValue, axisRangeMaxValue, relevantShifts, requiredShifts, relevantContexts);
 
         this.userInputDeviceButton = userInputDeviceButton;
         this.userInputDevicePovValue = povValue;
@@ -239,7 +255,7 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
         return this.userInputDeviceButton;
     }
 
-    public int getUserInputDevicePovValue()
+    public UserInputDevicePOV getUserInputDevicePovValue()
     {
         return this.userInputDevicePovValue;
     }

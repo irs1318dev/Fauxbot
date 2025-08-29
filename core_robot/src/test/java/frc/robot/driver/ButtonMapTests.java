@@ -9,6 +9,6 @@ public class ButtonMapTests
     @Test
     public void verifyButtonMap()
     {
-        ButtonMapVerifier.Verify(new ButtonMap(), true, false);
+        ButtonMapVerifier.verify(new ButtonMap(), true, false);
     }
 }

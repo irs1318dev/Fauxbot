@@ -17,5 +17,5 @@ public interface IRelay
      * configures which states the relay can/should be set in
      * @param direction to use (Both, Forward, Reverse)
      */
-    void setDirection(RelayDirection direction);
+    void configureDirection(RelayDirection direction);
 }
