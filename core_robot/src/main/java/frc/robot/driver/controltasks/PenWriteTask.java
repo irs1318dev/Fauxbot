@@ -1,5 +1,7 @@
 package frc.robot.driver.controltasks;
 
+import java.util.EnumSet;
+
 import frc.robot.driver.DigitalOperation;
 
 /**
@@ -7,7 +9,7 @@ import frc.robot.driver.DigitalOperation;
  */
 public class PenWriteTask extends CompositeOperationTask
 {
-    private static final DigitalOperation[] possibleOperations = new DigitalOperation[] { DigitalOperation.PrinterPenDown, DigitalOperation.PrinterPenUp };
+    private static final EnumSet<DigitalOperation> possibleOperations = EnumSet.of(DigitalOperation.PrinterPenDown, DigitalOperation.PrinterPenUp);
 
     /**
      * Initializes a new PenWriteTask

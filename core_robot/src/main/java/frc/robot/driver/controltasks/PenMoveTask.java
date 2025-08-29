@@ -1,7 +1,10 @@
 package frc.robot.driver.controltasks;
 
+import java.util.EnumSet;
+
 import frc.robot.HardwareConstants;
 import frc.robot.driver.AnalogOperation;
+import frc.robot.driver.DigitalOperation;
 import frc.robot.mechanisms.PrinterMechanism;
 
 /**
@@ -29,6 +32,28 @@ public class PenMoveTask extends ControlTaskBase
         this.yPixel = yPixel;
         this.xCommand = 2.0 * (xPixel - HardwareConstants.PRINTER_MIN_X) / (HardwareConstants.PRINTER_MAX_X - HardwareConstants.PRINTER_MIN_X) - 1.0;
         this.yCommand = 2.0 * (yPixel - HardwareConstants.PRINTER_MIN_Y) / (HardwareConstants.PRINTER_MAX_Y - HardwareConstants.PRINTER_MIN_Y) - 1.0;
+    }
+
+    /**
+     * Retrieve the set of analog operations that this task affects.
+     * @return set of analog operations that this task affects.
+     */
+    @Override
+    public EnumSet<AnalogOperation> getAffectedAnalogOperations()
+    {
+        return EnumSet.of(
+            AnalogOperation.PrinterMoveX,
+            AnalogOperation.PrinterMoveY);
+    }
+
+    /**
+     * Retrieve the set of digital operations that this task affects.
+     * @return set of digital operations that this task affects.
+     */
+    @Override
+    public EnumSet<DigitalOperation> getAffectedDigitalOperations()
+    {
+        return EnumSet.noneOf(DigitalOperation.class);
     }
 
     /**
