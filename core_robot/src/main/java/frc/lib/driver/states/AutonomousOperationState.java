@@ -1,13 +1,13 @@
 package frc.lib.driver.states;
 
-import java.util.EnumMap;
 import java.util.EnumSet;
 
 import frc.lib.driver.IControlTask;
-import frc.lib.driver.IOperation;
+import frc.lib.driver.IOperationModifier;
 import frc.lib.robotprovider.IJoystick;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
+import frc.robot.driver.OperationContext;
 import frc.robot.driver.Shift;
 
 /**
@@ -16,12 +16,10 @@ import frc.robot.driver.Shift;
  */
 public class AutonomousOperationState extends OperationState implements IMacroOperationState
 {
-    private final EnumMap<AnalogOperation, AnalogOperationState> analogOperationStateMap;
-    private final EnumMap<DigitalOperation, DigitalOperationState> digitalOperationStateMap;
+    private final IOperationModifier operationModifier;
 
-    private final AnalogOperation[] allAnalogOperations;
-    private final DigitalOperation[] allDigitalOperations;
-    private final IOperation[] allOperations;
+    private final EnumSet<AnalogOperation> allAnalogOperations;
+    private final EnumSet<DigitalOperation> allDigitalOperations;
 
     private IControlTask task;
 
@@ -32,28 +30,14 @@ public class AutonomousOperationState extends OperationState implements IMacroOp
 
     public AutonomousOperationState(
         IControlTask task,
-        EnumMap<AnalogOperation, AnalogOperationState> analogOperationStateMap,
-        EnumMap<DigitalOperation, DigitalOperationState> digitalOperationStateMap)
+        IOperationModifier operationModifier)
     {
         super(null);
 
-        this.analogOperationStateMap = analogOperationStateMap;
-        this.digitalOperationStateMap = digitalOperationStateMap;
+        this.operationModifier = operationModifier;
 
-        this.allAnalogOperations = AnalogOperation.values();
-        this.allDigitalOperations = DigitalOperation.values();
-
-        int i = 0;
-        this.allOperations = new IOperation[this.allAnalogOperations.length + this.allDigitalOperations.length];
-        for (AnalogOperation analogOperation : this.allAnalogOperations)
-        {
-            this.allOperations[i++] = analogOperation;
-        }
-
-        for (DigitalOperation digitalOperation : this.allDigitalOperations)
-        {
-            this.allOperations[i++] = digitalOperation;
-        }
+        this.allAnalogOperations = EnumSet.allOf(AnalogOperation.class);
+        this.allDigitalOperations = EnumSet.allOf(DigitalOperation.class);
 
         this.task = task;
 
@@ -86,28 +70,24 @@ public class AutonomousOperationState extends OperationState implements IMacroOp
     /**
      * Checks whether the operation state should change based on the joysticks and active stifts. 
      * @param joysticks to update from
-     * @param activeShifts to update from
+     * @param activeShifts shifts currently applied by operator
+     * @param currentContext operation context currently applied to the driver 
      * @return true if there was any active user input that triggered a state change
      */
     @Override
-    public boolean checkInput(IJoystick[] joysticks, EnumSet<Shift> activeShifts)
+    public boolean checkInput(IJoystick[] joysticks, EnumSet<Shift> activeShifts, OperationContext currentContext)
     {
         return false;
     }
 
-    public AnalogOperation[] getMacroCancelAnalogOperations()
+    public EnumSet<AnalogOperation> getMacroCancelAnalogOperations()
     {
         return this.allAnalogOperations;
     }
 
-    public DigitalOperation[] getMacroCancelDigitalOperations()
+    public EnumSet<DigitalOperation> getMacroCancelDigitalOperations()
     {
         return this.allDigitalOperations;
-    }
-
-    public IOperation[] getAffectedOperations()
-    {
-        return this.allOperations;
     }
 
     public boolean getIsActive()
@@ -121,12 +101,12 @@ public class AutonomousOperationState extends OperationState implements IMacroOp
         {
             for (AnalogOperation operation : this.allAnalogOperations)
             {
-                this.analogOperationStateMap.get(operation).setIsInterrupted(false);
+                this.operationModifier.setAnalogOperationInterrupt(operation, false);
             }
 
             for (DigitalOperation operation : this.allDigitalOperations)
             {
-                this.digitalOperationStateMap.get(operation).setIsInterrupted(false);
+                this.operationModifier.setDigitalOperationInterrupt(operation, false);
             }
 
             this.shouldEnd = false;
@@ -145,12 +125,12 @@ public class AutonomousOperationState extends OperationState implements IMacroOp
 
                 for (AnalogOperation operation : this.allAnalogOperations)
                 {
-                    this.analogOperationStateMap.get(operation).setIsInterrupted(false);
+                    this.operationModifier.setAnalogOperationInterrupt(operation, false);
                 }
 
                 for (DigitalOperation operation : this.allDigitalOperations)
                 {
-                    this.digitalOperationStateMap.get(operation).setIsInterrupted(false);
+                    this.operationModifier.setDigitalOperationInterrupt(operation, false);
                 }
 
                 return;
@@ -160,12 +140,12 @@ public class AutonomousOperationState extends OperationState implements IMacroOp
             {
                 for (AnalogOperation operation : this.allAnalogOperations)
                 {
-                    this.analogOperationStateMap.get(operation).setIsInterrupted(true);
+                    this.operationModifier.setAnalogOperationInterrupt(operation, true);
                 }
 
                 for (DigitalOperation operation : this.allDigitalOperations)
                 {
-                    this.digitalOperationStateMap.get(operation).setIsInterrupted(true);
+                    this.operationModifier.setDigitalOperationInterrupt(operation, true);
                 }
 
                 // if we haven't begun, begin
@@ -204,12 +184,12 @@ public class AutonomousOperationState extends OperationState implements IMacroOp
 
         for (AnalogOperation operation : this.allAnalogOperations)
         {
-            this.analogOperationStateMap.get(operation).setIsInterrupted(false);
+            this.operationModifier.setAnalogOperationInterrupt(operation, false);
         }
 
         for (DigitalOperation operation : this.allDigitalOperations)
         {
-            this.digitalOperationStateMap.get(operation).setIsInterrupted(false);
+            this.operationModifier.setDigitalOperationInterrupt(operation, false);
         }
     }
 }

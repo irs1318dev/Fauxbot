@@ -1,36 +1,44 @@
 package frc.robot.driver.controltasks;
 
-import java.util.EnumMap;
+import java.util.EnumSet;
 
 import frc.lib.driver.*;
-import frc.lib.driver.states.AnalogOperationState;
-import frc.lib.driver.states.DigitalOperationState;
+import frc.lib.helpers.ExceptionHelpers;
+import frc.robot.*;
 import frc.robot.driver.*;
 
 import com.google.inject.Injector;
 
 public abstract class ControlTaskBase implements IControlTask
 {
-    private EnumMap<AnalogOperation, AnalogOperationState> analogOperationStateMap;
-    private EnumMap<DigitalOperation, DigitalOperationState> digitalOperationStateMap;
+    private IOperationModifier operationModifier;
     private Injector injector;
 
     /**
      * Initialize the task with the mapping of operations to states
-     * @param analogOperationStateMap indicating the mapping of an analog operation to its current state
-     * @param digitalOperationStateMap indicating the mapping of a digital operation to its current state
+     * @param operationModifier used for retrieving and modifying operation state
      * @param injector used to retrieve components to utilize for making any decisions
      */
     @Override
     public void initialize(
-        EnumMap<AnalogOperation, AnalogOperationState> analogOperationStateMap,
-        EnumMap<DigitalOperation, DigitalOperationState> digitalOperationStateMap,
+        IOperationModifier operationModifier,
         Injector injector)
     {
-        this.analogOperationStateMap = analogOperationStateMap;
-        this.digitalOperationStateMap = digitalOperationStateMap;
+        this.operationModifier = operationModifier;
         this.injector = injector;
     }
+
+    /**
+     * Retrieve the set of analog operations that this task affects.
+     * @return set of analog operations that this task affects.
+     */
+    public abstract EnumSet<AnalogOperation> getAffectedAnalogOperations();
+
+    /**
+     * Retrieve the set of digital operations that this task affects.
+     * @return set of digital operations that this task affects.
+     */
+    public abstract EnumSet<DigitalOperation> getAffectedDigitalOperations();
 
     /**
      * Begin the current task.
@@ -79,8 +87,17 @@ public abstract class ControlTaskBase implements IControlTask
      */
     protected void setAnalogOperationState(AnalogOperation operation, double value)
     {
-        AnalogOperationState operationState = this.analogOperationStateMap.get(operation);
-        operationState.setInterruptState(value);
+        if (TuningConstants.THROW_EXCEPTIONS)
+        {
+            // if we are cool with throwing exceptions (testing), check if the operation is in the
+            // set of operations affected by this task and throw an exception if it is not
+            ExceptionHelpers.Assert(
+                this.getAffectedAnalogOperations().contains(operation),
+                "%s not contained in the set of affected operations for this task!",
+                operation.toString());
+        }
+
+        this.operationModifier.setAnalogOperationValue(operation, value);
     }
 
     /**
@@ -90,30 +107,55 @@ public abstract class ControlTaskBase implements IControlTask
      */
     protected void setDigitalOperationState(DigitalOperation operation, boolean value)
     {
-        DigitalOperationState operationState = this.digitalOperationStateMap.get(operation);
-        operationState.setInterruptState(value);
+        if (TuningConstants.THROW_EXCEPTIONS)
+        {
+            // if we are cool with throwing exceptions (testing), check if the operation is in the
+            // set of operations affected by this task and throw an exception if it is not
+            ExceptionHelpers.Assert(
+                this.getAffectedDigitalOperations().contains(operation),
+                "%s not contained in the set of affected operations for this task!",
+                operation.toString());
+        }
+
+        this.operationModifier.setDigitalOperationValue(operation, value);
     }
 
     /**
      * Gets the current state of the operation state for a given analog operation
-     * @param operation to set the interrupt state for
-     * @return value to set for the operation
+     * @param operation to get the interrupt state for
+     * @return value for the operation
      */
     protected double getAnalogOperationState(AnalogOperation operation)
     {
-        AnalogOperationState operationState = this.analogOperationStateMap.get(operation);
-        return operationState.getState();
+        return this.operationModifier.getAnalog(operation);
     }
 
     /**
      * Gets the current state of the operation state for a given digital operation
-     * @param operation to set the interrupt state for
-     * @return value to set for the operation
+     * @param operation to get the interrupt state for
+     * @return value for the operation
      */
     protected boolean getDigitalOperationState(DigitalOperation operation)
     {
-        DigitalOperationState operationState = this.digitalOperationStateMap.get(operation);
-        return operationState.getState();
+        return this.operationModifier.getDigital(operation);
+    }
+
+    /**
+     * Gets the current operation context.
+     * @return the current operation context
+     */
+    protected OperationContext getOperationContext()
+    {
+        return this.operationModifier.getContext();
+    }
+
+    /**
+     * Sets the current operation context.
+     * @param context the current operation context
+     */
+    protected void setOperationContext(OperationContext context)
+    {
+        this.operationModifier.setContext(context);
     }
 
     /**
@@ -125,21 +167,8 @@ public abstract class ControlTaskBase implements IControlTask
         return this.injector;
     }
 
-    /**
-     * Gets the Analog Operation State Map
-     * @return the operation state map
-     */
-    protected EnumMap<AnalogOperation, AnalogOperationState> getAnalogOperationStateMap()
+    protected IOperationModifier getOperationModifier()
     {
-        return this.analogOperationStateMap;
-    }
-
-    /**
-     * Gets the Digital Operation State Map
-     * @return the operation state map
-     */
-    protected EnumMap<DigitalOperation, DigitalOperationState> getDigitalOperationStateMap()
-    {
-        return this.digitalOperationStateMap;
+        return this.operationModifier;
     }
 }

@@ -1,8 +1,10 @@
 package frc.robot.driver.controltasks;
 
 import java.util.EnumMap;
+import java.util.EnumSet;
 
 import frc.lib.driver.IControlTask;
+import frc.lib.driver.IOperationModifier;
 import frc.lib.driver.states.AnalogOperationState;
 import frc.lib.driver.states.DigitalOperationState;
 import frc.robot.driver.AnalogOperation;
@@ -18,7 +20,7 @@ import com.google.inject.Injector;
  * AllTask - a task that continues processing all of the provided tasks until all of them are ready to continue
  * 
  */
-public class ConcurrentTask extends ControlTaskBase
+public abstract class ConcurrentTask extends ControlTaskBase
 {
     private final boolean anyTask;
     private final IControlTask[] tasks;
@@ -30,7 +32,7 @@ public class ConcurrentTask extends ControlTaskBase
      * @param anyTask indicates that we want to use AnyTask semantics as opposed to AllTask semantics
      * @param tasks to run
      */
-    private ConcurrentTask(boolean anyTask, IControlTask... tasks)
+    protected ConcurrentTask(boolean anyTask, IControlTask... tasks)
     {
         this.anyTask = anyTask;
         this.tasks = tasks;
@@ -45,24 +47,61 @@ public class ConcurrentTask extends ControlTaskBase
 
     /**
      * Initialize the task with the mapping of operations to states
-     * @param analogOperationStateMap indicating the mapping of an analog operation to its current state
-     * @param digitalOperationStateMap indicating the mapping of a digital operation to its current state
+     * @param operationModifier used for retrieving and modifying operation state
      * @param injector used to retrieve components to utilize for making any decisions
      */
     @Override
     public void initialize(
-        EnumMap<AnalogOperation, AnalogOperationState> analogOperationStateMap,
-        EnumMap<DigitalOperation, DigitalOperationState> digitalOperationStateMap,
+        IOperationModifier operationModifier,
         Injector injector)
     {
-        super.initialize(analogOperationStateMap, digitalOperationStateMap, injector);
+        super.initialize(operationModifier, injector);
         for (IControlTask task : this.tasks)
         {
             if (task != null)
             {
-                task.initialize(analogOperationStateMap, digitalOperationStateMap, injector);
+                task.initialize(operationModifier, injector);
             }
         }
+    }
+
+    /**
+     * Retrieve the set of analog operations that this task affects.
+     * @return set of analog operations that this task affects.
+     */
+    @Override
+    public EnumSet<AnalogOperation> getAffectedAnalogOperations()
+    {
+        EnumSet<AnalogOperation> allAffectedAnalogOperations = EnumSet.noneOf(AnalogOperation.class);
+        for (IControlTask task : this.tasks)
+        {
+            if (task != null)
+            {
+                EnumSet<AnalogOperation> affectedAnalogOperations = task.getAffectedAnalogOperations();
+                allAffectedAnalogOperations.addAll(affectedAnalogOperations);
+            }
+        }
+
+        return allAffectedAnalogOperations;
+    }
+
+    /**
+     * Retrieve the set of digital operations that this task affects.
+     * @return set of digital operations that this task affects.
+     */
+    public EnumSet<DigitalOperation> getAffectedDigitalOperations()
+    {
+        EnumSet<DigitalOperation> allAffectedDigitalOperations = EnumSet.noneOf(DigitalOperation.class);
+        for (IControlTask task : this.tasks)
+        {
+            if (task != null)
+            {
+                EnumSet<DigitalOperation> affectedDigitalOperations = task.getAffectedDigitalOperations();
+                allAffectedDigitalOperations.addAll(affectedDigitalOperations);
+            }
+        }
+
+        return allAffectedDigitalOperations;
     }
 
     /**
@@ -72,7 +111,7 @@ public class ConcurrentTask extends ControlTaskBase
      */
     public static IControlTask AnyTasks(IControlTask... tasks)
     {
-        return new ConcurrentTask(true, tasks);
+        return new ConcurrentAnyTask(tasks);
     }
 
     /**
@@ -82,7 +121,7 @@ public class ConcurrentTask extends ControlTaskBase
      */
     public static IControlTask AllTasks(IControlTask... tasks)
     {
-        return new ConcurrentTask(false, tasks);
+        return new ConcurrentAllTask(tasks);
     }
 
     /**
@@ -192,5 +231,27 @@ public class ConcurrentTask extends ControlTaskBase
 
         // AnyTasks return false when none of them are true.  AllTasks return true when none of them are false.
         return !this.anyTask;
+    }
+
+    /**
+     * Task that holds multiple other tasks and executes them in parallel until all of them are ready to continue
+     */
+    public static final class ConcurrentAllTask extends ConcurrentTask
+    {
+        public ConcurrentAllTask(IControlTask... tasks)
+        {
+            super(false, tasks);
+        }
+    }
+
+    /**
+     * Task that holds multiple other tasks and executes them in parallel until any of them are ready to continue
+     */
+    public static final class ConcurrentAnyTask extends ConcurrentTask
+    {
+        public ConcurrentAnyTask(IControlTask... tasks)
+        {
+            super(true, tasks);
+        }
     }
 }

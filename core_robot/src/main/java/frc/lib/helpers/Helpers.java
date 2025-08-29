@@ -1,5 +1,7 @@
 package frc.lib.helpers;
 
+import frc.robot.TuningConstants;
+
 /**
  * Helper functions and constants
  */
@@ -10,6 +12,10 @@ public class Helpers
     public static final double RADIANS_TO_DEGREES = (180.0f / Math.PI);
     public static final double INCHES_PER_METER = 39.37;
     public static final double METERS_PER_INCH = 0.0254;
+    public static final double FEET_PER_METER = 3.2808399;
+    public static final double METERS_PER_FOOT = 0.3048;
+    public static final double KILOGRAMS_PER_POUND = 0.45359237;
+    public static final double POUNDS_PER_KILOGRAM = 2.20462262;
     public static final double GRAVITY_INCH_PER_SQ_SECOND = 386.22047244094; // in/s^2
     private static final double ROUGH_EQUALS_DEFAULT = 0.0001;
 
@@ -20,9 +26,9 @@ public class Helpers
      * @param range acceptable diference to be declared equal
      * @return true if roughly equal, otherwise false
      */
-    public static boolean RoughEquals(double value1, double value2)
+    public static boolean roughEquals(double value1, double value2)
     {
-        return Helpers.RoughEquals(value1, value2, Helpers.ROUGH_EQUALS_DEFAULT);
+        return Helpers.roughEquals(value1, value2, Helpers.ROUGH_EQUALS_DEFAULT);
     }
 
     /**
@@ -32,7 +38,7 @@ public class Helpers
      * @param range acceptable diference to be declared equal
      * @return true if roughly equal, otherwise false
      */
-    public static boolean RoughEquals(double value1, double value2, double range)
+    public static boolean roughEquals(double value1, double value2, double range)
     {
         return Math.abs(value1 - value2) <= range;
     }
@@ -44,7 +50,7 @@ public class Helpers
      * @param maxValue maximum value in the supported range
      * @return value clamped to one between min and max
      */
-    public static double EnforceRange(double value, double minValue, double maxValue)
+    public static double enforceRange(double value, double minValue, double maxValue)
     {
         if (value > maxValue)
         {
@@ -65,7 +71,7 @@ public class Helpers
      * @param maxValue maximum value in the supported range
      * @return true if the value is between min and max, otherwise false
      */
-    public static boolean WithinRange(double value, double minValue, double maxValue)
+    public static boolean withinRange(double value, double minValue, double maxValue)
     {
         return value >= minValue && value <= maxValue;
     }
@@ -77,7 +83,7 @@ public class Helpers
      * @param acceptableDelta allowable difference to be considered within the range
      * @return true if the actual value is within the acceptable range from the expected, otherwise false
      */
-    public static boolean WithinDelta(double actualValue, double expectedValue, double acceptableDelta)
+    public static boolean withinDelta(double actualValue, double expectedValue, double acceptableDelta)
     {
         return actualValue >= expectedValue - acceptableDelta &&
             actualValue <= expectedValue + acceptableDelta;
@@ -155,6 +161,185 @@ public class Helpers
     }
 
     /**
+     * Clamps the value to be within the supported range of angles between 0 and 360 degrees
+     * @param value value to clamp
+     * @param startValue starting value in the supported range
+     * @param endValue ending value in the supported range
+     * @return value clamped between start and end
+     */
+    public static double enforceAbsoluteAngleRange(double value, double startValue, double endValue)
+    {
+        // allow -0.0
+        if (value < 0.0 && value > -0.0001)
+        {
+            value = 0.0;
+        }
+
+        ExceptionHelpers.Assert(value >= 0.0 && value <= 360.0, "value must be between [0, 360].  Actual: %f", value);
+
+        ExceptionHelpers.Assert(startValue >= 0.0 && startValue <= 360.0, "startValue must be between [0, 360].  Actual: %f", startValue);
+        ExceptionHelpers.Assert(endValue >= 0.0 && endValue <= 360.0, "endValue must be between [0, 360].  Actual: %f", endValue);
+
+        // if the range doesn't cross 360/0, we can do a normal range enforcement
+        if (startValue < endValue)
+        {
+            if (Helpers.withinRange(value, startValue, endValue))
+            {
+                return value;
+            }
+        }
+        else
+        {
+            // valid range is: startValue to 360, and 0 to endValue
+            if ((value >= startValue && value <= 360.0) ||
+                (value >= 0.0 && value <= endValue))
+            {
+                return value;
+            }
+        }
+
+        // need to see how far away we are from the start/end
+        double distanceFromStart = Helpers.updateAngleRange180(startValue - value);
+        double distanceFromEnd = Helpers.updateAngleRange180(value - endValue);
+
+        if (Math.abs(distanceFromStart) <= Math.abs(distanceFromEnd))
+        {
+            return startValue;
+        }
+        else
+        {
+            return endValue;
+        }
+    }
+
+    /**
+     * Checks if the provided value is within the provided range of angles between 0 and 360 degrees
+     * @param value value to check
+     * @param startValue starting value in the supported range
+     * @param endValue ending value in the supported range
+     * @return true if the value is between start and end, otherwise false
+     */
+    public static boolean withinAbsoluteAngleRange(double value, double startValue, double endValue)
+    {
+        ExceptionHelpers.Assert(value >= 0.0 && value <= 360.0, "value must be between [0, 360].  Actual: %f", value);
+
+        ExceptionHelpers.Assert(startValue >= 0.0 && startValue <= 360.0, "startValue must be between [0, 360].  Actual: %f", startValue);
+        ExceptionHelpers.Assert(endValue >= 0.0 && endValue <= 360.0, "endValue must be between [0, 360].  Actual: %f", endValue);
+
+        // if the range doesn't cross 360/0, we can do a normal range enforcement
+        if (startValue < endValue)
+        {
+            return Helpers.withinRange(value, startValue, endValue);
+        }
+
+        // valid range is: startValue to 360, and 0 to endValue
+        return (value >= startValue && value <= 360.0) ||
+            (value >= 0.0 && value <= endValue);
+    }
+
+    /**
+     * Get the closest angle equivalent to desiredAngle from current angle, swapping directions if it is closer
+     * Through infinite range
+     * Note: prefers the same direction if equivalent
+     * @param desiredAngle desired angle in degrees (between -180 and 180)
+     * @param currentAngle current angle in degrees (any value)
+     * @return pair containing closest angle fitting desired angle from current angle in degrees
+     */
+    public static AnglePair getClosestAngle(double desiredAngle, double currentAngle, boolean allowReverse)
+    {
+        // if (TuningConstants.THROW_EXCEPTIONS && 
+        //     !Helpers.WithinRange(desiredAngle, -180.0, 180.0))
+        // {
+        //     throw new RuntimeException(String.format("expect desiredAngle to be between (-180, 180). actual %f", desiredAngle));
+        // }
+
+        // get the difference in degrees between -180 and 180
+        double difference = Helpers.updateAngleRange180(desiredAngle - currentAngle);
+
+        if (allowReverse)
+        {
+            if (difference < -90.0)
+            {
+                return new AnglePair(currentAngle + difference + 180.0, true);
+            }
+            else if (difference > 90.0)
+            {
+                return new AnglePair(currentAngle + difference - 180.0, true);
+            }
+        }
+
+        return new AnglePair(currentAngle + difference, false);
+    }
+
+    /**
+     * Get the closest angle equivalent to desiredAngle from current angle, swapping directions if it is closer,
+     * within range of [0, 360)
+     * Note: prefers the same direction if equivalent
+     * @param desiredAngle desired angle in degrees (between -180 and 180)
+     * @param currentAngle current angle in degrees (between 0 and 360)
+     * @param currentReversed whether we are currently driving in the reverse direction
+     * @param allowReverse whether to allow driving in the reverse or not
+     * @return pair containing closest angle fitting desired angle from current angle in degrees
+     */
+    public static AnglePair getClosestAngleAbsolute(double desiredAngle, double currentAngle, boolean currentReversed, boolean allowReverse)
+    {
+        if (!Helpers.withinRange(desiredAngle, -180.0, 180.0))
+        {
+            if (TuningConstants.THROW_EXCEPTIONS)
+            {
+                throw new RuntimeException(String.format("expect desiredAngle to be between (-180, 180). actual %f", desiredAngle));
+            }
+            else
+            {
+                System.err.println(String.format("expect desiredAngle to be between (-180, 180). actual %f", desiredAngle));
+            }
+        }
+
+        if (!Helpers.withinRange(currentAngle, .0, 360.0))
+        {
+            if (TuningConstants.THROW_EXCEPTIONS)
+            {
+                throw new RuntimeException(String.format("expect currentAngle to be between (0, 360). actual %f", currentAngle));
+            }
+            else
+            {
+                System.err.println(String.format("expect currentAngle to be between (0, 360). actual %f", currentAngle));
+            }
+        }
+
+        // change range to be [0, 360)
+        if (desiredAngle < 0.0)
+        {
+            desiredAngle += 360.0;
+        }
+
+        if (!allowReverse)
+        {
+            return new AnglePair(desiredAngle, false);
+        }
+
+        // get the difference in degrees between -180 and 180
+        double difference = Helpers.updateAngleRange180(desiredAngle - currentAngle);
+
+        if (currentReversed)
+        {
+            if (difference < -88.0 || difference > 88.0)
+            {
+                return new AnglePair((desiredAngle + 180.0) % 360.0, true);
+            }
+        }
+        else
+        {
+            if (difference < -92.0 || difference > 92.0)
+            {
+                return new AnglePair((desiredAngle + 180.0) % 360.0, true);
+            }
+        }
+
+        return new AnglePair(desiredAngle, false);
+    }
+
+    /**
      * Returns angle in the range (-180, 180]
      * @param angle in some large range
      * @return angle capped between -180 and 180
@@ -198,7 +383,7 @@ public class Helpers
         }
     }
 
-    public static boolean AnglePairWithinDelta(double value1, boolean isSwapped1, double value2, boolean isSwapped2, double acceptableDelta)
+    public static boolean anglePairWithinDelta(double value1, boolean isSwapped1, double value2, boolean isSwapped2, double acceptableDelta)
     {
         if (isSwapped1)
         {
@@ -210,7 +395,7 @@ public class Helpers
             value2 = Helpers.updateAngleRange180(value2 + 180.0);
         }
 
-        return Helpers.WithinDelta(value1, value2, acceptableDelta);
+        return Helpers.withinDelta(value1, value2, acceptableDelta);
     }
 
     /**

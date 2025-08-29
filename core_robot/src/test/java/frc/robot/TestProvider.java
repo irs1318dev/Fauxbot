@@ -21,6 +21,7 @@ public class TestProvider implements IRobotProvider
     private HashMap<Integer, ITalonFX> talonFxMap = new HashMap<Integer, ITalonFX>();
     private HashMap<Integer, IVictorSPX> victorSpxMap = new HashMap<Integer, IVictorSPX>();
     private HashMap<Integer, ISparkMax> sparkMaxMap = new HashMap<Integer, ISparkMax>();
+    private HashMap<Integer, ISparkFlex> sparkFlexMap = new HashMap<Integer, ISparkFlex>();
     private HashMap<Integer, ICompressor> compressorMap = new HashMap<Integer, ICompressor>();
     private HashMap<Integer, HashMap<Integer, IDoubleSolenoid>> doubleSolenoidModuleMap = new HashMap<Integer, HashMap<Integer, IDoubleSolenoid>>();
     private HashMap<Integer, IEncoder> encoderMap = new HashMap<Integer, IEncoder>();
@@ -143,7 +144,7 @@ public class TestProvider implements IRobotProvider
     }
 
     @Override
-    public ISparkMax getSparkMax(int deviceID, SparkMaxMotorType motorType)
+    public ISparkMax getSparkMax(int deviceID, SparkMotorType motorType)
     {
         if (!this.sparkMaxMap.containsKey(deviceID))
         {
@@ -151,6 +152,17 @@ public class TestProvider implements IRobotProvider
         }
 
         return this.sparkMaxMap.get(deviceID);
+    }
+
+    @Override
+    public ISparkFlex getSparkFlex(int deviceID, SparkMotorType motorType)
+    {
+        if (!this.sparkFlexMap.containsKey(deviceID))
+        {
+            this.sparkFlexMap.put(deviceID, mock(ISparkFlex.class));
+        }
+
+        return this.sparkFlexMap.get(deviceID);
     }
 
     @Override
@@ -421,7 +433,7 @@ public class TestProvider implements IRobotProvider
         this.victorSpxMap.put(deviceNumber, value);
     }
 
-    public void setSparkMax(int deviceID, SparkMaxMotorType motorType, ISparkMax value)
+    public void setSparkMax(int deviceID, SparkMotorType motorType, ISparkMax value)
     {
         this.sparkMaxMap.put(deviceID, value);
     }

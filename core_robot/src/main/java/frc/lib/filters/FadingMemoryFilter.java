@@ -2,6 +2,7 @@ package frc.lib.filters;
 
 /**
  * A fading memory filter, where the filter will somewhat remember past values and gradually settle closer to the raw value
+ * This is similar to WPILib's "LinearFilter" class.
  */
 public class FadingMemoryFilter implements ISimpleFilter
 {

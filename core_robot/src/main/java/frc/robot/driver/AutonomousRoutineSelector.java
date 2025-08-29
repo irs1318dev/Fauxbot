@@ -1,4 +1,4 @@
- package frc.robot.driver;
+package frc.robot.driver;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -54,6 +54,7 @@ public class AutonomousRoutineSelector
         this.logger.logString(LoggingKey.AutonomousDSMessage, driverStationMessage);
         if (mode == RobotMode.Test)
         {
+            // currently not supported...
             return new WaitTask(0.0);
         }
 
@@ -64,6 +65,7 @@ public class AutonomousRoutineSelector
             AutoRoutine routine = this.selectionManager.getSelectedAutoRoutine();
 
             boolean isRed = this.locManager.getIsRed();
+            Alliance alliance = isRed ? Alliance.Red : Alliance.Blue;
 
             this.logger.logString(LoggingKey.AutonomousSelection, startPosition.toString() + "." + routine.toString());
 
@@ -85,7 +87,6 @@ public class AutonomousRoutineSelector
 
 
 //IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS
-
 
 
 
@@ -353,6 +354,14 @@ public class AutonomousRoutineSelector
                                 '':::;'''#+     ,:;;`      #';:;;:+
                                  `:'++;;':       :++       .;;:;;#,
                                        `                    '':``
-
+           _             _      __        __    _     _       
+__      _| |__  _   _  (_)___  \ \      / /_ _| | __| | ___  
+\ \ /\ / / '_ \| | | | | / __|  \ \ /\ / / _` | |/ _` |/ _ \ 
+ \ V  V /| | | | |_| | | \__ \   \ V  V / (_| | | (_| | (_) |
+ _\_/\_/ |_| |_|\__, | |_|___/    \_/\_/ \__,_|_|\__,_|\___/ 
+| |__   ___ _ __|___/                                        
+| '_ \ / _ \ '__/ _ \                                        
+| | | |  __/ | |  __/                                        
+|_| |_|\___|_|  \___|     
 
 */

@@ -11,6 +11,7 @@ import frc.lib.helpers.ExceptionHelpers;
 import frc.lib.helpers.Helpers;
 import frc.lib.helpers.SetHelper;
 import frc.lib.robotprovider.IJoystick;
+import frc.robot.driver.OperationContext;
 import frc.robot.driver.Shift;
 
 /**
@@ -60,17 +61,25 @@ public class AnalogOperationState extends OperationState
     /**
      * Checks whether the operation state should change based on the joysticks and active stifts. 
      * @param joysticks to update from
-     * @param activeShifts to update from
+     * @param activeShifts shifts currently applied by operator
+     * @param currentContext operation context currently applied to the driver 
      * @return true if there was any active user input that triggered a state change
      */
     @Override
-    public boolean checkInput(IJoystick[] joysticks, EnumSet<Shift> activeShifts)
+    public boolean checkInput(IJoystick[] joysticks, EnumSet<Shift> activeShifts, OperationContext currentContext)
     {
         AnalogOperationDescription description = (AnalogOperationDescription)this.getDescription();
 
         UserInputDevice userInputDevice = description.getUserInputDevice();
         if (userInputDevice == UserInputDevice.None)
         {
+            return false;
+        }
+
+        EnumSet<OperationContext> relevantContexts = description.getRelevantContexts();
+        if (relevantContexts != null && !relevantContexts.contains(currentContext))
+        {
+            this.currentValue = description.getDefaultValue();
             return false;
         }
 
@@ -214,10 +223,10 @@ public class AnalogOperationState extends OperationState
     {
         if (useSquaredMagnitude)
         {
-            return Helpers.WithinRange(value1 * value1 + value2 * value2, deadZoneMin, deadZoneMax);
+            return Helpers.withinRange(value1 * value1 + value2 * value2, deadZoneMin, deadZoneMax);
         }
 
-        return Helpers.WithinRange(value1, deadZoneMin, deadZoneMax) && 
-            Helpers.WithinRange(value2, deadZoneMin, deadZoneMax);
+        return Helpers.withinRange(value1, deadZoneMin, deadZoneMax) && 
+            Helpers.withinRange(value2, deadZoneMin, deadZoneMax);
     }
 }

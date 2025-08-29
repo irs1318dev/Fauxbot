@@ -205,17 +205,17 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                         switch (digitalDescription.getButtonType())
                         {
                             case Click:
-                                ClickButtonUI clickButton = new ClickButtonUI(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue(), this.skin);
+                                ClickButtonUI clickButton = new ClickButtonUI(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue().Value, this.skin);
                                 infoTable.add(clickButton).colspan(2).left().fillX();
                                 break;
 
                             case Toggle:
-                                ToggleButtonUI toggleButton = new ToggleButtonUI(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue(), this.skin);
+                                ToggleButtonUI toggleButton = new ToggleButtonUI(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue().Value, this.skin);
                                 infoTable.add(toggleButton).colspan(2).left();
                                 break;
 
                             case Simple:
-                                ToggleSimpleButtonUI simpleButton = new ToggleSimpleButtonUI(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue(), this.skin);
+                                ToggleSimpleButtonUI simpleButton = new ToggleSimpleButtonUI(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue().Value, this.skin);
                                 infoTable.add(simpleButton).colspan(2).left();
                                 break;
 
@@ -273,17 +273,17 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                 switch (description.getButtonType())
                 {
                     case Click:
-                        ClickButtonUI clickButton = new ClickButtonUI(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue(), this.skin);
+                        ClickButtonUI clickButton = new ClickButtonUI(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue().Value, this.skin);
                         infoTable.add(clickButton).colspan(2).left().fillX();
                         break;
 
                     case Toggle:
-                        ClickButtonUI toggleButton = new ClickButtonUI(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue(), this.skin);
+                        ClickButtonUI toggleButton = new ClickButtonUI(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue().Value, this.skin);
                         infoTable.add(toggleButton).colspan(2).left();
                         break;
 
                     case Simple:
-                        ToggleSimpleButtonUI simpleButton = new ToggleSimpleButtonUI(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue(), this.skin);
+                        ToggleSimpleButtonUI simpleButton = new ToggleSimpleButtonUI(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue().Value, this.skin);
                         infoTable.add(simpleButton).colspan(2).left();
                         break;
 

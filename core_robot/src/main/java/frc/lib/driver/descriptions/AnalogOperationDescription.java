@@ -4,6 +4,7 @@ import java.util.EnumSet;
 
 import frc.lib.driver.AnalogAxis;
 import frc.robot.driver.AnalogOperation;
+import frc.robot.driver.OperationContext;
 import frc.robot.driver.Shift;
 
 /**
@@ -29,7 +30,23 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
      */
     public AnalogOperationDescription(AnalogOperation operation)
     {
-        this(operation, UserInputDevice.None, AnalogAxis.NONE, null, null, null, false, false, 0.0, 0.0, false, 1.0, 1.0, 0.0, null);
+        this(
+            operation,
+            UserInputDevice.None,
+            AnalogAxis.NONE,
+            null,
+            null,
+            null,
+            null,
+            false,
+            false,
+            0.0,
+            0.0,
+            false,
+            1.0,
+            1.0,
+            0.0,
+            null);
     }
 
     /**
@@ -39,7 +56,23 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
      */
     public AnalogOperationDescription(AnalogOperation operation, double defaultValue)
     {
-        this(operation, UserInputDevice.None, AnalogAxis.NONE, null, null, null, false, false, 0.0, 0.0, false, 1.0, 1.0, defaultValue, null);
+        this(
+            operation,
+            UserInputDevice.None,
+            AnalogAxis.NONE,
+            null,
+            null,
+            null,
+            null,
+            false,
+            false,
+            0.0,
+            0.0,
+            false,
+            1.0,
+            1.0,
+            defaultValue,
+            null);
     }
 
     /**
@@ -62,6 +95,7 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
             operation,
             userInputDevice,
             userInputDeviceAxis,
+            null,
             null,
             null,
             null,
@@ -100,6 +134,7 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
             null,
             null,
             null,
+            null,
             shouldInvert,
             false,
             deadZoneMin,
@@ -139,6 +174,7 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
             null,
             null,
             null,
+            null,
             shouldInvert,
             false,
             deadZoneMin,
@@ -157,6 +193,7 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
      * @param userInputDeviceAxis the axis on the device that will indicate the operation
      * @param relevantShifts the shifts that should be considered when checking if we should perform the operation
      * @param requiredShifts the shift button(s) that must be applied to perform operation
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
      * @param shouldInvert whether we should invert the axis so that -1 and 1 are on the opposite ends as where they are designed to be in hardware
      * @param deadZoneMin the amount in the center of the axis (around 0) that should be ignored to account for joystick sensors imprecision
      * @param deadZoneMax the amount in the center of the axis (around 0) that should be ignored to account for joystick sensors imprecision
@@ -167,6 +204,7 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
         AnalogAxis userInputDeviceAxis,
         EnumSet<Shift> relevantShifts,
         EnumSet<Shift> requiredShifts,
+        EnumSet<OperationContext> relevantContexts,
         boolean shouldInvert,
         double deadZoneMin,
         double deadZoneMax)
@@ -178,6 +216,7 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
             null,
             relevantShifts,
             requiredShifts,
+            relevantContexts,
             shouldInvert,
             false,
             deadZoneMin,
@@ -195,6 +234,7 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
      * @param userInputDevice which device will indicate the operation (driver or codriver joystick) 
      * @param userInputDeviceAxis the axis on the device that will indicate the operation
      * @param relevantShifts the shifts that should be considered when checking if we should perform the operation
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
      * @param requiredShifts the shift button(s) that must be applied to perform operation
      * @param shouldInvert whether we should invert the axis so that -1 and 1 are on the opposite ends as where they are designed to be in hardware
      * @param deadZoneMin the amount in the center of the axis (around 0) that should be ignored to account for joystick sensors imprecision
@@ -208,6 +248,7 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
         AnalogAxis userInputDeviceAxis,
         EnumSet<Shift> relevantShifts,
         EnumSet<Shift> requiredShifts,
+        EnumSet<OperationContext> relevantContexts,
         boolean shouldInvert,
         double deadZoneMin,
         double deadZoneMax,
@@ -221,6 +262,7 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
             null,
             relevantShifts,
             requiredShifts,
+            relevantContexts,
             shouldInvert,
             false,
             deadZoneMin,
@@ -239,6 +281,7 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
      * @param userInputDeviceAxis the axis on the device that will indicate the operation
      * @param relevantShifts the shifts that should be considered when checking if we should perform the operation
      * @param requiredShifts the shift button(s) that must be applied to perform operation
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
      * @param shouldInvert whether we should invert the axis so that -1 and 1 are on the opposite ends as where they are designed to be in hardware
      * @param deadZoneMin the amount in the center of the axis (around 0) that should be ignored to account for joystick sensors imprecision
      * @param deadZoneMax the amount in the center of the axis (around 0) that should be ignored to account for joystick sensors imprecision
@@ -252,6 +295,7 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
         AnalogAxis userInputDeviceAxis,
         EnumSet<Shift> relevantShifts,
         EnumSet<Shift> requiredShifts,
+        EnumSet<OperationContext> relevantContexts,
         boolean shouldInvert,
         double deadZoneMin,
         double deadZoneMax,
@@ -266,6 +310,7 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
             null,
             relevantShifts,
             requiredShifts,
+            relevantContexts,
             shouldInvert,
             false,
             deadZoneMin,
@@ -285,6 +330,7 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
      * @param userInputDeviceSecondaryAxis the secondary axis on the device that will indicate the operation
      * @param relevantShifts the shifts that should be considered when checking if we should perform the operation
      * @param requiredShifts the shift button(s) that must be applied to perform operation
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
      * @param shouldInvert whether we should invert the axis so that -1 and 1 are on the opposite ends as where they are designed to be in hardware
      * @param shouldInvertSecondary whether we should invert the secondary axis so that -1 and 1 are on the opposite ends as where they are designed to be in hardware
      * @param deadZoneMin the amount in the center of the axis (around 0) that should be ignored to account for joystick sensors imprecision
@@ -301,6 +347,7 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
         AnalogAxis userInputDeviceSecondaryAxis,
         EnumSet<Shift> relevantShifts,
         EnumSet<Shift> requiredShifts,
+        EnumSet<OperationContext> relevantContexts,
         boolean shouldInvert,
         boolean shouldInvertSecondary,
         double deadZoneMin,
@@ -316,6 +363,7 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
             userInputDeviceSecondaryAxis,
             relevantShifts,
             requiredShifts,
+            relevantContexts,
             shouldInvert,
             shouldInvertSecondary,
             deadZoneMin,
@@ -335,6 +383,7 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
      * @param userInputDeviceSecondaryAxis the secondary axis on the device that will indicate the operation
      * @param relevantShifts the shifts that should be considered when checking if we should perform the operation
      * @param requiredShifts the shift button(s) that must be applied to perform operation
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
      * @param shouldInvert whether we should invert the axis so that -1 and 1 are on the opposite ends as where they are designed to be in hardware
      * @param shouldInvertSecondary whether we should invert the secondary axis so that -1 and 1 are on the opposite ends as where they are designed to be in hardware
      * @param deadZoneMin the amount in the center of the axis (around 0) that should be ignored to account for joystick sensors imprecision
@@ -351,6 +400,7 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
         AnalogAxis userInputDeviceSecondaryAxis,
         EnumSet<Shift> relevantShifts,
         EnumSet<Shift> requiredShifts,
+        EnumSet<OperationContext> relevantContexts,
         boolean shouldInvert,
         boolean shouldInvertSecondary,
         double deadZoneMin,
@@ -361,7 +411,7 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
         double defaultValue,
         ResultCalculator resultCalculator)
     {
-        super(operation, OperationType.Analog, userInputDevice, -1.0, 1.0, relevantShifts, requiredShifts);
+        super(operation, OperationType.Analog, userInputDevice, -1.0, 1.0, relevantShifts, requiredShifts, relevantContexts);
 
         this.userInputDeviceAxis = userInputDeviceAxis;
         this.userInputDeviceSecondaryAxis = userInputDeviceSecondaryAxis;

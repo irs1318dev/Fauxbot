@@ -1,16 +1,41 @@
 package frc.robot.driver.controltasks;
 
+import java.util.EnumSet;
+
+import frc.robot.driver.AnalogOperation;
+import frc.robot.driver.DigitalOperation;
+
 /**
  * Task that waits forever.  This task can be used as a way to give up if a certain condition isn't met (by pairing it with an AnyTask)
  * 
  */
-public class WaitForeverTask extends ControlTaskBase
+public final class WaitForeverTask extends ControlTaskBase
 {
     /**
      * Initializes a new WaitForeverTask
      */
     public WaitForeverTask()
     {
+    }
+
+    /**
+     * Retrieve the set of analog operations that this task affects.
+     * @return set of analog operations that this task affects.
+     */
+    @Override
+    public EnumSet<AnalogOperation> getAffectedAnalogOperations()
+    {
+        return EnumSet.noneOf(AnalogOperation.class);
+    }
+
+    /**
+     * Retrieve the set of digital operations that this task affects.
+     * @return set of digital operations that this task affects.
+     */
+    @Override
+    public EnumSet<DigitalOperation> getAffectedDigitalOperations()
+    {
+        return EnumSet.noneOf(DigitalOperation.class);
     }
 
     /**

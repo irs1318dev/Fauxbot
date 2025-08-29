@@ -8,6 +8,7 @@ import frc.lib.driver.descriptions.AnalogOperationDescription;
 import frc.lib.driver.descriptions.DigitalOperationDescription;
 import frc.lib.driver.descriptions.OperationDescription;
 import frc.lib.helpers.ExceptionHelpers;
+import frc.robot.driver.OperationContext;
 import frc.robot.driver.Shift;
 
 /**
@@ -43,10 +44,11 @@ public abstract class OperationState implements IOperationState
     /**
      * Checks whether the operation state should change based on the joysticks and component sensors. 
      * @param joysticks to update from
-     * @param activeShifts to update from
+     * @param activeShifts shifts currently applied by operator
+     * @param currentContext operation context currently applied to the driver 
      * @return true if there was any active user input that triggered a state change
      */
-    public abstract boolean checkInput(IJoystick[] joysticks, EnumSet<Shift> activeShifts);
+    public abstract boolean checkInput(IJoystick[] joysticks, EnumSet<Shift> activeShifts, OperationContext currentContext);
 
     /**
      * Create the state corresponding to the description

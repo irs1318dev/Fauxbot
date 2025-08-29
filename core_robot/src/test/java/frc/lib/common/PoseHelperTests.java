@@ -8,7 +8,7 @@ import frc.lib.helpers.Triple;
 
 public class PoseHelperTests
 {
-    // @Test
+    @Test
     public void testPoseExponential()
     {
         // test the in-place pose exponential
@@ -26,7 +26,7 @@ public class PoseHelperTests
         Assertions.assertEquals(90, value.getThird(), 1E-8);
     }
 
-    // @Test
+    @Test
     public void testPoseExponentialRoundtrip()
     {
         // test the in-place pose exponential

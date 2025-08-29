@@ -5,26 +5,30 @@ import java.util.function.Supplier;
 
 import frc.lib.driver.AnalogAxis;
 import frc.lib.driver.IControlTask;
-import frc.lib.driver.IOperation;
 import frc.lib.driver.UserInputDeviceButton;
+import frc.lib.driver.UserInputDevicePOV;
 import frc.lib.driver.buttons.ButtonType;
 import frc.lib.helpers.ExceptionHelpers;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
 import frc.robot.driver.MacroOperation;
+import frc.robot.driver.OperationContext;
 import frc.robot.driver.Shift;
 
 public class MacroOperationDescription extends OperationDescription<MacroOperation>
 {
     private final boolean clearInterrupt;
     private final UserInputDeviceButton userInputDeviceButton;
-    private final int userInputDevicePovValue;
+    private final UserInputDevicePOV userInputDevicePovValue;
     private final AnalogAxis userInputDeviceAxis;
     private final ButtonType buttonType;
     private final Supplier<IControlTask> taskSupplier;
-    private final IOperation[] affectedOperations;
-    private final AnalogOperation[] macroCancelAnalogOperations;
-    private final DigitalOperation[] macroCancelDigitalOperations;
+
+    private final EnumSet<AnalogOperation> affectedAnalogOperations;
+    private final EnumSet<DigitalOperation> affectedDigitalOperations;
+
+    private final EnumSet<AnalogOperation> macroCancelAnalogOperations;
+    private final EnumSet<DigitalOperation> macroCancelDigitalOperations;
 
     /**
      * Initializes a new MacroOperationDescription based on a user interaction
@@ -33,30 +37,29 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
      * @param userInputDeviceButton the button on the device that performs the macro operation
      * @param buttonType the behavior type to use for the macro operation
      * @param taskSupplier the function that creates the tasks that should be performed by the macro
-     * @param affectedOperations the list of operations that will be utilized by this macro
      */
     public MacroOperationDescription(
         MacroOperation operation,
         UserInputDevice userInputDevice,
         UserInputDeviceButton userInputDeviceButton,
         ButtonType buttonType,
-        Supplier<IControlTask> taskSupplier,
-        IOperation[] affectedOperations)
+        Supplier<IControlTask> taskSupplier)
     {
         this(
             true,
             operation,
             userInputDevice,
             userInputDeviceButton,
-            -1,
+            UserInputDevicePOV.NONE,
             AnalogAxis.NONE,
             0.0,
             0.0,
             null,
             null,
+            null,
             buttonType,
             taskSupplier,
-            affectedOperations,
+            null,
             null);
     }
 
@@ -67,9 +70,9 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
      * @param userInputDeviceButton the button on the device that performs the macro operation
      * @param relevantShifts the shifts that should be considered when checking if we should perform the macro
      * @param requiredShifts the shift button(s) that must be applied to perform macro
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
      * @param buttonType the behavior type to use for the macro operation
      * @param taskSupplier the function that creates the tasks that should be performed by the macro
-     * @param affectedOperations the list of operations that will be utilized by this macro
      */
     public MacroOperationDescription(
         MacroOperation operation,
@@ -77,24 +80,25 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
         UserInputDeviceButton userInputDeviceButton,
         EnumSet<Shift> relevantShifts,
         EnumSet<Shift> requiredShifts,
+        EnumSet<OperationContext> relevantContexts,
         ButtonType buttonType,
-        Supplier<IControlTask> taskSupplier,
-        IOperation[] affectedOperations)
+        Supplier<IControlTask> taskSupplier)
     {
         this(
             true,
             operation,
             userInputDevice,
             userInputDeviceButton,
-            -1,
+            UserInputDevicePOV.NONE,
             AnalogAxis.NONE,
             0.0,
             0.0,
             relevantShifts,
             requiredShifts,
+            relevantContexts,
             buttonType,
             taskSupplier,
-            affectedOperations,
+            null,
             null);
     }
 
@@ -105,8 +109,8 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
      * @param userInputDeviceButton the button on the device that performs the macro operation
      * @param buttonType the behavior type to use for the macro operation
      * @param taskSupplier the function that creates the tasks that should be performed by the macro
-     * @param affectedOperations the list of operations that will be utilized by this macro
-     * @param macroCancelOperations the list of operations that can be used to cancel this macro
+     * @param macroCancelAnalogOperations the list of analog operations that indicate that this macro should be canceled
+     * @param macroCancelDigitalOperations the list of digital operations that indicate that this macro should be canceled
      */
     public MacroOperationDescription(
         MacroOperation operation,
@@ -114,24 +118,25 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
         UserInputDeviceButton userInputDeviceButton,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
-        IOperation[] affectedOperations,
-        IOperation[] macroCancelOperations)
+        EnumSet<AnalogOperation> macroCancelAnalogOperations,
+        EnumSet<DigitalOperation> macroCancelDigitalOperations)
     {
         this(
             true,
             operation,
             userInputDevice,
             userInputDeviceButton,
-            -1,
+            UserInputDevicePOV.NONE,
             AnalogAxis.NONE,
             0.0,
             0.0,
             null,
             null,
+            null,
             buttonType,
             taskSupplier,
-            affectedOperations,
-            macroCancelOperations);
+            macroCancelAnalogOperations,
+            macroCancelDigitalOperations);
     }
 
     /**
@@ -141,10 +146,11 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
      * @param userInputDeviceButton the button on the device that performs the macro operation
      * @param relevantShifts the shifts that should be considered when checking if we should perform the macro
      * @param requiredShifts the shift button(s) that must be applied to perform macro
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
      * @param buttonType the behavior type to use for the macro operation
      * @param taskSupplier the function that creates the tasks that should be performed by the macro
-     * @param affectedOperations the list of operations that will be utilized by this macro
-     * @param macroCancelOperations the list of operations that can be used to cancel this macro
+     * @param macroCancelAnalogOperations the list of analog operations that indicate that this macro should be canceled
+     * @param macroCancelDigitalOperations the list of digital operations that indicate that this macro should be canceled
      */
     public MacroOperationDescription(
         MacroOperation operation,
@@ -152,26 +158,28 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
         UserInputDeviceButton userInputDeviceButton,
         EnumSet<Shift> relevantShifts,
         EnumSet<Shift> requiredShifts,
+        EnumSet<OperationContext> relevantContexts,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
-        IOperation[] affectedOperations,
-        IOperation[] macroCancelOperations)
+        EnumSet<AnalogOperation> macroCancelAnalogOperations,
+        EnumSet<DigitalOperation> macroCancelDigitalOperations)
     {
         this(
             true,
             operation,
             userInputDevice,
             userInputDeviceButton,
-            -1,
+            UserInputDevicePOV.NONE,
             AnalogAxis.NONE,
             0.0,
             0.0,
             relevantShifts,
             requiredShifts,
+            relevantContexts,
             buttonType,
             taskSupplier,
-            affectedOperations,
-            macroCancelOperations);
+            macroCancelAnalogOperations,
+            macroCancelDigitalOperations);
     }
 
     /**
@@ -181,15 +189,13 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
      * @param povValue the value of the POV (hat) used to perform the macro operation
      * @param buttonType the behavior type to use for the macro operation
      * @param taskSupplier the function that creates the tasks that should be performed by the macro
-     * @param affectedOperations the list of operations that will be utilized by this macro
      */
     public MacroOperationDescription(
         MacroOperation operation,
         UserInputDevice userInputDevice,
-        int povValue,
+        UserInputDevicePOV povValue,
         ButtonType buttonType,
-        Supplier<IControlTask> taskSupplier,
-        IOperation[] affectedOperations)
+        Supplier<IControlTask> taskSupplier)
     {
         this(
             true,
@@ -202,9 +208,10 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
             0.0,
             null,
             null,
+            null,
             buttonType,
             taskSupplier,
-            affectedOperations,
+            null,
             null);
     }
 
@@ -215,19 +222,19 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
      * @param povValue the value of the POV (hat) used to perform the macro operation
      * @param relevantShifts the shifts that should be considered when checking if we should perform the macro
      * @param requiredShifts the shift button(s) that must be applied to perform macro
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
      * @param buttonType the behavior type to use for the macro operation
      * @param taskSupplier the function that creates the tasks that should be performed by the macro
-     * @param affectedOperations the list of operations that will be utilized by this macro
      */
     public MacroOperationDescription(
         MacroOperation operation,
         UserInputDevice userInputDevice,
-        int povValue,
+        UserInputDevicePOV povValue,
         EnumSet<Shift> relevantShifts,
         EnumSet<Shift> requiredShifts,
+        EnumSet<OperationContext> relevantContexts,
         ButtonType buttonType,
-        Supplier<IControlTask> taskSupplier,
-        IOperation[] affectedOperations)
+        Supplier<IControlTask> taskSupplier)
     {
         this(
             true,
@@ -240,9 +247,10 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
             0.0,
             relevantShifts,
             requiredShifts,
+            relevantContexts,
             buttonType,
             taskSupplier,
-            affectedOperations,
+            null,
             null);
     }
 
@@ -253,21 +261,23 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
      * @param povValue the value of the POV (hat) used to perform the macro operation
      * @param relevantShifts the shifts that should be considered when checking if we should perform the macro
      * @param requiredShifts the shift button(s) that must be applied to perform macro
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
      * @param buttonType the behavior type to use for the macro operation
      * @param taskSupplier the function that creates the tasks that should be performed by the macro
-     * @param affectedOperations the list of operations that will be utilized by this macro
-     * @param macroCancelOperations the list of operations that can be used to cancel this macro
+     * @param macroCancelAnalogOperations the list of analog operations that indicate that this macro should be canceled
+     * @param macroCancelDigitalOperations the list of digital operations that indicate that this macro should be canceled
      */
     public MacroOperationDescription(
         MacroOperation operation,
         UserInputDevice userInputDevice,
-        int povValue,
+        UserInputDevicePOV povValue,
         EnumSet<Shift> relevantShifts,
         EnumSet<Shift> requiredShifts,
+        EnumSet<OperationContext> relevantContexts,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
-        IOperation[] affectedOperations,
-        IOperation[] macroCancelOperations)
+        EnumSet<AnalogOperation> macroCancelAnalogOperations,
+        EnumSet<DigitalOperation> macroCancelDigitalOperations)
     {
         this(
             true,
@@ -280,10 +290,11 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
             0.0,
             relevantShifts,
             requiredShifts,
+            relevantContexts,
             buttonType,
             taskSupplier,
-            affectedOperations,
-            macroCancelOperations);
+            macroCancelAnalogOperations,
+            macroCancelDigitalOperations);
     }
 
     /**
@@ -295,7 +306,6 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
      * @param axisRangeMaxValue the max value of the range that triggers the operation
      * @param buttonType the behavior type to use for the operation
      * @param taskSupplier the function that creates the tasks that should be performed by the macro
-     * @param affectedOperations the list of operations that will be utilized by this macro
      */
     public MacroOperationDescription(
         MacroOperation operation,
@@ -304,23 +314,23 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
         double axisRangeMinValue,
         double axisRangeMaxValue,
         ButtonType buttonType,
-        Supplier<IControlTask> taskSupplier,
-        IOperation[] affectedOperations)
+        Supplier<IControlTask> taskSupplier)
     {
         this(
             true,
             operation,
             userInputDevice,
             UserInputDeviceButton.ANALOG_AXIS_RANGE,
-            -1,
+            UserInputDevicePOV.NONE,
             analogAxis,
             axisRangeMinValue,
             axisRangeMaxValue,
             null,
             null,
+            null,
             buttonType,
             taskSupplier,
-            affectedOperations,
+            null,
             null);
     }
 
@@ -333,8 +343,8 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
      * @param axisRangeMaxValue the max value of the range that triggers the operation
      * @param buttonType the behavior type to use for the operation
      * @param taskSupplier the function that creates the tasks that should be performed by the macro
-     * @param affectedOperations the list of operations that will be utilized by this macro
-     * @param macroCancelOperations the list of operations that can be used to cancel this macro
+     * @param macroCancelAnalogOperations the list of analog operations that indicate that this macro should be canceled
+     * @param macroCancelDigitalOperations the list of digital operations that indicate that this macro should be canceled
      */
     public MacroOperationDescription(
         MacroOperation operation,
@@ -344,24 +354,25 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
         double axisRangeMaxValue,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
-        IOperation[] affectedOperations,
-        IOperation[] macroCancelOperations)
+        EnumSet<AnalogOperation> macroCancelAnalogOperations,
+        EnumSet<DigitalOperation> macroCancelDigitalOperations)
     {
         this(
             true,
             operation,
             userInputDevice,
             UserInputDeviceButton.ANALOG_AXIS_RANGE,
-            -1,
+            UserInputDevicePOV.NONE,
             analogAxis,
             axisRangeMinValue,
             axisRangeMaxValue,
             null,
             null,
+            null,
             buttonType,
             taskSupplier,
-            affectedOperations,
-            macroCancelOperations);
+            macroCancelAnalogOperations,
+            macroCancelDigitalOperations);
     }
 
     /**
@@ -373,9 +384,8 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
      * @param axisRangeMaxValue the max value of the range that triggers the operation
      * @param relevantShifts the shifts that should be considered when checking if we should perform the macro
      * @param requiredShifts the shift button(s) that must be applied to perform macro
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
      * @param buttonType the behavior type to use for the operation
-     * @param taskSupplier the function that creates the tasks that should be performed by the macro
-     * @param affectedOperations the list of operations that will be utilized by this macro
      */
     public MacroOperationDescription(
         MacroOperation operation,
@@ -385,24 +395,25 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
         double axisRangeMaxValue,
         EnumSet<Shift> relevantShifts,
         EnumSet<Shift> requiredShifts,
+        EnumSet<OperationContext> relevantContexts,
         ButtonType buttonType,
-        Supplier<IControlTask> taskSupplier,
-        IOperation[] affectedOperations)
+        Supplier<IControlTask> taskSupplier)
     {
         this(
             true,
             operation,
             userInputDevice,
             UserInputDeviceButton.ANALOG_AXIS_RANGE,
-            -1,
+            UserInputDevicePOV.NONE,
             analogAxis,
             axisRangeMinValue,
             axisRangeMaxValue,
             relevantShifts,
             requiredShifts,
+            relevantContexts,
             buttonType,
             taskSupplier,
-            affectedOperations,
+            null,
             null);
     }
 
@@ -415,10 +426,11 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
      * @param axisRangeMaxValue the max value of the range that triggers the operation
      * @param relevantShifts the shifts that should be considered when checking if we should perform the macro
      * @param requiredShifts the shift button(s) that must be applied to perform macro
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
      * @param buttonType the behavior type to use for the operation
      * @param taskSupplier the function that creates the tasks that should be performed by the macro
-     * @param affectedOperations the list of operations that will be utilized by this macro
-     * @param macroCancelOperations the list of operations that can be used to cancel this macro
+     * @param macroCancelAnalogOperations the list of analog operations that indicate that this macro should be canceled
+     * @param macroCancelDigitalOperations the list of digital operations that indicate that this macro should be canceled
      */
     public MacroOperationDescription(
         MacroOperation operation,
@@ -428,26 +440,28 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
         double axisRangeMaxValue,
         EnumSet<Shift> relevantShifts,
         EnumSet<Shift> requiredShifts,
+        EnumSet<OperationContext> relevantContexts,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
-        IOperation[] affectedOperations,
-        IOperation[] macroCancelOperations)
+        EnumSet<AnalogOperation> macroCancelAnalogOperations,
+        EnumSet<DigitalOperation> macroCancelDigitalOperations)
     {
         this(
             true,
             operation,
             userInputDevice,
             UserInputDeviceButton.ANALOG_AXIS_RANGE,
-            -1,
+            UserInputDevicePOV.NONE,
             analogAxis,
             axisRangeMinValue,
             axisRangeMaxValue,
             relevantShifts,
             requiredShifts,
+            relevantContexts,
             buttonType,
             taskSupplier,
-            affectedOperations,
-            macroCancelOperations);
+            macroCancelAnalogOperations,
+            macroCancelDigitalOperations);
     }
 
     /**
@@ -459,28 +473,30 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
      * @param povValue the value of the POV (hat) used to perform the macro operation
      * @param relevantShifts the shifts that should be considered when checking if we should perform the macro
      * @param requiredShifts the shift button(s) that must be applied to perform macro
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
      * @param buttonType the behavior type to use for the macro operation
      * @param taskSupplier the function that creates the tasks that should be performed by the macro
-     * @param affectedOperations the list of operations that will be utilized by this macro
-     * @param macroCancelOperations the list of operations that can be used to cancel this macro
+     * @param macroCancelAnalogOperations the list of analog operations that indicate that this macro should be canceled
+     * @param macroCancelDigitalOperations the list of digital operations that indicate that this macro should be canceled
      */
     private MacroOperationDescription(
         boolean clearInterrupt,
         MacroOperation operation,
         UserInputDevice userInputDevice,
         UserInputDeviceButton userInputDeviceButton,
-        int povValue,
+        UserInputDevicePOV povValue,
         AnalogAxis analogAxis,
         double axisRangeMinValue,
         double axisRangeMaxValue,
         EnumSet<Shift> relevantShifts,
         EnumSet<Shift> requiredShifts,
+        EnumSet<OperationContext> relevantContexts,
         ButtonType buttonType,
         Supplier<IControlTask> taskSupplier,
-        IOperation[] affectedOperations,
-        IOperation[] macroCancelOperations)
+        EnumSet<AnalogOperation> macroCancelAnalogOperations,
+        EnumSet<DigitalOperation> macroCancelDigitalOperations)
     {
-        super(operation, OperationType.None, userInputDevice, axisRangeMinValue, axisRangeMaxValue, relevantShifts, requiredShifts);
+        super(operation, OperationType.None, userInputDevice, axisRangeMinValue, axisRangeMaxValue, relevantShifts, requiredShifts, relevantContexts);
 
         this.clearInterrupt = clearInterrupt;
         this.userInputDeviceButton = userInputDeviceButton;
@@ -488,42 +504,25 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
         this.userInputDeviceAxis = analogAxis;
         this.buttonType = buttonType;
         this.taskSupplier = taskSupplier;
-        this.affectedOperations = affectedOperations;
 
-        IOperation[] cancelOperations = macroCancelOperations;
-        if (macroCancelOperations == null)
+        IControlTask exampleTask = taskSupplier.get();
+        ExceptionHelpers.Assert(exampleTask != null, "expect task supplier to return a non-null task");
+
+        this.affectedAnalogOperations = exampleTask.getAffectedAnalogOperations();
+        this.affectedDigitalOperations = exampleTask.getAffectedDigitalOperations();
+
+        this.macroCancelAnalogOperations = EnumSet.noneOf(AnalogOperation.class);
+        this.macroCancelAnalogOperations.addAll(this.affectedAnalogOperations);
+        if (macroCancelAnalogOperations != null)
         {
-            cancelOperations = affectedOperations;
+            this.macroCancelAnalogOperations.addAll(macroCancelAnalogOperations);
         }
 
-        ExceptionHelpers.Assert(cancelOperations != null, "expect there to be non-null affected or cancel operations");
-        if (cancelOperations != null)
+        this.macroCancelDigitalOperations = EnumSet.noneOf(DigitalOperation.class);
+        this.macroCancelDigitalOperations.addAll(this.affectedDigitalOperations);
+        if (macroCancelDigitalOperations != null)
         {
-            EnumSet<AnalogOperation> analogCancelOperations = EnumSet.noneOf(AnalogOperation.class);
-            EnumSet<DigitalOperation> digitalCancelOperations = EnumSet.noneOf(DigitalOperation.class);
-            for (IOperation cancelOperation : cancelOperations)
-            {
-                if (cancelOperation instanceof AnalogOperation)
-                {
-                    analogCancelOperations.add((AnalogOperation)cancelOperation);
-                }
-                else if (cancelOperation instanceof DigitalOperation)
-                {
-                    digitalCancelOperations.add((DigitalOperation)cancelOperation);
-                }
-                else
-                {
-                    ExceptionHelpers.Assert(false, "expect all affected/cancel operations to be either Analog or Digital operations, value: " + cancelOperation.toString());
-                }
-            }
-
-            this.macroCancelAnalogOperations = analogCancelOperations.toArray(new AnalogOperation[0]);
-            this.macroCancelDigitalOperations = digitalCancelOperations.toArray(new DigitalOperation[0]);
-        }
-        else
-        {
-            this.macroCancelAnalogOperations = new AnalogOperation[0];
-            this.macroCancelDigitalOperations = new DigitalOperation[0];
+            this.macroCancelDigitalOperations.addAll(macroCancelDigitalOperations);
         }
     }
 
@@ -537,7 +536,7 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
         return this.userInputDeviceButton;
     }
 
-    public int getUserInputDevicePovValue()
+    public UserInputDevicePOV getUserInputDevicePovValue()
     {
         return this.userInputDevicePovValue;
     }
@@ -557,18 +556,23 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
         return this.taskSupplier.get();
     }
 
-    public AnalogOperation[] getMacroCancelAnalogOperations()
+    public EnumSet<AnalogOperation> getMacroCancelAnalogOperations()
     {
         return this.macroCancelAnalogOperations;
     }
 
-    public DigitalOperation[] getMacroCancelDigitalOperations()
+    public EnumSet<DigitalOperation> getMacroCancelDigitalOperations()
     {
         return this.macroCancelDigitalOperations;
     }
 
-    public IOperation[] getAffectedOperations()
+    public EnumSet<AnalogOperation> getAffectedAnalogOperations()
     {
-        return this.affectedOperations;
+        return this.affectedAnalogOperations;
+    }
+
+    public EnumSet<DigitalOperation> getAffectedDigitalOperations()
+    {
+        return this.affectedDigitalOperations;
     }
 }
