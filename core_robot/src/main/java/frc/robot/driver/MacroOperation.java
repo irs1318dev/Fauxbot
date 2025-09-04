@@ -10,4 +10,11 @@ public enum MacroOperation implements IOperation
     ExampleBeta,
 
     WriteHiTask,
+
+    UseGeneralMode,
+    UseForkliftMode,
+    UseGarageDoorMode,
+    UseElevatorMode,
+    UseShooterMode,
+    UsePrinterMode
 }

@@ -53,35 +53,55 @@ public class ButtonMap implements IButtonMap
             AnalogOperation.ForkliftDriveLeft,
             UserInputDevice.Driver,
             AnalogAxis.XBONE_LSY,
+            EnumSet.noneOf(Shift.class),
+            EnumSet.noneOf(Shift.class),
+            EnumSet.of(OperationContext.Forklift),
             ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
+            -TuningConstants.FORKLIFT_DRIVE_DEAD_ZONE,
             TuningConstants.FORKLIFT_DRIVE_DEAD_ZONE),
         new AnalogOperationDescription(
             AnalogOperation.ForkliftDriveRight,
             UserInputDevice.Driver,
             AnalogAxis.XBONE_RSY,
+            EnumSet.noneOf(Shift.class),
+            EnumSet.noneOf(Shift.class),
+            EnumSet.of(OperationContext.Forklift),
             ElectronicsConstants.INVERT_XBONE_RIGHT_Y_AXIS,
+            -TuningConstants.FORKLIFT_DRIVE_DEAD_ZONE,
             TuningConstants.FORKLIFT_DRIVE_DEAD_ZONE),
         /**/
-        /*
+        /**/
         new AnalogOperationDescription(
             AnalogOperation.PrinterMoveX,
             UserInputDevice.Driver,
             AnalogAxis.XBONE_LSX,
+            EnumSet.noneOf(Shift.class),
+            EnumSet.noneOf(Shift.class),
+            EnumSet.of(OperationContext.Printer),
             ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
+            0.0,
             0.0),
         new AnalogOperationDescription(
             AnalogOperation.PrinterMoveY,
             UserInputDevice.Driver,
             AnalogAxis.XBONE_LSY,
+            EnumSet.noneOf(Shift.class),
+            EnumSet.noneOf(Shift.class),
+            EnumSet.of(OperationContext.Printer),
             ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
+            0.0,
             0.0),
         /**/
-        /*
+        /**/
         new AnalogOperationDescription(
             AnalogOperation.ShooterAngle,
             UserInputDevice.Driver,
             AnalogAxis.XBONE_LSX,
+            EnumSet.noneOf(Shift.class),
+            EnumSet.noneOf(Shift.class),
+            EnumSet.of(OperationContext.Shooter),
             ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
+            -TuningConstants.SHOOTER_ANGLE_DEAD_ZONE,
             TuningConstants.SHOOTER_ANGLE_DEAD_ZONE),
         /**/
     };
@@ -95,31 +115,36 @@ public class ButtonMap implements IButtonMap
             UserInputDeviceButton.XBONE_A_BUTTON,
             ButtonType.Toggle),*/
 
-        /*
+        /**/
         new DigitalOperationDescription(
             DigitalOperation.ElevatorOneButton,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_A_BUTTON,
+            EnumSet.of(OperationContext.Elevator),
             ButtonType.Click),
         new DigitalOperationDescription(
             DigitalOperation.ElevatorTwoButton,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_B_BUTTON,
+            EnumSet.of(OperationContext.Elevator),
             ButtonType.Click),
         new DigitalOperationDescription(
             DigitalOperation.ElevatorThreeButton,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_X_BUTTON,
+            EnumSet.of(OperationContext.Elevator),
             ButtonType.Click),
         new DigitalOperationDescription(
             DigitalOperation.ElevatorFourButton,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_Y_BUTTON,
+            EnumSet.of(OperationContext.Elevator),
             ButtonType.Click),
         new DigitalOperationDescription(
             DigitalOperation.ElevatorFiveButton,
             UserInputDevice.Driver,
-            0,
+            UserInputDeviceButton.XBONE_RIGHT_BUTTON,
+            EnumSet.of(OperationContext.Elevator),
             ButtonType.Click),
         /**/
         /**/
@@ -127,42 +152,51 @@ public class ButtonMap implements IButtonMap
             DigitalOperation.ForkliftUp,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_A_BUTTON,
+            EnumSet.noneOf(Shift.class),
+            EnumSet.noneOf(Shift.class),
+            EnumSet.of(OperationContext.Forklift),
             ButtonType.Click),
         new DigitalOperationDescription(
             DigitalOperation.ForkliftDown,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_B_BUTTON,
+            EnumSet.of(OperationContext.Forklift),
             ButtonType.Click),
         /**/
-        /*
+        /**/
         new DigitalOperationDescription(
             DigitalOperation.GarageDoorButton,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_A_BUTTON,
+            EnumSet.of(OperationContext.GarageDoor),
             ButtonType.Click),
         /**/
-        /*
+        /**/
         new DigitalOperationDescription(
             DigitalOperation.PrinterPenDown,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_A_BUTTON,
+            EnumSet.of(OperationContext.Printer),   
             ButtonType.Click),
         new DigitalOperationDescription(
             DigitalOperation.PrinterPenUp,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_B_BUTTON,
+            EnumSet.of(OperationContext.Printer),
             ButtonType.Click),
         /**/
-        /*
+        /**/
         new DigitalOperationDescription(
             DigitalOperation.ShooterSpin,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_A_BUTTON,
+            EnumSet.of(OperationContext.Shooter),
             ButtonType.Toggle),
         new DigitalOperationDescription(
             DigitalOperation.ShooterFire,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_B_BUTTON,
+            EnumSet.of(OperationContext.Shooter),
             ButtonType.Click),
         /**/
     };
@@ -182,11 +216,12 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.ExampleA,
             }),*/
             
-        /*
+        /**/
         new MacroOperationDescription(
             MacroOperation.WriteHiTask,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_Y_BUTTON,
+            EnumSet.of(OperationContext.Printer),
             ButtonType.Toggle,
             () -> SequentialTask.Sequence(
                 new PenWriteTask(false),
@@ -206,14 +241,62 @@ public class ButtonMap implements IButtonMap
                 new PenWriteTask(true),
                 new PenMoveTask(80.0, 90.0),
                 new PenWriteTask(false)),
-            new IOperation[]
-            {
+            EnumSet.of(
                 AnalogOperation.PrinterMoveX,
-                AnalogOperation.PrinterMoveY,
+                AnalogOperation.PrinterMoveY),
+            EnumSet.of(
                 DigitalOperation.PrinterPenDown,
-                DigitalOperation.PrinterPenUp,
-            }),
+                DigitalOperation.PrinterPenUp)),
         /**/
+
+        /** Switch OperationContext buttons **/
+        new MacroOperationDescription(
+            MacroOperation.UseGeneralMode,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_START_BUTTON,
+            EnumSet.of(
+                OperationContext.Forklift,
+                OperationContext.GarageDoor,
+                OperationContext.Elevator,
+                OperationContext.Shooter,
+                OperationContext.Printer),
+            ButtonType.Toggle,
+            () -> new SetOperationContextTask(OperationContext.General)),
+        new MacroOperationDescription(
+            MacroOperation.UseForkliftMode,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_RIGHT_STICK_BUTTON,
+            EnumSet.of(OperationContext.General),
+            ButtonType.Toggle,
+            () -> new SetOperationContextTask(OperationContext.Forklift)),
+        new MacroOperationDescription(
+            MacroOperation.UseGarageDoorMode,
+            UserInputDevice.Driver,
+            UserInputDevicePOV.UP,
+            EnumSet.of(OperationContext.General),
+            ButtonType.Toggle,
+            () -> new SetOperationContextTask(OperationContext.GarageDoor)),
+        new MacroOperationDescription(
+            MacroOperation.UseElevatorMode,
+            UserInputDevice.Driver,
+            UserInputDevicePOV.LEFT,
+            EnumSet.of(OperationContext.General),
+            ButtonType.Toggle,
+            () -> new SetOperationContextTask(OperationContext.Elevator)),
+        new MacroOperationDescription(
+            MacroOperation.UseShooterMode,
+            UserInputDevice.Driver,
+            UserInputDevicePOV.RIGHT,
+            EnumSet.of(OperationContext.General),
+            ButtonType.Toggle,
+            () -> new SetOperationContextTask(OperationContext.Shooter)),
+        new MacroOperationDescription(
+            MacroOperation.UsePrinterMode,
+            UserInputDevice.Driver,
+            UserInputDevicePOV.DOWN,
+            EnumSet.of(OperationContext.General),
+            ButtonType.Toggle,
+            () -> new SetOperationContextTask(OperationContext.Printer))
     };
 
     @Override
