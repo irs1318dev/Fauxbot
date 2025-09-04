@@ -138,7 +138,7 @@ public class Driver implements IDriver, IOperationModifier
         }
 
         this.currentMode = RobotMode.Disabled;
-        this.currentContext = OperationContext.General;
+        this.currentContext = OperationContext.getDefault();
 
         // initialize the trajectory manager singleton, if it hasn't been already
         injector.getInstance(TrajectoryManager.class);
