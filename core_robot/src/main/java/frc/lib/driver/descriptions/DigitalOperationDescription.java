@@ -73,6 +73,35 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
      * @param operation the digital operation being described
      * @param userInputDevice which device will perform the operation (driver or codriver joystick) 
      * @param userInputDeviceButton the button on the device that performs the operation
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
+     * @param buttonType the behavior type to use for the operation
+     */
+    public DigitalOperationDescription(
+        DigitalOperation operation,
+        UserInputDevice userInputDevice,
+        UserInputDeviceButton userInputDeviceButton,
+        EnumSet<OperationContext> relevantContexts,
+        ButtonType buttonType)
+    {
+        this(
+            operation,
+            userInputDevice,
+            userInputDeviceButton,
+            UserInputDevicePOV.NONE,
+            AnalogAxis.NONE,
+            0.0,
+            0.0,
+            null,
+            null,
+            relevantContexts,
+            buttonType);
+    }
+
+    /**
+     * Initializes a new DigitalOperationDescription based on a user interaction
+     * @param operation the digital operation being described
+     * @param userInputDevice which device will perform the operation (driver or codriver joystick) 
+     * @param userInputDeviceButton the button on the device that performs the operation
      * @param relevantShifts the shifts that should be considered when checking if we should perform the operation
      * @param requiredShifts the shift button(s) that must be applied to perform operation
      * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
@@ -125,6 +154,35 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
             null,
             null,
             null,
+            buttonType);
+    }
+
+    /**
+     * Initializes a new DigitalOperationDescription based on a user interaction on the POV
+     * @param operation the digital operation being described
+     * @param userInputDevice which device will indicate the operation (driver or codriver joystick) 
+     * @param povValue the value of the POV (hat) used to perform the operation
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
+     * @param buttonType the behavior type to use for the operation
+     */
+    public DigitalOperationDescription(
+        DigitalOperation operation,
+        UserInputDevice userInputDevice,
+        UserInputDevicePOV povValue,
+        EnumSet<OperationContext> relevantContexts,
+        ButtonType buttonType)
+    {
+        this(
+            operation,
+            userInputDevice,
+            UserInputDeviceButton.POV,
+            povValue,
+            AnalogAxis.NONE,
+            0.0,
+            0.0,
+            null,
+            null,
+            relevantContexts,
             buttonType);
     }
 
@@ -189,6 +247,39 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
             null,
             null,
             null,
+            buttonType);
+    }
+
+    /**
+     * Initializes a new DigitalOperationDescription based on a user interaction on an axis
+     * @param operation the digital operation being described
+     * @param userInputDevice which device will indicate the operation (driver or codriver joystick)
+     * @param analogAxis the analog axis used to perform the operation
+     * @param axisRangeMinValue the min value of the range that triggers the operation
+     * @param axisRangeMaxValue the max value of the range that triggers the operation
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
+     * @param buttonType the behavior type to use for the operation
+     */
+    public DigitalOperationDescription(
+        DigitalOperation operation,
+        UserInputDevice userInputDevice,
+        AnalogAxis analogAxis,
+        double axisRangeMinValue,
+        double axisRangeMaxValue,
+        EnumSet<OperationContext> relevantContexts,
+        ButtonType buttonType)
+    {
+        this(
+            operation,
+            userInputDevice,
+            UserInputDeviceButton.ANALOG_AXIS_RANGE,
+            UserInputDevicePOV.NONE,
+            analogAxis,
+            axisRangeMinValue,
+            axisRangeMaxValue,
+            null,
+            null,
+            relevantContexts,
             buttonType);
     }
 

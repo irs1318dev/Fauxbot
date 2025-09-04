@@ -68,6 +68,41 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
      * @param operation the macro operation being described
      * @param userInputDevice which device will perform the macro operation (driver or codriver joystick)
      * @param userInputDeviceButton the button on the device that performs the macro operation
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
+     * @param buttonType the behavior type to use for the macro operation
+     * @param taskSupplier the function that creates the tasks that should be performed by the macro
+     */
+    public MacroOperationDescription(
+        MacroOperation operation,
+        UserInputDevice userInputDevice,
+        UserInputDeviceButton userInputDeviceButton,
+        EnumSet<OperationContext> relevantContexts,
+        ButtonType buttonType,
+        Supplier<IControlTask> taskSupplier)
+    {
+        this(
+            true,
+            operation,
+            userInputDevice,
+            userInputDeviceButton,
+            UserInputDevicePOV.NONE,
+            AnalogAxis.NONE,
+            0.0,
+            0.0,
+            null,
+            null,
+            relevantContexts,
+            buttonType,
+            taskSupplier,
+            null,
+            null);
+    }
+
+    /**
+     * Initializes a new MacroOperationDescription based on a user interaction
+     * @param operation the macro operation being described
+     * @param userInputDevice which device will perform the macro operation (driver or codriver joystick)
+     * @param userInputDeviceButton the button on the device that performs the macro operation
      * @param relevantShifts the shifts that should be considered when checking if we should perform the macro
      * @param requiredShifts the shift button(s) that must be applied to perform macro
      * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
@@ -133,6 +168,45 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
             null,
             null,
             null,
+            buttonType,
+            taskSupplier,
+            macroCancelAnalogOperations,
+            macroCancelDigitalOperations);
+    }
+
+    /**
+     * Initializes a new MacroOperationDescription based on a user interaction
+     * @param operation the macro operation being described
+     * @param userInputDevice which device will perform the macro operation (driver or codriver joystick)
+     * @param userInputDeviceButton the button on the device that performs the macro operation
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
+     * @param buttonType the behavior type to use for the macro operation
+     * @param taskSupplier the function that creates the tasks that should be performed by the macro
+     * @param macroCancelAnalogOperations the list of analog operations that indicate that this macro should be canceled
+     * @param macroCancelDigitalOperations the list of digital operations that indicate that this macro should be canceled
+     */
+    public MacroOperationDescription(
+        MacroOperation operation,
+        UserInputDevice userInputDevice,
+        UserInputDeviceButton userInputDeviceButton,
+        EnumSet<OperationContext> relevantContexts,
+        ButtonType buttonType,
+        Supplier<IControlTask> taskSupplier,
+        EnumSet<AnalogOperation> macroCancelAnalogOperations,
+        EnumSet<DigitalOperation> macroCancelDigitalOperations)
+    {
+        this(
+            true,
+            operation,
+            userInputDevice,
+            userInputDeviceButton,
+            UserInputDevicePOV.NONE,
+            AnalogAxis.NONE,
+            0.0,
+            0.0,
+            null,
+            null,
+            relevantContexts,
             buttonType,
             taskSupplier,
             macroCancelAnalogOperations,
@@ -220,6 +294,41 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
      * @param operation the macro operation being described
      * @param userInputDevice which device will perform the macro operation (driver or codriver joystick)
      * @param povValue the value of the POV (hat) used to perform the macro operation
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
+     * @param buttonType the behavior type to use for the macro operation
+     * @param taskSupplier the function that creates the tasks that should be performed by the macro
+     */
+    public MacroOperationDescription(
+        MacroOperation operation,
+        UserInputDevice userInputDevice,
+        UserInputDevicePOV povValue,
+        EnumSet<OperationContext> relevantContexts,
+        ButtonType buttonType,
+        Supplier<IControlTask> taskSupplier)
+    {
+        this(
+            true,
+            operation,
+            userInputDevice,
+            UserInputDeviceButton.POV,
+            povValue,
+            AnalogAxis.NONE,
+            0.0,
+            0.0,
+            null,
+            null,
+            relevantContexts,
+            buttonType,
+            taskSupplier,
+            null,
+            null);
+    }
+
+    /**
+     * Initializes a new MacroOperationDescription based on a user interaction on the POV
+     * @param operation the macro operation being described
+     * @param userInputDevice which device will perform the macro operation (driver or codriver joystick)
+     * @param povValue the value of the POV (hat) used to perform the macro operation
      * @param relevantShifts the shifts that should be considered when checking if we should perform the macro
      * @param requiredShifts the shift button(s) that must be applied to perform macro
      * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
@@ -252,6 +361,45 @@ public class MacroOperationDescription extends OperationDescription<MacroOperati
             taskSupplier,
             null,
             null);
+    }
+
+    /**
+     * Initializes a new MacroOperationDescription based on a user interaction on the POV
+     * @param operation the macro operation being described
+     * @param userInputDevice which device will perform the macro operation (driver or codriver joystick)
+     * @param povValue the value of the POV (hat) used to perform the macro operation
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
+     * @param buttonType the behavior type to use for the macro operation
+     * @param taskSupplier the function that creates the tasks that should be performed by the macro
+     * @param macroCancelAnalogOperations the list of analog operations that indicate that this macro should be canceled
+     * @param macroCancelDigitalOperations the list of digital operations that indicate that this macro should be canceled
+     */
+    public MacroOperationDescription(
+        MacroOperation operation,
+        UserInputDevice userInputDevice,
+        UserInputDevicePOV povValue,
+        EnumSet<OperationContext> relevantContexts,
+        ButtonType buttonType,
+        Supplier<IControlTask> taskSupplier,
+        EnumSet<AnalogOperation> macroCancelAnalogOperations,
+        EnumSet<DigitalOperation> macroCancelDigitalOperations)
+    {
+        this(
+            true,
+            operation,
+            userInputDevice,
+            UserInputDeviceButton.POV,
+            povValue,
+            AnalogAxis.NONE,
+            0.0,
+            0.0,
+            null,
+            null,
+            relevantContexts,
+            buttonType,
+            taskSupplier,
+            macroCancelAnalogOperations,
+            macroCancelDigitalOperations);
     }
 
     /**

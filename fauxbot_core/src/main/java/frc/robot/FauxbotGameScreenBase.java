@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import frc.lib.CoreRobot;
+import frc.lib.driver.IDriver;
 import frc.lib.robotprovider.FauxbotDriverStation;
 import frc.lib.robotprovider.RobotMode;
 import frc.robot.simulation.SimulatorBase;
@@ -26,6 +27,7 @@ abstract class FauxbotGameScreenBase implements Screen
     protected final Simulation selectedSimulation;
 
     protected final CoreRobot<FauxbotCommonModule> robot;
+    protected final IDriver robotDriver;
     protected final SimulatorBase simulator;
     protected final FauxbotRunner runner;
     protected final Thread runnerThread;
@@ -70,6 +72,7 @@ abstract class FauxbotGameScreenBase implements Screen
         this.runner = new FauxbotRunner(this.robot);
         this.runnerThread = new Thread(this.runner);
         this.robot.robotInit();
+        this.robotDriver = this.robot.getInjector().getInstance(IDriver.class);
 
         this.runnerThread.start();
 
@@ -129,6 +132,8 @@ abstract class FauxbotGameScreenBase implements Screen
 
     protected abstract void populateInnerInfoTable(Table innerInfoTable);
 
+    protected abstract void updateInnerTable();
+
     @Override
     public void render(float delta)
     {
@@ -138,6 +143,7 @@ abstract class FauxbotGameScreenBase implements Screen
         // update mode
         this.runner.setMode(this.currentMode);
         FauxbotDriverStation.Instance.setMode(this.currentMode);
+        this.updateInnerTable();
 
         this.stage.act(delta);
         this.stage.draw();

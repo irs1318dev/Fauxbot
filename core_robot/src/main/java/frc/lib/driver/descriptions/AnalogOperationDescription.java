@@ -81,8 +81,7 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
      * @param userInputDevice which device will indicate the operation (driver or codriver joystick) 
      * @param userInputDeviceAxis the axis on the device that will indicate the operation
      * @param shouldInvert whether we should invert the axis so that -1 and 1 are on the opposite ends as where they are designed to be in hardware
-     * @param deadZoneMin the amount in the center of the axis (around 0) that should be ignored to account for joystick sensors imprecision
-     * @param deadZoneMax the amount in the center of the axis (around 0) that should be ignored to account for joystick sensors imprecision
+     * @param deadZone the distance around the center of the axis (around 0) that should be ignored to account for joystick sensors imprecision
      */
     public AnalogOperationDescription(
         AnalogOperation operation,
@@ -99,6 +98,42 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
             null,
             null,
             null,
+            shouldInvert,
+            false,
+            -deadZone,
+            deadZone,
+            false,
+            1.0,
+            1.0,
+            0.0,
+            null);
+    }
+
+    /**
+     * Initializes a new AnalogOperationDescription based on a user interaction
+     * @param operation the analog operation being described
+     * @param userInputDevice which device will indicate the operation (driver or codriver joystick) 
+     * @param userInputDeviceAxis the axis on the device that will indicate the operation
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
+     * @param shouldInvert whether we should invert the axis so that -1 and 1 are on the opposite ends as where they are designed to be in hardware
+     * @param deadZone the distance around the center of the axis (around 0) that should be ignored to account for joystick sensors imprecision
+     */
+    public AnalogOperationDescription(
+        AnalogOperation operation,
+        UserInputDevice userInputDevice,
+        AnalogAxis userInputDeviceAxis,
+        EnumSet<OperationContext> relevantContexts,
+        boolean shouldInvert,
+        double deadZone)
+    {
+        this(
+            operation,
+            userInputDevice,
+            userInputDeviceAxis,
+            null,
+            null,
+            null,
+            relevantContexts,
             shouldInvert,
             false,
             -deadZone,
@@ -151,21 +186,19 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
      * @param operation the analog operation being described
      * @param userInputDevice which device will indicate the operation (driver or codriver joystick) 
      * @param userInputDeviceAxis the axis on the device that will indicate the operation
+     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
      * @param shouldInvert whether we should invert the axis so that -1 and 1 are on the opposite ends as where they are designed to be in hardware
      * @param deadZoneMin the amount in the center of the axis (around 0) that should be ignored to account for joystick sensors imprecision
      * @param deadZoneMax the amount in the center of the axis (around 0) that should be ignored to account for joystick sensors imprecision
-     * @param multiplier the multiplier to use to extend the range from [-1, 1] so that it instead goes to [-multiplier, multiplier]
-     * @param exp the exponent to use to change the range [-1, 1] from linear to exponential.  This applies before the multiplier.
      */
     public AnalogOperationDescription(
         AnalogOperation operation,
         UserInputDevice userInputDevice,
         AnalogAxis userInputDeviceAxis,
+        EnumSet<OperationContext> relevantContexts,
         boolean shouldInvert,
         double deadZoneMin,
-        double deadZoneMax,
-        double multiplier,
-        double exp)
+        double deadZoneMax)
     {
         this(
             operation,
@@ -174,14 +207,14 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
             null,
             null,
             null,
-            null,
+            relevantContexts,
             shouldInvert,
             false,
             deadZoneMin,
             deadZoneMax,
             false,
-            multiplier,
-            exp,
+            1.0,
+            1.0,
             0.0,
             null);
     }
@@ -224,6 +257,46 @@ public class AnalogOperationDescription extends OperationDescription<AnalogOpera
             false,
             1.0,
             1.0,
+            0.0,
+            null);
+    }
+
+    /**
+     * Initializes a new AnalogOperationDescription based on a user interaction
+     * @param operation the analog operation being described
+     * @param userInputDevice which device will indicate the operation (driver or codriver joystick) 
+     * @param userInputDeviceAxis the axis on the device that will indicate the operation
+     * @param shouldInvert whether we should invert the axis so that -1 and 1 are on the opposite ends as where they are designed to be in hardware
+     * @param deadZoneMin the amount in the center of the axis (around 0) that should be ignored to account for joystick sensors imprecision
+     * @param deadZoneMax the amount in the center of the axis (around 0) that should be ignored to account for joystick sensors imprecision
+     * @param multiplier the multiplier to use to extend the range from [-1, 1] so that it instead goes to [-multiplier, multiplier]
+     * @param exp the exponent to use to change the range [-1, 1] from linear to exponential.  This applies before the multiplier.
+     */
+    public AnalogOperationDescription(
+        AnalogOperation operation,
+        UserInputDevice userInputDevice,
+        AnalogAxis userInputDeviceAxis,
+        boolean shouldInvert,
+        double deadZoneMin,
+        double deadZoneMax,
+        double multiplier,
+        double exp)
+    {
+        this(
+            operation,
+            userInputDevice,
+            userInputDeviceAxis,
+            null,
+            null,
+            null,
+            null,
+            shouldInvert,
+            false,
+            deadZoneMin,
+            deadZoneMax,
+            false,
+            multiplier,
+            exp,
             0.0,
             null);
     }
