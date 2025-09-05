@@ -3,6 +3,7 @@ package frc.robot.driver.controltasks;
 import java.util.EnumSet;
 
 import frc.lib.driver.IControlTask;
+import frc.lib.helpers.ExceptionHelpers;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
 
@@ -22,7 +23,28 @@ public abstract class ConditionalTask extends DecisionSequentialTask
      */
     protected ConditionalTask(IControlTask trueTask, IControlTask falseTask)
     {
+        this(trueTask, falseTask, false);
+    }
+
+    /**
+     * Initializes a new ConditionalTask
+     * @param trueTask task to run if the condition is true
+     * @param falseTask task to run if the condition is false
+     * @param allowNullTasks if true, allows either task to be null (in which case nothing will be done if that task is selected)
+     */
+    protected ConditionalTask(IControlTask trueTask, IControlTask falseTask, boolean allowNullTasks)
+    {
         super();
+
+        if (allowNullTasks)
+        {
+            ExceptionHelpers.Assert(trueTask != null || falseTask != null, "At least one of trueTask or falseTask must be non-null");
+        }
+        else
+        {
+            ExceptionHelpers.Assert(trueTask != null, "trueTask cannot be null");
+            ExceptionHelpers.Assert(falseTask != null, "falseTask cannot be null");
+        }
 
         this.trueTask = trueTask;
         this.falseTask = falseTask;
@@ -36,8 +58,16 @@ public abstract class ConditionalTask extends DecisionSequentialTask
     public EnumSet<AnalogOperation> getAffectedAnalogOperations()
     {
         EnumSet<AnalogOperation> allAffectedAnalogOperations = EnumSet.noneOf(AnalogOperation.class);
-        allAffectedAnalogOperations.addAll(this.trueTask.getAffectedAnalogOperations());
-        allAffectedAnalogOperations.addAll(this.falseTask.getAffectedAnalogOperations());
+        if (this.trueTask != null)
+        {
+            allAffectedAnalogOperations.addAll(this.trueTask.getAffectedAnalogOperations());
+        }
+
+        if (this.falseTask != null)
+        {
+            allAffectedAnalogOperations.addAll(this.falseTask.getAffectedAnalogOperations());
+        }
+
         return allAffectedAnalogOperations;
     }
 
@@ -49,8 +79,16 @@ public abstract class ConditionalTask extends DecisionSequentialTask
     public EnumSet<DigitalOperation> getAffectedDigitalOperations()
     {
         EnumSet<DigitalOperation> allAffectedDigitalOperations = EnumSet.noneOf(DigitalOperation.class);
-        allAffectedDigitalOperations.addAll(this.trueTask.getAffectedDigitalOperations());
-        allAffectedDigitalOperations.addAll(this.falseTask.getAffectedDigitalOperations());
+        if (this.trueTask != null)
+        {
+            allAffectedDigitalOperations.addAll(this.trueTask.getAffectedDigitalOperations());
+        }
+
+        if (this.falseTask != null)
+        {
+            allAffectedDigitalOperations.addAll(this.falseTask.getAffectedDigitalOperations());
+        }
+
         return allAffectedDigitalOperations;
     }
 
@@ -64,11 +102,17 @@ public abstract class ConditionalTask extends DecisionSequentialTask
 
         if (this.evaluateCondition())
         {
-            this.AppendTask(this.trueTask);
+            if (this.trueTask != null)
+            {
+                this.AppendTask(this.trueTask);
+            }
         }
         else
         {
-            this.AppendTask(this.falseTask);
+            if (this.falseTask != null)
+            {
+                this.AppendTask(this.falseTask);
+            }
         }
     }
 
