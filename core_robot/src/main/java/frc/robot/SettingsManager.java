@@ -8,13 +8,15 @@ import com.google.inject.Injector;
 import frc.lib.mechanisms.IMechanism;
 import frc.lib.robotprovider.*;
 import frc.robot.mechanisms.ForkliftMechanism;
+import frc.robot.mechanisms.GarageDoorMechanism;
 
 public class SettingsManager
 {
     public static List<IMechanism> getActiveMechanisms(Injector injector)
     {
         List<IMechanism> mechanismList = new ArrayList<IMechanism>();
-        mechanismList.add(injector.getInstance(ForkliftMechanism.class));
+        mechanismList.add(injector.getInstance(GarageDoorMechanism.class));
+        //mechanismList.add(injector.getInstance(ForkliftMechanism.class));
         return mechanismList;
     }
 
