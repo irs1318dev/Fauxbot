@@ -45,6 +45,7 @@ public class ForkliftMechanism implements IMechanism {
         boolean pistonDown = this.driver.getDigital(DigitalOperation.ForkliftDown);
         this.leftMotor.set(leftPower);
         this.rightMotor.set(rightPower);
+        // What happens if both are true? Ask Will/Arjun later.
         if (pistonUp){
             this.piston.set(DoubleSolenoidValue.Forward);
         }
