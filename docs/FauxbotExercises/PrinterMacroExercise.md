@@ -8,7 +8,7 @@ Programming: 4 (implementing a control task class extending ControlTaskBase pare
 Robotics: 2 (macros)
 
 ## Implementing Printer Macros
-First, make sure that you have implemented PrinterMechanism as a part of the [Printer exercise](#/PrinterExercise.md).  Also make sure that you indeed used the positional PID mode on the X- and Y-axis TalonSRX motors.  I'll recommend a few pieces that you can implement in order to make this easier.  Some more specific instructions exist in the [Robot Programming Guide](#/Robot%20Programming%20Guide.md)
+First, make sure that you have implemented PrinterMechanism as a part of the [Printer exercise](#/PrinterExercise.md).  Also make sure that you indeed used the positional PID mode on the X- and Y-axis TalonSRX motors.  I'll recommend a few pieces that you can implement in order to make this easier.  Some more specific instructions exist in the [Robot Code Instructions](#/RobotCodeInstructions/RobotCodeInstructions.md)
 
 ## Update to PrinterMechanism
 You will want to update PrinterMechanism to have "getter" functions that return the current X and Y position from the encoders that are connected to the TalonSRX motor controllers.  Please make sure that the positions are read during readSensor(), stored in a class member variable, and returned by these functions.  Also, you should ensure that the mechanism is using positional PID mode when controlling the Talon SRX motors.
@@ -22,6 +22,3 @@ The next task will be much more complicated.  You will want to control the x-axi
 
 #### Draw MacroOperation
 The last piece that you will need is to add a MacroOperation and to describe it in the ButtonMap.  Within the button map, you can add a new description that uses a Toggle button type, constructs a SequentialTask containing a sequence of Pen Write tasks and Pen Move tasks, and provides a list of analog and digital operations that the tasks will execute.
-
-## Links
-[Robot Programming Guide](/Robot%20Programming%20Guide.md)

@@ -8,7 +8,7 @@ Programming: 3 (managing state and state transitions)
 Robotics: 2 (input from sensors)
 
 ## Implementing GarageDoorMechanism
-We'll now cover the basics that will need to be understood for implementing the GarageDoorMechanism.  More specific instructions exist in the [Robot Programming Guide](#/Robot%20Programming%20Guide.md)
+We'll now cover the basics that will need to be understood for implementing the GarageDoorMechanism.  More specific instructions exist in the [Robot Code Instructions](#/RobotCodeInstructions/RobotCodeInstructions.md)
 
 ### Actuators
 #### Motor (Talon)
@@ -30,9 +30,6 @@ Garage Doors traditionally only have one button.  The action that results from p
 
 ### Updating State
 The below state diagram shows how the Garage Door can move between different states based on the button being pressed, the through-beam sensor being broken, and the sensors detecting the that Garage Door is fully opened or fully closed.
-![Garage Door State diagram](/GarageDoorStateDiagram.png)
+![Garage Door State diagram](GarageDoorStateDiagram.png)
 
 Whenever the Garage Door is opening or closing, it should provide positive or negative power to the motor, respectively.  Whenever the Garage Door is open/closed, it should not provide power to the motor.
-
-## Links
-[Robot Programming Guide](/Robot%20Programming%20Guide.md)

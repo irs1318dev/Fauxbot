@@ -8,7 +8,7 @@ Programming: 2
 Robotics: 3 (Position, Velocity PID control on motor controller)
 
 ## Implementing ShooterMechanism
-We'll now cover the basics that will need to be understood for implementing the ShooterMechanism.  More specific instructions exist in the [Robot Programming Guide](#/Robot%20Programming%20Guide.md)
+We'll now cover the basics that will need to be understood for implementing the ShooterMechanism.  More specific instructions exist in the [Robot Code Instructions](#/RobotCodeInstructions/RobotCodeInstructions.md)
 
 ### Actuators
 #### Hood Motor (TalonSRX)
@@ -35,6 +35,3 @@ The ShooterFilre button tells the kicker to kick momentarily and then return to 
 
 ### Updating State
 There's no specific state diagram for the Shooter.
-
-## Links
-[Robot Programming Guide](/Robot%20Programming%20Guide.md)
