@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "fauxbot_desktop"
+		},
+		{
+			"path": "docs"
 		}
 	],
 	"settings": {
