@@ -1,0 +1,3 @@
+# LoggingKeys
+
+Within mechanisms, we have a desire to log various bits of information about a mechanism's state in order to make it easier to set some of the tuning constants as well as debug hardware and software issues on the robot.  This information is sent somewhere based on the robot's configuration, but typically these can be seen in the Smart Dashboard that runs on the Driver Station laptop while the robot is running.  The ```LoggingKey``` enumeration contains the list of every bit of information that is logged during the running of the robot, along with the corresponding name that will be displayed in the log or on the dashboard.

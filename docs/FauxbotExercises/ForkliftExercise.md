@@ -8,7 +8,7 @@ Programming: 1
 Robotics: 1
 
 ## Implementing ForkliftMechanism
-We'll now cover the basics that will need to be understood for implementing the ForkliftMechanism.  More specific instructions exist in the [Robot Programming Guide](#/Robot%20Programming%20Guide.md)
+We'll now cover the basics that will need to be understood for implementing the ForkliftMechanism.  More specific instructions exist in the [Robot Code Instructions](#/RobotCodeInstructions/RobotCodeInstructions.md)
 
 ### Actuators
 #### DriveTrainLeft (Talon)
@@ -35,6 +35,3 @@ Our forklift is very simple and only supports being up or down, not halfway in b
 
 #### ForkliftDown (Digital)
 When the ForkliftDown operation is true, we want to move the lifter into the down position.
-
-## Links
-[Robot Programming Guide](/Robot%20Programming%20Guide.md)
