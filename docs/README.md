@@ -18,7 +18,7 @@ The Issaquah Robotics Society’s Robot code is designed to be a good example of
 5. [HardwareConstants](RobotCodeDesign/HardwareConstants.md)
 6. [LoggingKeys](RobotCodeDesign/LoggingKeys.md)
 7. [Driver](RobotCodeDesign/Driver.md)
-8. [Other Topics](OtherTopics.md)
+8. [Other Topics](RobotCodeDesign/OtherTopics.md)
 
 # [Robot Code Instructions](RobotCodeInstructions/RobotCodeInstructions.md)
 1. [Setting up your Environment](RobotCodeInstructions/SettingUpYourEnvironment)
