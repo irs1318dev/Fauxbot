@@ -1,0 +1,5 @@
+# PID Controllers
+
+"PID" stands for **P**roportional **I**ntegral and **D**erivative.  PID is a way of controlling a part of a robot that incorporates feedback from sensors in order to control the operation of the robot.  PID is often used as a way for correcting for _error_ caused by things like friction or other forces pushing back on the robot.  PID takes in values according to put in the current _measured value_ (the value discovered from an encoder or other sensor) and _setpoint_ (the desired value).  We typically use PID for elevators and for Positional control in the drivetrain.  For Velocity control we also use Feed-Forward to provide additional control.
+
+With PID, there are different constant values that need to be discovered experimentally for the P, I, D, and F values.  Typically, F is only used for Velocity control.  P is used for basically all PID controllers.  I is used to correct error from slight overshoots or undershoots over time.  D is used to reduce oscillation around the setpoint.  For more information, Wikipedia has an ok article on PID.
