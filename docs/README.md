@@ -47,7 +47,8 @@ The Issaquah Robotics Society’s Robot code is designed to be a good example of
 # [Advanced Topics](AdvancedTopics/AdvancedTopics.md)
 1. [PID Controllers](AdvancedTopics/PIDControllers.md)
 2. [Motion Planning](AdvancedTopics/MotionPlanning.md)
-3. [Vision](AdvancedTopics/Vision.md)
+3. [PathPlanner](AdvancedTopics/MotionPlanning.md)
+4. [Vision](AdvancedTopics/Vision.md)
 
 # Links
 1. [WPILib documentation](https://docs.wpilib.org)
