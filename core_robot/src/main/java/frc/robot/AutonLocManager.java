@@ -4,6 +4,7 @@ import java.util.Optional;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import frc.lib.helpers.Helpers;
 import frc.lib.robotprovider.Alliance;
 import frc.lib.robotprovider.IDriverStation;
 import frc.lib.robotprovider.IRobotProvider;
@@ -32,14 +33,14 @@ public class AutonLocManager
 
     public void updateAlliance()
     {
-        Optional<Alliance> alliance = driverStation.getAlliance();
+        Optional<Alliance> alliance = this.driverStation.getAlliance();
         this.isRed = alliance.isPresent() && alliance.get() == Alliance.Red;
         this.setValues();
     }
 
     public boolean getRedUpdateAlliance()
     {
-        Optional<Alliance> alliance = driverStation.getAlliance();
+        Optional<Alliance> alliance = this.driverStation.getAlliance();
         this.isRed = alliance.isPresent() && alliance.get() == Alliance.Red;
         this.setValues();
         return isRed;
@@ -59,31 +60,32 @@ public class AutonLocManager
     {
         // Red is positive
         // Blue is negative
-        this.P1 = new Point2d(AutonLocManager.getXPosition(this.isRed, 326.5), 64);
-        this.P2 = new Point2d(AutonLocManager.getXPosition(this.isRed, 289 + 4.818761855), 198 - 23.5416793);
+        this.P1 = new Point2d(AutonLocManager.getNegatedPosition(this.isRed, 326.5), 64);
+        this.P2 = new Point2d(AutonLocManager.getNegatedPosition(this.isRed, 289 + 4.818761855), 198 - 23.5416793);
     }
 
     private static double getOrientationOrHeading(boolean isRed, double orientationOrHeading)
     {
         if (isRed)
         {
-            return orientationOrHeading;
+            return 180.0 + orientationOrHeading;
         }
         else
         {
-            return 180.0 - orientationOrHeading;
+            return orientationOrHeading;
         }
     }
 
-    private static double getXPosition(boolean isRed, double position)
+    private static double getNegatedPosition(boolean isRed, double position)
     {
         if (isRed)
         {
-            return position;
+            return -1.0 * position;
         }
         else
         {
-            return position * -1.0;
+            return position;
         }
     }
+    
 }

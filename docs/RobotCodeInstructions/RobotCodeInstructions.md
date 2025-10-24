@@ -1,0 +1,16 @@
+# Robot Code Instructions
+
+1. [Setting up your Environment](SettingUpYourEnvironment)
+2. [Using Command Line operations](UsingCommandline.md)
+3. [Using Git](UsingGit.md)
+4. [Adding Operations](AddingOperations.md)
+5. [Adding Electronics Constants](AddingElectronicsConstants.md)
+6. [Adding Hardware Constants](AddingHardwareConstants.md)
+7. [Adding Tuning Constants](AddingTuningConstants.md)
+8. [Adding Logging Key](AddingLoggingKeys.md)
+10. [Writing a new Mechanism](WritingMechanisms.md)
+11. [Adding Macros](AddingMacros.md)
+12. [Adding Autonomous Routines](AddingAutonomousRoutines.md)
+13. [Composing Tasks together](ComposingTasksTogether.md)
+14. [Updating ButtonMap](UpdatingButtonMap.md)
+15. [Writing Tasks](WritingControlTasks.md)

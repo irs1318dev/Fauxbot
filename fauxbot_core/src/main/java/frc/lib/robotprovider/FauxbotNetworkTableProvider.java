@@ -13,21 +13,33 @@ public class FauxbotNetworkTableProvider implements INetworkTableProvider
     }
 
     @Override
+    public IAlert createAlert(String text, AlertType type)
+    {
+        return new FauxbotAlert(text, type);
+    }
+
+    @Override
+    public IField2d getField2d(String name)
+    {
+        return new FauxbotField2d(name);
+    }
+
+    @Override
     public IDoubleSubscriber getNumberSlider(String title, double initialValue)
     {
-        return null;
+        return new FauxbotDoubleSubscriber(title, initialValue);
     }
 
     @Override
     public IIntegerSubscriber getIntegerSlider(String title, int initialValue)
     {
-        return null;
+        return new FauxbotIntegerSubscriber(title, initialValue);
     }
 
     @Override
     public IBooleanSubscriber getCheckbox(String title, boolean initialValue)
     {
-        return null;
+        return new FauxbotBooleanSubscriber(title, initialValue);
     }
 
     /**
@@ -42,48 +54,48 @@ public class FauxbotNetworkTableProvider implements INetworkTableProvider
     @Override
     public IDoubleSubscriber getDoubleSubscriber(String key)
     {
-        return null;
+        return new FauxbotDoubleSubscriber(key, 0.0);
     }
 
     @Override
     public IDoubleSubscriber getDoubleSubscriber(String key, double defaultValue)
     {
-        return null;
+        return new FauxbotDoubleSubscriber(key, defaultValue);
     }
 
     @Override
     public IBooleanSubscriber getBooleanSubscriber(String key)
     {
-        return null;
+        return new FauxbotBooleanSubscriber(key, false);
     }
 
     @Override
     public IBooleanSubscriber getBooleanSubscriber(String key, boolean defaultValue)
     {
-        return null;
+        return new FauxbotBooleanSubscriber(key, defaultValue);
     }
 
     @Override
     public IIntegerSubscriber getIntegerSubscriber(String key)
     {
-        return null;
+        return new FauxbotIntegerSubscriber(key, 0);
     }
 
     @Override
-    public IIntegerSubscriber getIntegerSubscriber(String key, int defaultVAlue)
+    public IIntegerSubscriber getIntegerSubscriber(String key, int defaultValue)
     {
-        return null;
+        return new FauxbotIntegerSubscriber(key, defaultValue);
     }
 
     @Override
     public IStringSubscriber getStringSubscriber(String key)
     {
-        return null;
+        return new FauxbotStringSubscriber(key, null);
     }
 
     @Override
     public IStringSubscriber getStringSubscriber(String key, String defaultValue)
     {
-        return null;
+        return new FauxbotStringSubscriber(key, defaultValue);
     }
 }

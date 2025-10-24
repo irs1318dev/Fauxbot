@@ -1,0 +1,3 @@
+# TuningConstants
+
+In order to simplify tuning the settings of the robot, we store any "magic numbers" that we will likely want to change as constants in the ```TuningConstants``` class.  Settings that may need to be tuned include things like the speed at which to run an intake, or the speed at which to turn when the joystick is in a certain position.  These settings are usually things that are hard to know in advance, and the appropriate settings are discovered by testing the robot.  There are many things that aren’t known in advance by the software team, so putting all of these things in ```TuningConstants``` in an organized fashion can help speed up the tuning process of the robot and prevent bugs.

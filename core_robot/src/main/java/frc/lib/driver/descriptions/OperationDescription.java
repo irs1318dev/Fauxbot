@@ -4,6 +4,7 @@ import java.util.EnumSet;
 
 import frc.lib.driver.IOperation;
 import frc.lib.helpers.ExceptionHelpers;
+import frc.robot.driver.OperationContext;
 import frc.robot.driver.Shift;
 
 /**
@@ -14,13 +15,17 @@ public abstract class OperationDescription<TOperation extends IOperation>
 {
     private final TOperation operation;
     private final OperationType type;
+
     private final UserInputDevice userInputDevice;
-    private final EnumSet<Shift> relevantShifts;
-    private final EnumSet<Shift> requiredShifts;
+
     private final double userInputDeviceRangeMin;
     private final double userInputDeviceRangeMax;
 
-    protected OperationDescription(TOperation operation, OperationType type, UserInputDevice userInputDevice, double userInputDeviceRangeMin, double userInputDeviceRangeMax, EnumSet<Shift> relevantShifts, EnumSet<Shift> requiredShifts)
+    private final EnumSet<Shift> relevantShifts;
+    private final EnumSet<Shift> requiredShifts;
+    private final EnumSet<OperationContext> relevantContexts;
+
+    protected OperationDescription(TOperation operation, OperationType type, UserInputDevice userInputDevice, double userInputDeviceRangeMin, double userInputDeviceRangeMax, EnumSet<Shift> relevantShifts, EnumSet<Shift> requiredShifts, EnumSet<OperationContext> relevantContexts)
     {
         this.operation = operation;
         this.type = type;
@@ -29,6 +34,7 @@ public abstract class OperationDescription<TOperation extends IOperation>
         this.userInputDeviceRangeMax = userInputDeviceRangeMax;
         this.relevantShifts = relevantShifts;
         this.requiredShifts = requiredShifts;
+        this.relevantContexts = relevantContexts;
 
         ExceptionHelpers.Assert((relevantShifts == null) == (requiredShifts == null), "Either both or neither of relevant and required shifts should be null");
         ExceptionHelpers.Assert(relevantShifts == null || requiredShifts == null || relevantShifts.containsAll(requiredShifts), "relevant shifts must contain required shifts");
@@ -57,6 +63,11 @@ public abstract class OperationDescription<TOperation extends IOperation>
     public EnumSet<Shift> getRequiredShifts()
     {
         return this.requiredShifts;
+    }
+
+    public EnumSet<OperationContext> getRelevantContexts()
+    {
+        return this.relevantContexts;
     }
 
     public double getUserInputDeviceRangeMin()

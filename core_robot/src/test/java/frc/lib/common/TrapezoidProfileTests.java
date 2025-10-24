@@ -8,7 +8,7 @@ import frc.lib.controllers.TrapezoidProfile;
 
 public class TrapezoidProfileTests
 {
-    // @Test
+    @Test
     public void checkGoZero()
     {
         TrapezoidProfile profile = new TrapezoidProfile(10.0, 5.0, 5.0);
@@ -22,7 +22,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(0.0, goal.getVelocity());
     }
 
-    // @Test
+    @Test
     public void checkZeroDistance()
     {
         TrapezoidProfile profile = new TrapezoidProfile(10.0, 5.0, 5.0);
@@ -52,7 +52,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(8.0, curr.getVelocity());
     }
 
-    // @Test
+    @Test
     public void checkZeroTime()
     {
         TrapezoidProfile profile = new TrapezoidProfile(10.0, 5.0, 5.0);
@@ -88,7 +88,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(0.0, curr.getVelocity());
     }
 
-    // @Test
+    @Test
     public void checkNormalPathFromZero()
     {
         TrapezoidProfile profile = new TrapezoidProfile(3.0, 3.0);
@@ -115,7 +115,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(0.0, curr.getVelocity());
     }
 
-    // @Test
+    @Test
     public void checkNormalChangeGoal()
     {
         TrapezoidProfile profile = new TrapezoidProfile(1.5, 1.5);
@@ -160,7 +160,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(0.0, curr.getVelocity());
     }
 
-    // @Test
+    @Test
     public void checkNormalPathFromNonZero()
     {
         // travel 11862 inches over 661 seconds (2s accel, 657s coast, 2s decel)
@@ -220,7 +220,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(0.0, curr.getVelocity());
     }
 
-    // @Test
+    @Test
     public void checkNormalPathCrossZero()
     {
         // travel 2636 inches over 667 seconds (8s accel, 651s coast, 8s decel)
@@ -280,7 +280,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(0.0, curr.getVelocity());
     }
 
-    // @Test
+    @Test
     public void checkReversePathFromZero()
     {
         TrapezoidProfile profile = new TrapezoidProfile(3.0, 3.0);
@@ -307,7 +307,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(0.0, curr.getVelocity());
     }
 
-    // @Test
+    @Test
     public void checkReverseChangeGoal()
     {
         TrapezoidProfile profile = new TrapezoidProfile(1.5, 1.5);
@@ -352,7 +352,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(0.0, curr.getVelocity());
     }
 
-    // @Test
+    @Test
     public void checkReversePathFromNonZero()
     {
         // travel -11862 inches over 661 seconds (2s accel, 657s coast, 2s decel)
@@ -411,7 +411,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(0.0, curr.getVelocity());
     }
 
-    // @Test
+    @Test
     public void checkReversePathCrossZero()
     {
         // travel -2636 inches over 667 seconds (8s accel, 651s coast, 8s decel)
@@ -470,7 +470,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(0.0, curr.getVelocity());
     }
 
-    // @Test
+    @Test
     public void checkCutoffPath()
     {
         // travel 210 inches over 20 seconds (1s accel, 19.5s coast, 1s decel)
@@ -531,7 +531,7 @@ public class TrapezoidProfileTests
         Assertions.assertEquals(5.0, curr.getVelocity());
     }
 
-    // @Test
+    @Test
     public void checkDisjointPathCrossZero()
     {
         // travel 2636 inches over 664 seconds (8s accel, 654s coast, 2s decel)

@@ -1,11 +1,10 @@
 package frc.lib.driver.states;
 
-import java.util.EnumMap;
 import java.util.EnumSet;
 
 import frc.robot.TuningConstants;
 import frc.lib.driver.IControlTask;
-import frc.lib.driver.IOperation;
+import frc.lib.driver.IOperationModifier;
 import frc.lib.driver.UserInputDeviceButton;
 import frc.lib.robotprovider.IJoystick;
 import frc.lib.driver.buttons.ClickButton;
@@ -18,6 +17,7 @@ import frc.lib.helpers.ExceptionHelpers;
 import frc.lib.helpers.SetHelper;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
+import frc.robot.driver.OperationContext;
 import frc.robot.driver.Shift;
 
 import com.google.inject.Injector;
@@ -29,22 +29,19 @@ import com.google.inject.Injector;
 public class MacroOperationState extends OperationState implements IMacroOperationState
 {
     private final IButton button;
-    private final EnumMap<AnalogOperation, AnalogOperationState> analogOperationStateMap;
-    private final EnumMap<DigitalOperation, DigitalOperationState> digitalOperationStateMap;
+    private final IOperationModifier operationModifier;
     private final Injector injector;
 
     private IControlTask task;
 
     public MacroOperationState(
         MacroOperationDescription description,
-        EnumMap<AnalogOperation, AnalogOperationState> analogOperationStateMap,
-        EnumMap<DigitalOperation, DigitalOperationState> digitalOperationStateMap,
+        IOperationModifier operationModifier,
         Injector injector)
     {
         super(description);
 
-        this.analogOperationStateMap = analogOperationStateMap;
-        this.digitalOperationStateMap = digitalOperationStateMap;
+        this.operationModifier = operationModifier;
         this.injector = injector;
 
         switch (description.getButtonType())
@@ -97,17 +94,25 @@ public class MacroOperationState extends OperationState implements IMacroOperati
     /**
      * Checks whether the operation state should change based on the joysticks and active stifts. 
      * @param joysticks to update from
-     * @param activeShifts to update from
+     * @param activeShifts shifts currently applied by operator
+     * @param currentContext operation context currently applied to the driver 
      * @return true if there was any active user input that triggered a state change
      */
     @Override
-    public boolean checkInput(IJoystick[] joysticks, EnumSet<Shift> activeShifts)
+    public boolean checkInput(IJoystick[] joysticks, EnumSet<Shift> activeShifts, OperationContext currentContext)
     {
         MacroOperationDescription description = (MacroOperationDescription)this.getDescription();
 
         UserInputDevice userInputDevice = description.getUserInputDevice();
         if (userInputDevice == UserInputDevice.None)
         {
+            return false;
+        }
+
+        EnumSet<OperationContext> relevantContexts = description.getRelevantContexts();
+        if (relevantContexts != null && !relevantContexts.contains(currentContext))
+        {
+            this.button.updateState(false);
             return false;
         }
 
@@ -135,7 +140,7 @@ public class MacroOperationState extends OperationState implements IMacroOperati
         UserInputDeviceButton relevantButton = description.getUserInputDeviceButton();
         if (relevantButton == UserInputDeviceButton.POV)
         {
-            buttonPressed = relevantJoystick.getPOV() == description.getUserInputDevicePovValue();
+            buttonPressed = relevantJoystick.getPOV() == description.getUserInputDevicePovValue().Value;
         }
         else if (relevantButton == UserInputDeviceButton.ANALOG_AXIS_RANGE)
         {
@@ -157,19 +162,14 @@ public class MacroOperationState extends OperationState implements IMacroOperati
         return buttonPressed;
     }
 
-    public AnalogOperation[] getMacroCancelAnalogOperations()
+    public EnumSet<AnalogOperation> getMacroCancelAnalogOperations()
     {
         return ((MacroOperationDescription)this.getDescription()).getMacroCancelAnalogOperations();
     }
 
-    public DigitalOperation[] getMacroCancelDigitalOperations()
+    public EnumSet<DigitalOperation> getMacroCancelDigitalOperations()
     {
         return ((MacroOperationDescription)this.getDescription()).getMacroCancelDigitalOperations();
-    }
-
-    public IOperation[] getAffectedOperations()
-    {
-        return ((MacroOperationDescription)this.getDescription()).getAffectedOperations();
     }
 
     public boolean getIsActive()
@@ -187,7 +187,7 @@ public class MacroOperationState extends OperationState implements IMacroOperati
 
                 // start task
                 this.task = ((MacroOperationDescription)this.getDescription()).constructTask();
-                this.task.initialize(this.analogOperationStateMap, this.digitalOperationStateMap, this.injector);
+                this.task.initialize(this.operationModifier, this.injector);
                 this.task.begin();
             }
 
@@ -234,19 +234,26 @@ public class MacroOperationState extends OperationState implements IMacroOperati
         this.button.clearState();
     }
 
+    private EnumSet<AnalogOperation> getAffectedAnalogOperations()
+    {
+        return ((MacroOperationDescription)this.getDescription()).getAffectedAnalogOperations();
+    }
+
+    private EnumSet<DigitalOperation> getAffectedDigitalOperations()
+    {
+        return ((MacroOperationDescription)this.getDescription()).getAffectedDigitalOperations();
+    }
+
     private void setInterrupts(boolean enable)
     {
-        for (IOperation operation : this.getAffectedOperations())
+        for (AnalogOperation operation : this.getAffectedAnalogOperations())
         {
-            if (operation instanceof AnalogOperation)
-            {
-                this.analogOperationStateMap.get((AnalogOperation)operation).setIsInterrupted(enable);
-            }
-            else
-            {
-                ExceptionHelpers.Assert(operation instanceof DigitalOperation, "Expect operation of type DigitalOperation");
-                this.digitalOperationStateMap.get((DigitalOperation)operation).setIsInterrupted(enable);
-            }
+            this.operationModifier.setAnalogOperationInterrupt(operation, enable);
+        }
+
+        for (DigitalOperation operation : this.getAffectedDigitalOperations())
+        {
+            this.operationModifier.setDigitalOperationInterrupt(operation, enable);
         }
     }
 }

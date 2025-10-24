@@ -96,6 +96,13 @@ public interface ITalonFX extends ITalonXBase
     void setErrorUpdateRate(double frequencyHz);
 
     /**
+     * Configure the frequency at which the TalonFX sends updates about the duty-cycle output, to manage responsiveness vs. CAN utilization.
+     * See TalonFX documentation for more information
+     * @param frequencyHz frequency of updates
+     */
+    void setOutputUpdateRate(double frequencyHz);
+
+    /**
      * Configure the frequency at which the TalonFX sends updates about the forward limit switch, to manage responsiveness vs. CAN utilization.
      * See TalonFX documentation for more information
      * @param frequencyHz frequency of updates
@@ -128,6 +135,20 @@ public interface ITalonFX extends ITalonXBase
      * @param slotId identity of the slot in which to store the data
      */
     void setMotionMagicPIDVS(double p, double i, double d, double v, double s, double cruiseVelocity, double maxAcceleration, double maxJerk, int slotId);
+
+    /**
+     * Configure PID gains that are kept in the specified slot and MotionMagicExpo gains
+     * @param p proportional PID gain
+     * @param i integral PID gain
+     * @param d derivative PID gain (dampening)
+     * @param v velocity feed-forward PID gain
+     * @param s static feed-forward PID gain
+     * @param cruiseVelocity cruise velocity
+     * @param velocityVoltage the amount of voltage necessary to hold a velocity, Volts per rotations-per-second
+     * @param accelerationVoltage the amount of voltage necessary to achieve an acceleration, Volts per rotations-per-second-squared
+     * @param slotId identity of the slot in which to store the data
+     */
+    void setMotionMagicExpoPIDVS(double p, double i, double d, double v, double s, double cruiseVelocity, double velocityVoltage, double accelerationVoltage, int slotId);
 
     /**
      * Configure the limit switch for this motor controller

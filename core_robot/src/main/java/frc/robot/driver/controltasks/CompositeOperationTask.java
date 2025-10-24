@@ -1,8 +1,11 @@
 package frc.robot.driver.controltasks;
 
+import java.util.EnumSet;
+
 import frc.lib.helpers.ExceptionHelpers;
 import frc.lib.robotprovider.ITimer;
 import frc.robot.TuningConstants;
+import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
 
 /**
@@ -11,10 +14,10 @@ import frc.robot.driver.DigitalOperation;
  */
 public abstract class CompositeOperationTask extends UpdateCycleTask
 {
-    private final DigitalOperation[] possibleOperations;
-    private final boolean timeoutMode;
+    private final EnumSet<DigitalOperation> possibleOperations;
     private final double timeout;
-    private final boolean runIndefinitely;
+    protected final boolean timeoutMode;
+    protected final boolean runIndefinitely;
 
     private DigitalOperation toPerform;
     private ITimer timer;
@@ -25,7 +28,7 @@ public abstract class CompositeOperationTask extends UpdateCycleTask
      * @param toPerform the operation to perform by setting to true for duration
      * @param possibleOperations to set of linked operations that should be set to false for duration
      */
-    protected CompositeOperationTask(DigitalOperation toPerform, DigitalOperation[] possibleOperations)
+    protected CompositeOperationTask(DigitalOperation toPerform, EnumSet<DigitalOperation> possibleOperations)
     {
         this(toPerform, possibleOperations, false, 0.0, false);
     }
@@ -36,7 +39,7 @@ public abstract class CompositeOperationTask extends UpdateCycleTask
      * @param possibleOperations to set of linked operations that should be set to false for duration
      * @param runIndefinitely whether to keep running indefinitely instead of for a single update cycle
      */
-    protected CompositeOperationTask(DigitalOperation toPerform, DigitalOperation[] possibleOperations, boolean runIndefinitely)
+    protected CompositeOperationTask(DigitalOperation toPerform, EnumSet<DigitalOperation> possibleOperations, boolean runIndefinitely)
     {
         this(toPerform, possibleOperations, false, 0.0, runIndefinitely);
     }
@@ -47,7 +50,7 @@ public abstract class CompositeOperationTask extends UpdateCycleTask
      * @param possibleOperations to set of linked operations that should be set to false for duration
      * @param timeout how long to keep running the macro
      */
-    protected CompositeOperationTask(DigitalOperation toPerform, DigitalOperation[] possibleOperations, double timeout)
+    protected CompositeOperationTask(DigitalOperation toPerform, EnumSet<DigitalOperation> possibleOperations, double timeout)
     {
         this(toPerform, possibleOperations, true, timeout, false);
     }
@@ -59,24 +62,17 @@ public abstract class CompositeOperationTask extends UpdateCycleTask
      * @param timeoutMode whether we are in timeout mode
      * @param timeout the timeout, if we are in timeout mode
      */
-    private CompositeOperationTask(DigitalOperation toPerform, DigitalOperation[] possibleOperations, boolean timeoutMode, double timeout, boolean runIndefinitely)
+    private CompositeOperationTask(DigitalOperation toPerform, EnumSet<DigitalOperation> possibleOperations, boolean timeoutMode, double timeout, boolean runIndefinitely)
     {
         super(1);
         if (TuningConstants.THROW_EXCEPTIONS)
         {
             // if we are cool with throwing exceptions (testing), check if toPerform is in
             // the possibleOperations set and throw an exception if it is not
-            boolean containsToPerform = false;
-            for (DigitalOperation op : possibleOperations)
-            {
-                if (op == toPerform)
-                {
-                    containsToPerform = true;
-                    break;
-                }
-            }
-
-            ExceptionHelpers.Assert(containsToPerform, toPerform.toString() + " not contained in the set");
+            ExceptionHelpers.Assert(
+                possibleOperations.contains(toPerform),
+                "%s not contained in the set of possible operations",
+                toPerform.toString());
         }
 
         this.toPerform = toPerform;
@@ -84,6 +80,25 @@ public abstract class CompositeOperationTask extends UpdateCycleTask
         this.timeoutMode = timeoutMode;
         this.timeout = timeout;
         this.runIndefinitely = runIndefinitely;
+    }
+
+    /**
+     * Retrieve the set of analog operations that this task affects.
+     * @return set of analog operations that this task affects.
+     */
+    @Override
+    public EnumSet<AnalogOperation> getAffectedAnalogOperations()
+    {
+        return EnumSet.noneOf(AnalogOperation.class);
+    }
+
+    /**
+     * Retrieve the set of digital operations that this task affects.
+     * @return set of digital operations that this task affects.
+     */
+    public EnumSet<DigitalOperation> getAffectedDigitalOperations()
+    {
+        return this.possibleOperations;
     }
 
     /**

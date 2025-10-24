@@ -1,0 +1,3 @@
+# Distance Sensors
+
+There are various types of distance sensors, which can use either sound or light to sense how far away the robot is from something else.  In WPILib, you would use an AnalogInput, which would return a double value (rational number) which indicates how many volts were detected by the sensor.  This value will differ based on the sensor and its placement, so you can tell through experimentation what the values mean.  It is also possible to use a more complex sensor that would need to have code written for it to use I2C or another protocol to let the RoboRIO communicate with the sensor.

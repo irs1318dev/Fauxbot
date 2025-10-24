@@ -55,6 +55,12 @@ public interface IDutyCycleEncoder
     void setDutyCycleRange(double min, double max);
 
     /**
+     * Whether to invert the value of the DutyCycle Encoder.
+     * @param inverted whether to swap the value from the default.
+     */
+    void setInverted(boolean inverted);
+
+    /**
      * Configure the position offset of the encoder
      * @param offset to use (0 to 1)
      */

@@ -2,6 +2,7 @@ package frc.lib.mechanisms;
 
 import java.util.List;
 
+import frc.lib.helpers.Tracer;
 import frc.lib.robotprovider.RobotMode;
 import frc.robot.TuningConstants;
 
@@ -30,6 +31,8 @@ public class MechanismManager implements IMechanism
     {
         for (IMechanism mechanism : this.mechanismList)
         {
+            Tracer.trace("Reading sensors for mechanism %s", mechanism.getClass().getName());
+
             try
             {
                 mechanism.readSensors();
@@ -42,6 +45,8 @@ public class MechanismManager implements IMechanism
                     throw ex;
                 }
             }
+
+            Tracer.trace("Finished reading sensors for mechanism %s", mechanism.getClass().getName());
         }
     }
 
@@ -55,6 +60,8 @@ public class MechanismManager implements IMechanism
     {
         for (IMechanism mechanism : this.mechanismList)
         {
+            Tracer.trace("Updating mechanism %s", mechanism.getClass().getName());
+
             try
             {
                 mechanism.update(mode);
@@ -67,6 +74,8 @@ public class MechanismManager implements IMechanism
                     throw ex;
                 }
             }
+
+            Tracer.trace("Finished update for mechanism %s", mechanism.getClass().getName());
         }
     }
 
@@ -79,6 +88,8 @@ public class MechanismManager implements IMechanism
     {
         for (IMechanism mechanism : this.mechanismList)
         {
+            Tracer.trace("Stopping mechanism %s", mechanism.getClass().getName());
+
             try
             {
                 mechanism.stop();
@@ -91,6 +102,8 @@ public class MechanismManager implements IMechanism
                     throw ex;
                 }
             }
+
+            Tracer.trace("Finished stop for mechanism %s", mechanism.getClass().getName());
         }
     }
 }

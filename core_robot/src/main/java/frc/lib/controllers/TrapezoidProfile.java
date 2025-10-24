@@ -225,7 +225,7 @@ public class TrapezoidProfile
          */
         public boolean updatePosition(double position)
         {
-            if (Helpers.RoughEquals(this.position, position, 1e-5))
+            if (Helpers.roughEquals(this.position, position, 1e-5))
             {
                 return false;
             }

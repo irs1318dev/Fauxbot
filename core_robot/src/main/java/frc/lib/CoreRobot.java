@@ -2,15 +2,12 @@ package frc.lib;
 
 import frc.lib.driver.IDriver;
 import frc.lib.helpers.ExceptionHelpers;
+import frc.lib.helpers.Tracer;
 import frc.lib.mechanisms.LoggingManager;
 import frc.lib.mechanisms.MechanismManager;
 import frc.lib.robotprovider.*;
 import frc.robot.LoggingKey;
 import frc.robot.TuningConstants;
-
-import java.util.Calendar;
-import java.util.Optional;
-import java.util.OptionalInt;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -47,6 +44,7 @@ public class CoreRobot<T extends AbstractModule>
 
     private int disabledCount;
     private boolean completedCostlyTasks;
+    private boolean everEnabled;
 
     public CoreRobot(T module)
     {
@@ -76,10 +74,14 @@ public class CoreRobot<T extends AbstractModule>
         this.logger.logNumber(LoggingKey.RobotTime, this.timer.get());
         this.timerStarted = false;
 
+        // initialize robot provider on robot start instead of waiting for first enable
+        injector.getInstance(IRobotProvider.class);
+
         // reset number of logger updates
         this.loggerUpdates = 0;
 
         this.completedCostlyTasks = false;
+        this.everEnabled = false;
     }
 
     /**
@@ -117,7 +119,6 @@ public class CoreRobot<T extends AbstractModule>
     public void autonomousInit()
     {
         this.generalInit(RobotMode.Autonomous);
-
     }
 
     /**
@@ -153,11 +154,6 @@ public class CoreRobot<T extends AbstractModule>
      */
     public void disabledPeriodic()
     {
-        if (!TuningConstants.LOG_NULL_WHILE_DISABLED)
-        {
-            return;
-        }
-
         this.disabledCount++;
         if ((this.disabledCount % 500) == 0)
         {
@@ -171,7 +167,39 @@ public class CoreRobot<T extends AbstractModule>
                 this.completedCostlyTasks = true;
             }
 
+            if (!this.everEnabled)
+            {
+            }
+
             this.disabledCount = 0;
+        }
+
+        if ((this.disabledCount % 100) == 0 &&
+            !this.everEnabled)
+        {
+            this.driver.prepAutoMode();
+        }
+
+        if (TuningConstants.READ_SENSORS_WHILE_DISABLED)
+        {
+            try
+            {
+                this.mechanisms.readSensors();
+            }
+            catch (RuntimeException ex)
+            {
+                if (TuningConstants.LOG_EXCEPTIONS)
+                {
+                    this.logger.logString(LoggingKey.RobotCrash, ExceptionHelpers.exceptionString(ex));
+                }
+
+                throw ex;
+            }
+        }
+
+        if (!TuningConstants.LOG_NULL_WHILE_DISABLED)
+        {
+            return;
         }
 
         for (LoggingKey key : LoggingKey.values())
@@ -179,6 +207,14 @@ public class CoreRobot<T extends AbstractModule>
             if (key == LoggingKey.RobotState)
             {
                 this.logger.logString(LoggingKey.RobotState, "Disabled");
+            }
+
+            if (TuningConstants.READ_SENSORS_WHILE_DISABLED)
+            {
+                if (key.isInput)
+                {
+                    continue;
+                }
             }
 
             switch (key.type)
@@ -273,15 +309,19 @@ public class CoreRobot<T extends AbstractModule>
     {
         try
         {
+            Tracer.SHOULD_LOG = true;
+
+            Tracer.trace("Starting generalInit");
+
             this.currentMode = robotMode;
             this.driver.startMode(robotMode);
+
+            Tracer.trace("Retrieving injector, refreshing logger");
 
             Injector injector = this.getInjector();
             this.logger.refresh(injector);
 
-            // log match information
-            IRobotProvider robotProvider = injector.getInstance(IRobotProvider.class);
-            this.logger.logString(LoggingKey.RobotMatch, this.generateMatchString(robotProvider.getDriverStation()));
+            Tracer.trace("Starting timer");
 
             if (!this.timerStarted)
             {
@@ -291,6 +331,8 @@ public class CoreRobot<T extends AbstractModule>
 
             // log our current mode
             this.logger.logString(LoggingKey.RobotState, robotMode.toString());
+
+            this.everEnabled = true;
         }
         catch (RuntimeException ex)
         {
@@ -310,18 +352,28 @@ public class CoreRobot<T extends AbstractModule>
     {
         try
         {
+            Tracer.trace("Read sensors");
+
             this.mechanisms.readSensors();
+
+            Tracer.trace("Update driver");
 
             this.driver.update();
 
+            Tracer.trace("Update mechanisms");
+
             // run each mechanism
             this.mechanisms.update(this.currentMode);
+
+            Tracer.trace("Updating logs");
 
             this.logger.logNumber(LoggingKey.RobotTime, this.timer.get());
             this.logger.update();
 
             if (this.loggerUpdates++ > TuningConstants.LOG_FLUSH_THRESHOLD)
             {
+                Tracer.trace("Flushing logs");
+
                 // lazily flush the log, in case of power-off.
                 this.logger.flush();
                 this.loggerUpdates = 0;
@@ -336,34 +388,5 @@ public class CoreRobot<T extends AbstractModule>
 
             throw ex;
         }
-    }
-
-    private String generateMatchString(IDriverStation driverStation)
-    {
-        String eventName = driverStation.getEventName();
-        MatchType matchType = driverStation.getMatchType();
-        int matchNumber = driverStation.getMatchNumber();
-        int replayNumber = driverStation.getReplayNumber();
-        Optional<Alliance> alliance = driverStation.getAlliance();
-        OptionalInt location = driverStation.getLocation();
-        RobotMode mode = driverStation.getMode();
-
-        if (eventName != null && matchType != MatchType.None && matchNumber > 0 && alliance.isPresent() && location.isPresent())
-        {
-            // a la "2020 Glacier Peak - Q03 (R2).autonomous"
-            return
-                String.format(
-                    "%1$d %2$s - %3$s%4$02d%5$s (%6$s%7$d).%8$s",
-                    TuningConstants.CALENDAR_YEAR,
-                    eventName,
-                    matchType.value,
-                    matchNumber,
-                    replayNumber == 0 ? "" : String.format("R%1$d", replayNumber),
-                    alliance.get().value,
-                    location.getAsInt(),
-                    mode.toString().toLowerCase());
-        }
-
-        return String.format("%1$d.csv", Calendar.getInstance().getTime().getTime());
     }
 }

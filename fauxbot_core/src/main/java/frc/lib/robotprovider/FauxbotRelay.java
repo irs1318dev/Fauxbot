@@ -14,7 +14,7 @@ public class FauxbotRelay implements IRelay
     {
     }
 
-    public void setDirection(RelayDirection direction)
+    public void configureDirection(RelayDirection direction)
     {
     }
 }

@@ -80,6 +80,12 @@ public interface ITalonXBase extends IMotor
     double getError();
 
     /**
+     * Retrieve the current control signal (percent output/duty cycle) from the motor controller
+     * @return current output being used (from -1.0 to 1.0)
+     */
+    double getOutput();
+
+    /**
      * Retrieve the current status of the limit switches associated with the motor controller
      * @return whether the forward/reverse limit switches are currently tripped
      */

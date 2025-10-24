@@ -9,7 +9,7 @@ import frc.lib.helpers.*;
 
 public class GraphTests
 {
-    // @Test
+    @Test
     public void testGraph()
     {
         TestGraph graph = new TestGraph();

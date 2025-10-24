@@ -2,8 +2,10 @@ plugins {
     id "java"
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 
 repositories {
     mavenCentral()
@@ -16,15 +18,15 @@ repositories {
 
 dependencies {
     implementation "javax.inject:javax.inject:1"
-    implementation "com.google.guava:guava:21.0"
-    implementation "com.google.inject:guice:4.1.0:no_aop"
-    implementation "com.acmerobotics.roadrunner:core:0.5.6"
+    implementation "com.google.guava:guava:33.4.8-jre"
+    implementation "com.google.inject:guice:4.2.3:no_aop"
     implementation 'de.siegmar:fastcsv:2.0.0'
 
     testImplementation "org.mockito:mockito-core:5.10.0"
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.1'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 test {

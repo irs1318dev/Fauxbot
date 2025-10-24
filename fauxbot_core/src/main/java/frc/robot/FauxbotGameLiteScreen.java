@@ -1,5 +1,8 @@
 package frc.robot;
 
+import java.util.EnumSet;
+import java.util.HashMap;
+
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
@@ -8,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Tree;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import frc.lib.driver.AnalogAxis;
@@ -33,8 +37,12 @@ import frc.lib.robotprovider.FauxbotSensorConnection;
 import frc.lib.robotprovider.FauxbotSensorManager;
 import frc.lib.robotprovider.FauxbotSolenoid;
 
+import frc.robot.driver.OperationContext;
+
 public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Screen
 {
+    protected ContextTree contextTree;
+
     public FauxbotGameLiteScreen(final FauxbotGame game, Simulation selectedSimulation)
     {
         super(game, selectedSimulation);
@@ -43,31 +51,61 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
     @Override
     public void populateInnerInfoTable(Table innerInfoTable)
     {
-        // Add Operations
-        Label buttonsLabel = new Label("Operations:", this.skin, "subtitle");
-        innerInfoTable.add(buttonsLabel).colspan(2).top().left().expandX().padTop(10);
-        innerInfoTable.row();
-
         IButtonMap buttonMap = this.robot.getInjector().getInstance(IButtonMap.class);
-        for (DigitalOperationDescription description : buttonMap.getDigitalOperationSchema())
+        this.contextTree = new ContextTree(this.skin);
+
+        for (OperationContext context : OperationContext.values())
         {
-            this.addOperationDescription(description, innerInfoTable);
+            Table operationTable = new Table(this.skin);
+            ////operationTable.setDebug(true);
+
+            // Add Operations
+            Label buttonsLabel = new Label("Operations:", this.skin, "subtitle");
+            operationTable.add(buttonsLabel).colspan(2).top().left().expandX().padTop(10);
+            operationTable.row();
+
+            for (DigitalOperationDescription description : buttonMap.getDigitalOperationSchema())
+            {
+                EnumSet<OperationContext> contexts = description.getRelevantContexts();
+                if (contexts == null || contexts.contains(context))
+                {
+                    this.addOperationDescription(description, operationTable);
+                }
+            }
+
+            for (AnalogOperationDescription description : buttonMap.getAnalogOperationSchema())
+            {
+                EnumSet<OperationContext> contexts = description.getRelevantContexts();
+                if (contexts == null || contexts.contains(context))
+                {
+                    this.addOperationDescription(description, operationTable);
+                }
+            }
+
+            // Add Macros
+            Label macrosLabel = new Label("Macros:", this.skin, "subtitle");
+            operationTable.add(macrosLabel).colspan(2).left().expandX().padTop(10);
+            operationTable.row();
+
+            for (MacroOperationDescription description : buttonMap.getMacroOperationSchema())
+            {
+                EnumSet<OperationContext> contexts = description.getRelevantContexts();
+                if (contexts == null || contexts.contains(context))
+                {
+                    this.addMacroDescription(description, operationTable);
+                }
+            }
+
+            this.contextTree.add(context, this.skin, operationTable);
         }
 
-        for (AnalogOperationDescription description : buttonMap.getAnalogOperationSchema())
-        {
-            this.addOperationDescription(description, innerInfoTable);
-        }
-
-        // Add Macros
-        Label macrosLabel = new Label("Macros:", this.skin, "subtitle");
-        innerInfoTable.add(macrosLabel).colspan(2).left().expandX().padTop(10);
+        // Add Contexts label
+        Label contextsLabel = new Label("Contexts:", this.skin, "subtitle");
+        innerInfoTable.add(contextsLabel).colspan(2).left().expandX().padTop(10);
         innerInfoTable.row();
 
-        for (MacroOperationDescription description : buttonMap.getMacroOperationSchema())
-        {
-            this.addMacroDescription(description, innerInfoTable);
-        }
+        innerInfoTable.add(this.contextTree).colspan(2).left().expandX().padTop(10);
+        innerInfoTable.row();
 
         // Add Sensors
         Label sensorsLabel = new Label("Sensors:", this.skin, "subtitle");
@@ -184,6 +222,16 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
         }
     }
 
+    @Override
+    protected void updateInnerTable()
+    {
+        if (this.robotDriver != null &&
+            this.contextTree != null)
+        {
+            this.contextTree.setActive(this.robotDriver.getContext());
+        }
+    }
+
     private void addOperationDescription(OperationDescription description, Table infoTable)
     {
         if (description == null)
@@ -205,17 +253,17 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                         switch (digitalDescription.getButtonType())
                         {
                             case Click:
-                                ClickButtonUI clickButton = new ClickButtonUI(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue(), this.skin);
+                                ClickButtonUI clickButton = new ClickButtonUI(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue().Value, this.skin);
                                 infoTable.add(clickButton).colspan(2).left().fillX();
                                 break;
 
                             case Toggle:
-                                ToggleButtonUI toggleButton = new ToggleButtonUI(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue(), this.skin);
+                                ToggleButtonUI toggleButton = new ToggleButtonUI(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue().Value, this.skin);
                                 infoTable.add(toggleButton).colspan(2).left();
                                 break;
 
                             case Simple:
-                                ToggleSimpleButtonUI simpleButton = new ToggleSimpleButtonUI(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue(), this.skin);
+                                ToggleSimpleButtonUI simpleButton = new ToggleSimpleButtonUI(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue().Value, this.skin);
                                 infoTable.add(simpleButton).colspan(2).left();
                                 break;
 
@@ -273,17 +321,17 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                 switch (description.getButtonType())
                 {
                     case Click:
-                        ClickButtonUI clickButton = new ClickButtonUI(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue(), this.skin);
+                        ClickButtonUI clickButton = new ClickButtonUI(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue().Value, this.skin);
                         infoTable.add(clickButton).colspan(2).left().fillX();
                         break;
 
                     case Toggle:
-                        ClickButtonUI toggleButton = new ClickButtonUI(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue(), this.skin);
+                        ClickButtonUI toggleButton = new ClickButtonUI(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue().Value, this.skin);
                         infoTable.add(toggleButton).colspan(2).left();
                         break;
 
                     case Simple:
-                        ToggleSimpleButtonUI simpleButton = new ToggleSimpleButtonUI(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue(), this.skin);
+                        ToggleSimpleButtonUI simpleButton = new ToggleSimpleButtonUI(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue().Value, this.skin);
                         infoTable.add(simpleButton).colspan(2).left();
                         break;
 
@@ -684,6 +732,97 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
             }
 
             this.setValue(value);
+        }
+    }
+
+    private class ContextTree extends Tree<ContextTreeNode, OperationContext>
+    {
+        private HashMap<OperationContext, ContextTreeNode> contextNodes;
+        private OperationContext activeContext;
+
+        public ContextTree(Skin skin)
+        {
+            super(skin);
+
+            this.contextNodes = new HashMap<OperationContext, ContextTreeNode>();
+            this.activeContext = OperationContext.getDefault();
+            
+            this.setIconSpacing(10, 10);
+            this.setIndentSpacing(50);
+            this.setYSpacing(10);
+        }
+
+        public void add(OperationContext operationContext, Skin skin, Actor actor)
+        {
+            ContextTreeNode node = new ContextTreeNode(operationContext, skin, actor);
+            node.setExpanded(operationContext == this.activeContext);
+            node.setSelectable(false);
+
+            this.contextNodes.put(operationContext, node);
+            super.add(node);
+        }
+
+        public void setActive(OperationContext operationContext)
+        {
+            if (operationContext == this.activeContext)
+            {
+                return;
+            }
+
+            ContextTreeNode currentNode = this.contextNodes.get(this.activeContext);
+            if (currentNode != null)
+            {
+                currentNode.setExpanded(false);
+            }
+
+            ContextTreeNode newNode = this.contextNodes.get(operationContext);
+            if (newNode != null)
+            {
+                newNode.setExpanded(true);
+            }
+            
+            this.activeContext = operationContext;
+        }
+
+        @Override
+        public void act(float delta)
+        {
+            super.act(delta);
+
+            // by default, the table doesn't call act() on children of collapsed nodes, so we have to do it ourselves...
+            for (ContextTreeNode node : this.contextNodes.values())
+            {
+                if (!node.isExpanded())
+                {
+                    node.actOnNode(delta);
+                }
+            }
+        }
+    }
+
+    private class ContextTreeNode extends Tree.Node<DataNode, OperationContext, Actor>
+    {
+        private final DataNode node;
+
+        public ContextTreeNode(OperationContext operationContext, Skin skin, Actor actor)
+        {
+            super(new Label(operationContext.toString(), skin));
+            this.node = new DataNode(actor);
+            this.add(this.node);
+            this.setValue(operationContext);
+        }
+
+        public void actOnNode(float delta)
+        {
+            this.node.getActor().act(delta);;
+        }
+    }
+
+    private class DataNode extends Tree.Node<DataNode, OperationContext, Actor>
+    {
+        public DataNode(Actor actor)
+        {
+            super(actor);
         }
     }
 }

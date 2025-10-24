@@ -56,6 +56,11 @@ public class FauxbotGameScreen extends FauxbotGameScreenBase implements Screen
     }
 
     @Override
+    protected void updateInnerTable()
+    {
+    }
+
+    @Override
     public void render(float delta)
     {
         super.render(delta);

@@ -123,10 +123,4 @@ public interface ITalonSRX extends ITalonXBase
      * @param flip whether the sensor is inverted compared to the motor
      */
     void setInvertSensor(boolean flip);
-
-    /**
-     * Retrieve the current control signal (percent output) from the motor controller
-     * @return current output being used (from -1.0 to 1.0)
-     */
-    double getOutput();
 }
