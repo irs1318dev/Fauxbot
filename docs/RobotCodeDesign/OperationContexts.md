@@ -1,3 +1,0 @@
-# Operation Contexts
-
-TO-DO
