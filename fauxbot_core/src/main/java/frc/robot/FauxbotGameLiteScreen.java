@@ -1,5 +1,6 @@
 package frc.robot;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Screen;
