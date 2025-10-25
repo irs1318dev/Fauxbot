@@ -1,5 +1,6 @@
 package frc.robot;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Screen;
@@ -65,7 +66,8 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
 
             for (DigitalOperationDescription description : buttonMap.getDigitalOperationSchema())
             {
-                if (description.getRelevantContexts().contains(context))
+                EnumSet<OperationContext> contexts = description.getRelevantContexts();
+                if (contexts == null || contexts.contains(context))
                 {
                     this.addOperationDescription(description, operationTable);
                 }
@@ -73,7 +75,8 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
 
             for (AnalogOperationDescription description : buttonMap.getAnalogOperationSchema())
             {
-                if (description.getRelevantContexts().contains(context))
+                EnumSet<OperationContext> contexts = description.getRelevantContexts();
+                if (contexts == null || contexts.contains(context))
                 {
                     this.addOperationDescription(description, operationTable);
                 }
@@ -86,7 +89,8 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
 
             for (MacroOperationDescription description : buttonMap.getMacroOperationSchema())
             {
-                if (description.getRelevantContexts().contains(context))
+                EnumSet<OperationContext> contexts = description.getRelevantContexts();
+                if (contexts == null || contexts.contains(context))
                 {
                     this.addMacroDescription(description, operationTable);
                 }

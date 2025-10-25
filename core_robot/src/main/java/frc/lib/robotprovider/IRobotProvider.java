@@ -151,6 +151,21 @@ public interface IRobotProvider
     public ICANCoder getCANCoder(int canId, String canbus);
 
     /**
+     * Create a CANRange object connected to the specified CAN device
+     * @param canId that the device has been assigned on the default canbus
+     * @return CANRange object
+     */
+    public ICANRange getCANRange(int canId);
+
+    /**
+     * Create a CANRange object connected to the specified CAN device
+     * @param canId that the device has been assigned on the specified canbus
+     * @param canbus that specifies which network to check
+     * @return CANRange object
+     */
+    public ICANRange getCANRange(int canId, String canbus);
+
+    /**
      * Create a Joystick object connected to the specified port in the DriverStation
      * Note: this should not be used in normal mechanism code!
      * @param port that the joystick is associated with in the DriverStation

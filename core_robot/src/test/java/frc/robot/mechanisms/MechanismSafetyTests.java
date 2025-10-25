@@ -369,6 +369,18 @@ public class MechanismSafetyTests
             }
 
             @Override
+            public ICANRange getCANRange(int canId)
+            {
+                return new TestCANRange();
+            }
+
+            @Override
+            public ICANRange getCANRange(int canId, String canbus)
+            {
+                return new TestCANRange();
+            }
+
+            @Override
             public IJoystick getJoystick(int port)
             {
                 return null;
@@ -1246,6 +1258,36 @@ public class MechanismSafetyTests
                 @Override
                 public void configSensorDirection(boolean clockwisePositive)
                 {
+                }
+            }
+
+            static class TestCANRange implements ICANRange
+            {
+                public void setFovParams(double centerX, double centerY, double rangeX, double rangeY)
+                {
+                }
+
+                public void setProximityParams(double proximityThreshold, double proximityHysteresis, double minSignalStrengthForValidMeasurement)
+                {
+                }
+
+                public void setToFParams(double updateFrequency, CANRangeUpdateMode updateMode)
+                {
+                }
+
+                public double getDistance()
+                {
+                    return 0.0;
+                }
+
+                public double getDistanceStdDev()
+                {
+                    return 0.0;
+                }
+
+                public Boolean getIsDetected()
+                {
+                    return null;
                 }
             }
 
