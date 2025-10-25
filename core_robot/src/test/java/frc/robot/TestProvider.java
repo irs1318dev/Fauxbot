@@ -26,6 +26,7 @@ public class TestProvider implements IRobotProvider
     private HashMap<Integer, HashMap<Integer, IDoubleSolenoid>> doubleSolenoidModuleMap = new HashMap<Integer, HashMap<Integer, IDoubleSolenoid>>();
     private HashMap<Integer, IEncoder> encoderMap = new HashMap<Integer, IEncoder>();
     private HashMap<Integer, ICANCoder> cancoderMap = new HashMap<Integer, ICANCoder>();
+    private HashMap<Integer, ICANRange> canrangeMap = new HashMap<Integer, ICANRange>();
     private HashMap<Integer, IJoystick> joystickMap = new HashMap<Integer, IJoystick>();
     private HashMap<Integer, IMotor> motorMap = new HashMap<Integer, IMotor>();
     private HashMap<Integer, IServo> servoMap = new HashMap<Integer, IServo>();
@@ -236,6 +237,28 @@ public class TestProvider implements IRobotProvider
         }
 
         return this.cancoderMap.get(deviceNumber);
+    }
+
+    @Override
+    public ICANRange getCANRange(int deviceNumber)
+    {
+        if (!this.canrangeMap.containsKey(deviceNumber))
+        {
+            this.canrangeMap.put(deviceNumber, mock(ICANRange.class));
+        }
+
+        return this.canrangeMap.get(deviceNumber);
+    }
+
+    @Override
+    public ICANRange getCANRange(int deviceNumber, String canbus)
+    {
+        if (!this.canrangeMap.containsKey(deviceNumber))
+        {
+            this.canrangeMap.put(deviceNumber, mock(ICANRange.class));
+        }
+
+        return this.canrangeMap.get(deviceNumber);
     }
 
     @Override

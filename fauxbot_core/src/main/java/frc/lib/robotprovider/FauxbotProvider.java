@@ -127,7 +127,19 @@ public class FauxbotProvider implements IRobotProvider
     @Override
     public ICANCoder getCANCoder(int deviceNumber, String canbus)
     {
-        return new FauxbotCANCoder(deviceNumber);
+        return new FauxbotCANCoder(deviceNumber, canbus);
+    }
+
+    @Override
+    public ICANRange getCANRange(int deviceNumber)
+    {
+        return new FauxbotCANRange(deviceNumber);
+    }
+
+    @Override
+    public ICANRange getCANRange(int deviceNumber, String canbus)
+    {
+        return new FauxbotCANRange(deviceNumber, canbus);
     }
 
     @Override

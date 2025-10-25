@@ -9,6 +9,11 @@ public class FauxbotCANCoder extends FauxbotSensorBase implements ICANCoder
 
     public FauxbotCANCoder(int deviceNumber)
     {
+        this(deviceNumber, null);
+    }
+
+    public FauxbotCANCoder(int deviceNumber, String canbus)
+    {
         this.value = 0.0;
         this.rate = 0.0;
         this.timer = new FauxbotTimer();
