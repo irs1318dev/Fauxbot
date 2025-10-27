@@ -10,7 +10,8 @@ public enum DigitalOperation implements IOperation
     // GarageDoor operations:
 
     // Forklift operations: 
-
+    ForkLiftUp,
+    ForkLiftDown,
     // Elevator operations:
 
     // Printer operations:
