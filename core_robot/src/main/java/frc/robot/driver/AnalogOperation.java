@@ -5,10 +5,10 @@ import frc.lib.driver.IOperation;
 public enum AnalogOperation implements IOperation
 {
     ExampleOne,
-    ExampleTwo,
-
+    ExampleTwo, 
     // Forklift operations: 
-
+    LeftMotorPower,
+    RightMotorPower,
     // Printer operations:
 
     // Shooter operations:

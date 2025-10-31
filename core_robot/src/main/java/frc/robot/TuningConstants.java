@@ -1,8 +1,5 @@
 package frc.robot;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 /**
  * All constants related to tuning the operation of the robot.
  * 
@@ -50,6 +47,14 @@ public class TuningConstants
     //================================================== Garage Door ==============================================================
 
     //================================================== Elevator ==============================================================
+
+    public static final double ELEVATOR_PID_KP = 1.0;
+    public static final double ELEVATOR_PID_KI = 0.0;
+    public static final double ELEVATOR_PID_KD = 0.1;
+    public static final double ELEVATOR_PID_KF = 0.0;
+    public static final double ELEVATOR_PID_KS = 1.0;
+    public static final double ELEVATOR_MIN_OUTPUT = -1.0;
+    public static final double ELEVATOR_MAX_OUTPUT = 1.0; 
 
     //================================================== Shooter ==============================================================
 
