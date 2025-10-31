@@ -8,4 +8,6 @@ public enum MacroOperation implements IOperation
 
     ExampleAlpha,
     ExampleBeta,
+    SetForkliftMode,
+    SetGeneralMode,
 }
