@@ -59,8 +59,8 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_A_BUTTON,
             ButtonType.Toggle),*/
-        new DigitalOperationDescription(DigitalOperation.ForkliftDown, UserInputDevice.Driver, UserInputDeviceButton.XBONE_A_BUTTON, ButtonType.Click), 
-        new DigitalOperationDescription(DigitalOperation.ForkliftUp, UserInputDevice.Driver, UserInputDeviceButton.XBONE_B_BUTTON, ButtonType.Click),   
+        new DigitalOperationDescription(DigitalOperation.ForkliftDown, UserInputDevice.Driver, UserInputDeviceButton.XBONE_A_BUTTON, EnumSet.of(OperationContext.Forklift), ButtonType.Click), 
+        new DigitalOperationDescription(DigitalOperation.ForkliftUp, UserInputDevice.Driver, UserInputDeviceButton.XBONE_B_BUTTON, EnumSet.of(OperationContext.Forklift), ButtonType.Click),   
         //new DigitalOperationDescription(DigitalOperation.GarageDoorButton, UserInputDevice.Driver, UserInputDeviceButton.XBONE_A_BUTTON, ButtonType.Click),
         //new DigitalOperationDescription(DigitalOperation.FirstFloor, UserInputDevice.Driver, UserInputDeviceButton.XBONE_B_BUTTON, ButtonType.Click),
         //new DigitalOperationDescription(DigitalOperation.SecondFloor, UserInputDevice.Driver, UserInputDeviceButton.XBONE_A_BUTTON, ButtonType.Click),
@@ -84,6 +84,14 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.ExampleOne,
                 DigitalOperation.ExampleA,
             }),*/
+
+        new MacroOperationDescription(
+            MacroOperation.ExampleAlpha,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_RIGHT_BUTTON,
+            EnumSet.of(OperationContext.General),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.Forklift)),
     };
 
     @Override
