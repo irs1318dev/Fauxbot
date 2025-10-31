@@ -21,6 +21,7 @@ public class ElevatorMechanism implements IMechanism
     private final IEncoder encoder;
     private final PIDHandler pidHandler;
     private float targetPosition;
+    private double currentPosition;
 
     @Inject
     public ElevatorMechanism(IDriver driver, IRobotProvider provider, ITimer timer) {
@@ -41,7 +42,8 @@ public class ElevatorMechanism implements IMechanism
 
     @Override
     public void readSensors() {
-
+        this.currentPosition = this.encoder.getDistance();
+        System.out.println("Elevator Position: " + currentPosition);
     }
 
 
@@ -58,8 +60,7 @@ public class ElevatorMechanism implements IMechanism
         } else if (this.driver.getDigital(DigitalOperation.ElevatorFloor5)){
             this.targetPosition = 200;
         }
-        double currentPosition = this.encoder.getDistance();
-        double motorOutput = this.pidHandler.calculatePosition(this.targetPosition, currentPosition);
+        double motorOutput = this.pidHandler.calculatePosition(this.targetPosition, this.currentPosition);
         this.motor.set(motorOutput);
     }
 
