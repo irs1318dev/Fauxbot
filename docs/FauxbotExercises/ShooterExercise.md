@@ -12,10 +12,10 @@ We'll now cover the basics that will need to be understood for implementing the 
 
 ### Actuators
 #### Hood Motor (TalonSRX)
-This motor can change the position of the hood by changing the Position setpoint, assuming that proper PID gains are used.  You can expect that an encoder reading of "0" means that the hood is all the way up and would cause the ball to be launched parallel to the floor, and that an encoder reading of "90" means that the hood is all the way back and the ball would be launched perpendicularly to the floor.  The hood motor is connected to the RoboRIO's CAN interface, using ID 0.
+This motor can change the position of the hood by changing the Position setpoint, assuming that proper PID gains are used.  You can expect that an encoder reading of "0" means that the hood is all the way up and would cause the ball to be launched parallel to the floor, and that an encoder reading of "90" means that the hood is all the way back and the ball would be launched perpendicularly to the floor.  The hood motor is connected to the RoboRIO's CAN interface, using ID 0.  The TalonSRX will be connected directly to a quadrature encoder.  You should configure the TalonSRX to use its onboard positional PID.
 
 #### Flywheel Motor (TalonSRX)
-This motor can change the velocity of the flywheel by changing the Velocity setpoint, assuming that sensible PID gains are used.  The flywheel motor is connected to the RoboRIO's CAN interface, using ID 1.
+This motor can change the velocity of the flywheel by changing the Velocity setpoint, assuming that sensible PID gains are used.  The flywheel motor is connected to the RoboRIO's CAN interface, using ID 1.  The TalonSRX will be connected directly to a quadrature encoder.  You should configure the TalonSRX to use its onboard velocity PID.
 
 #### Pneumatic Kicker (DoubleSolenoid)
 This double-solenoid is used to launch the ball.  You can assume that the "forward" direction should be used when kicking the ball, and the "reverse" direction puts the kicker back into its resting position.  The forward direction is connected to PCM channel 7, and reverse direction is connected to PCM channel 8.
