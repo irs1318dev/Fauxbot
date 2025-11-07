@@ -20,4 +20,6 @@ public enum DigitalOperation implements IOperation
     // Printer operations:
 
     // Shooter operations:
+    Shoot,
+    Spin,
 }

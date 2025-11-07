@@ -56,7 +56,7 @@ public class ElectronicsConstants
     public static int GARAGE_DOOR_MOTOR_CHANNEL = 0;
     public static int GARAGE_DOOR_OPEN_SENSOR_CHANNEL = 1;
     public static int GARAGE_DOOR_CLOSED_SENSOR_CHANNEL = 2;
-    public static int GARAGE_DOOR_THROUGH_BEAM = 0;
+    public static int GARAGE_DOOR_THROUGH_BEAM = 3;
 
     //================================================== Elevator ==========================================================
 
@@ -72,6 +72,13 @@ public class ElectronicsConstants
     public static int FORKLIFT_DOUBLE_SOLENOID_REVERSE = 8;
 
     //================================================== Shooter =======================================================
+
+    public static int SHOOTER_HOOD_MOTOR_CHANNEL = 2;
+    public static int SHOOTER_FLYWHEEL_MOTOR_CHANNEL = 3;
+    public static int SHOOTER_KICKER_SOLENOID_CHANNEL_A = 4;
+    public static int SHOOTER_KICKER_SOLENOID_CHANNEL_B = 5;
+    public static int SHOOTER_ENCODER_CHANNEL_A = 2;
+    public static int SHOOTER_ENCODER_CHANNEL_B = 3;
 
     //================================================== Printer =======================================================
 

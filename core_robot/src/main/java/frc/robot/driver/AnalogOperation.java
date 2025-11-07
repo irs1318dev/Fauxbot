@@ -12,4 +12,6 @@ public enum AnalogOperation implements IOperation
     // Printer operations:
 
     // Shooter operations:
+    HoodPosition,
+    ShooterWheelPower,
 }
