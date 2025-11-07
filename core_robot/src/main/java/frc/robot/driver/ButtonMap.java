@@ -40,39 +40,63 @@ public class ButtonMap implements IButtonMap
 
     public static AnalogOperationDescription[] AnalogOperationSchema = new AnalogOperationDescription[]
     {
-        /** Example Analog operation entry:
+        
         new AnalogOperationDescription(
-            AnalogOperation.ExampleOne,
+            AnalogOperation.rightMotor,
             UserInputDevice.Driver,
             AnalogAxis.XBONE_LSX,
+            EnumSet.noneOf(Shift.class),
+            EnumSet.noneOf(Shift.class),
+            EnumSet.of(OperationContext.Forklift),
             ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
-            0.1),*/
+            -0.1,
+            0.1),
+
+            new AnalogOperationDescription(
+            AnalogOperation.leftMotor,
+            UserInputDevice.Driver,
+            AnalogAxis.XBONE_RSX,
+            EnumSet.noneOf(Shift.class),
+            EnumSet.noneOf(Shift.class),
+            EnumSet.of(OperationContext.Forklift),
+            ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
+            -0.1,
+            0.1),
     };
 
     public static DigitalOperationDescription[] DigitalOperationSchema = new DigitalOperationDescription[]
     {
-        /** Example Digital operation entry:
         new DigitalOperationDescription(
-            DigitalOperation.ExampleA,
+            DigitalOperation.ForkLiftUp,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_A_BUTTON,
-            ButtonType.Toggle),*/
+            EnumSet.of(OperationContext.Forklift),
+            ButtonType.Click),
+
+            new DigitalOperationDescription(
+            DigitalOperation.ForkLiftDown,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_B_BUTTON,
+            EnumSet.of(OperationContext.Forklift),
+            ButtonType.Click),
     };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
     {
-        /** Example Macro operation entry:
         new MacroOperationDescription(
-            MacroOperation.ExampleAlpha,
+            MacroOperation.SetForkliftContext,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_RIGHT_BUTTON,
-            ButtonType.Toggle,
-            () -> SequentialTask.Sequence(),
-            new IOperation[]
-            {
-                AnalogOperation.ExampleOne,
-                DigitalOperation.ExampleA,
-            }),*/
+            EnumSet.of(OperationContext.General),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.Forklift)),
+        new MacroOperationDescription(
+            MacroOperation.SetGeneralContext,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_RIGHT_BUTTON,
+            EnumSet.of(OperationContext.Forklift),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.General)),
     };
 
     @Override

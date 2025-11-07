@@ -12,6 +12,7 @@ import frc.lib.robotprovider.IRobotProvider;
 import frc.lib.robotprovider.PneumaticsModuleType;
 import frc.lib.robotprovider.RobotMode;
 import frc.robot.ElectronicsConstants;
+import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
 
 public class ForkliftMechanism implements IMechanism {
@@ -39,8 +40,8 @@ public class ForkliftMechanism implements IMechanism {
     @Override
     public void update(RobotMode mode)
     {
-        double leftMotorPower = this.driver.getAnalog(null);
-        double rightMotorPower = this.driver.getAnalog(null);
+        double leftMotorPower = this.driver.getAnalog(AnalogOperation.leftMotor);
+        double rightMotorPower = this.driver.getAnalog(AnalogOperation.rightMotor);
 
         if (this.driver.getDigital(DigitalOperation.ForkLiftUp)) {
             this.lifter.set(DoubleSolenoidValue.Forward);
