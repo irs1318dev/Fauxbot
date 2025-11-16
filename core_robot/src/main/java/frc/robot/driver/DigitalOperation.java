@@ -8,8 +8,15 @@ public enum DigitalOperation implements IOperation
     ExampleB,
 
     // GarageDoor operations:
-
+    OpenSensor,
+    ClosedSensor,
+    ThroughBeamSensor,
+    Button,
+    
     // Forklift operations: 
+    ForkliftUp, 
+    ForkliftDown,
+    
 
     // Elevator operations:
 

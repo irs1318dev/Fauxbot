@@ -3,6 +3,13 @@ plugins
     id "java-library"
 }
 
+// Use Java toolchain to target Java 21 (LTS)
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
 version = '1.0'
 ext {
     appName = "Fauxbot"

@@ -1,5 +1,5 @@
 package frc.robot.driver;
-
+import frc.robot.mechanisms.GarageDoorMechanism;
 import java.util.EnumSet;
 
 import javax.inject.Singleton;
@@ -47,6 +47,21 @@ public class ButtonMap implements IButtonMap
             AnalogAxis.XBONE_LSX,
             ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
             0.1),*/
+        new AnalogOperationDescription(
+            AnalogOperation.RightMotorPower,
+            UserInputDevice.Driver,
+            AnalogAxis.XBONE_LSY,
+            ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
+            0.1
+        ),
+        new AnalogOperationDescription(
+            AnalogOperation.LeftMotorPower,
+            UserInputDevice.Driver,
+            AnalogAxis.XBONE_LSX,
+            ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
+            0.1
+        ),
+        
     };
 
     public static DigitalOperationDescription[] DigitalOperationSchema = new DigitalOperationDescription[]
@@ -57,6 +72,12 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_A_BUTTON,
             ButtonType.Toggle),*/
+        new DigitalOperationDescription(
+            DigitalOperation.Button,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_B_BUTTON,
+            ButtonType.Toggle
+        )
     };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
@@ -96,6 +117,23 @@ public class ButtonMap implements IButtonMap
     @Override
     public MacroOperationDescription[] getMacroOperationSchema()
     {
-        return ButtonMap.MacroSchema;
-    }
+        new MacroOperationDescription(
+            MacroOperation.EnableGarageDoorContext,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_2,
+            EnumSet.of(OperationContext.General),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.GarageDoorMechanism)
+        );
+            
+        new MacroOperationDescription(
+            MacroOperation.EnableGeneralContextGD,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_LEFT_BUTTON,
+            EnumSet.of(OperationContext.General),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.General)
+        );
+        return MacroSchema;
+    };
 }

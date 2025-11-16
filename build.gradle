@@ -1,0 +1,13 @@
+// Root build file to configure Java toolchain for all subprojects
+allprojects {
+    // Configure Java toolchain centrally to use Java 21 LTS
+    afterEvaluate { project ->
+        if (project.plugins.hasPlugin('java') || project.plugins.hasPlugin('java-library')) {
+            project.java {
+                toolchain {
+                    languageVersion = JavaLanguageVersion.of(21)
+                }
+            }
+        }
+    }
+}
