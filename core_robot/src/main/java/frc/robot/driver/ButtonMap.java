@@ -94,6 +94,22 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.ExampleOne,
                 DigitalOperation.ExampleA,
             }),*/
+        new MacroOperationDescription(
+            MacroOperation.EnableGarageDoorContext,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_2,
+            EnumSet.of(OperationContext.General),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.GarageDoorMechanism)
+        ),
+        new MacroOperationDescription(
+            MacroOperation.EnableGeneralContextGD,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_LEFT_BUTTON,
+            EnumSet.of(OperationContext.General),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.General)
+        )
     };
 
     @Override
@@ -117,23 +133,6 @@ public class ButtonMap implements IButtonMap
     @Override
     public MacroOperationDescription[] getMacroOperationSchema()
     {
-        new MacroOperationDescription(
-            MacroOperation.EnableGarageDoorContext,
-            UserInputDevice.Driver,
-            UserInputDeviceButton.BUTTON_PAD_BUTTON_2,
-            EnumSet.of(OperationContext.General),
-            ButtonType.Click,
-            () -> new SetOperationContextTask(OperationContext.GarageDoorMechanism)
-        );
-            
-        new MacroOperationDescription(
-            MacroOperation.EnableGeneralContextGD,
-            UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_LEFT_BUTTON,
-            EnumSet.of(OperationContext.General),
-            ButtonType.Click,
-            () -> new SetOperationContextTask(OperationContext.General)
-        );
-        return MacroSchema;
+        return ButtonMap.MacroSchema;
     };
 }
