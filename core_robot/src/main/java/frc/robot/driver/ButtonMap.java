@@ -1,5 +1,4 @@
 package frc.robot.driver;
-import frc.robot.mechanisms.GarageDoorMechanism;
 import java.util.EnumSet;
 
 import javax.inject.Singleton;
@@ -47,20 +46,20 @@ public class ButtonMap implements IButtonMap
             AnalogAxis.XBONE_LSX,
             ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
             0.1),*/
-        new AnalogOperationDescription(
-            AnalogOperation.RightMotorPower,
-            UserInputDevice.Driver,
-            AnalogAxis.XBONE_LSY,
-            ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
-            0.1
-        ),
-        new AnalogOperationDescription(
-            AnalogOperation.LeftMotorPower,
-            UserInputDevice.Driver,
-            AnalogAxis.XBONE_LSX,
-            ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
-            0.1
-        ),
+        // new AnalogOperationDescription(
+        //     AnalogOperation.RightMotorPower,
+        //     UserInputDevice.Driver,
+        //     AnalogAxis.XBONE_LSY,
+        //     ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
+        //     0.1
+        // ),
+        // new AnalogOperationDescription(
+        //     AnalogOperation.LeftMotorPower,
+        //     UserInputDevice.Driver,
+        //     AnalogAxis.XBONE_LSX,
+        //     ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
+        //     0.1
+        // ),
         
     };
 
@@ -76,7 +75,9 @@ public class ButtonMap implements IButtonMap
             DigitalOperation.Button,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_B_BUTTON,
-            ButtonType.Toggle
+            EnumSet.of(OperationContext.GarageDoorMechanism),
+            ButtonType.Click
+            
         )
     };
 
@@ -106,7 +107,7 @@ public class ButtonMap implements IButtonMap
             MacroOperation.EnableGeneralContextGD,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_LEFT_BUTTON,
-            EnumSet.of(OperationContext.General),
+            EnumSet.of(OperationContext.GarageDoorMechanism),
             ButtonType.Click,
             () -> new SetOperationContextTask(OperationContext.General)
         )
