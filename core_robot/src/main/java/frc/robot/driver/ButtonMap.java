@@ -30,7 +30,7 @@ public class ButtonMap implements IButtonMap
         new ShiftDescription(
             Shift.Test1Debug,
             UserInputDevice.Test1,
-            UserInputDeviceButton.XBONE_LEFT_BUTTON),
+            UserInputDeviceButton.XBONE_RIGHT_BUTTON),
         // new ShiftDescription(
         //     Shift.Test2Debug,
         //     UserInputDevice.Test2,
@@ -52,8 +52,8 @@ public class ButtonMap implements IButtonMap
         //     AnalogAxis.XBONE_LSY,
         //     ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
         //     0.1
-        // ),
-        // new AnalogOperationDescription(
+        //  ),
+        //  new AnalogOperationDescription(
         //     AnalogOperation.LeftMotorPower,
         //     UserInputDevice.Driver,
         //     AnalogAxis.XBONE_LSX,
@@ -110,7 +110,15 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(OperationContext.GarageDoorMechanism),
             ButtonType.Click,
             () -> new SetOperationContextTask(OperationContext.General)
-        )
+        ),
+        //  new MacroOperationDescription(
+        //     MacroOperation.EnableForkliftContext,
+        //     UserInputDevice.Driver,
+        //     UserInputDeviceButton.BUTTON_PAD_BUTTON_1,
+        //     EnumSet.of(OperationContext.ForkliftMechanism),
+        //     ButtonType.Click,
+        //     () -> new SetOperationContextTask(OperationContext.ForkliftMechanism)
+        // )
     };
 
     @Override

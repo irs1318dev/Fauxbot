@@ -7,6 +7,7 @@ public enum MacroOperation implements IOperation
     AutonomousRoutine,
     EnableGarageDoorContext,
     EnableGeneralContextGD,
+    EnableForkliftContext,
     ExampleAlpha,
     ExampleBeta,
 }
