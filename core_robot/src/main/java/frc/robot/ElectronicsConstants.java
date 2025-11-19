@@ -65,6 +65,9 @@ public static final int FORKLIFT_FORWARD_PCMCHANNEL = 7;
 public static final int FORKLIFT_BACKWARD_PCMCHANNEL = 8;
  
     //================================================== Forklift =======================================================
+public static final int ELEVATOR_MAIN_MOTOR_PCMCHANNEL =0;
+public static final int ENCODER_ELEVATOR_PCMCHANNEL_INCREASING =0;
+public static final int ENCODER_ELEVATOR_PCMCHANNEL_DECREASING =1;
 
     //================================================== Shooter =======================================================
 

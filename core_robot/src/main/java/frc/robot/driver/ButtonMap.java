@@ -1,4 +1,5 @@
 package frc.robot.driver;
+
 import java.util.EnumSet;
 
 import javax.inject.Singleton;
@@ -77,8 +78,21 @@ public class ButtonMap implements IButtonMap
             UserInputDeviceButton.XBONE_B_BUTTON,
             EnumSet.of(OperationContext.GarageDoorMechanism),
             ButtonType.Click
-            
-        )
+        ),
+        new DigitalOperationDescription(
+            DigitalOperation.ForkliftDown,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_RIGHT_STICK_BUTTON,
+            EnumSet.of(OperationContext.ForkliftMechanism),
+            ButtonType.Click
+        ),
+        new DigitalOperationDescription(
+            DigitalOperation.ForkliftUp,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
+            EnumSet.of(OperationContext.ForkliftMechanism),
+            ButtonType.Click
+        ),
     };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
@@ -96,6 +110,22 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.ExampleA,
             }),*/
         new MacroOperationDescription(
+            MacroOperation.EnableForkliftContext,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_1,
+            EnumSet.of(OperationContext.General),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.ForkliftMechanism)
+        ),
+        new MacroOperationDescription(
+            MacroOperation.EnableGeneralContextFD,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_14,
+            EnumSet.of(OperationContext.ForkliftMechanism),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.General)
+        ),
+        new MacroOperationDescription(
             MacroOperation.EnableGarageDoorContext,
             UserInputDevice.Driver,
             UserInputDeviceButton.BUTTON_PAD_BUTTON_2,
@@ -111,14 +141,6 @@ public class ButtonMap implements IButtonMap
             ButtonType.Click,
             () -> new SetOperationContextTask(OperationContext.General)
         ),
-        //  new MacroOperationDescription(
-        //     MacroOperation.EnableForkliftContext,
-        //     UserInputDevice.Driver,
-        //     UserInputDeviceButton.BUTTON_PAD_BUTTON_1,
-        //     EnumSet.of(OperationContext.ForkliftMechanism),
-        //     ButtonType.Click,
-        //     () -> new SetOperationContextTask(OperationContext.ForkliftMechanism)
-        // )
     };
 
     @Override
