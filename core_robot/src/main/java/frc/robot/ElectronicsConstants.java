@@ -57,7 +57,9 @@ public static final int CLOSED_DOOR_SENSOR_PCMCHANNEL=2;
 public static final int OPEN_DOOR_SENSOR_PCMCHANNEL=1;
 public static final int THROUGH_BEAM_SENSOR_PCMCHANNEL=0;
     //================================================== Elevator ==========================================================
-
+public static final int ELEVATOR_MAIN_MOTOR_PCMCHANNEL =0;
+public static final int ENCODER_ELEVATOR_PCMCHANNEL_INCREASING =0;
+public static final int ENCODER_ELEVATOR_PCMCHANNEL_DECREASING =1;
     //================================================== Forklift =======================================================
 public static final int FORKLIFT_LEFTMOTOR_PCMCHANNEL = 0;
 public static final int FORTKLIFT_RIGHTMORTOR_PCMCHANNEL = 1;
@@ -65,9 +67,6 @@ public static final int FORKLIFT_FORWARD_PCMCHANNEL = 7;
 public static final int FORKLIFT_BACKWARD_PCMCHANNEL = 8;
  
     //================================================== Forklift =======================================================
-public static final int ELEVATOR_MAIN_MOTOR_PCMCHANNEL =0;
-public static final int ENCODER_ELEVATOR_PCMCHANNEL_INCREASING =0;
-public static final int ENCODER_ELEVATOR_PCMCHANNEL_DECREASING =1;
 
     //================================================== Shooter =======================================================
 

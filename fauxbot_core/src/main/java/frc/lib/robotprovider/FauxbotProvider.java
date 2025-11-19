@@ -9,11 +9,13 @@ import frc.robot.simulation.SimulatorBase;
 public class FauxbotProvider implements IRobotProvider
 {
     private final SimulatorBase simulator;
+    private FauxbotTalon talon;
 
     @Inject
     public FauxbotProvider(SimulatorBase simulator)
     {
         this.simulator = simulator;
+        this.talon = null;
     }
 
     @Override
@@ -151,7 +153,12 @@ public class FauxbotProvider implements IRobotProvider
     @Override
     public IMotor getTalon(int channel)
     {
-        return new FauxbotTalon(channel);
+        if (this.talon != null)
+        {
+            return this.talon;
+        }
+        this.talon = new FauxbotTalon(channel);
+        return this.talon;
     }
 
     @Override
