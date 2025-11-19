@@ -57,7 +57,10 @@ public class ElectronicsConstants
 
     //================================================== Forklift =======================================================
 
-    //================================================== Forklift =======================================================
+    public static final int FORKLIFT_LEFT_MOTOR_PWM_CHANNEL = 0;
+    public static final int FORKLIFT_RIGHT_MOTOR_PWM_CHANNEL = 1;
+    public static final int FORKLIFT_LIFTER_FORWARD_CHANNEL = 7;
+    public static final int FORKLIFT_LIFTER_BACKWARD_CHANNEL = 8;
 
     //================================================== Shooter =======================================================
 

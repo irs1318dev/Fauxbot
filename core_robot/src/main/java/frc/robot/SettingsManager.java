@@ -1,12 +1,26 @@
 package frc.robot;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
 
 import com.google.inject.Injector;
 
 import frc.lib.mechanisms.IMechanism;
-import frc.lib.robotprovider.*;
+import frc.lib.robotprovider.Alliance;
+import frc.lib.robotprovider.CSVLogger;
+import frc.lib.robotprovider.IDriverStation;
+import frc.lib.robotprovider.IFile;
+import frc.lib.robotprovider.ILogger;
+import frc.lib.robotprovider.IRobotProvider;
+import frc.lib.robotprovider.ISmartDashboardLogger;
+import frc.lib.robotprovider.MatchType;
+import frc.lib.robotprovider.MultiLogger;
+import frc.lib.robotprovider.RobotMode;
+import frc.robot.mechanisms.ForkliftMechanism;
 
 public class SettingsManager
 {
@@ -14,6 +28,7 @@ public class SettingsManager
     {
         List<IMechanism> mechanismList = new ArrayList<IMechanism>();
         // mechanismList.add(injector.getInstance(SomeMechanism.class));
+        mechanismList.add(injector.getInstance(ForkliftMechanism.class));
         return mechanismList;
     }
 
