@@ -93,6 +93,41 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(OperationContext.ForkliftMechanism),
             ButtonType.Click
         ),
+        new DigitalOperationDescription(
+            DigitalOperation.ElevatorFloor1,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_10,
+            EnumSet.of(OperationContext.ElevatorMechanism),
+            ButtonType.Click
+        ),
+        new DigitalOperationDescription(
+            DigitalOperation.ElevatorFloor2,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_11,
+            EnumSet.of(OperationContext.ElevatorMechanism),
+            ButtonType.Click
+        ),      
+        new DigitalOperationDescription(
+            DigitalOperation.ElevatorFloor3,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_12,
+            EnumSet.of(OperationContext.ElevatorMechanism),
+            ButtonType.Click
+        ),
+        new DigitalOperationDescription(
+            DigitalOperation.ElevatorFloor4,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_13,
+            EnumSet.of(OperationContext.ElevatorMechanism),
+            ButtonType.Click
+        ),
+        new DigitalOperationDescription(
+            DigitalOperation.ElevatorFloor5,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_14,
+            EnumSet.of(OperationContext.ElevatorMechanism),
+            ButtonType.Click
+        ),
     };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
@@ -141,6 +176,22 @@ public class ButtonMap implements IButtonMap
             ButtonType.Click,
             () -> new SetOperationContextTask(OperationContext.General)
         ),
+        new MacroOperationDescription(
+            MacroOperation.EnableElevatorContext,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_7,
+            EnumSet.of(OperationContext.General),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.ElevatorMechanism)
+            ),
+        new MacroOperationDescription(
+            MacroOperation.EnableGeneralContextEV,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_4,
+            EnumSet.of(OperationContext.ElevatorMechanism),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.General)
+        )
     };
 
     @Override

@@ -58,8 +58,8 @@ public static final int OPEN_DOOR_SENSOR_PCMCHANNEL=1;
 public static final int THROUGH_BEAM_SENSOR_PCMCHANNEL=0;
     //================================================== Elevator ==========================================================
 public static final int ELEVATOR_MAIN_MOTOR_PCMCHANNEL =0;
-public static final int ENCODER_ELEVATOR_PCMCHANNEL_INCREASING =0;
-public static final int ENCODER_ELEVATOR_PCMCHANNEL_DECREASING =1;
+public static final int ENCODER_ELEVATOR_PCMCHANNEL_ZERO =0;
+public static final int ENCODER_ELEVATOR_PCMCHANNEL_ONE =1;
     //================================================== Forklift =======================================================
 public static final int FORKLIFT_LEFTMOTOR_PCMCHANNEL = 0;
 public static final int FORTKLIFT_RIGHTMORTOR_PCMCHANNEL = 1;

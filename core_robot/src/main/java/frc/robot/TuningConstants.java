@@ -50,6 +50,18 @@ public class TuningConstants
     //================================================== Garage Door ==============================================================
 
     //================================================== Elevator ==============================================================
+    public static final double ELEVATOR_PID_KP=1.0;
+    public static final double ELEVATOR_PID_KI=0.0;
+    public static final double ELEVATOR_PID_KD=0.1;
+    public static final double ELEVATOR_PID_KF=0.0;
+    public static final double ELEVATOR_PID_KS=1.0;
+    public static final double ELEVATOR_PID_MINOUTPUT=-1.0;
+    public static final double ELEVATOR_PID_MAXOUTPUT=1.0;
+    public static final double ELEVATOR_FIRST_FLOOR=0.0;
+    public static final double ELEVATOR_SECOND_FLOOR=50.0;
+    public static final double ELEVATOR_THIRD_FLOOR=100.0;
+    public static final double ELEVATOR_FOURTH_FLOOR=150.0;
+    public static final double ELEVATOR_FITH_FLOOR=200.0;
 
     //================================================== Shooter ==============================================================
 

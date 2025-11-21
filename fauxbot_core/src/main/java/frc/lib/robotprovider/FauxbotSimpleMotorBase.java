@@ -7,9 +7,6 @@ public abstract class FauxbotSimpleMotorBase extends FauxbotMotorBase
     protected FauxbotSimpleMotorBase(int port)
     {
         this.connection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PWM, port);
-        if (FauxbotActuatorManager.get(this.connection) == null)
-        {
-            FauxbotActuatorManager.set(this.connection, this);
-        }
+        FauxbotActuatorManager.set(this.connection, this);
     }
 }

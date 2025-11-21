@@ -19,8 +19,14 @@ public enum DigitalOperation implements IOperation
     
 
     // Elevator operations:
+    ElevatorFloor1,
+    ElevatorFloor2,
+    ElevatorFloor3,
+    ElevatorFloor4,
+    ElevatorFloor5,
 
     // Printer operations:
 
     // Shooter operations:
 }
+
