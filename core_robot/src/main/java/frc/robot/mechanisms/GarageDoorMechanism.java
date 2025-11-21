@@ -19,20 +19,24 @@ import frc.robot.driver.DigitalOperation;
 
 public class GarageDoorMechanism implements IMechanism
 {
+    public enum GarageDoorState
+    {
+        Opened,
+        Opening,
+        Closed,
+        Closing
+    }
 
     private final IMotor motor;
     private final IDriver driver;
 
     private final IDigitalInput openSensor;
     private final IDigitalInput closeSensor;
+    private final IDigitalInput throughBeamSensor;
 
     @Inject
     public GarageDoorMechanism(IDriver driver, IRobotProvider provider) {
-        this.motor = provider.getTalon(0);
-        this.driver = driver;
-
-        this.openSensor = provider.getDigitalInput(1);
-        this.closeSensor = provider.getDigitalInput(2);
+    
 
     }
     @Override
@@ -44,30 +48,13 @@ public class GarageDoorMechanism implements IMechanism
     @Override
     public void update(RobotMode mode)
     {
-       double leftPower = this.driver.getAnalog(AnalogOperation.DriveTrainOne);
-       double rightPower = this.driver.getAnalog(AnalogOperation.DriveTrainTwo);
-       
-       boolean pistonUp = this.driver.getDigital(DigitalOperation.ForkliftUp);
-       boolean pistonDown = this.driver.getDigital(DigitalOperation.ForkliftDown);
-
-       this.leftMotor.set(leftPower);
-       this.rightMotor.set(rightPower);
-       
-       if (pistonUp) {
-            this.lifter.set(DoubleSolenoidValue.Forward);
-       }
-        if (pistonDown) {
-            this.lifter.set(DoubleSolenoidValue.Reverse);
-       }
-       
-
+        
     }
 
     @Override
     public void stop()
     {
-        this.leftMotor.set(0);
-        this.rightMotor.set(0);
+
     }
     
 }
