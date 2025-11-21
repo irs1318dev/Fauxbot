@@ -21,6 +21,9 @@ public class garageDoorMechanism implements IMechanism {
     private boolean isOpen;
     private boolean throughBeamSensorBroken;
     private garageDoorState state;
+    private boolean closedSensorHit;
+    private boolean openSensorHit;
+    private IDigitalInput garageDoorButton;
     public garageDoorMechanism (IDriver driver, IRobotProvider provider) {
         this.driver = driver;
         this.motor = provider.getTalon(ElectronicsConstants.GARAGEDOOR_MOTOR_PCMCHANNEL);
@@ -39,15 +42,46 @@ public class garageDoorMechanism implements IMechanism {
 
     @Override
     public void readSensors() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'readSensors'");
+        this.openSensorHit = openSensor.get();
+        this.closedSensorHit = closedSensor.get();
     }
 
     @Override
     public void update(RobotMode mode) {
         boolean buttonPressed = this.driver.getDigital(DigitalOperation.garageDoorButton);
         if (this.state == garageDoorState.open) {
+            if (buttonPressed) {
+                this.state = garageDoorState.closing;
+            }
+        }
 
+        if (this.state == garageDoorState.closing) {
+            if (throughBeamSensorBroken) {
+                this.state = garageDoorState.opening;
+            }
+            
+            if (buttonPressed) {
+                this.state = garageDoorState.opening;
+            }
+
+            if (this.closedSensorHit) {
+                this.state = garageDoorState.closed;
+            }
+        }
+
+        if (this.state == garageDoorState.closed) {
+            if (buttonPressed) {
+                this.state = garageDoorState.opening;
+            }
+        }
+
+        if (this.state == garageDoorState.opening) {
+            if (buttonPressed) {
+                this.state = garageDoorState.closing;
+            }
+            if (this.openSensorHit) {
+                this.state = garageDoorState.open;  
+            }
         }
     
         // TODO Auto-generated method stub
