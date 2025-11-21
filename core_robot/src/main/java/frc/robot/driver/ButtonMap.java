@@ -40,25 +40,39 @@ public class ButtonMap implements IButtonMap
 
     public static AnalogOperationDescription[] AnalogOperationSchema = new AnalogOperationDescription[]
     {
-        /** Example Analog operation entry:
         new AnalogOperationDescription(
-            AnalogOperation.ExampleOne,
+            AnalogOperation.DriveTrainOne,
             UserInputDevice.Driver,
             AnalogAxis.XBONE_LSX,
+            EnumSet.of(OperationContext.Forklift),
             ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
-            0.1),*/
+            0.1),
+        new AnalogOperationDescription(
+            AnalogOperation.DriveTrainTwo,
+            UserInputDevice.Driver,
+            AnalogAxis.XBONE_LSY,
+            EnumSet.of(OperationContext.Forklift),
+            ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
+            0.1)
     };
 
     public static DigitalOperationDescription[] DigitalOperationSchema = new DigitalOperationDescription[]
     {
-        /** Example Digital operation entry:
         new DigitalOperationDescription(
-            DigitalOperation.ExampleA,
+            DigitalOperation.ForkliftUp,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_A_BUTTON,
-            ButtonType.Toggle),*/
+            EnumSet.of(OperationContext.Forklift),
+            ButtonType.Click),
+        new DigitalOperationDescription(
+            DigitalOperation.ForkliftDown,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_B_BUTTON,
+            EnumSet.of(OperationContext.Forklift),
+            ButtonType.Click),
     };
 
+    
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
     {
         /** Example Macro operation entry:
@@ -73,6 +87,23 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.ExampleOne,
                 DigitalOperation.ExampleA,
             }),*/
+        new MacroOperationDescription(
+            MacroOperation.UseForkliftMode,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_RIGHT_BUTTON,
+            EnumSet.of(OperationContext.General),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.Forklift)),
+
+        new MacroOperationDescription(
+            MacroOperation.UseGeneralMode,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_RIGHT_BUTTON,
+            EnumSet.of(OperationContext.Forklift),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.General)),
+
+        
     };
 
     @Override

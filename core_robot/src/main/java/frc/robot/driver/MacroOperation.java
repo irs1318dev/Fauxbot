@@ -6,6 +6,8 @@ public enum MacroOperation implements IOperation
 {
     AutonomousRoutine,
 
+    UseForkliftMode,
+    UseGeneralMode,
     ExampleAlpha,
     ExampleBeta,
 }
