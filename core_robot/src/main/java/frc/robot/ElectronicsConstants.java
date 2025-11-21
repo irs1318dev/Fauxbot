@@ -54,6 +54,10 @@ public class ElectronicsConstants
     //================================================== Garage Door =======================================================
 
     //================================================== Elevator ==========================================================
+    public static final int PWMCHANNEL_MOTOR = 0;
+    public static final int OPENSENSOR_DIGITAL_IO = 1;
+    public static final int CLOSEDSENSOR_DIGITAL_IO = 2;
+    public static final int THROUGHBEANSENSOR_DIGITAL_IO = 0;
 
     //================================================== Forklift =======================================================
 
