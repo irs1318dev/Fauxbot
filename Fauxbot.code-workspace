@@ -20,7 +20,8 @@
 		"java.format.settings.profile": "Eclipse",
 		"java.import.gradle.version": "8.5",
 		"java.format.onType.enabled": false,
-		"editor.formatOnSave": false
+		"editor.formatOnSave": false,
+		"java.compile.nullAnalysis.mode": "disabled"
 	},
 	"launch": {
 		"configurations": [

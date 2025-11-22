@@ -21,6 +21,7 @@ import frc.lib.robotprovider.MatchType;
 import frc.lib.robotprovider.MultiLogger;
 import frc.lib.robotprovider.RobotMode;
 import frc.robot.mechanisms.ForkliftMechanism;
+import frc.robot.mechanisms.GarageDoorMechanism;;
 
 public class SettingsManager
 {
@@ -28,7 +29,8 @@ public class SettingsManager
     {
         List<IMechanism> mechanismList = new ArrayList<IMechanism>();
         // mechanismList.add(injector.getInstance(SomeMechanism.class));
-        mechanismList.add(injector.getInstance(ForkliftMechanism.class));
+       // mechanismList.add(injector.getInstance(ForkliftMechanism.class));
+        mechanismList.add(injector.getInstance(GarageDoorMechanism.class));
         return mechanismList;
     }
 
