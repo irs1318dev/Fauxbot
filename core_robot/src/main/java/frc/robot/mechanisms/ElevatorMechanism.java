@@ -25,7 +25,7 @@ public class ElevatorMechanism implements IMechanism{
     private final IEncoder encoder;
     private final PIDHandler pidHandler;
     private double position;
-    private double destination;
+    private double desiredPosition;
 
     @Inject
     public ElevatorMechanism(IDriver driver, IRobotProvider provider, ITimer timer){
@@ -52,21 +52,21 @@ public class ElevatorMechanism implements IMechanism{
     @Override
     public void update(RobotMode mode) {
         if(this.driver.getDigital(DigitalOperation.ElevatorFloor1)){
-            this.destination=TuningConstants.ELEVATOR_FIRST_FLOOR;
+            this.desiredPosition=TuningConstants.ELEVATOR_FIRST_FLOOR;
         }
         if(this.driver.getDigital(DigitalOperation.ElevatorFloor2)){
-            this.destination=TuningConstants.ELEVATOR_SECOND_FLOOR;
+            this.desiredPosition=TuningConstants.ELEVATOR_SECOND_FLOOR;
         }
         if(this.driver.getDigital(DigitalOperation.ElevatorFloor3)){
-            this.destination=TuningConstants.ELEVATOR_THIRD_FLOOR;
+            this.desiredPosition=TuningConstants.ELEVATOR_THIRD_FLOOR;
         }
         if(this.driver.getDigital(DigitalOperation.ElevatorFloor4)){
-            this.destination=TuningConstants.ELEVATOR_FOURTH_FLOOR;
+            this.desiredPosition=TuningConstants.ELEVATOR_FOURTH_FLOOR;
         }
         if(this.driver.getDigital(DigitalOperation.ElevatorFloor5)){
-            this.destination=TuningConstants.ELEVATOR_FITH_FLOOR;
+            this.desiredPosition=TuningConstants.ELEVATOR_FITH_FLOOR;
         }
-        this.ElevatorIMotor.set(this.pidHandler.calculatePosition(this.position, this.destination));
+        this.ElevatorIMotor.set(this.pidHandler.calculatePosition(this.position, this.desiredPosition));
     }
 
     @Override
