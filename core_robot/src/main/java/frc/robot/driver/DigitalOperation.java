@@ -20,6 +20,11 @@ public enum DigitalOperation implements IOperation
     // Printer operations:
 
     // Shooter operations:
+<<<<<<< Updated upstream
     Shoot,
     Spin,
+=======
+    Spin,
+    Shoot,
+>>>>>>> Stashed changes
 }
