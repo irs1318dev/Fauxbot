@@ -72,23 +72,12 @@ public class ElectronicsConstants
     public static int FORKLIFT_DOUBLE_SOLENOID_REVERSE = 8;
 
     //================================================== Shooter =======================================================
-
-<<<<<<< Updated upstream
     public static int SHOOTER_HOOD_MOTOR_CHANNEL = 2;
     public static int SHOOTER_FLYWHEEL_MOTOR_CHANNEL = 3;
     public static int SHOOTER_KICKER_SOLENOID_CHANNEL_A = 4;
     public static int SHOOTER_KICKER_SOLENOID_CHANNEL_B = 5;
     public static int SHOOTER_ENCODER_CHANNEL_A = 2;
     public static int SHOOTER_ENCODER_CHANNEL_B = 3;
-=======
-    public static int SHOOTER_HOOD_MOTOR_CHANNEL = 0;
-    public static int SHOOTER_FLYWHEEL_MOTOR_CHANNEL = 1;
-    public static int SHOOTER_KICKER_SOLENOID_CHANNEL_A = 7;
-    public static int SHOOTER_KICKER_SOLENOID_CHANNEL_B = 8;
-    public static int SHOOTER_ENCODER_CHANNEL_A = 0;
-    public static int SHOOTER_ENCODER_CHANNEL_B = 1;
->>>>>>> Stashed changes
-
     //================================================== Printer =======================================================
 
 }

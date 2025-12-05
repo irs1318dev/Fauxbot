@@ -67,26 +67,11 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(OperationContext.ForkliftMechanism),
             ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
             0.1),
-<<<<<<< Updated upstream
-
-        new AnalogOperationDescription(
-            AnalogOperation.ShooterWheelPower,
-            UserInputDevice.Driver,
-            AnalogAxis.XBONE_LSX,
-            EnumSet.of(OperationContext.ShooterMechanism),
-            ElectronicsConstants.INVERT_XBONE_RIGHT_Y_AXIS,
-            0.1),
-=======
->>>>>>> Stashed changes
         
-        new AnalogOperationDescription(
+            new AnalogOperationDescription(
             AnalogOperation.HoodPosition,
             UserInputDevice.Driver,
-<<<<<<< Updated upstream
-            AnalogAxis.XBONE_LSY,
-=======
             AnalogAxis.XBONE_RSY,
->>>>>>> Stashed changes
             EnumSet.of(OperationContext.ShooterMechanism),
             ElectronicsConstants.INVERT_XBONE_RIGHT_Y_AXIS,
             0.1),
@@ -156,26 +141,16 @@ public class ButtonMap implements IButtonMap
             UserInputDeviceButton.BUTTON_PAD_BUTTON_5,
             EnumSet.of(OperationContext.ElevatorMechanism),
             ButtonType.Click),  
-<<<<<<< Updated upstream
-
         new DigitalOperationDescription(
             DigitalOperation.Shoot,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_A_BUTTON,
             EnumSet.of(OperationContext.ShooterMechanism),
             ButtonType.Click),
-=======
->>>>>>> Stashed changes
-        
+                    
         new DigitalOperationDescription(
             DigitalOperation.Spin,
             UserInputDevice.Driver,
-<<<<<<< Updated upstream
-            UserInputDeviceButton.XBONE_B_BUTTON,
-            EnumSet.of(OperationContext.ShooterMechanism),
-            ButtonType.Click),
-
-=======
             UserInputDeviceButton.XBONE_A_BUTTON,
             EnumSet.of(OperationContext.ShooterMechanism),
             ButtonType.Click),
@@ -186,7 +161,6 @@ public class ButtonMap implements IButtonMap
             UserInputDeviceButton.XBONE_B_BUTTON,
             EnumSet.of(OperationContext.ShooterMechanism),
             ButtonType.Click),
->>>>>>> Stashed changes
     };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
