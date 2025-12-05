@@ -56,7 +56,7 @@ public class ElectronicsConstants
     public static int GARAGE_DOOR_MOTOR_CHANNEL = 0;
     public static int GARAGE_DOOR_OPEN_SENSOR_CHANNEL = 1;
     public static int GARAGE_DOOR_CLOSED_SENSOR_CHANNEL = 2;
-    public static int GARAGE_DOOR_THROUGH_BEAM = 3;
+    public static int GARAGE_DOOR_THROUGH_BEAM = 0;
 
     //================================================== Elevator ==========================================================
 

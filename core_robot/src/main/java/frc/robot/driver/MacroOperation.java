@@ -12,8 +12,10 @@ public enum MacroOperation implements IOperation
     EnableForkliftContext,
     EnableGarageDoorContext,
     EnableElevatorContext,
+    EnableShooterContext,
 
     EnableGeneralContextFL,
     EnableGeneralContextGD,
     EnableGeneralContextEL,
+    EnableGeneralContextSH,
 }

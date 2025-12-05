@@ -50,15 +50,15 @@ public class ElevatorMechanism implements IMechanism
     public void update(RobotMode mode) {
 
         if (this.driver.getDigital(DigitalOperation.ElevatorFloor1)){
-            this.targetPosition = 0;
+            this.targetPosition = TuningConstants.FLOOR_1;
         } else if (this.driver.getDigital(DigitalOperation.ElevatorFloor2)){
-            this.targetPosition = 50;
+            this.targetPosition = TuningConstants.FLOOR_2;
         } else if (this.driver.getDigital(DigitalOperation.ElevatorFloor3)){
-            this.targetPosition = 100;
+            this.targetPosition = TuningConstants.FLOOR_3;
         } else if (this.driver.getDigital(DigitalOperation.ElevatorFloor4)){
-            this.targetPosition = 150;
+            this.targetPosition = TuningConstants.FLOOR_4;
         } else if (this.driver.getDigital(DigitalOperation.ElevatorFloor5)){
-            this.targetPosition = 200;
+            this.targetPosition = TuningConstants.FLOOR_5;
         }
         double motorOutput = this.pidHandler.calculatePosition(this.targetPosition, this.currentPosition);
         this.motor.set(motorOutput);

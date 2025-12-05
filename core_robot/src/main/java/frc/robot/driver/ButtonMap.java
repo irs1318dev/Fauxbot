@@ -60,12 +60,28 @@ public class ButtonMap implements IButtonMap
             ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
             0.1),
 
-            new AnalogOperationDescription(
+        new AnalogOperationDescription(
             AnalogOperation.LeftMotorPower,
             UserInputDevice.Driver,
             AnalogAxis.XBONE_LSX,
             EnumSet.of(OperationContext.ForkliftMechanism),
             ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
+            0.1),
+
+        new AnalogOperationDescription(
+            AnalogOperation.ShooterWheelPower,
+            UserInputDevice.Driver,
+            AnalogAxis.XBONE_LSX,
+            EnumSet.of(OperationContext.ShooterMechanism),
+            ElectronicsConstants.INVERT_XBONE_RIGHT_Y_AXIS,
+            0.1),
+        
+        new AnalogOperationDescription(
+            AnalogOperation.HoodPosition,
+            UserInputDevice.Driver,
+            AnalogAxis.XBONE_LSY,
+            EnumSet.of(OperationContext.ShooterMechanism),
+            ElectronicsConstants.INVERT_XBONE_RIGHT_Y_AXIS,
             0.1),
     };
 
@@ -83,6 +99,7 @@ public class ButtonMap implements IButtonMap
             UserInputDeviceButton.XBONE_A_BUTTON,
             EnumSet.of(OperationContext.ForkliftMechanism),
             ButtonType.Click),
+
         new DigitalOperationDescription(
             DigitalOperation.ForkliftDown,
             UserInputDevice.Driver,
@@ -100,37 +117,52 @@ public class ButtonMap implements IButtonMap
         new DigitalOperationDescription(
             DigitalOperation.ElevatorFloor1,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_A_BUTTON,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_1,
             EnumSet.of(OperationContext.ElevatorMechanism),
             ButtonType.Click),
         
         new DigitalOperationDescription(
             DigitalOperation.ElevatorFloor2,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_B_BUTTON,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_2,
             EnumSet.of(OperationContext.ElevatorMechanism),
             ButtonType.Click),
         
         new DigitalOperationDescription(
             DigitalOperation.ElevatorFloor3,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_X_BUTTON,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_3,
             EnumSet.of(OperationContext.ElevatorMechanism),
             ButtonType.Click),
         
         new DigitalOperationDescription(
             DigitalOperation.ElevatorFloor4,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_Y_BUTTON,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_4,
             EnumSet.of(OperationContext.ElevatorMechanism),
             ButtonType.Click),
         
         new DigitalOperationDescription(
             DigitalOperation.ElevatorFloor5,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_RIGHT_STICK_BUTTON,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_5,
             EnumSet.of(OperationContext.ElevatorMechanism),
             ButtonType.Click),  
+
+        new DigitalOperationDescription(
+            DigitalOperation.Shoot,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_A_BUTTON,
+            EnumSet.of(OperationContext.ShooterMechanism),
+            ButtonType.Click),
+        
+        new DigitalOperationDescription(
+            DigitalOperation.Spin,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_B_BUTTON,
+            EnumSet.of(OperationContext.ShooterMechanism),
+            ButtonType.Click),
+
     };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
@@ -150,10 +182,11 @@ public class ButtonMap implements IButtonMap
         new MacroOperationDescription(
             MacroOperation.EnableForkliftContext,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_RIGHT_BUTTON,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_1,
             EnumSet.of(OperationContext.General),
             ButtonType.Click,
             () -> new SetOperationContextTask(OperationContext.ForkliftMechanism)),
+
         new MacroOperationDescription(
             MacroOperation.EnableGeneralContextFL,
             UserInputDevice.Driver,
@@ -161,13 +194,15 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(OperationContext.ForkliftMechanism),
             ButtonType.Click,
             () -> new SetOperationContextTask(OperationContext.General)),
+
         new MacroOperationDescription(
             MacroOperation.EnableGarageDoorContext,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_RIGHT_STICK_BUTTON,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_2,
             EnumSet.of(OperationContext.General),
             ButtonType.Click,
             () -> new SetOperationContextTask(OperationContext.GarageDoorMechanism)),
+
         new MacroOperationDescription(
             MacroOperation.EnableGeneralContextGD,
             UserInputDevice.Driver,
@@ -179,7 +214,7 @@ public class ButtonMap implements IButtonMap
         new MacroOperationDescription(
             MacroOperation.EnableElevatorContext,
             UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_LEFT_STICK_BUTTON,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_3,
             EnumSet.of(OperationContext.General),
             ButtonType.Click,
             () -> new SetOperationContextTask(OperationContext.ElevatorMechanism)),
@@ -191,6 +226,23 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(OperationContext.ElevatorMechanism),
             ButtonType.Click,
             () -> new SetOperationContextTask(OperationContext.General)),
+
+        new MacroOperationDescription(
+            MacroOperation.EnableShooterContext, 
+            UserInputDevice.Driver, 
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_4,
+            EnumSet.of(OperationContext.General),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.ShooterMechanism)),
+        
+        new MacroOperationDescription(
+            MacroOperation.EnableGeneralContextSH,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_LEFT_BUTTON,
+            EnumSet.of(OperationContext.ShooterMechanism),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.General)
+        )
 
         };
 

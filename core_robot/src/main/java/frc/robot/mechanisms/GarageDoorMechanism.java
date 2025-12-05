@@ -44,7 +44,9 @@ public class GarageDoorMechanism implements IMechanism
 
     @Override
     public void readSensors() {
-
+        if (this.throughBeam.get()) {
+            this.currentState = State.Opening;
+        }
         if (this.closedSensor.get() && this.currentState == State.Closing) { // Fill in with correct implementation
             this.currentState = State.Closed;
         }
@@ -52,9 +54,6 @@ public class GarageDoorMechanism implements IMechanism
             if (this.openSensor.get() && this.currentState == State.Opening) { // Fill in with correct implementation
                 this.currentState = State.Open;
             }
-        }
-        if (this.throughBeam.get()) {
-            this.currentState = State.Opening;
         }
     }
 
@@ -66,19 +65,22 @@ public class GarageDoorMechanism implements IMechanism
             if (this.currentState == State.Closed || this.currentState == State.Closing) {
                 this.currentState = State.Opening;
             }
-            else if (this.currentState == State.Open || this.currentState == State.Opening) {
+            else{
                 this.currentState = State.Closing;
             }
         }
         else if (!this.driver.getDigital(DigitalOperation.GarageToggle)) {
             this.pressed = false;
-        }
+        }   
 
         if (this.currentState == State.Opening) {
             this.motor.set(1.0);
         }
-        if (this.currentState == State.Closing) {
+        else if (this.currentState == State.Closing) {
             this.motor.set(-1.0);
+        }
+        else {
+            this.motor.set(0);
         }
     }
 

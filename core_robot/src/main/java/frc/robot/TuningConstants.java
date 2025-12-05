@@ -56,14 +56,29 @@ public class TuningConstants
     public static final double ELEVATOR_MIN_OUTPUT = -1.0;
     public static final double ELEVATOR_MAX_OUTPUT = 1.0; 
 
+    public static final double FLOOR_1 = 0.0;
+    public static final double FLOOR_2 = 50.0;
+    public static final double FLOOR_3 = 100.0;
+    public static final double FLOOR_4 = 150.0;
+    public static final double FLOOR_5 = 200.0;
+    
+
     //================================================== Shooter ==============================================================
 
-    public static final double SHOOTER_PID_KP = 1.0;
-    public static final double SHOOTER_PID_KI = 0.0;
-    public static final double SHOOTER_PID_KD = 0.1;
-    public static final double SHOOTER_PID_KF = 0.0;
-    public static final double SHOOTER_PID_KS = 1.0;
-    public static final double SHOOTER_MIN_OUTPUT = -1.0;
-    public static final double SHOOTER_MAX_OUTPUT = 1.0; 
+    public static final double SHOOTER_PID1_KP = 1.0;
+    public static final double SHOOTER_PID1_KI = 0.0;
+    public static final double SHOOTER_PID1_KD = 0.1;
+    public static final double SHOOTER_PID1_KF = 0.0;
+    public static final double SHOOTER_PID1_KS = 1.0;
+    public static final double SHOOTER_MIN1_OUTPUT = -1.0;
+    public static final double SHOOTER_MAX1_OUTPUT = 1.0; 
+
+    public static final double SHOOTER_PID2_KP = 1.0;
+    public static final double SHOOTER_PID2_KI = 0.0;
+    public static final double SHOOTER_PID2_KD = 0.1;
+    public static final double SHOOTER_PID2_KF = 0.0;
+    public static final double SHOOTER_PID2_KS = 1.0;
+    public static final double SHOOTER_MIN2_OUTPUT = -1.0;
+    public static final double SHOOTER_MAX2_OUTPUT = 1.0; 
     //================================================== Printer ==============================================================
 }

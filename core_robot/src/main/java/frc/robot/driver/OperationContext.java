@@ -6,6 +6,7 @@ public enum OperationContext
     ForkliftMechanism,
     GarageDoorMechanism,
     ElevatorMechanism,
+    ShooterMechanism,
     Awesome;
 
 
