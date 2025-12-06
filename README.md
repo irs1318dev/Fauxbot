@@ -5,7 +5,7 @@ Exercises for learning how to write code for robots with a UI.
 Note: when building for the first time, you may need to connect to a hotspot instead of Issaquah High School wifi because the school blocks certain URLs we need to access for dependencies.
 
 ## Links
-1. [Robot Programming Guide](/docs/README.md)
+1. [Robot Programming Guide](docs/Legacy/Robot%20Programming%20Guide.md)
 2. [WPILib documentation](https://docs.wpilib.org)
 
 ## Exercise list
