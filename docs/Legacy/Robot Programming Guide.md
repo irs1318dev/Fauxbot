@@ -18,7 +18,8 @@
    5. [User Input Devices](#user-input-devices)
       1. [Joysticks](#joysticks)
       2. [Button Pads](#button-pads)
-      3. [Dip Switches](#dip-switches)
+      3. [Controllers](#controllers)
+      4. [Dip Switches](#dip-switches)
    6. [Modes](#modes)
 3. [Robot Code Design](#robot-code-design)
    1. [CoreRobot.java](#corerobotjava)
@@ -80,6 +81,7 @@
    1. [PID Controllers](#pid-controllers)
    2. [Motion Planning](#motion-planning)
    3. [Vision](#vision)
+   4. [PathPlanner](#pathplanner)
 
 
 ## General Robot Design

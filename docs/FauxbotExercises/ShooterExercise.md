@@ -8,7 +8,7 @@ Programming: 2
 Robotics: 3 (Position, Velocity PID control on motor controller)
 
 ## Implementing ShooterMechanism
-We'll now cover the basics that will need to be understood for implementing the ShooterMechanism.  More specific instructions exist in the [Robot Code Instructions](#/RobotCodeInstructions/RobotCodeInstructions.md)
+We'll now cover the basics that will need to be understood for implementing the ShooterMechanism.  More specific instructions exist in the [Robot Code Instructions](../Legacy/Robot%20Programming%20Guide.md)
 
 ### Actuators
 #### Hood Motor (TalonSRX)

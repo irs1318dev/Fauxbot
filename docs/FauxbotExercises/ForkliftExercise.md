@@ -8,7 +8,7 @@ Programming: 1
 Robotics: 1
 
 ## Implementing ForkliftMechanism
-We'll now cover the basics that will need to be understood for implementing the ForkliftMechanism.  More specific instructions exist in the [Robot Code Instructions](#/RobotCodeInstructions/RobotCodeInstructions.md)
+We'll now cover the basics that will need to be understood for implementing the ForkliftMechanism.  More specific instructions exist in the [Robot Code Instructions](../Legacy/Robot%20Programming%20Guide.md)
 
 ### Actuators
 #### DriveTrainLeft (Talon)
