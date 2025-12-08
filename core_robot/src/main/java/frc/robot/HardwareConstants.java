@@ -10,4 +10,8 @@ import frc.lib.helpers.Helpers;
  */
 public class HardwareConstants
 {
+public static final double X_AXIS_MIN_VALUE = 0;
+public static final double X_AXIS_MAX_VALUE = 200;
+public static final double Y_AXIS_MIN_VALUE = 0;
+public static final double Y_AXIS_MAX_VALUE = 200;
 }

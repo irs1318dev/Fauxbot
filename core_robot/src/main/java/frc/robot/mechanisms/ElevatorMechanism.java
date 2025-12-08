@@ -1,6 +1,4 @@
 package frc.robot.mechanisms;
-import java.beans.Encoder;
-import java.util.Timer;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -8,7 +6,6 @@ import com.google.inject.Singleton;
 import frc.lib.controllers.PIDHandler;
 import frc.lib.driver.IDriver;
 import frc.lib.mechanisms.IMechanism;
-import frc.lib.robotprovider.IDigitalInput;
 import frc.lib.robotprovider.IEncoder;
 import frc.lib.robotprovider.IMotor;
 import frc.lib.robotprovider.IRobotProvider;
@@ -33,13 +30,13 @@ public class ElevatorMechanism implements IMechanism{
         this.driver=driver;
         this.encoder = provider.getEncoder(ElectronicsConstants.ENCODER_ELEVATOR_PCMCHANNEL_ZERO, ElectronicsConstants.ENCODER_ELEVATOR_PCMCHANNEL_ONE);
         this.pidHandler=new PIDHandler(
+            TuningConstants.ELEVATOR_PID_KP, 
+            TuningConstants.ELEVATOR_PID_KI, 
             TuningConstants.ELEVATOR_PID_KD, 
             TuningConstants.ELEVATOR_PID_KF, 
-            TuningConstants.ELEVATOR_PID_KI, 
-            TuningConstants.ELEVATOR_PID_KP, 
             TuningConstants.ELEVATOR_PID_KS, 
-            TuningConstants.ELEVATOR_PID_MAXOUTPUT, 
-            TuningConstants.ELEVATOR_PID_MINOUTPUT,
+            TuningConstants.ELEVATOR_PID_MINOUTPUT, 
+            TuningConstants.ELEVATOR_PID_MAXOUTPUT,
             timer
             );
 
@@ -66,7 +63,7 @@ public class ElevatorMechanism implements IMechanism{
         if(this.driver.getDigital(DigitalOperation.ElevatorFloor5)){
             this.desiredPosition=TuningConstants.ELEVATOR_FITH_FLOOR;
         }
-        this.ElevatorIMotor.set(this.pidHandler.calculatePosition(this.position, this.desiredPosition));
+        this.ElevatorIMotor.set(this.pidHandler.calculatePosition(this.desiredPosition, this.position));
     }
 
     @Override

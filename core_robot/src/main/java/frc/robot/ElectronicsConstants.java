@@ -71,4 +71,8 @@ public static final int FORKLIFT_BACKWARD_PCMCHANNEL = 8;
     //================================================== Shooter =======================================================
 
     //================================================== Printer =======================================================
+public static final int PRINTER_PEN_UP_PCMCHANNEL = 7;
+public static final int PRINTER_PEN_DOWN_PCMCHANNEL = 8;
+public static final int XAXIS_MOTOR_PCMCHANNEL = 0;
+public static final int YAXIS_MOTOR_PCMCHANNEL = 1;
 }

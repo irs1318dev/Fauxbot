@@ -1,13 +1,70 @@
 package frc.robot.mechanisms;
+import java.beans.Encoder;
+import java.util.Timer;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+import frc.lib.controllers.PIDHandler;
+import frc.lib.driver.IDriver;
 import frc.lib.mechanisms.IMechanism;
+import frc.lib.robotprovider.IDigitalInput;
+import frc.lib.robotprovider.IEncoder;
+import frc.lib.robotprovider.IMotor;
+import frc.lib.robotprovider.IRobotProvider;
+import frc.lib.robotprovider.ISolenoid;
+import frc.lib.robotprovider.ITalonSRX;
+import frc.lib.robotprovider.ITimer;
 import frc.lib.robotprovider.RobotMode;
+import frc.lib.robotprovider.TalonFXFeedbackDevice;
+import frc.lib.robotprovider.TalonSRXControlMode;
+import frc.lib.robotprovider.TalonSRXFeedbackDevice;
+import frc.robot.ElectronicsConstants;
+import frc.robot.TuningConstants;
+import frc.robot.driver.DigitalOperation;
+import frc.lib.robotprovider.PneumaticsModuleType;
+import frc.lib.robotprovider.DoubleSolenoidValue;
+import frc.lib.robotprovider.IDoubleSolenoid;
 
+@Singleton
 public class PrinterMechanism implements IMechanism{
+    private final IDriver driver;
+    private final IDoubleSolenoid penstate;
+    private final ITalonSRX XMotor;
+    private final ITalonSRX YMotor;
+    private PIDHandler pidHandler;
+    private double XPosition;
+    private double YPosition;
 
+    @Inject
+    public PrinterMechanism(IDriver driver, IRobotProvider provider, ITimer timer){
+        this.driver = driver;  
+        this.penstate = provider.getDoubleSolenoid(PneumaticsModuleType.PneumaticsControlModule, ElectronicsConstants.PRINTER_PEN_UP_PCMCHANNEL, ElectronicsConstants.PRINTER_PEN_DOWN_PCMCHANNEL);
+        this.XMotor = provider.getTalonSRX(ElectronicsConstants.XAXIS_MOTOR_PCMCHANNEL);
+        this.XMotor.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
+        this.XMotor.setControlMode(TalonSRXControlMode.Position);
+        this.XMotor.setPIDF(
+            TuningConstants.PRINTER_X_MOTOR_KP,
+            TuningConstants.PRINTER_X_MOTOR_KI,
+            TuningConstants.PRINTER_X_MOTOR_KD,
+            TuningConstants.PRINTER_X_MOTOR_KF,
+            0
+        );
+        this.YMotor = provider.getTalonSRX(ElectronicsConstants.YAXIS_MOTOR_PCMCHANNEL);
+        this.YMotor.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
+        this.YMotor.setControlMode(TalonSRXControlMode.Position);
+        this.YMotor.setPIDF(
+            TuningConstants.PRINTER_Y_MOTOR_KP,
+            TuningConstants.PRINTER_Y_MOTOR_KI,
+            TuningConstants.PRINTER_Y_MOTOR_KD,
+            TuningConstants.PRINTER_Y_MOTOR_KF,
+            1
+        );
+    }
     @Override
     public void readSensors() {
-        
+        this.XPosition = this.XMotor.getPosition();
+        this.YPosition = this.YMotor.getPosition();
     }
 
     @Override
