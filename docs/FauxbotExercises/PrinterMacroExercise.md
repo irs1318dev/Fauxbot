@@ -8,7 +8,7 @@ Programming: 4 (implementing a control task class extending ControlTaskBase pare
 Robotics: 2 (macros)
 
 ## Implementing Printer Macros
-First, make sure that you have implemented PrinterMechanism as a part of the [Printer exercise](./PrinterExercise.md).  Also make sure that you indeed used the positional PID mode on the X- and Y-axis TalonSRX motors.  I'll recommend a few pieces that you can implement in order to make this easier.  Some more specific instructions exist in the [Robot Code Instructions](../Legacy/Robot%20Programming%20Guide.md)
+First, make sure that you have implemented PrinterMechanism as a part of the [Printer exercise](./PrinterExercise.md).  Also make sure that you indeed used the positional PID mode on the X- and Y-axis TalonSRX motors.  I'll recommend a few pieces that you can implement in order to make this easier.  Some more specific instructions exist in the [Robot Code Instructions](https://irs1318dev.github.io/RobotProgrammingGuide/RobotCodeInstructions/RobotCodeInstructions.html)
 
 ## Update to PrinterMechanism
 You will want to update PrinterMechanism to have "getter" functions that return the current X and Y position from the encoders that are connected to the TalonSRX motor controllers.  Please make sure that the positions are read during readSensor(), stored in a class member variable, and returned by these functions.  Also, you should ensure that the mechanism is using positional PID mode when controlling the Talon SRX motors.

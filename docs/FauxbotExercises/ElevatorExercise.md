@@ -8,7 +8,7 @@ Programming: 2 (using inputs from sensors, processing them, using them in output
 Robotics: 3 (input from sensors, Position PID control in PIDHandler object)
 
 ## Implementing ElevatorMechanism
-We'll now cover the basics that will need to be understood for implementing the ElevatorMechanism.  More specific instructions exist in the [Robot Code Instructions](../Legacy/Robot%20Programming%20Guide.md)
+We'll now cover the basics that will need to be understood for implementing the ElevatorMechanism.  More specific instructions exist in the [Robot Code Instructions](https://irs1318dev.github.io/RobotProgrammingGuide/RobotCodeInstructions/RobotCodeInstructions.html)
 
 ### Actuators
 #### Motor (Talon)

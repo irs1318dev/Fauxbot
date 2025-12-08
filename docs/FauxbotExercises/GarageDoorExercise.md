@@ -8,7 +8,7 @@ Programming: 3 (managing state and state transitions)
 Robotics: 2 (input from sensors)
 
 ## Implementing GarageDoorMechanism
-We'll now cover the basics that will need to be understood for implementing the GarageDoorMechanism.  More specific instructions exist in the [Robot Code Instructions](#/RobotCodeInstructions/RobotCodeInstructions.md)
+We'll now cover the basics that will need to be understood for implementing the GarageDoorMechanism.  More specific instructions exist in the [Robot Code Instructions](https://irs1318dev.github.io/RobotProgrammingGuide/RobotCodeInstructions/RobotCodeInstructions.html)
 
 ### Actuators
 #### Motor (Talon)
