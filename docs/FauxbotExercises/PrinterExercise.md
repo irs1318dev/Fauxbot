@@ -8,7 +8,7 @@ Programming: 2
 Robotics: 3 (Position PID control on motor controller)
 
 ## Implementing PrinterMechanism
-We'll now cover the basics that will need to be understood for implementing the PrinterMechanism.  More specific instructions exist in the [Robot Code Instructions](../Legacy/Robot%20Programming%20Guide.md)
+We'll now cover the basics that will need to be understood for implementing the PrinterMechanism.  More specific instructions exist in the [Robot Code Instructions](https://irs1318dev.github.io/RobotProgrammingGuide/RobotCodeInstructions/RobotCodeInstructions.html)
 
 ## Well-known information
 I would recommend adding constants to HardwareConstants describing the Canvas on which the printer will be writing.  The top-left position will be at (0,0), and the bottom-right position will be at (200, 200).  This is typical in simple 2D computer graphics - the origin of an image is the top-left of that image.
