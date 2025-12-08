@@ -1,14 +1,14 @@
 # Printer Exercise
 
 ## Introduction
-The goal of the Printer exercise is to get students used to writing code for a mechanism that has a lot of imprecision while running positional PID loops on TalonSRX motor controolers.  This printer behaves closest to how 3D printers works, but only in 2 dimensions - it has two motors to control the printer head travelling over the X and Y axis, plus a double-solenoid that controls pressing a pen to the surface of the paper.
+The goal of the Printer exercise is to get students used to writing code for a mechanism that has a lot of imprecision while running positional PID loops on TalonSRX motor controllers.  This printer behaves closest to how 3D printers works, but only in 2 dimensions - it has two motors to control the printer head travelling over the X and Y axis, plus a double-solenoid that controls pressing a pen to the surface of the paper.
 
 ## Difficulty
 Programming: 2
 Robotics: 3 (Position PID control on motor controller)
 
 ## Implementing PrinterMechanism
-We'll now cover the basics that will need to be understood for implementing the PrinterMechanism.  More specific instructions exist in the [Robot Code Instructions](#/RobotCodeInstructions/RobotCodeInstructions.md)
+We'll now cover the basics that will need to be understood for implementing the PrinterMechanism.  More specific instructions exist in the [Robot Code Instructions](../Legacy/Robot%20Programming%20Guide.md)
 
 ## Well-known information
 I would recommend adding constants to HardwareConstants describing the Canvas on which the printer will be writing.  The top-left position will be at (0,0), and the bottom-right position will be at (200, 200).  This is typical in simple 2D computer graphics - the origin of an image is the top-left of that image.
