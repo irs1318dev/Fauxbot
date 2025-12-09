@@ -77,7 +77,7 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(OperationContext.PrinterMechanism),
             ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
             0.1
-         )
+        )
         
     };
 
