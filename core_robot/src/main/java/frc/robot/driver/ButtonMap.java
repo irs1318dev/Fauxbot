@@ -10,6 +10,7 @@ import frc.lib.driver.descriptions.*;
 import frc.lib.helpers.Helpers;
 import frc.robot.*;
 import frc.robot.driver.controltasks.*;
+import frc.robot.mechanisms.PrinterMechanism;
 
 @Singleton
 public class ButtonMap implements IButtonMap
@@ -61,6 +62,22 @@ public class ButtonMap implements IButtonMap
         //     ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
         //     0.1
         // ),
+        new AnalogOperationDescription(
+            AnalogOperation.XAxisPosition,
+            UserInputDevice.Driver,
+            AnalogAxis.JOYSTICK_TWIST,
+            EnumSet.of(OperationContext.PrinterMechanism),
+            ElectronicsConstants.INVERT_PS4_RIGHT_Y_AXIS,
+            0.1
+        ),
+         new AnalogOperationDescription(
+            AnalogOperation.YAxisPosition,
+            UserInputDevice.Driver,
+            AnalogAxis.PS4_LSY,
+            EnumSet.of(OperationContext.PrinterMechanism),
+            ElectronicsConstants.INVERT_PS4_LEFT_TRIGGER,
+            0.1
+         )
         
     };
 
@@ -128,6 +145,20 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(OperationContext.ElevatorMechanism),
             ButtonType.Click
         ),
+        new DigitalOperationDescription(
+            DigitalOperation.PrinterPenUp,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_15,
+            EnumSet.of(OperationContext.PrinterMechanism),
+            ButtonType.Click
+        ),
+        new DigitalOperationDescription(
+            DigitalOperation.PrinterPenDown,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_1,
+            EnumSet.of(OperationContext.PrinterMechanism),
+            ButtonType.Click
+        )
     };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
@@ -189,6 +220,22 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Driver,
             UserInputDeviceButton.BUTTON_PAD_BUTTON_4,
             EnumSet.of(OperationContext.ElevatorMechanism),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.General)
+        ),
+        new MacroOperationDescription(
+            MacroOperation.EnablePrinterContext,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
+            EnumSet.of(OperationContext.General),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.PrinterMechanism)
+        ),
+        new MacroOperationDescription(
+            MacroOperation.EnableGeneralContextP,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_16,
+            EnumSet.of(OperationContext.PrinterMechanism),
             ButtonType.Click,
             () -> new SetOperationContextTask(OperationContext.General)
         )

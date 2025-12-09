@@ -21,6 +21,7 @@ import frc.lib.robotprovider.TalonSRXControlMode;
 import frc.lib.robotprovider.TalonSRXFeedbackDevice;
 import frc.robot.ElectronicsConstants;
 import frc.robot.TuningConstants;
+import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
 import frc.lib.robotprovider.PneumaticsModuleType;
 import frc.lib.robotprovider.DoubleSolenoidValue;
@@ -69,6 +70,12 @@ public class PrinterMechanism implements IMechanism{
 
     @Override
     public void update(RobotMode mode) {
+        if (this.driver.getDigital(DigitalOperation.PrinterPenUp)){
+            this.penstate.set(DoubleSolenoidValue.Reverse);
+        }
+        if (this.driver.getDigital(DigitalOperation.PrinterPenDown)){
+            this.penstate.set(DoubleSolenoidValue.Forward);
+        }
         
     }
 

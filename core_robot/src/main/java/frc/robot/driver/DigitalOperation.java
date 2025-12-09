@@ -26,6 +26,8 @@ public enum DigitalOperation implements IOperation
     ElevatorFloor5,
 
     // Printer operations:
+    PrinterPenUp,
+    PrinterPenDown,
 
     // Shooter operations:
 }
