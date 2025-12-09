@@ -39,7 +39,7 @@ public class ElevatorMechanism implements IMechanism{
             TuningConstants.ELEVATOR_PID_KP, 
             TuningConstants.ELEVATOR_PID_KS, 
             TuningConstants.ELEVATOR_PID_MAXOUTPUT, 
-            TuningConstants.ELEVATOR_PID_MINOUTPUT,
+            TuningConstants.ELEVATOR_PID_MINOUTPUT, 
             timer
             );
 
@@ -48,7 +48,7 @@ public class ElevatorMechanism implements IMechanism{
     public void readSensors() {
         this.position = this.encoder.getDistance();
     }
-
+ 
     @Override
     public void update(RobotMode mode) {
         if(this.driver.getDigital(DigitalOperation.ElevatorFloor1)){
