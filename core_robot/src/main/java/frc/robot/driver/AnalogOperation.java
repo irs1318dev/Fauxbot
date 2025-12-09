@@ -12,6 +12,8 @@ public enum AnalogOperation implements IOperation
     RightMotorPower,
 
     // Printer operations:
+    PercnetOuputIncrease,
+    PercnetOuputDecrease,
 
     // Shooter operations:
 }

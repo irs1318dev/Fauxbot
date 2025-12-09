@@ -5,7 +5,8 @@ public enum OperationContext
     GarageDoorMechanism,
     ForkliftMechanism,
     General,
-    Awesome, ElevatorMechanism;
+    Awesome, 
+    ElevatorMechanism;
 
     public static OperationContext getDefault()
     {
