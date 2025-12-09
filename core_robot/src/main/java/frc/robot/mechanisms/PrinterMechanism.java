@@ -67,8 +67,6 @@ public class PrinterMechanism implements IMechanism{
         if (this.driver.getDigital(DigitalOperation.PrinterPenDown)){
             this.penstate.set(DoubleSolenoidValue.Forward);
         }
-        System.out.println((XScaledPosition(XPosition)));
-        System.out.println(YScaledPosition(YPosition));
         this.XMotor.set(XScaledPosition(XPosition));
         this.YMotor.set(YScaledPosition(YPosition));
     }

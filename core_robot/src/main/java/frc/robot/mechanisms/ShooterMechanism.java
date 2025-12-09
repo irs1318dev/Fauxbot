@@ -28,9 +28,16 @@ import frc.lib.robotprovider.DoubleSolenoidValue;
 import frc.lib.robotprovider.IDoubleSolenoid;
 @Singleton
 public class ShooterMechanism implements IMechanism{
-
+    private final IDriver driver;
+    private final IDoubleSolenoid Kicker;
+    
+    public ShooterMechanism(IDriver driver, IRobotProvider provider){
+        this.driver = driver;
+        
+    }
     @Override
     public void readSensors() {
+
     }
     @Override
     public void update(RobotMode mode) {
