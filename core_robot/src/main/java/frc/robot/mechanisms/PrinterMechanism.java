@@ -1,22 +1,14 @@
 package frc.robot.mechanisms;
-import java.beans.Encoder;
-import java.util.Timer;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import frc.lib.controllers.PIDHandler;
 import frc.lib.driver.IDriver;
 import frc.lib.mechanisms.IMechanism;
-import frc.lib.robotprovider.IDigitalInput;
-import frc.lib.robotprovider.IEncoder;
-import frc.lib.robotprovider.IMotor;
 import frc.lib.robotprovider.IRobotProvider;
-import frc.lib.robotprovider.ISolenoid;
 import frc.lib.robotprovider.ITalonSRX;
 import frc.lib.robotprovider.ITimer;
 import frc.lib.robotprovider.RobotMode;
-import frc.lib.robotprovider.TalonFXFeedbackDevice;
 import frc.lib.robotprovider.TalonSRXControlMode;
 import frc.lib.robotprovider.TalonSRXFeedbackDevice;
 import frc.robot.ElectronicsConstants;
@@ -33,7 +25,6 @@ public class PrinterMechanism implements IMechanism{
     private final IDoubleSolenoid penstate;
     private final ITalonSRX XMotor;
     private final ITalonSRX YMotor;
-    private PIDHandler pidHandler;
     private double XPosition;
     private double YPosition;
 
@@ -64,8 +55,8 @@ public class PrinterMechanism implements IMechanism{
     }
     @Override
     public void readSensors() {
-        this.XPosition = this.XMotor.getPosition();
-        this.YPosition = this.YMotor.getPosition();
+        this.XPosition = this.driver.getAnalog(AnalogOperation.XAxisPosition);
+        this.YPosition = this.driver.getAnalog(AnalogOperation.YAxisPosition);
     }
 
     @Override
@@ -76,12 +67,21 @@ public class PrinterMechanism implements IMechanism{
         if (this.driver.getDigital(DigitalOperation.PrinterPenDown)){
             this.penstate.set(DoubleSolenoidValue.Forward);
         }
-        
+        System.out.println((XScaledPosition(XPosition)));
+        System.out.println(YScaledPosition(YPosition));
+        this.XMotor.set(XScaledPosition(XPosition));
+        this.YMotor.set(YScaledPosition(YPosition));
     }
 
     @Override
     public void stop() {
-     
+       this.XMotor.set(0);
+       this.YMotor.set(0);
     }
-    
+    private double XScaledPosition(double xPosition){
+        return xPosition * (200);
+    }
+    private double YScaledPosition(double yPosition){
+        return yPosition * (200);
+}
 }
