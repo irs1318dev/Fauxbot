@@ -67,7 +67,7 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Driver,
             AnalogAxis.JOYSTICK_TWIST,
             EnumSet.of(OperationContext.PrinterMechanism),
-            ElectronicsConstants.INVERT_PS4_RIGHT_Y_AXIS,
+            ElectronicsConstants.INVERT_PS4_RIGHT_TRIGGER,
             0.1
         ),
          new AnalogOperationDescription(
@@ -75,7 +75,7 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Driver,
             AnalogAxis.PS4_LSY,
             EnumSet.of(OperationContext.PrinterMechanism),
-            ElectronicsConstants.INVERT_PS4_LEFT_TRIGGER,
+            ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
             0.1
          )
         

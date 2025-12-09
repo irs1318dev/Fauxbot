@@ -11,7 +11,6 @@ import frc.lib.robotprovider.RobotMode;
 import frc.lib.robotprovider.TalonSRXControlMode;
 import frc.lib.robotprovider.TalonSRXFeedbackDevice;
 import frc.robot.ElectronicsConstants;
-import frc.robot.HardwareConstants;
 import frc.robot.TuningConstants;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
@@ -78,9 +77,9 @@ public class PrinterMechanism implements IMechanism{
     }
 
     private double getScaledXPosition(double xPosition){
-        return xPosition * (HardwareConstants.X_AXIS_MAX_VALUE-HardwareConstants.X_AXIS_MIN_VALUE);
+        return xPosition / 2 * (400);
     }
     private double getScaledYPosition(double yPosition){
-        return yPosition * (HardwareConstants.Y_AXIS_MAX_VALUE-HardwareConstants.Y_AXIS_MIN_VALUE);
+        return yPosition / 2 * (400);
     }
 }
