@@ -79,7 +79,7 @@ public class TuningConstants
     public static final double PRINTER_X_MOTOR_KP=0.01;
     public static final double PRINTER_X_MOTOR_KI=0.0;
     public static final double PRINTER_X_MOTOR_KD=0.0;
-    public static final double PRINTER_X_MOTOR_KF=0.0;
+    public static final double PRINTER_X_MOTOR_KF=0.01;
 
     public static final double PRINTER_Y_MOTOR_KP=0.01;
     public static final double PRINTER_Y_MOTOR_KI=0.0;
