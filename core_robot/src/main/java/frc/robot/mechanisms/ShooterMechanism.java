@@ -61,7 +61,7 @@ public class ShooterMechanism implements IMechanism{
         else{    
             this.Kicker.set(DoubleSolenoidValue.Reverse);
         }
-        this.HoodMotor.set(-HoodScaledPosition(HoodCurrentPosition));
+        this.HoodMotor.set(HoodScaledPosition(HoodCurrentPosition));
         while (this.driver.getDigital(DigitalOperation.SpinButton) == true){
             this.FlyWheelMotor.set(200);
             if (this.driver.getDigital(DigitalOperation.SpinButton)){

@@ -65,9 +65,6 @@ public static final int FORKLIFT_LEFTMOTOR_PCMCHANNEL = 0;
 public static final int FORTKLIFT_RIGHTMORTOR_PCMCHANNEL = 1;
 public static final int FORKLIFT_FORWARD_PCMCHANNEL = 7;
 public static final int FORKLIFT_BACKWARD_PCMCHANNEL = 8;
- 
-    //================================================== Forklift =======================================================
-
     //================================================== Shooter =======================================================
 public static final int SHOOTER_HOOD_MOTOR_PCMCHANNEL=0;
 public static final int SHOOTER_FLYWHEEL_MOTOR_PCMCHANNEL=1;

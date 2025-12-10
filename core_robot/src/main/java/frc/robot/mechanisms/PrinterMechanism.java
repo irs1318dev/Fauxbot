@@ -20,12 +20,12 @@ import frc.lib.robotprovider.IDoubleSolenoid;
 
 @Singleton
 public class PrinterMechanism implements IMechanism{
-    private final IDriver driver;
-    private final IDoubleSolenoid penstate;
-    private final ITalonSRX XMotor;
-    private final ITalonSRX YMotor;
-    private double XPosition;
-    private double YPosition;
+    final IDriver driver;
+    final IDoubleSolenoid penstate;
+    final ITalonSRX XMotor;
+    final ITalonSRX YMotor;
+    double XPosition;
+    double YPosition;
     
 
     @Inject
