@@ -73,6 +73,9 @@ public class ShooterMechanism implements IMechanism{
 
     @Override
     public void stop() {
+        this.FlyWheelMotor.set(0);
+        this.HoodMotor.set(0);
+        this.Kicker.set(DoubleSolenoidValue.Off);
     
     }
     private double HoodScaledPosition(double HoodPosition){
