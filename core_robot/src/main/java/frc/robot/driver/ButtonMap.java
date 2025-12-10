@@ -77,6 +77,14 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(OperationContext.PrinterMechanism),
             ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
             0.1
+        ),
+        new AnalogOperationDescription(
+            AnalogOperation.HoodAnglePosition,
+            UserInputDevice.Driver,
+            AnalogAxis.PS4_LT,
+            EnumSet.of(OperationContext.ShooterMechanism),
+            ElectronicsConstants.INVERT_PS4_RIGHT_TRIGGER,
+            0.1
         )
         
     };
@@ -155,8 +163,22 @@ public class ButtonMap implements IButtonMap
         new DigitalOperationDescription(
             DigitalOperation.PrinterPenDown,
             UserInputDevice.Driver,
-            UserInputDeviceButton.BUTTON_PAD_BUTTON_1,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_8,
             EnumSet.of(OperationContext.PrinterMechanism),
+            ButtonType.Click
+        ),
+        new DigitalOperationDescription(
+            DigitalOperation.SpinButton,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_5,
+            EnumSet.of(OperationContext.ShooterMechanism),
+            ButtonType.Click
+        ),
+        new DigitalOperationDescription(
+            DigitalOperation.FireButton,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_9,
+            EnumSet.of(OperationContext.ShooterMechanism),
             ButtonType.Click
         )
     };
@@ -238,6 +260,22 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(OperationContext.PrinterMechanism),
             ButtonType.Click,
             () -> new SetOperationContextTask(OperationContext.General)
+        ),
+        new MacroOperationDescription(
+            MacroOperation.EnableGeneralContextSH,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_3,
+            EnumSet.of(OperationContext.ShooterMechanism),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.General)
+        ),
+        new MacroOperationDescription(
+            MacroOperation.EnableShooterContext,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_6,
+            EnumSet.of(OperationContext.General),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.ShooterMechanism)
         )
     };
 

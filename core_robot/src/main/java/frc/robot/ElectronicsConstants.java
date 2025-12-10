@@ -69,6 +69,10 @@ public static final int FORKLIFT_BACKWARD_PCMCHANNEL = 8;
     //================================================== Forklift =======================================================
 
     //================================================== Shooter =======================================================
+public static final int SHOOTER_HOOD_MOTOR_PCMCHANNEL=0;
+public static final int SHOOTER_FLYWHEEL_MOTOR_PCMCHANNEL=1;
+public static final int SHOOTER_FORWARD_KICKER_PCMCHANNEL=7;
+public static final int SHOOTER_REVERSE_KICKER_PCMCHANNEL=8;
 
     //================================================== Printer =======================================================
 public static final int PRINTER_PEN_UP_PCMCHANNEL = 7;

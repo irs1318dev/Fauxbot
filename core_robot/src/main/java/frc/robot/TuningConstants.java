@@ -64,6 +64,15 @@ public class TuningConstants
     public static final double ELEVATOR_FITH_FLOOR=200.0;
 
     //================================================== Shooter ==============================================================
+    public static final double SHOOTER_HOOD_MOTOR_KP=0.01;
+    public static final double SHOOTER_HOOD_MOTOR_KI=0.0;
+    public static final double SHOOTER_HOOD_MOTOR_KD=0.0;
+    public static final double SHOOTER_HOOD_MOTOR_KF=0.0;
+    
+    public static final double SHOOTER_FLYWHEEL_MOTOR_KP=0.01;
+    public static final double SHOOTER_FLYWHEEL_MOTOR_KI=0.0;
+    public static final double SHOOTER_FLYWHEEL_MOTOR_KD=0.0;
+    public static final double SHOOTER_FLYWHEEL_MOTOR_KF=0.0;
 
     
     //================================================== Printer ==============================================================

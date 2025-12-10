@@ -30,5 +30,7 @@ public enum DigitalOperation implements IOperation
     PrinterPenDown,
 
     // Shooter operations:
+    SpinButton,
+    FireButton,
 }
 

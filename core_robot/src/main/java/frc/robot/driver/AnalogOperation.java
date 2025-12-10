@@ -16,4 +16,5 @@ public enum AnalogOperation implements IOperation
     YAxisPosition,
 
     // Shooter operations:
+    HoodAnglePosition
 }

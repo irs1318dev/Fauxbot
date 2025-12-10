@@ -29,11 +29,34 @@ import frc.lib.robotprovider.IDoubleSolenoid;
 @Singleton
 public class ShooterMechanism implements IMechanism{
     private final IDriver driver;
-    // private final IDoubleSolenoid Kicker;
-    
+    private final IDoubleSolenoid Kicker;
+    private final ITalonSRX HoodMotor;
+    private final ITalonSRX FlyWheelMotor;
+
+    @Inject
     public ShooterMechanism(IDriver driver, IRobotProvider provider){
         this.driver = driver;
-        
+        this.FlyWheelMotor=provider.getTalonSRX(ElectronicsConstants.SHOOTER_FLYWHEEL_MOTOR_PCMCHANNEL);
+        this.HoodMotor=provider.getTalonSRX(ElectronicsConstants.SHOOTER_HOOD_MOTOR_PCMCHANNEL);
+        this.HoodMotor.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
+        this.HoodMotor.setControlMode(TalonSRXControlMode.Position);
+        this.HoodMotor.setPIDF(
+            TuningConstants.SHOOTER_HOOD_MOTOR_KP, 
+            TuningConstants.SHOOTER_FLYWHEEL_MOTOR_KI, 
+            TuningConstants.SHOOTER_FLYWHEEL_MOTOR_KD, 
+            TuningConstants.SHOOTER_FLYWHEEL_MOTOR_KF,
+            1
+        );
+        this.FlyWheelMotor.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
+        this.FlyWheelMotor.setControlMode(TalonSRXControlMode.Velocity);
+        this.FlyWheelMotor.setPIDF(
+            TuningConstants.SHOOTER_FLYWHEEL_MOTOR_KP, 
+            TuningConstants.SHOOTER_FLYWHEEL_MOTOR_KI, 
+            TuningConstants.SHOOTER_FLYWHEEL_MOTOR_KD, 
+            TuningConstants.SHOOTER_FLYWHEEL_MOTOR_KF, 
+            0
+        );
+        this.Kicker = provider.getDoubleSolenoid(PneumaticsModuleType.PneumaticsControlModule, ElectronicsConstants.SHOOTER_FORWARD_KICKER_PCMCHANNEL, ElectronicsConstants.SHOOTER_REVERSE_KICKER_PCMCHANNEL);
     }
     @Override
     public void readSensors() {
@@ -41,7 +64,11 @@ public class ShooterMechanism implements IMechanism{
     }
     @Override
     public void update(RobotMode mode) {
-       
+        if (this.driver.getDigital(DigitalOperation.FireButton)){
+            this.Kicker.set(DoubleSolenoidValue.Forward);
+            this.Kicker.set(DoubleSolenoidValue.Reverse);
+        }
+        this.HoodMotor.set(this.driver.getAnalog(AnalogOperation.HoodAnglePosition));
     }
 
     @Override

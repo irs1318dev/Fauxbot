@@ -13,6 +13,8 @@ public enum MacroOperation implements IOperation
     EnableElevatorContext,
     EnableGeneralContextP,
     EnablePrinterContext,
+    EnableShooterContext,
+    EnableGeneralContextSH,
     ExampleAlpha,
     ExampleBeta,
 }

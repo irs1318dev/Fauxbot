@@ -1,5 +1,7 @@
 package frc.robot.driver;
 
+import frc.robot.mechanisms.ShooterMechanism;
+
 public enum OperationContext
 {
     GarageDoorMechanism,
@@ -7,7 +9,8 @@ public enum OperationContext
     General,
     Awesome, 
     ElevatorMechanism, 
-    PrinterMechanism;
+    PrinterMechanism,
+    ShooterMechanism;
 
     public static OperationContext getDefault()
     {

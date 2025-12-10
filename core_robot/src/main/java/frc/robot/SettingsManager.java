@@ -11,6 +11,7 @@ import frc.robot.mechanisms.ElevatorMechanism;
 import frc.robot.mechanisms.ForkliftMechanism;
 import frc.robot.mechanisms.GarageDoorMechanism;
 import frc.robot.mechanisms.PrinterMechanism;
+import frc.robot.mechanisms.ShooterMechanism;
 
 public class SettingsManager
 {
@@ -21,7 +22,8 @@ public class SettingsManager
         // mechanismList.add(injector.getInstance(GarageDoorMechanism.class));
         // mechanismList.add(injector.getInstance(ForkliftMechanism.class));
         // mechanismList.add(injector.getInstance(ElevatorMechanism.class));
-        mechanismList.add(injector.getInstance(PrinterMechanism.class));
+        // mechanismList.add(injector.getInstance(PrinterMechanism.class));
+        mechanismList.add(injector.getInstance(ShooterMechanism.class));
         return mechanismList;
     }
 
