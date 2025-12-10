@@ -33,6 +33,8 @@ public class ShooterMechanism implements IMechanism{
     private final ITalonSRX HoodMotor;
     private final ITalonSRX FlyWheelMotor;
     private double HoodCurrentPosition;
+    private boolean Shooting;
+    private boolean ShooterButtonPressed;
     private Timer timer;
 
     @Inject
@@ -66,10 +68,13 @@ public class ShooterMechanism implements IMechanism{
     }
     @Override
     public void update(RobotMode mode) {
-        while (this.driver.getDigital(DigitalOperation.FireButton) == true){
+        if (this.driver.getDigital(DigitalOperation.FireButton) == true){
             this.Kicker.set(DoubleSolenoidValue.Forward);
         }
-        this.HoodMotor.set(HoodScaledPosition(HoodCurrentPosition));
+        else{    
+            this.Kicker.set(DoubleSolenoidValue.Reverse);
+        }
+        this.HoodMotor.set(-HoodScaledPosition(HoodCurrentPosition));
         while (this.driver.getDigital(DigitalOperation.SpinButton) == true){
             this.FlyWheelMotor.set(200);
             if (this.driver.getDigital(DigitalOperation.SpinButton)){
@@ -81,7 +86,7 @@ public class ShooterMechanism implements IMechanism{
 
     @Override
     public void stop() {
-        
+    
     }
     private double HoodScaledPosition(double HoodPosition){
         return HoodPosition *90;
