@@ -1,22 +1,12 @@
 package frc.robot.mechanisms;
-import java.beans.Encoder;
-import java.util.Timer;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import frc.lib.controllers.PIDHandler;
 import frc.lib.driver.IDriver;
 import frc.lib.mechanisms.IMechanism;
-import frc.lib.robotprovider.IDigitalInput;
-import frc.lib.robotprovider.IEncoder;
-import frc.lib.robotprovider.IMotor;
 import frc.lib.robotprovider.IRobotProvider;
-import frc.lib.robotprovider.ISolenoid;
 import frc.lib.robotprovider.ITalonSRX;
-import frc.lib.robotprovider.ITimer;
 import frc.lib.robotprovider.RobotMode;
-import frc.lib.robotprovider.TalonFXFeedbackDevice;
 import frc.lib.robotprovider.TalonSRXControlMode;
 import frc.lib.robotprovider.TalonSRXFeedbackDevice;
 import frc.robot.ElectronicsConstants;
@@ -33,9 +23,6 @@ public class ShooterMechanism implements IMechanism{
     private final ITalonSRX HoodMotor;
     private final ITalonSRX FlyWheelMotor;
     private double HoodCurrentPosition;
-    private boolean Shooting;
-    private boolean ShooterButtonPressed;
-    private Timer timer;
 
     @Inject
     public ShooterMechanism(IDriver driver, IRobotProvider provider){
