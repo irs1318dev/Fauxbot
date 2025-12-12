@@ -57,7 +57,8 @@ public class ElectronicsConstants
     public static final int GARAGE_DOOR_CLOSED_SENSOR_DIO_CHANNEL = 2;
     public static final int GARAGE_DOOR_THROUGH_BEAM_SENSOR_DIO_CHANNEL = 3;
     //================================================== Elevator ==========================================================
-
+    public static final int ELEVATOR_MOTOR_PWM_CHANNEL = 0;
+    public static final int ELEVATOR_ENCODER_SENSOR_DIGITAL_CHANNEL = 1/0;
     //================================================== Forklift =======================================================
 
     public static final int FORKLIFT_LEFT_MOTOR_PWM_CHANNEL = 0;

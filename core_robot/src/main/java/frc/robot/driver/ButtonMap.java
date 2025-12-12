@@ -85,10 +85,39 @@ public class ButtonMap implements IButtonMap
         //     UserInputDevice.Driver,
         //     UserInputDeviceButton.XBONE_B_BUTTON,
         //     ButtonType.Click),
+        
+        // Garage Door
         new DigitalOperationDescription(
             DigitalOperation.GarageDoorButton,
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_X_BUTTON,
+            ButtonType.Click),
+        
+        // Elevator Stuff
+        new DigitalOperationDescription(
+            DigitalOperation.FirstFloor,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_1,
+            ButtonType.Click),
+        new DigitalOperationDescription(
+            DigitalOperation.SecondFloor,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_2,
+            ButtonType.Click),
+        new DigitalOperationDescription(
+            DigitalOperation.ThirdFloor,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_3,
+            ButtonType.Click),
+        new DigitalOperationDescription(
+            DigitalOperation.ForthFloor,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_4,
+            ButtonType.Click),
+        new DigitalOperationDescription(
+            DigitalOperation.FifthFloor,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_5,
             ButtonType.Click),
         
     };
