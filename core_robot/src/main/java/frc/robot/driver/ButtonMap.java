@@ -240,25 +240,6 @@ public class ButtonMap implements IButtonMap
             EnumSet.of(OperationContext.ShooterMechanism),
             ButtonType.Click,
             () -> new SetOperationContextTask(OperationContext.General)),
-
-
-        new MacroOperationDescription(
-            MacroOperation.EnableShooterContext, 
-            UserInputDevice.Driver, 
-            UserInputDeviceButton.BUTTON_PAD_BUTTON_4,
-            EnumSet.of(OperationContext.General),
-            ButtonType.Click,
-            () -> new SetOperationContextTask(OperationContext.ShooterMechanism)),
-        
-        new MacroOperationDescription(
-            MacroOperation.EnableGeneralContextSH,
-            UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_LEFT_BUTTON,
-            EnumSet.of(OperationContext.ShooterMechanism),
-            ButtonType.Click,
-            () -> new SetOperationContextTask(OperationContext.General)
-        )
-
         };
 
     @Override

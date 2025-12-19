@@ -13,8 +13,5 @@ public enum AnalogOperation implements IOperation
 
     // Shooter operations:
     HoodPosition,
-<<<<<<< Updated upstream
     ShooterWheelPower,
-=======
->>>>>>> Stashed changes
 }
