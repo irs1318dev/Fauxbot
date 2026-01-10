@@ -26,6 +26,7 @@ public class PrinterMechanism implements IMechanism{
     private final ITalonSRX YMotor;
     private double XPosition;
     private double YPosition;
+    public final boolean pencontrol = true;
     
 
     @Inject

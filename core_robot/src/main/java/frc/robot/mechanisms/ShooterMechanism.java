@@ -51,10 +51,11 @@ public class ShooterMechanism implements IMechanism{
     }
     @Override
     public void readSensors() {
-        this.HoodCurrentPosition=this.driver.getAnalog(AnalogOperation.HoodAnglePosition);
+        
     }
     @Override
     public void update(RobotMode mode) {
+        this.HoodCurrentPosition=this.driver.getAnalog(AnalogOperation.HoodAnglePosition);
         if (this.driver.getDigital(DigitalOperation.FireButton) == true){
             this.Kicker.set(DoubleSolenoidValue.Forward);
         }

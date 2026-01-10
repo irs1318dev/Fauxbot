@@ -32,5 +32,6 @@ public enum DigitalOperation implements IOperation
     // Shooter operations:
     SpinButton,
     FireButton,
+    PrinterMacro
 }
 
