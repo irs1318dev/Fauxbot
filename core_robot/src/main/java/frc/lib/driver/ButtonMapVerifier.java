@@ -18,6 +18,7 @@ public class ButtonMapVerifier
 
     /**
      * Verify the button map according the the rules to ensure that there is no overlap
+     * 
      * @param buttonMap to verify
      */
     public static void verify(IButtonMap buttonMap)
@@ -27,8 +28,9 @@ public class ButtonMapVerifier
 
     /**
      * Verify the button map according the the rules to ensure that there is no overlap
-     * @param buttonMap to verify
-     * @param failOnError whether to throw an exception if there is a failed rule
+     * 
+     * @param buttonMap    to verify
+     * @param failOnError  whether to throw an exception if there is a failed rule
      * @param printMapping whether to print the mapping of buttons to operations
      */
     public static void verify(IButtonMap buttonMap, boolean failOnError, boolean printMapping)
@@ -434,7 +436,11 @@ public class ButtonMapVerifier
 
     private static boolean isOverlappingRange(OperationDescription<?> one, OperationDescription<?> two)
     {
-        return ButtonMapVerifier.isOverlappingRange(one.getUserInputDeviceRangeMin(), one.getUserInputDeviceRangeMax(), two.getUserInputDeviceRangeMin(), two.getUserInputDeviceRangeMax());
+        return ButtonMapVerifier.isOverlappingRange(
+            one.getUserInputDeviceRangeMin(),
+            one.getUserInputDeviceRangeMax(),
+            two.getUserInputDeviceRangeMin(),
+            two.getUserInputDeviceRangeMax());
     }
 
     private static boolean isOverlappingRange(double oneMin, double oneMax, double twoMin, double twoMax)

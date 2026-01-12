@@ -70,6 +70,7 @@ public class MacroOperationState extends OperationState implements IMacroOperati
 
     /**
      * Sets whether the current operation is being interrupted by a macro
+     * 
      * @param enable value of true indicates that we are interrupted
      */
     @Override
@@ -83,6 +84,7 @@ public class MacroOperationState extends OperationState implements IMacroOperati
 
     /**
      * Gets whether the current operation is being interrupted by a macro
+     * 
      * @return value of true indicates that we are interrupted
      */
     @Override
@@ -92,10 +94,11 @@ public class MacroOperationState extends OperationState implements IMacroOperati
     }
 
     /**
-     * Checks whether the operation state should change based on the joysticks and active stifts. 
-     * @param joysticks to update from
-     * @param activeShifts shifts currently applied by operator
-     * @param currentContext operation context currently applied to the driver 
+     * Checks whether the operation state should change based on the joysticks and active stifts.
+     * 
+     * @param joysticks      to update from
+     * @param activeShifts   shifts currently applied by operator
+     * @param currentContext operation context currently applied to the driver
      * @return true if there was any active user input that triggered a state change
      */
     @Override
@@ -145,8 +148,7 @@ public class MacroOperationState extends OperationState implements IMacroOperati
         else if (relevantButton == UserInputDeviceButton.ANALOG_AXIS_RANGE)
         {
             double value = relevantJoystick.getAxis(description.getUserInputDeviceAxis().Value);
-            buttonPressed =
-                value >= description.getUserInputDeviceRangeMin() &&
+            buttonPressed = value >= description.getUserInputDeviceRangeMin() &&
                 value <= description.getUserInputDeviceRangeMax();
         }
         else if (relevantButton != UserInputDeviceButton.NONE)

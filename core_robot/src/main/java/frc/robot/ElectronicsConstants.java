@@ -11,7 +11,7 @@ import frc.lib.robotprovider.PowerDistributionModuleType;
  */
 public class ElectronicsConstants
 {
-    // We expect the following to be true.  Change INVERT_*_AXIS to true if any of the following are not met:
+    // We expect the following to be true. Change INVERT_*_AXIS to true if any of the following are not met:
     // 1. forwards/up on a joystick is positive, backwards/down is negative.
     // 2. right on a joystick is positive, left on a joystick is negative.
     // 3. pressed on a trigger is positive, released is negative/zero.

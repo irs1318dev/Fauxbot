@@ -3,7 +3,7 @@ package frc.robot;
 import frc.lib.robotprovider.LoggingType;
 
 /**
- * Keys describing logging 
+ * Keys describing logging
  */
 public enum LoggingKey
 {
@@ -22,6 +22,7 @@ public enum LoggingKey
     public final boolean isInput;
     public final int loggingFrequency;
     public final boolean shouldLogToCsv;
+
     private LoggingKey(String value, LoggingType type)
     {
         this(value, type, false, TuningConstants.DEFAULT_LOGGING_FREQUENCY, false);
@@ -56,5 +57,3 @@ public enum LoggingKey
         this.shouldLogToCsv = shouldLogToCsv;
     }
 }
-
-

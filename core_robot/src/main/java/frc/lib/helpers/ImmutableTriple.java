@@ -22,9 +22,10 @@ public class ImmutableTriple<T1, T2, T3>
 
     /**
      * Initializes a new instance of the ImmutableTriple class, holding three values and not allowing them to be changed.
-     * @param first value to hold
+     * 
+     * @param first  value to hold
      * @param second value to hold
-     * @param third value to hold
+     * @param third  value to hold
      */
     public ImmutableTriple(T1 first, T2 second, T3 third)
     {

@@ -1,10 +1,10 @@
 package frc.robot;
+
 import java.util.Optional;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import frc.lib.helpers.Helpers;
 import frc.lib.robotprovider.Alliance;
 import frc.lib.robotprovider.IDriverStation;
 import frc.lib.robotprovider.IRobotProvider;
@@ -26,7 +26,7 @@ public class AutonLocManager
     }
 
     @Inject
-    public AutonLocManager(IRobotProvider provider) 
+    public AutonLocManager(IRobotProvider provider)
     {
         this.driverStation = provider.getDriverStation();
     }
@@ -87,5 +87,5 @@ public class AutonLocManager
             return position;
         }
     }
-    
+
 }

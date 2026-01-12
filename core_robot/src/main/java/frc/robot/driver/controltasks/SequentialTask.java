@@ -17,6 +17,7 @@ public final class SequentialTask extends DecisionSequentialTask
 
     /**
      * Initializes a new SequentialTask
+     * 
      * @param tasks to run
      */
     public SequentialTask(IControlTask[] tasks)
@@ -41,6 +42,7 @@ public final class SequentialTask extends DecisionSequentialTask
 
     /**
      * Retrieve the set of analog operations that this task affects.
+     * 
      * @return set of analog operations that this task affects.
      */
     @Override
@@ -51,6 +53,7 @@ public final class SequentialTask extends DecisionSequentialTask
 
     /**
      * Retrieve the set of digital operations that this task affects.
+     * 
      * @return set of digital operations that this task affects.
      */
     @Override
@@ -61,6 +64,7 @@ public final class SequentialTask extends DecisionSequentialTask
 
     /**
      * Create a sequential task from one or more tasks
+     * 
      * @param tasks to create the sequence from
      * @return sequential task
      */

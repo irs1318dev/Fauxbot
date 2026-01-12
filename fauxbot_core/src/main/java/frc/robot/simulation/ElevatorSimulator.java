@@ -23,15 +23,13 @@ public class ElevatorSimulator extends SimulatorBase
     private static final FauxbotSensorConnection EncoderBChannel = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.DigitalInput, FauxbotEncoder.class, 1);
     private static final FauxbotActuatorConnection MotorChannel = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PWM, 0);
 
-    private final FauxbotSensorConnection[] sensors =
-        new FauxbotSensorConnection[]
+    private final FauxbotSensorConnection[] sensors = new FauxbotSensorConnection[]
         {
             ElevatorSimulator.EncoderAChannel,
             ElevatorSimulator.EncoderBChannel,
         };
 
-    private final FauxbotActuatorConnection[] actuators =
-        new FauxbotActuatorConnection[]
+    private final FauxbotActuatorConnection[] actuators = new FauxbotActuatorConnection[]
         {
             ElevatorSimulator.MotorChannel,
         };
@@ -53,7 +51,10 @@ public class ElevatorSimulator extends SimulatorBase
         }
     };
 
-    private static final double[] FloorHeightPercentages = new double[] { 0.0, 0.2, 0.4, 0.6, 0.8 };
+    private static final double[] FloorHeightPercentages = new double[]
+        {
+            0.0, 0.2, 0.4, 0.6, 0.8
+        };
     private static final double PercentageAllowance = 0.01;
     private static final float ElevatorCarWidth = 30.0f;
     private static final float ElevatorCarHeight = 70.0f;
@@ -238,7 +239,7 @@ public class ElevatorSimulator extends SimulatorBase
                 frameX + ElevatorSimulator.ElevatorCarWidth,
                 frameY + (float)ratio * frameHeight,
                 frameX + frameWidth,
-                frameY + (float)ratio * frameHeight); 
+                frameY + (float)ratio * frameHeight);
         }
 
         // draw the elevator car:

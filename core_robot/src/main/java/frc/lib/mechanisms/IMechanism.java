@@ -4,7 +4,7 @@ import frc.lib.robotprovider.RobotMode;
 
 /**
  * The interface for mechanism classes.
- * Mechanism classes define the logic that controls a mechanism given inputs (sensors) and operator-requested changes, and 
+ * Mechanism classes define the logic that controls a mechanism given inputs (sensors) and operator-requested changes, and
  * translates those into the actions that should be applied to the outputs (actuators, etc.).
  */
 public interface IMechanism
@@ -18,6 +18,7 @@ public interface IMechanism
     /**
      * Calculates the various states to use for the mechanism based on the sensors/operations and applies them to the outputs (actuators, etc.).
      * This function is called every ~20ms whenever the robot is enabled in some mode, after the update function is called.
+     * 
      * @param mode the current robot mode
      */
     public void update(RobotMode mode);

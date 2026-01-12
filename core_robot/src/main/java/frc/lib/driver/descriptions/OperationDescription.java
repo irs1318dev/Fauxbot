@@ -25,7 +25,15 @@ public abstract class OperationDescription<TOperation extends IOperation>
     private final EnumSet<Shift> requiredShifts;
     private final EnumSet<OperationContext> relevantContexts;
 
-    protected OperationDescription(TOperation operation, OperationType type, UserInputDevice userInputDevice, double userInputDeviceRangeMin, double userInputDeviceRangeMax, EnumSet<Shift> relevantShifts, EnumSet<Shift> requiredShifts, EnumSet<OperationContext> relevantContexts)
+    protected OperationDescription(
+        TOperation operation,
+        OperationType type,
+        UserInputDevice userInputDevice,
+        double userInputDeviceRangeMin,
+        double userInputDeviceRangeMax,
+        EnumSet<Shift> relevantShifts,
+        EnumSet<Shift> requiredShifts,
+        EnumSet<OperationContext> relevantContexts)
     {
         this.operation = operation;
         this.type = type;

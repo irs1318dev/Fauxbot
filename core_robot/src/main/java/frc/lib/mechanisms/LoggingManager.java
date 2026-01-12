@@ -28,6 +28,7 @@ public class LoggingManager implements ILogger
     /**
      * Initializes a new instance of the LoggingManager class.
      * Unit-test constructor
+     * 
      * @param logger to use
      */
     public LoggingManager(ILogger logger)
@@ -37,6 +38,7 @@ public class LoggingManager implements ILogger
 
     /**
      * Refresh the current logger that is being used based on the logger creator function
+     * 
      * @param injector to use to get the appropriate logger
      */
     public void refresh(Injector injector)
@@ -46,7 +48,8 @@ public class LoggingManager implements ILogger
 
     /**
      * Write a boolean to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override
@@ -57,7 +60,8 @@ public class LoggingManager implements ILogger
 
     /**
      * Write a boolean array to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override
@@ -68,7 +72,8 @@ public class LoggingManager implements ILogger
 
     /**
      * Write a number (double) to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override
@@ -79,7 +84,8 @@ public class LoggingManager implements ILogger
 
     /**
      * Write a number (nullable Double) to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override
@@ -90,7 +96,8 @@ public class LoggingManager implements ILogger
 
     /**
      * Write a number (integer) to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override
@@ -101,7 +108,8 @@ public class LoggingManager implements ILogger
 
     /**
      * Write a number (nullable Integer) to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override
@@ -112,8 +120,9 @@ public class LoggingManager implements ILogger
 
     /**
      * Write a number (integer) to the log
-     * @param key to write to
-     * @param value to write
+     * 
+     * @param key          to write to
+     * @param value        to write
      * @param formatString to use
      */
     @Override
@@ -124,7 +133,8 @@ public class LoggingManager implements ILogger
 
     /**
      * Write a string to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override

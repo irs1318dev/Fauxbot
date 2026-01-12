@@ -7,6 +7,7 @@ public interface IIntegerSubscriber
 {
     /**
      * Retrieve the current value
+     * 
      * @return current value
      */
     long get();

@@ -13,7 +13,8 @@ public final class FallbackTask extends DecisionSequentialTask
 
     /**
      * Executes an intial task, and if that task aborts (indicates that it has failed and should be canceled), executes the fallback
-     * @param initialTask to execute by default
+     * 
+     * @param initialTask  to execute by default
      * @param fallbackTask to execute only if the initial task indicates that it should be canceled
      */
     public FallbackTask(
@@ -28,6 +29,7 @@ public final class FallbackTask extends DecisionSequentialTask
 
     /**
      * Retrieve the set of analog operations that this task affects.
+     * 
      * @return set of analog operations that this task affects.
      */
     @Override
@@ -41,6 +43,7 @@ public final class FallbackTask extends DecisionSequentialTask
 
     /**
      * Retrieve the set of digital operations that this task affects.
+     * 
      * @return set of digital operations that this task affects.
      */
     @Override

@@ -36,6 +36,7 @@ public class AnalogOperationState extends OperationState
 
     /**
      * Sets whether the current operation is being interrupted by a macro
+     * 
      * @param enable value of true indicates that we are interrupted
      */
     @Override
@@ -50,6 +51,7 @@ public class AnalogOperationState extends OperationState
 
     /**
      * Gets whether the current operation is being interrupted by a macro
+     * 
      * @return value of true indicates that we are interrupted
      */
     @Override
@@ -59,10 +61,11 @@ public class AnalogOperationState extends OperationState
     }
 
     /**
-     * Checks whether the operation state should change based on the joysticks and active stifts. 
-     * @param joysticks to update from
-     * @param activeShifts shifts currently applied by operator
-     * @param currentContext operation context currently applied to the driver 
+     * Checks whether the operation state should change based on the joysticks and active stifts.
+     * 
+     * @param joysticks      to update from
+     * @param activeShifts   shifts currently applied by operator
+     * @param currentContext operation context currently applied to the driver
      * @return true if there was any active user input that triggered a state change
      */
     @Override
@@ -144,7 +147,13 @@ public class AnalogOperationState extends OperationState
         }
         else
         {
-            newValue = this.adjustForDeadZone(newValue, description.getDeadZoneMin(), description.getDeadZoneMax(), description.getDefaultValue(), description.getMultiplier(), description.getExp());
+            newValue = this.adjustForDeadZone(
+                newValue,
+                description.getDeadZoneMin(),
+                description.getDeadZoneMax(),
+                description.getDefaultValue(),
+                description.getMultiplier(),
+                description.getExp());
         }
 
         this.currentValue = newValue;
@@ -169,11 +178,12 @@ public class AnalogOperationState extends OperationState
 
     /**
      * Adjust the value as a part of dead zone calculation
-     * @param value to adjust
+     * 
+     * @param value       to adjust
      * @param deadZoneMin to consider
      * @param deadZoneMax to consider
-     * @param multiplier to scale the result range
-     * @param exp to adjust the result
+     * @param multiplier  to scale the result range
+     * @param exp         to adjust the result
      * @return adjusted value for deadZone, exponential, and multiplier
      */
     private double adjustForDeadZone(double value, double deadZoneMin, double deadZoneMax, double defaultValue, double multiplier, double exp)
@@ -193,7 +203,7 @@ public class AnalogOperationState extends OperationState
         // adjust the result to exclude the deadzone
         double result = (value - deadZone) / (1.0 - Math.abs(deadZone));
 
-        // adjust 
+        // adjust
         if (exp != 1.0)
         {
             if (result < 0.0 && (exp % 2.0) != 1.0)
@@ -212,10 +222,11 @@ public class AnalogOperationState extends OperationState
 
     /**
      * Adjust the value as a part of dead zone calculation
-     * @param value1 to check
-     * @param value2 to check
-     * @param deadZoneMin to consider
-     * @param deadZoneMax to consider
+     * 
+     * @param value1              to check
+     * @param value2              to check
+     * @param deadZoneMin         to consider
+     * @param deadZoneMax         to consider
      * @param useSquaredMagnitude for the deadzone check instead of piecemeal check
      * @return whether both are within the deadzone
      */
@@ -226,7 +237,7 @@ public class AnalogOperationState extends OperationState
             return Helpers.withinRange(value1 * value1 + value2 * value2, deadZoneMin, deadZoneMax);
         }
 
-        return Helpers.withinRange(value1, deadZoneMin, deadZoneMax) && 
+        return Helpers.withinRange(value1, deadZoneMin, deadZoneMax) &&
             Helpers.withinRange(value2, deadZoneMin, deadZoneMax);
     }
 }

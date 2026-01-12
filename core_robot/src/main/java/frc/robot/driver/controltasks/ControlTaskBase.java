@@ -16,8 +16,9 @@ public abstract class ControlTaskBase implements IControlTask
 
     /**
      * Initialize the task with the mapping of operations to states
+     * 
      * @param operationModifier used for retrieving and modifying operation state
-     * @param injector used to retrieve components to utilize for making any decisions
+     * @param injector          used to retrieve components to utilize for making any decisions
      */
     @Override
     public void initialize(
@@ -30,12 +31,14 @@ public abstract class ControlTaskBase implements IControlTask
 
     /**
      * Retrieve the set of analog operations that this task affects.
+     * 
      * @return set of analog operations that this task affects.
      */
     public abstract EnumSet<AnalogOperation> getAffectedAnalogOperations();
 
     /**
      * Retrieve the set of digital operations that this task affects.
+     * 
      * @return set of digital operations that this task affects.
      */
     public abstract EnumSet<DigitalOperation> getAffectedDigitalOperations();
@@ -57,12 +60,14 @@ public abstract class ControlTaskBase implements IControlTask
 
     /**
      * Checks whether this task has completed, or whether it should continue being processed.
+     * 
      * @return true if we should continue onto the next task, otherwise false (to keep processing this task)
      */
     public abstract boolean hasCompleted();
 
     /**
      * Checks whether this task should be stopped, or whether it should continue being processed.
+     * 
      * @return true if we should cancel this task (and stop performing any subsequent tasks), otherwise false (to keep processing this task)
      */
     public boolean shouldCancel()
@@ -81,9 +86,10 @@ public abstract class ControlTaskBase implements IControlTask
     }
 
     /**
-     * Sets the interrupt for the operation state for a given analog operation to the provided value 
+     * Sets the interrupt for the operation state for a given analog operation to the provided value
+     * 
      * @param operation to set the interrupt state for
-     * @param value to set as the interrupt
+     * @param value     to set as the interrupt
      */
     protected void setAnalogOperationState(AnalogOperation operation, double value)
     {
@@ -101,9 +107,10 @@ public abstract class ControlTaskBase implements IControlTask
     }
 
     /**
-     * Sets the interrupt for the operation state for a given digital operation to the provided value 
+     * Sets the interrupt for the operation state for a given digital operation to the provided value
+     * 
      * @param operation to set the interrupt state for
-     * @param value to set as the interrupt
+     * @param value     to set as the interrupt
      */
     protected void setDigitalOperationState(DigitalOperation operation, boolean value)
     {
@@ -122,6 +129,7 @@ public abstract class ControlTaskBase implements IControlTask
 
     /**
      * Gets the current state of the operation state for a given analog operation
+     * 
      * @param operation to get the interrupt state for
      * @return value for the operation
      */
@@ -132,6 +140,7 @@ public abstract class ControlTaskBase implements IControlTask
 
     /**
      * Gets the current state of the operation state for a given digital operation
+     * 
      * @param operation to get the interrupt state for
      * @return value for the operation
      */
@@ -142,6 +151,7 @@ public abstract class ControlTaskBase implements IControlTask
 
     /**
      * Gets the current operation context.
+     * 
      * @return the current operation context
      */
     protected OperationContext getOperationContext()
@@ -151,6 +161,7 @@ public abstract class ControlTaskBase implements IControlTask
 
     /**
      * Sets the current operation context.
+     * 
      * @param context the current operation context
      */
     protected void setOperationContext(OperationContext context)
@@ -160,6 +171,7 @@ public abstract class ControlTaskBase implements IControlTask
 
     /**
      * Gets the injector for the robot
+     * 
      * @return the injector for retrieving the of robot components
      */
     protected Injector getInjector()

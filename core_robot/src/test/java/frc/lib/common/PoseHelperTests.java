@@ -43,7 +43,7 @@ public class PoseHelperTests
                     PoseHelpers.poseExponential(value);
                     Assertions.assertEquals(dx, value.getFirst(), 1E-6);
                     Assertions.assertEquals(dy, value.getSecond(), 1E-6);
-                    Assertions.assertEquals(angle, value.getThird(), 1E-6);            
+                    Assertions.assertEquals(angle, value.getThird(), 1E-6);
                 }
             }
         }

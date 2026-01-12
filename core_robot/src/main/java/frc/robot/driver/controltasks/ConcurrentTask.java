@@ -1,12 +1,9 @@
 package frc.robot.driver.controltasks;
 
-import java.util.EnumMap;
 import java.util.EnumSet;
 
 import frc.lib.driver.IControlTask;
 import frc.lib.driver.IOperationModifier;
-import frc.lib.driver.states.AnalogOperationState;
-import frc.lib.driver.states.DigitalOperationState;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
 
@@ -29,8 +26,9 @@ public abstract class ConcurrentTask extends ControlTaskBase
 
     /**
      * Initializes a new ConcurrentTask
+     * 
      * @param anyTask indicates that we want to use AnyTask semantics as opposed to AllTask semantics
-     * @param tasks to run
+     * @param tasks   to run
      */
     protected ConcurrentTask(boolean anyTask, IControlTask... tasks)
     {
@@ -47,8 +45,9 @@ public abstract class ConcurrentTask extends ControlTaskBase
 
     /**
      * Initialize the task with the mapping of operations to states
+     * 
      * @param operationModifier used for retrieving and modifying operation state
-     * @param injector used to retrieve components to utilize for making any decisions
+     * @param injector          used to retrieve components to utilize for making any decisions
      */
     @Override
     public void initialize(
@@ -67,6 +66,7 @@ public abstract class ConcurrentTask extends ControlTaskBase
 
     /**
      * Retrieve the set of analog operations that this task affects.
+     * 
      * @return set of analog operations that this task affects.
      */
     @Override
@@ -87,6 +87,7 @@ public abstract class ConcurrentTask extends ControlTaskBase
 
     /**
      * Retrieve the set of digital operations that this task affects.
+     * 
      * @return set of digital operations that this task affects.
      */
     public EnumSet<DigitalOperation> getAffectedDigitalOperations()
@@ -106,6 +107,7 @@ public abstract class ConcurrentTask extends ControlTaskBase
 
     /**
      * Create a task that continues processing all of the provided tasks until any of them is ready to continue
+     * 
      * @param tasks to run
      * @return a task that runs all of the provided tasks until all of them are ready to continue
      */
@@ -116,6 +118,7 @@ public abstract class ConcurrentTask extends ControlTaskBase
 
     /**
      * Create a task that continues processing all of the provided tasks until all of them are ready to continue
+     * 
      * @param tasks to run
      * @return a task that runs all of the provided tasks until one of them is ready to continue
      */
@@ -197,6 +200,7 @@ public abstract class ConcurrentTask extends ControlTaskBase
 
     /**
      * Checks whether this task should be stopped, or whether it should continue being processed.
+     * 
      * @return true if we should cancel this task (and stop performing any subsequent tasks), otherwise false (to keep processing this task)
      */
     @Override
@@ -207,6 +211,7 @@ public abstract class ConcurrentTask extends ControlTaskBase
 
     /**
      * Checks whether this task has completed, or whether it should continue being processed
+     * 
      * @return true if we should continue onto the next task, otherwise false (to keep processing this task)
      */
     @Override
@@ -229,7 +234,7 @@ public abstract class ConcurrentTask extends ControlTaskBase
             }
         }
 
-        // AnyTasks return false when none of them are true.  AllTasks return true when none of them are false.
+        // AnyTasks return false when none of them are true. AllTasks return true when none of them are false.
         return !this.anyTask;
     }
 

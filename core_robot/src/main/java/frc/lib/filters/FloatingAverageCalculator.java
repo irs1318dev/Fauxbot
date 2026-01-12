@@ -4,7 +4,8 @@ import frc.lib.helpers.Helpers;
 import frc.lib.robotprovider.ITimer;
 
 /**
- * A floating-average calculator filter, where it will collect the weighted-average of the raw value over the look-back period to return the filtered value
+ * A floating-average calculator filter, where it will collect the weighted-average of the raw value over the look-back period to return the filtered
+ * value
  */
 public class FloatingAverageCalculator extends FloatingCalculatorBase implements ISimpleFilter
 {
@@ -12,8 +13,9 @@ public class FloatingAverageCalculator extends FloatingCalculatorBase implements
 
     /**
      * Average calculator to determine the mean value across a certain look-back time period
-     * @param timer to calculate elapsed time between updates
-     * @param duration over which to maintain the average
+     * 
+     * @param timer            to calculate elapsed time between updates
+     * @param duration         over which to maintain the average
      * @param samplesPerSecond number of samples to keep per second
      */
     public FloatingAverageCalculator(ITimer timer, double duration, double samplesPerSecond)
@@ -23,9 +25,10 @@ public class FloatingAverageCalculator extends FloatingCalculatorBase implements
 
     /**
      * Average calculator to determine the mean value across a certain look-back time period
-     * @param maxValue the max value to accept as an input
-     * @param timer to calculate elapsed time between updates
-     * @param duration over which to maintain the average
+     * 
+     * @param maxValue         the max value to accept as an input
+     * @param timer            to calculate elapsed time between updates
+     * @param duration         over which to maintain the average
      * @param samplesPerSecond number of samples to keep per second
      */
     public FloatingAverageCalculator(ITimer timer, double minValue, double maxValue, double duration, double samplesPerSecond)

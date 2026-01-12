@@ -14,6 +14,7 @@ public class PathPlannerWaypoint implements IPathPlannerGoal
 
     /**
      * Creates a waypoint at position (x, y), assuming that the robot should be heading forward at this point and oriented forward.
+     * 
      * @param x position (in inches)
      * @param y position (in inches)
      */
@@ -24,8 +25,9 @@ public class PathPlannerWaypoint implements IPathPlannerGoal
 
     /**
      * Creates a waypoint at position (x, y), traveling in the direction of the heading, facing the orientation, with an overridden velocity
-     * @param x position (in inches)
-     * @param y position (in inches)
+     * 
+     * @param x       position (in inches)
+     * @param y       position (in inches)
      * @param heading travel direction (tangent, in degrees)
      */
     public PathPlannerWaypoint(double x, double y, double heading)
@@ -35,9 +37,10 @@ public class PathPlannerWaypoint implements IPathPlannerGoal
 
     /**
      * Creates a waypoint at position (x, y), traveling in the direction of the heading, facing the orientation, with an overridden velocity
-     * @param x position (in inches)
-     * @param y position (in inches)
-     * @param heading travel direction (tangent, in degrees)
+     * 
+     * @param x           position (in inches)
+     * @param y           position (in inches)
+     * @param heading     travel direction (tangent, in degrees)
      * @param orientation facing direction (in degrees)
      */
     public PathPlannerWaypoint(double x, double y, double heading, double orientation)
@@ -47,8 +50,9 @@ public class PathPlannerWaypoint implements IPathPlannerGoal
 
     /**
      * Creates a waypoint at position (x, y), traveling in the direction of the heading, facing the orientation, with an overridden velocity
-     * @param point position (in inches)
-     * @param heading travel direction (tangent, in degrees)
+     * 
+     * @param point       position (in inches)
+     * @param heading     travel direction (tangent, in degrees)
      * @param orientation facing direction (in degrees)
      */
     public PathPlannerWaypoint(Point2d point, double heading, double orientation)
@@ -62,9 +66,10 @@ public class PathPlannerWaypoint implements IPathPlannerGoal
 
     /**
      * Creates a waypoint at position (x, y), traveling in the direction of the heading, facing the orientation, with an overridden velocity
-     * @param x position (in inches)
-     * @param y position (in inches)
-     * @param heading travel direction (tangent, in degrees)
+     * 
+     * @param x           position (in inches)
+     * @param y           position (in inches)
+     * @param heading     travel direction (tangent, in degrees)
      * @param orientation facing direction (in degrees)
      */
     private PathPlannerWaypoint(

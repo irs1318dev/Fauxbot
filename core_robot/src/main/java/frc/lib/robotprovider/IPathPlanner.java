@@ -7,6 +7,7 @@ public interface IPathPlanner
 {
     /**
      * Get whether the path planner has been configured yet or not
+     * 
      * @return true if configured, otherwise false
      */
     boolean isConfigured();
@@ -15,17 +16,18 @@ public interface IPathPlanner
      * Configure a swerve drive robot for use with path planner
      * Note: this MUST happen before loading/building any trajectories
      * Note: assumes 4 swerve modules, each located consistent distances from the center of the robot
-     * @param robotWeight in pounds
-     * @param robotMomentOfInertia in pound * square-foot
-     * @param swerveModuleWheelRadius in inches
-     * @param swerveModuleMaxVelocity in inches
+     * 
+     * @param robotWeight                            in pounds
+     * @param robotMomentOfInertia                   in pound * square-foot
+     * @param swerveModuleWheelRadius                in inches
+     * @param swerveModuleMaxVelocity                in inches
      * @param swerveModuleWheelCoefficientOfFriction unitless
-     * @param swerveDriveGearReduction gear reduction ratio for the swerve module's drive motor
-     * @param swerveDriveMotorType motor type used in the swerve module for driving
-     * @param swerveDriveMotorCount number of drive motors per swerve module
-     * @param swerveDriveMotorCurrentLimit current limit for the swerve drive motors, in amps
-     * @param horizontalModuleCenterDistance robot "y" distance from center to modules in inches
-     * @param verticalModuleCenterDistance robot "x" distance from center to modules in inches
+     * @param swerveDriveGearReduction               gear reduction ratio for the swerve module's drive motor
+     * @param swerveDriveMotorType                   motor type used in the swerve module for driving
+     * @param swerveDriveMotorCount                  number of drive motors per swerve module
+     * @param swerveDriveMotorCurrentLimit           current limit for the swerve drive motors, in amps
+     * @param horizontalModuleCenterDistance         robot "y" distance from center to modules in inches
+     * @param verticalModuleCenterDistance           robot "x" distance from center to modules in inches
      */
     void configureRobot(
         double robotWeight,
@@ -42,6 +44,7 @@ public interface IPathPlanner
 
     /**
      * Load a trajectory that was created by the external PathPlanner tool
+     * 
      * @param name of the file (without the .path)
      * @return trajectory to follow
      */
@@ -49,7 +52,8 @@ public interface IPathPlanner
 
     /**
      * Load a trajectory that was created by the external PathPlanner tool
-     * @param name of the file (without the .path)
+     * 
+     * @param name     of the file (without the .path)
      * @param reversed whether to return the path in reversed direction
      * @return trajectory to follow
      */
@@ -57,11 +61,12 @@ public interface IPathPlanner
 
     /**
      * Build a trajectory involving the provided waypoints with the provided velocity/acceleration constraints
-     * @param maxVelocity in inches per second
-     * @param maxAcceleration in inches per second
-     * @param maxAngularVelocity in degrees per second
+     * 
+     * @param maxVelocity            in inches per second
+     * @param maxAcceleration        in inches per second
+     * @param maxAngularVelocity     in degrees per second
      * @param maxAngularAcceleration in degrees per second
-     * @param goalPoints the set of waypoints for translation (and any intermediate holonomic rotations)
+     * @param goalPoints             the set of waypoints for translation (and any intermediate holonomic rotations)
      * @return trajectory to follow
      */
     public ITrajectory buildTrajectory(

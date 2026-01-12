@@ -17,6 +17,7 @@ public final class RepeatedSequentialTask extends DecisionSequentialTask
 
     /**
      * Initializes a new RepeatedTask
+     * 
      * @param tasks to run
      */
     public RepeatedSequentialTask(IControlTask[] tasks)
@@ -38,6 +39,7 @@ public final class RepeatedSequentialTask extends DecisionSequentialTask
 
     /**
      * Retrieve the set of analog operations that this task affects.
+     * 
      * @return set of analog operations that this task affects.
      */
     @Override
@@ -48,6 +50,7 @@ public final class RepeatedSequentialTask extends DecisionSequentialTask
 
     /**
      * Retrieve the set of digital operations that this task affects.
+     * 
      * @return set of digital operations that this task affects.
      */
     @Override
@@ -58,6 +61,7 @@ public final class RepeatedSequentialTask extends DecisionSequentialTask
 
     /**
      * Create a sequential task from one or more tasks
+     * 
      * @param tasks to create the sequence from
      * @return sequential task
      */
@@ -68,6 +72,7 @@ public final class RepeatedSequentialTask extends DecisionSequentialTask
 
     /**
      * Extension point that will be available so that child classes can decide what to do after any given task ends
+     * 
      * @param finishedTask the task that just finished executing
      */
     protected void onTaskCompleted(IControlTask finishedTask)

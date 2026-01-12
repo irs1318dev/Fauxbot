@@ -11,6 +11,7 @@ public class FauxbotAnalogInput extends FauxbotSensorBase implements IAnalogInpu
 
     /**
      * gets the current value of the sensor
+     * 
      * @return the current measurement from the sensor
      */
     public double get()

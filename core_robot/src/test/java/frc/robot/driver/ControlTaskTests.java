@@ -30,14 +30,13 @@ public class ControlTaskTests
         Set<Class<?>> tasks = null;
         try
         {
-            tasks =
-                ClassPath.from(ClassLoader.getSystemClassLoader())
-                    .getAllClasses()
-                    .stream()
-                    .filter(clazz -> clazz.getPackageName().equalsIgnoreCase("frc.robot.driver.controltasks"))
-                    .map(clazz -> clazz.load())
-                    .filter(clazz -> IControlTask.class.isAssignableFrom(clazz) && !Modifier.isAbstract(clazz.getModifiers()))
-                    .collect(Collectors.toSet());
+            tasks = ClassPath.from(ClassLoader.getSystemClassLoader())
+                .getAllClasses()
+                .stream()
+                .filter(clazz -> clazz.getPackageName().equalsIgnoreCase("frc.robot.driver.controltasks"))
+                .map(clazz -> clazz.load())
+                .filter(clazz -> IControlTask.class.isAssignableFrom(clazz) && !Modifier.isAbstract(clazz.getModifiers()))
+                .collect(Collectors.toSet());
         }
         catch (Exception e)
         {
@@ -178,6 +177,7 @@ public class ControlTaskTests
     {
         private final EnumMap<DigitalOperation, DigitalOperationState> digitalMap;
         private final EnumMap<AnalogOperation, AnalogOperationState> analogMap;
+
         public DummyContextModifier(
             EnumMap<DigitalOperation, DigitalOperationState> digitalMap,
             EnumMap<AnalogOperation, AnalogOperationState> analogMap)

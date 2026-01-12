@@ -1,7 +1,8 @@
 package frc.lib.helpers;
 
 /**
- * Helper class to help solve problem where we want something to take the shortest path to face a certain angle, where facing backwards towards that angle is just as good as facing forwards.
+ * Helper class to help solve problem where we want something to take the shortest path to face a certain angle, where facing backwards towards that
+ * angle is just as good as facing forwards.
  */
 public class AnglePair
 {
@@ -10,7 +11,8 @@ public class AnglePair
 
     /**
      * Initializes a new instance of the AnglePair class.
-     * @param angle value to apply
+     * 
+     * @param angle         value to apply
      * @param swapDirection value to apply
      */
     public AnglePair(double angle, boolean swapDirection)
@@ -21,6 +23,7 @@ public class AnglePair
 
     /**
      * Get the angle from the pair
+     * 
      * @return the angle
      */
     public double getAngle()
@@ -30,6 +33,7 @@ public class AnglePair
 
     /**
      * Get whether the direction is swapped
+     * 
      * @return true if the direction is swapped, otherwise false
      */
     public boolean getSwapDirection()

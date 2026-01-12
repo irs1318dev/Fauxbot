@@ -50,6 +50,7 @@ public abstract class DecisionSequentialTask extends ControlTaskBase
 
     /**
      * Extension point that will be available so that child classes can decide what to do after any given task ends
+     * 
      * @param finishedTask the task that just finished executing
      */
     protected void onTaskCompleted(IControlTask finishedTask)
@@ -58,6 +59,7 @@ public abstract class DecisionSequentialTask extends ControlTaskBase
 
     /**
      * Extension point that will be available so that child classes can decide what to do after any given task cancels itself
+     * 
      * @param canceledTask the task that just canceled itself
      * @return true if this task should be stopped, otherwise false
      */
@@ -68,8 +70,9 @@ public abstract class DecisionSequentialTask extends ControlTaskBase
 
     /**
      * Initialize the task with the mapping of operations to states
+     * 
      * @param operationModifier used for retrieving and modifying operation state
-     * @param injector used to retrieve components to utilize for making any decisions
+     * @param injector          used to retrieve components to utilize for making any decisions
      */
     @Override
     public void initialize(
@@ -94,7 +97,7 @@ public abstract class DecisionSequentialTask extends ControlTaskBase
     }
 
     /**
-     * Run an iteration of the current task and apply any control changes 
+     * Run an iteration of the current task and apply any control changes
      */
     @Override
     public void update()
@@ -134,7 +137,8 @@ public abstract class DecisionSequentialTask extends ControlTaskBase
             {
                 this.currentTask.update();
             }
-        } while (this.currentTask == null);
+        }
+        while (this.currentTask == null);
     }
 
     /**
@@ -151,6 +155,7 @@ public abstract class DecisionSequentialTask extends ControlTaskBase
 
     /**
      * Checks whether this task should be stopped, or whether it should continue being processed.
+     * 
      * @return true if we should cancel this task (and stop performing any subsequent tasks), otherwise false (to keep processing this task)
      */
     @Override
@@ -161,6 +166,7 @@ public abstract class DecisionSequentialTask extends ControlTaskBase
 
     /**
      * Checks whether this task has completed, or whether it should continue being processed
+     * 
      * @return true if we should continue onto the next task, otherwise false (to keep processing this task)
      */
     @Override

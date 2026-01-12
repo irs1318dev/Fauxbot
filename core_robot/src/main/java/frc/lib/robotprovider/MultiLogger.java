@@ -11,6 +11,7 @@ public class MultiLogger implements ILogger
 
     /**
      * Initializes a new instance of the MultiLogger class
+     * 
      * @param loggers to log to
      */
     public MultiLogger(ILogger... loggers)
@@ -20,7 +21,8 @@ public class MultiLogger implements ILogger
 
     /**
      * Write a boolean to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override
@@ -34,7 +36,8 @@ public class MultiLogger implements ILogger
 
     /**
      * Write a boolean array to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override
@@ -48,7 +51,8 @@ public class MultiLogger implements ILogger
 
     /**
      * Write a number (double) to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override
@@ -62,7 +66,8 @@ public class MultiLogger implements ILogger
 
     /**
      * Write a number (Double) to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override
@@ -76,7 +81,8 @@ public class MultiLogger implements ILogger
 
     /**
      * Write a number (integer) to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override
@@ -90,7 +96,8 @@ public class MultiLogger implements ILogger
 
     /**
      * Write a number (integer) to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override
@@ -104,8 +111,9 @@ public class MultiLogger implements ILogger
 
     /**
      * Write a number (integer) to the log
-     * @param key to write to
-     * @param value to write
+     * 
+     * @param key          to write to
+     * @param value        to write
      * @param formatString to use
      */
     @Override
@@ -119,7 +127,8 @@ public class MultiLogger implements ILogger
 
     /**
      * Write a string to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override

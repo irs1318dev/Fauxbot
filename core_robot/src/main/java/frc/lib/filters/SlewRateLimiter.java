@@ -5,7 +5,8 @@ import frc.lib.helpers.Helpers;
 import frc.lib.robotprovider.ITimer;
 
 /**
- * A slew-rate limiting filter, where it will adjust the output value based on the constraints so that the value doesn't increase/decrease at too fast a rate
+ * A slew-rate limiting filter, where it will adjust the output value based on the constraints so that the value doesn't increase/decrease at too fast
+ * a rate
  */
 public class SlewRateLimiter implements ISimpleFilter
 {
@@ -20,10 +21,11 @@ public class SlewRateLimiter implements ISimpleFilter
 
     /**
      * Rate limiter to avoid a value increasing or decreasing at too fast a rate
-     * @param timer to calculate change between updates
+     * 
+     * @param timer           to calculate change between updates
      * @param maxNegativeRate to determine how to cap value decreases between updates
      * @param maxPositiveRate to determine how to cap value increases between updates
-     * @param initialValue to use when starting/resetting
+     * @param initialValue    to use when starting/resetting
      */
     public SlewRateLimiter(ITimer timer, double maxNegativeRate, double maxPositiveRate, double initialValue)
     {
@@ -42,6 +44,7 @@ public class SlewRateLimiter implements ISimpleFilter
 
     /**
      * Updates the filter and returns the filtered value
+     * 
      * @param value raw, without any filtering
      * @return filtered value
      */
@@ -57,11 +60,10 @@ public class SlewRateLimiter implements ISimpleFilter
         }
         else
         {
-            newValue =
-                Helpers.enforceRange(
-                    value,
-                    this.prevValue + delta * this.maxNegativeRate,
-                    this.prevValue + delta * this.maxPositiveRate);
+            newValue = Helpers.enforceRange(
+                value,
+                this.prevValue + delta * this.maxNegativeRate,
+                this.prevValue + delta * this.maxPositiveRate);
         }
 
         this.prevValue = newValue;
@@ -71,6 +73,7 @@ public class SlewRateLimiter implements ISimpleFilter
 
     /**
      * Retrieve the most recent filtered value
+     * 
      * @return the filtered value after the last update
      */
     public double getValue()
@@ -89,6 +92,7 @@ public class SlewRateLimiter implements ISimpleFilter
 
     /**
      * Updates the limiter to use the newly-provided rates
+     * 
      * @param maxNegativeRate to determine how to cap value decreases between updates
      * @param maxPositiveRate to determine how to cap value increases between updates
      */

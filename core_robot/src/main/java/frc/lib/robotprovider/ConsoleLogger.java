@@ -9,7 +9,8 @@ public class ConsoleLogger extends StringLogger
 {
     /**
      * Write a string to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override

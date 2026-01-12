@@ -7,6 +7,7 @@ public interface ICompressor
 {
     /**
      * Enables the compressor in analog-sensor mode (only for Pneumatics Hub)
+     * 
      * @param minPressurePSI minimum PSI under which it should enable compressor
      * @param maxPressurePSI maximum PSI over which it should disable compressor
      */
@@ -14,6 +15,7 @@ public interface ICompressor
 
     /**
      * Enables the compressor in hybrid-sensor mode (only for Pneumatics Hub)
+     * 
      * @param minPressurePSI minimum PSI under which it should enable compressor
      * @param maxPressurePSI maximum PSI over which it should disable compressor
      */
@@ -26,6 +28,7 @@ public interface ICompressor
 
     /**
      * Query the analog sensor pressure.
+     * 
      * @return The analog sensor pressure, in PSI
      */
     double getPressure();

@@ -1,6 +1,5 @@
 package frc.robot;
 
-import java.util.EnumSet;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Screen;
@@ -66,8 +65,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
 
             for (DigitalOperationDescription description : buttonMap.getDigitalOperationSchema())
             {
-                EnumSet<OperationContext> contexts = description.getRelevantContexts();
-                if (contexts == null || contexts.contains(context))
+                if (description.getRelevantContexts().contains(context))
                 {
                     this.addOperationDescription(description, operationTable);
                 }
@@ -75,8 +73,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
 
             for (AnalogOperationDescription description : buttonMap.getAnalogOperationSchema())
             {
-                EnumSet<OperationContext> contexts = description.getRelevantContexts();
-                if (contexts == null || contexts.contains(context))
+                if (description.getRelevantContexts().contains(context))
                 {
                     this.addOperationDescription(description, operationTable);
                 }
@@ -89,8 +86,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
 
             for (MacroOperationDescription description : buttonMap.getMacroOperationSchema())
             {
-                EnumSet<OperationContext> contexts = description.getRelevantContexts();
-                if (contexts == null || contexts.contains(context))
+                if (description.getRelevantContexts().contains(context))
                 {
                     this.addMacroDescription(description, operationTable);
                 }
@@ -253,17 +249,32 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                         switch (digitalDescription.getButtonType())
                         {
                             case Click:
-                                ClickButtonUI clickButton = new ClickButtonUI(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue().Value, this.skin);
+                                ClickButtonUI clickButton = new ClickButtonUI(
+                                    description.getOperation().toString(),
+                                    joystick,
+                                    button,
+                                    digitalDescription.getUserInputDevicePovValue().Value,
+                                    this.skin);
                                 infoTable.add(clickButton).colspan(2).left().fillX();
                                 break;
 
                             case Toggle:
-                                ToggleButtonUI toggleButton = new ToggleButtonUI(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue().Value, this.skin);
+                                ToggleButtonUI toggleButton = new ToggleButtonUI(
+                                    description.getOperation().toString(),
+                                    joystick,
+                                    button,
+                                    digitalDescription.getUserInputDevicePovValue().Value,
+                                    this.skin);
                                 infoTable.add(toggleButton).colspan(2).left();
                                 break;
 
                             case Simple:
-                                ToggleSimpleButtonUI simpleButton = new ToggleSimpleButtonUI(description.getOperation().toString(), joystick, button, digitalDescription.getUserInputDevicePovValue().Value, this.skin);
+                                ToggleSimpleButtonUI simpleButton = new ToggleSimpleButtonUI(
+                                    description.getOperation().toString(),
+                                    joystick,
+                                    button,
+                                    digitalDescription.getUserInputDevicePovValue().Value,
+                                    this.skin);
                                 infoTable.add(simpleButton).colspan(2).left();
                                 break;
 
@@ -321,17 +332,32 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
                 switch (description.getButtonType())
                 {
                     case Click:
-                        ClickButtonUI clickButton = new ClickButtonUI(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue().Value, this.skin);
+                        ClickButtonUI clickButton = new ClickButtonUI(
+                            description.getOperation().toString(),
+                            joystick,
+                            button,
+                            description.getUserInputDevicePovValue().Value,
+                            this.skin);
                         infoTable.add(clickButton).colspan(2).left().fillX();
                         break;
 
                     case Toggle:
-                        ClickButtonUI toggleButton = new ClickButtonUI(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue().Value, this.skin);
+                        ClickButtonUI toggleButton = new ClickButtonUI(
+                            description.getOperation().toString(),
+                            joystick,
+                            button,
+                            description.getUserInputDevicePovValue().Value,
+                            this.skin);
                         infoTable.add(toggleButton).colspan(2).left();
                         break;
 
                     case Simple:
-                        ToggleSimpleButtonUI simpleButton = new ToggleSimpleButtonUI(description.getOperation().toString(), joystick, button, description.getUserInputDevicePovValue().Value, this.skin);
+                        ToggleSimpleButtonUI simpleButton = new ToggleSimpleButtonUI(
+                            description.getOperation().toString(),
+                            joystick,
+                            button,
+                            description.getUserInputDevicePovValue().Value,
+                            this.skin);
                         infoTable.add(simpleButton).colspan(2).left();
                         break;
 
@@ -746,7 +772,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
 
             this.contextNodes = new HashMap<OperationContext, ContextTreeNode>();
             this.activeContext = OperationContext.getDefault();
-            
+
             this.setIconSpacing(10, 10);
             this.setIndentSpacing(50);
             this.setYSpacing(10);
@@ -780,7 +806,7 @@ public class FauxbotGameLiteScreen extends FauxbotGameScreenBase implements Scre
             {
                 newNode.setExpanded(true);
             }
-            
+
             this.activeContext = operationContext;
         }
 

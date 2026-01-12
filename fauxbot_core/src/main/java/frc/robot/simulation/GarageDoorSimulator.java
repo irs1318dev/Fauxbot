@@ -19,21 +19,28 @@ import com.google.inject.Singleton;
 @Singleton
 public class GarageDoorSimulator extends SimulatorBase
 {
-    private static final FauxbotSensorConnection ThroughBeamSensorConnection = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.DigitalInput, FauxbotDigitalInput.class, 0);
-    private static final FauxbotSensorConnection OpenSensorConnection = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.DigitalInput, FauxbotDigitalInput.class, 1);
-    private static final FauxbotSensorConnection ClosedSensorConnection = new FauxbotSensorConnection(FauxbotSensorConnection.SensorConnector.DigitalInput, FauxbotDigitalInput.class, 2);
+    private static final FauxbotSensorConnection ThroughBeamSensorConnection = new FauxbotSensorConnection(
+        FauxbotSensorConnection.SensorConnector.DigitalInput,
+        FauxbotDigitalInput.class,
+        0);
+    private static final FauxbotSensorConnection OpenSensorConnection = new FauxbotSensorConnection(
+        FauxbotSensorConnection.SensorConnector.DigitalInput,
+        FauxbotDigitalInput.class,
+        1);
+    private static final FauxbotSensorConnection ClosedSensorConnection = new FauxbotSensorConnection(
+        FauxbotSensorConnection.SensorConnector.DigitalInput,
+        FauxbotDigitalInput.class,
+        2);
     private static final FauxbotActuatorConnection MotorConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PWM, 0);
 
-    private final FauxbotSensorConnection[] sensors =
-        new FauxbotSensorConnection[]
+    private final FauxbotSensorConnection[] sensors = new FauxbotSensorConnection[]
         {
             GarageDoorSimulator.ThroughBeamSensorConnection,
             GarageDoorSimulator.OpenSensorConnection,
             GarageDoorSimulator.ClosedSensorConnection,
         };
 
-    private final FauxbotActuatorConnection[] actuators =
-        new FauxbotActuatorConnection[]
+    private final FauxbotActuatorConnection[] actuators = new FauxbotActuatorConnection[]
         {
             GarageDoorSimulator.MotorConnection,
         };
@@ -230,7 +237,7 @@ public class GarageDoorSimulator extends SimulatorBase
         {
             FauxbotDigitalInput throughBeam = (FauxbotDigitalInput)throughBeamSensor;
             this.isThroughBeamBroken = throughBeam.get();
-            
+
             if (this.isThroughBeamBroken)
             {
                 this.doorColor = Color.YELLOW;
@@ -326,7 +333,7 @@ public class GarageDoorSimulator extends SimulatorBase
             imageScale = frameWidth / imageWidth;
         }
 
-        float scaledImageHeight = this.image.getHeight() * imageScale; 
+        float scaledImageHeight = this.image.getHeight() * imageScale;
         float scaledImageWidth = this.image.getWidth() * imageScale;
 
         float horizontalOffset = frameHeight - scaledImageWidth;
@@ -366,7 +373,7 @@ public class GarageDoorSimulator extends SimulatorBase
 
         // draw the bottom of the door:
         drawer.line(
-            frameX, 
+            frameX,
             frameY + openRatio * frameHeight,
             frameX + frameWidth,
             frameY + openRatio * frameHeight);
@@ -375,7 +382,7 @@ public class GarageDoorSimulator extends SimulatorBase
         if (openRatio < 0.95f)
         {
             drawer.line(
-                frameX, 
+                frameX,
                 frameY + openRatio * frameHeight + doorHeight / 2.0f,
                 frameX + frameWidth,
                 frameY + openRatio * frameHeight + doorHeight / 2.0f);

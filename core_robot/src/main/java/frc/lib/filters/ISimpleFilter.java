@@ -7,6 +7,7 @@ public interface ISimpleFilter
 {
     /**
      * Updates the filter and returns the filtered value
+     * 
      * @param value raw, without any filtering
      * @return filtered value
      */
@@ -14,6 +15,7 @@ public interface ISimpleFilter
 
     /**
      * Retrieve the most recent filtered value
+     * 
      * @return the filtered value after the last update
      */
     double getValue();

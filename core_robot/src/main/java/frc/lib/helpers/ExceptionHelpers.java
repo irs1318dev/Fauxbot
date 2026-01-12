@@ -8,10 +8,11 @@ import frc.robot.TuningConstants;
 public class ExceptionHelpers
 {
     /**
-     * Assert the the provided condition is true.  If not: throw an exception when we are doing so (non-competition), or print a string to standard error.
+     * Assert the the provided condition is true. If not: throw an exception when we are doing so (non-competition), or print a string to standard error.
+     * 
      * @param condition to verify is true
-     * @param format string to use to use for the exception/print when the condition is not true
-     * @param args to use for the format string
+     * @param format    string to use to use for the exception/print when the condition is not true
+     * @param args      to use for the format string
      */
     public static void Assert(boolean condition, String format, Object... args)
     {
@@ -36,6 +37,7 @@ public class ExceptionHelpers
 
     /**
      * Generate a string including the exception message as well as the callstack
+     * 
      * @param ex to generate string for
      * @return generated string about the exception
      */

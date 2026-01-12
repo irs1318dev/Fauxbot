@@ -15,6 +15,7 @@ public class FauxbotDigitalInput extends FauxbotSensorBase implements IDigitalIn
 
     /**
      * gets the current value of the sensor
+     * 
      * @return true if the sensor is set (closed), false otherwise (open)
      */
     public boolean get()

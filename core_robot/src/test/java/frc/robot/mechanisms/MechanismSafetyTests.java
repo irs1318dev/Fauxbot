@@ -1,6 +1,5 @@
 package frc.robot.mechanisms;
 
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -393,12 +392,6 @@ public class MechanismSafetyTests
             }
 
             @Override
-            public IMotor getVictor(int pwmChannel)
-            {
-                return new TestMotor();
-            }
-
-            @Override
             public IServo getServo(int pwmChannel)
             {
                 return new TestServo();
@@ -490,6 +483,12 @@ public class MechanismSafetyTests
 
             @Override
             public IPathPlanner getPathPlanner()
+            {
+                return null;
+            }
+
+            @Override
+            public ISwervePoseEstimator getSwervePoseEstimator()
             {
                 return null;
             }
@@ -717,12 +716,29 @@ public class MechanismSafetyTests
                 }
 
                 @Override
-                public void setMotionMagicExpoPIDVS(double p, double i, double d, double v, double s, double cruiseVelocity, double velocityVoltage, double accelerationVoltage, int slotId)
+                public void setMotionMagicExpoPIDVS(
+                    double p,
+                    double i,
+                    double d,
+                    double v,
+                    double s,
+                    double cruiseVelocity,
+                    double velocityVoltage,
+                    double accelerationVoltage,
+                    int slotId)
                 {
                 }
 
                 @Override
-                public void updateLimitSwitchConfig(boolean forwardEnabled, boolean forwardNormallyOpen, boolean forwardReset, double forwardResetPosition, boolean reverseEnabled, boolean reverseNormallyOpen, boolean reverseReset, double reverseResetPosition)
+                public void updateLimitSwitchConfig(
+                    boolean forwardEnabled,
+                    boolean forwardNormallyOpen,
+                    boolean forwardReset,
+                    double forwardResetPosition,
+                    boolean reverseEnabled,
+                    boolean reverseNormallyOpen,
+                    boolean reverseReset,
+                    double reverseResetPosition)
                 {
                 }
 
@@ -744,7 +760,13 @@ public class MechanismSafetyTests
                 }
 
                 @Override
-                public void setCurrentLimit(boolean enabled, double currentLimit, double triggerThresholdCurrent, double triggerThresholdTime, boolean statorLimiting, double statorCurrentLimit)
+                public void setCurrentLimit(
+                    boolean enabled,
+                    double currentLimit,
+                    double triggerThresholdCurrent,
+                    double triggerThresholdTime,
+                    boolean statorLimiting,
+                    double statorCurrentLimit)
                 {
                 }
             }
@@ -1106,7 +1128,17 @@ public class MechanismSafetyTests
                 }
 
                 @Override
-                public void configurePIDFMAXMotion(double p, double i, double d, double f, double izone, double velocity, double acceleration, double minOutput, double maxOutput, int slotId)
+                public void configurePIDFMAXMotion(
+                    double p,
+                    double i,
+                    double d,
+                    double f,
+                    double izone,
+                    double velocity,
+                    double acceleration,
+                    double minOutput,
+                    double maxOutput,
+                    int slotId)
                 {
                 }
 
@@ -1529,6 +1561,12 @@ public class MechanismSafetyTests
                 }
 
                 @Override
+                public IDoubleArraySubscriber getDoubleArraySubscriber(String key)
+                {
+                    return new TestDoubleArraySubscriber();
+                }
+
+                @Override
                 public IBooleanSubscriber getBooleanSubscriber(String key)
                 {
                     return new TestBooleanSubscriber();
@@ -1619,6 +1657,27 @@ public class MechanismSafetyTests
                     public double get()
                     {
                         return 0.0;
+                    }
+                }
+
+                static class TestDoubleArraySubscriber implements IDoubleArraySubscriber
+                {
+                    @Override
+                    public double[] get()
+                    {
+                        return null;
+                    }
+
+                    @Override
+                    public double getLastChange()
+                    {
+                        return 0.0;
+                    }
+
+                    @Override
+                    public DoubleArrayValue[] getValues()
+                    {
+                        return new DoubleArrayValue[0];
                     }
                 }
 

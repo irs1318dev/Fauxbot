@@ -7,6 +7,7 @@ public interface ICounter
 {
     /**
      * Retrieves the current number of pulses that have been read by the counter since it was created (or last reset)
+     * 
      * @return number of pulses read
      */
     int get();

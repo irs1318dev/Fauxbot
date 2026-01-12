@@ -6,7 +6,7 @@ package frc.lib.driver;
  * XBox One Controller (and Logitech F310):
  * PS4 Controller:
  * Logitech Xtreme 3D Pro:
- * POV - DPAD/hat (-1 when not pressed, 0-360.  0 is forward/up, 90 is right, 180 is back/down, 270 is left)
+ * POV - DPAD/hat (-1 when not pressed, 0-360. 0 is forward/up, 90 is right, 180 is back/down, 270 is left)
  * 
  * Razer Tartarus button pad:
  * None.
@@ -20,8 +20,9 @@ public enum UserInputDevicePOV
     LEFT(270);
 
     public final int Value;
+
     private UserInputDevicePOV(int value)
     {
         this.Value = value;
-    } 
+    }
 }

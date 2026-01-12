@@ -7,6 +7,7 @@ public interface IBooleanSubscriber
 {
     /**
      * Retrieve the current value
+     * 
      * @return current value
      */
     boolean get();

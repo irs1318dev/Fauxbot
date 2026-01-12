@@ -63,11 +63,11 @@ public class FauxbotCANdle implements ICANdle
     {
     }
 
-    public void startTwinkleAnimation(int animSlot, int r, int g, int b, int w, double speed, int numLed, CANdleTwinklePercent divider, int ledOffset)
+    public void startTwinkleAnimation(int animSlot, int r, int g, int b, int w, double speed, int numLed, double proportion, int ledOffset)
     {
     }
 
-    public void startTwinkleOffAnimation(int animSlot, int r, int g, int b, int w, double speed, int numLed, CANdleTwinklePercent divider, int ledOffset)
+    public void startTwinkleOffAnimation(int animSlot, int r, int g, int b, int w, double speed, int numLed, double proportion, int ledOffset)
     {
     }
 

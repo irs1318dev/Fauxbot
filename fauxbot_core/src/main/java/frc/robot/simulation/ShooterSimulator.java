@@ -26,15 +26,13 @@ public class ShooterSimulator extends SimulatorBase
     private static final FauxbotActuatorConnection KickerForwardConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PCM0A, 7);
     private static final FauxbotActuatorConnection KickerReverseConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PCM0B, 8);
 
-    private final FauxbotSensorConnection[] sensors =
-        new FauxbotSensorConnection[]
+    private final FauxbotSensorConnection[] sensors = new FauxbotSensorConnection[]
         {
             ShooterSimulator.AngleEncoderConnection,
             ShooterSimulator.FlyWheelEncoderConnection,
         };
 
-    private final FauxbotActuatorConnection[] actuators =
-        new FauxbotActuatorConnection[]
+    private final FauxbotActuatorConnection[] actuators = new FauxbotActuatorConnection[]
         {
             ShooterSimulator.AngleMotorConnection,
             ShooterSimulator.FlyWheelMotorConnection,

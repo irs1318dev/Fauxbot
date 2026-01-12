@@ -10,8 +10,7 @@ public class FauxbotJoystick implements IJoystick
     // Sadly, the button mapping isn't consistent between what WPILib wants and what SDL wants.
     // Map of buttonNumber/axis passed to IJoystick API to the corresponding GDX Controller button number
     // Also note that for POV, up == 11, down == 12, left == 13, right == 14.
-    private static int[] XBONE_BUTTON_MAP =
-        new int[]
+    private static int[] XBONE_BUTTON_MAP = new int[]
         {
             -1, // (No such button)
             0, // XBONE_A_BUTTON(1),
@@ -25,8 +24,7 @@ public class FauxbotJoystick implements IJoystick
             7, // XBONE_LEFT_STICK_BUTTON(9), // LS
             8, // XBONE_RIGHT_STICK_BUTTON(10), // RS
         };
-    private static int[] XBONE_AXIS_MAP =
-        new int[]
+    private static int[] XBONE_AXIS_MAP = new int[]
         {
             0, // XBONE_LSX(0),
             1, // XBONE_LSY(1),

@@ -14,7 +14,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Returns whether or not there is a key with the given name.
-     * */
+     */
     @Override
     public boolean containsKey(String key)
     {
@@ -23,7 +23,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Returns the boolean at the given key.
-     * */
+     */
     @Override
     public boolean getBoolean(String key, boolean backup)
     {
@@ -32,7 +32,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Returns the double at the given key.
-     * */
+     */
     @Override
     public double getDouble(String key, double backup)
     {
@@ -41,7 +41,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Returns the float at the given key.
-     * */
+     */
     @Override
     public float getFloat(String key, float backup)
     {
@@ -50,7 +50,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Returns the int at the given key.
-     * */
+     */
     @Override
     public int getInt(String key, int backup)
     {
@@ -59,7 +59,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Gets the preferences keys.
-     * */
+     */
     @Override
     public Collection<String> getKeys()
     {
@@ -68,7 +68,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Returns the long at the given key.
-     * */
+     */
     @Override
     public long getLong(String key, long backup)
     {
@@ -77,7 +77,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Returns the string at the given key.
-     * */
+     */
     @Override
     public String getString(String key, String backup)
     {
@@ -86,7 +86,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Puts the given boolean into the preferences table if it doesn't already exist.
-     * */
+     */
     @Override
     public void initBoolean(String key, boolean value)
     {
@@ -95,7 +95,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Puts the given double into the preferences table if it doesn't already exist.
-     * */
+     */
     @Override
     public void initDouble(String key, double value)
     {
@@ -104,7 +104,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Puts the given float into the preferences table if it doesn't already exist.
-     * */
+     */
     @Override
     public void initFloat(String key, float value)
     {
@@ -113,7 +113,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Puts the given int into the preferences table if it doesn't already exist.
-     * */
+     */
     @Override
     public void initInt(String key, int value)
     {
@@ -122,7 +122,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Puts the given long into the preferences table if it doesn't already exist.
-     * */
+     */
     @Override
     public void initLong(String key, long value)
     {
@@ -131,7 +131,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Puts the given string into the preferences table if it doesn't already exist.
-     * */
+     */
     @Override
     public void initString(String key, String value)
     {
@@ -140,7 +140,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Puts the given boolean into the preferences table.
-     * */
+     */
     @Override
     public void setBoolean(String key, boolean value)
     {
@@ -149,7 +149,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Puts the given double into the preferences table.
-     * */
+     */
     @Override
     public void setDouble(String key, double value)
     {
@@ -158,7 +158,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Puts the given float into the preferences table.
-     * */
+     */
     @Override
     public void setFloat(String key, float value)
     {
@@ -167,7 +167,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Puts the given int into the preferences table.
-     * */
+     */
     @Override
     public void setInt(String key, int value)
     {
@@ -176,7 +176,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Puts the given long into the preferences table.
-     * */
+     */
     @Override
     public void setLong(String key, long value)
     {
@@ -185,7 +185,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Puts the given string into the preferences table.
-     * */
+     */
     @Override
     public void setString(String key, String value)
     {
@@ -194,7 +194,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Remove a preference.
-     * */
+     */
     @Override
     public void remove(String key)
     {
@@ -203,7 +203,7 @@ public class FauxbotPreferences implements IPreferences
 
     /**
      * Remove all preferences.
-     * */
+     */
     @Override
     public void removeAll()
     {

@@ -18,8 +18,9 @@ public class CSVLogger extends StringLogger
 
     /**
      * Initializes a new instance of the CSVLogger class, using the shouldLog LoggingKeys to determine the schema
+     * 
      * @param fileWriter to write into
-     * @throws IOException 
+     * @throws IOException
      */
     public CSVLogger(IFileWriter fileWriter) throws IOException
     {
@@ -40,9 +41,10 @@ public class CSVLogger extends StringLogger
 
     /**
      * Initializes a new instance of the CSVLogger class.
+     * 
      * @param fileWriter to write into
-     * @param schema to use for writing
-     * @throws IOException 
+     * @param schema     to use for writing
+     * @throws IOException
      */
     public CSVLogger(IFileWriter fileWriter, String... schema) throws IOException
     {
@@ -66,7 +68,8 @@ public class CSVLogger extends StringLogger
 
     /**
      * Write a string to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override

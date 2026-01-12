@@ -19,6 +19,7 @@ public final class SetOperationContextTask extends UpdateCycleTask
 
     /**
      * Retrieve the set of analog operations that this task affects.
+     * 
      * @return set of analog operations that this task affects.
      */
     @Override
@@ -29,6 +30,7 @@ public final class SetOperationContextTask extends UpdateCycleTask
 
     /**
      * Retrieve the set of digital operations that this task affects.
+     * 
      * @return set of digital operations that this task affects.
      */
     @Override

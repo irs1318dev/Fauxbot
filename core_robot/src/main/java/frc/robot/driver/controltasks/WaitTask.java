@@ -13,6 +13,7 @@ public final class WaitTask extends TimedTask
 {
     /**
      * Initializes a new WaitTask
+     * 
      * @param duration to wait in seconds
      */
     public WaitTask(double duration)
@@ -22,6 +23,7 @@ public final class WaitTask extends TimedTask
 
     /**
      * Retrieve the set of analog operations that this task affects.
+     * 
      * @return set of analog operations that this task affects.
      */
     @Override
@@ -32,6 +34,7 @@ public final class WaitTask extends TimedTask
 
     /**
      * Retrieve the set of digital operations that this task affects.
+     * 
      * @return set of digital operations that this task affects.
      */
     @Override
@@ -41,7 +44,7 @@ public final class WaitTask extends TimedTask
     }
 
     /**
-     * Run an iteration of the current task and apply any control changes 
+     * Run an iteration of the current task and apply any control changes
      */
     @Override
     public void update()

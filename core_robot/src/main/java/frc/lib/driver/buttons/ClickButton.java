@@ -5,19 +5,23 @@ package frc.lib.driver.buttons;
  * 
  * Register on press behavior:
  * 
+ * @formatter:off
  *     button pressed:        _________________
  *                           |                 |
  * button not pressed: ______|                 |________
  *                           ^ takes effect when first pressed
  *                               ^ cleared after next update
+ * @formatter:on
  * 
  * Register on release behavior:
  * 
+ * @formatter:off
  *     button pressed:        _________________
  *                           |                 |
  * button not pressed: ______|                 |________
  *                                             ^ takes effect when first released
  *                                                 ^ cleared after next update
+ * @formatter:on
  * 
  */
 public class ClickButton implements IButton
@@ -37,6 +41,7 @@ public class ClickButton implements IButton
 
     /**
      * Initializes a new ClickButton
+     * 
      * @param registerOnPress indicates whether we should activate when the button is first pressed or when released
      */
     public ClickButton(boolean registerOnPress)
@@ -49,6 +54,7 @@ public class ClickButton implements IButton
 
     /**
      * update the state of the button based on information from the user input device.
+     * 
      * @param buttonState the current position of the button (whether it is currently pressed)
      */
     public void updateState(boolean buttonState)
@@ -68,7 +74,8 @@ public class ClickButton implements IButton
     }
 
     /**
-     * gets a value indicating whether the button is activated 
+     * gets a value indicating whether the button is activated
+     * 
      * @return true for active, otherwise false
      */
     public boolean isActivated()
