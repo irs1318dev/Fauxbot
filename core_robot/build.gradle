@@ -1,5 +1,6 @@
 plugins {
     id "java"
+    id "com.diffplug.spotless" version "8.1.0"
 }
 
 java {
@@ -18,14 +19,14 @@ repositories {
 
 dependencies {
     implementation "javax.inject:javax.inject:1"
-    implementation "com.google.guava:guava:33.4.8-jre"
+    implementation "com.google.guava:guava:33.5.0-jre"
     implementation "com.google.inject:guice:4.2.3:no_aop"
     implementation 'de.siegmar:fastcsv:2.0.0'
 
-    testImplementation "org.mockito:mockito-core:5.10.0"
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.1'
+    testImplementation "org.mockito:mockito-core:5.21.0"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:6.0.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:6.0.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:6.0.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
@@ -40,4 +41,11 @@ jar {
         attributes 'Implementation-Title': 'core_robot',
                    'Implementation-Version': version
     }
+}
+
+spotless {
+  java {
+    eclipse().configFile("../eclipse-formatter.xml")
+    removeUnusedImports()
+  }
 }

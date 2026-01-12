@@ -18,7 +18,8 @@ public abstract class ConditionalTask extends DecisionSequentialTask
 
     /**
      * Initializes a new ConditionalTask
-     * @param trueTask task to run if the condition is true
+     * 
+     * @param trueTask  task to run if the condition is true
      * @param falseTask task to run if the condition is false
      */
     protected ConditionalTask(IControlTask trueTask, IControlTask falseTask)
@@ -28,8 +29,9 @@ public abstract class ConditionalTask extends DecisionSequentialTask
 
     /**
      * Initializes a new ConditionalTask
-     * @param trueTask task to run if the condition is true
-     * @param falseTask task to run if the condition is false
+     * 
+     * @param trueTask       task to run if the condition is true
+     * @param falseTask      task to run if the condition is false
      * @param allowNullTasks if true, allows either task to be null (in which case nothing will be done if that task is selected)
      */
     protected ConditionalTask(IControlTask trueTask, IControlTask falseTask, boolean allowNullTasks)
@@ -52,6 +54,7 @@ public abstract class ConditionalTask extends DecisionSequentialTask
 
     /**
      * Retrieve the set of analog operations that this task affects.
+     * 
      * @return set of analog operations that this task affects.
      */
     @Override
@@ -73,6 +76,7 @@ public abstract class ConditionalTask extends DecisionSequentialTask
 
     /**
      * Retrieve the set of digital operations that this task affects.
+     * 
      * @return set of digital operations that this task affects.
      */
     @Override
@@ -118,6 +122,7 @@ public abstract class ConditionalTask extends DecisionSequentialTask
 
     /**
      * Evaluate the condition that determines which task to run
+     * 
      * @return true if the trueTask should be run, false if the falseTask should be run
      */
     protected abstract boolean evaluateCondition();

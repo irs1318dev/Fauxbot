@@ -13,6 +13,7 @@ public class BooleanThresholdFilter
 
     /**
      * Initializes a new instance of the BooleanThresholdFilter class.
+     * 
      * @param threshold number of times the value must be different before changing
      */
     public BooleanThresholdFilter(int threshold)
@@ -23,6 +24,7 @@ public class BooleanThresholdFilter
 
     /**
      * Updates the filter and returns the filtered value
+     * 
      * @param value without any filtering
      * @return filtered value
      */
@@ -47,6 +49,7 @@ public class BooleanThresholdFilter
 
     /**
      * Change the threhold to use for this filter going forward
+     * 
      * @param threshold to use
      */
     public void setThreshold(int threshold)

@@ -21,7 +21,7 @@ package frc.lib.driver;
  * 10 - base middle right
  * 11 - base bottom left
  * 12 - base bottom right
- * POV - hat (-1 when not pressed, 0-360.  0 is forward/up, 90 is right, 180 is back/down, 270 is left)
+ * POV - hat (-1 when not pressed, 0-360. 0 is forward/up, 90 is right, 180 is back/down, 270 is left)
  * -----------------------
  * Razer Tartarus button pad
  * 1 - Button 01
@@ -47,13 +47,13 @@ package frc.lib.driver;
  * 2 - B (2)
  * 3 - X (4)
  * 4 - Y (8)
- * 5 - LB (16,  left button)
+ * 5 - LB (16, left button)
  * 6 - RB (32, right button)
  * 7 - Select (64, two squares)
  * 8 - Start (128, hamburger)
  * 9 - LS (256, left stick)
  * 10 - RS (512, right stick)
- * POV - DPAD (-1 when not pressed, 0-360.  0 is forward/up, 90 is right, 180 is back/down, 270 is left)
+ * POV - DPAD (-1 when not pressed, 0-360. 0 is forward/up, 90 is right, 180 is back/down, 270 is left)
  * -----------------------
  * PS4 Controller:
  * 1 - Square
@@ -69,7 +69,7 @@ package frc.lib.driver;
  * 11 - LS (left stick)
  * 12 - RS (right stick)
  * 13 - Playstation
- * POV - DPAD (-1 when not pressed, 0-360.  0 is forward/up, 90 is right, 180 is back/down, 270 is left)
+ * POV - DPAD (-1 when not pressed, 0-360. 0 is forward/up, 90 is right, 180 is back/down, 270 is left)
  * 
  */
 public enum UserInputDeviceButton
@@ -139,6 +139,7 @@ public enum UserInputDeviceButton
     ANALOG_AXIS_RANGE(25);
 
     public final int Value;
+
     private UserInputDeviceButton(int value)
     {
         this.Value = value;

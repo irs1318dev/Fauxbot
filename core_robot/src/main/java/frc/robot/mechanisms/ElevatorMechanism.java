@@ -22,7 +22,7 @@ public class ElevatorMechanism implements IMechanism
 
     private Floor requestedFloor;
     private PIDHandler pid;
-    
+
     private double currentHeight;
 
     @Inject
@@ -46,7 +46,7 @@ public class ElevatorMechanism implements IMechanism
             TuningConstants.ELEVATOR_MOTOR_MAX_POWER,
             timer);
     }
-    
+
     @Override
     public void readSensors()
     {

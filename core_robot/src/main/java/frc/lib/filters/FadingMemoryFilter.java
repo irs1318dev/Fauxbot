@@ -13,6 +13,7 @@ public class FadingMemoryFilter implements ISimpleFilter
 
     /**
      * Initializes a new instance of the FadingMemoryFilter class.
+     * 
      * @param kO the ratio to use for the old value
      * @param kN the ratio to use for the new value
      */
@@ -23,8 +24,9 @@ public class FadingMemoryFilter implements ISimpleFilter
 
     /**
      * Initializes a new instance of the FadingMemoryFilter class.
-     * @param kO the ratio to use for the old value
-     * @param kN the ratio to use for the new value
+     * 
+     * @param kO            the ratio to use for the old value
+     * @param kN            the ratio to use for the new value
      * @param startingValue the starting value to use
      */
     public FadingMemoryFilter(double kO, double kN, double startingValue)
@@ -37,6 +39,7 @@ public class FadingMemoryFilter implements ISimpleFilter
 
     /**
      * Updates the filter and returns the filtered value
+     * 
      * @param value raw, without any filtering
      * @return filtered value
      */
@@ -56,6 +59,7 @@ public class FadingMemoryFilter implements ISimpleFilter
 
     /**
      * Retrieve the most recent filtered value
+     * 
      * @return the filtered value after the last update
      */
     public double getValue()

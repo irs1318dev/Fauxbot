@@ -14,6 +14,7 @@ public enum UserInputDevice
     MaxCount(4); // Note: MaxCount must be the last of the user input devices listed
 
     private final int joystickId;
+
     private UserInputDevice(int joystickId)
     {
         this.joystickId = joystickId;

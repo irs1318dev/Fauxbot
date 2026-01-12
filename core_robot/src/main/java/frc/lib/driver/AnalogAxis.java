@@ -59,6 +59,7 @@ public enum AnalogAxis
      * The WPILIB "value" of the given axis
      */
     public final int Value;
+
     private AnalogAxis(int value)
     {
         this.Value = value;

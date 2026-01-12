@@ -2,7 +2,8 @@ package frc.lib.helpers;
 
 /**
  * Helper class to provide bilinear interpolation.
- * Basically, given a 2-dimensional space (e.g. an x/y grid) with samples taken at various points, calculates the weighted average of any location between those samples
+ * Basically, given a 2-dimensional space (e.g. an x/y grid) with samples taken at various points, calculates the weighted average of any location
+ * between those samples
  * See: https://en.wikipedia.org/wiki/Bilinear_interpolation
  */
 public class BilinearInterpolator
@@ -14,9 +15,10 @@ public class BilinearInterpolator
 
     /**
      * Initializes a new instance of the BilinearInterpolator class.
+     * 
      * @param xSamplePoints array of locations where samples were taken along the x axis
      * @param ySamplePoints array of locations where samples were taken along the y axis
-     * @param samples 2-dimensional array of samples taken at the provided x and y locations
+     * @param samples       2-dimensional array of samples taken at the provided x and y locations
      */
     public BilinearInterpolator(double[] xSamplePoints, double[] ySamplePoints, double[][] samples)
     {
@@ -34,15 +36,25 @@ public class BilinearInterpolator
 
     private void verifySamples()
     {
-        ExceptionHelpers.Assert(this.samples.length == this.xSamplePoints.length, "x samples length (%d) doesn't match x sample points length (%d)", this.samples.length, this.xSamplePoints.length);
+        ExceptionHelpers.Assert(
+            this.samples.length == this.xSamplePoints.length,
+            "x samples length (%d) doesn't match x sample points length (%d)",
+            this.samples.length,
+            this.xSamplePoints.length);
         for (int x = 0; x < this.xSamplePoints.length; x++)
         {
-            ExceptionHelpers.Assert(this.samples[x].length == this.ySamplePoints.length, "y samples length (%d) doesn't match y sample points length (%d) on row %d", this.samples[x].length, this.ySamplePoints.length, x);
+            ExceptionHelpers.Assert(
+                this.samples[x].length == this.ySamplePoints.length,
+                "y samples length (%d) doesn't match y sample points length (%d) on row %d",
+                this.samples[x].length,
+                this.ySamplePoints.length,
+                x);
         }
     }
 
     /**
      * Retrieve the best sample for the given position/location
+     * 
      * @param x position/location
      * @param y position/location
      * @return value using bilinear interpolation of the samples closest to x/y
@@ -121,9 +133,9 @@ public class BilinearInterpolator
 
             return (1.0 / ((x2 - x1) * (y2 - y1))) *
                 (sample11 * (x2 - x) * (y2 - y) +
-                 sample21 * (x - x1) * (y2 - y) +
-                 sample12 * (x2 - x) * (y - y1) +
-                 sample22 * (x - x1) * (y - y1));
+                    sample21 * (x - x1) * (y2 - y) +
+                    sample12 * (x2 - x) * (y - y1) +
+                    sample22 * (x - x1) * (y - y1));
         }
     }
 }

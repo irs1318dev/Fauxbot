@@ -12,6 +12,7 @@ public abstract class UpdateCycleTask extends ControlTaskBase
 
     /**
      * Initializes a new UpdateCycleTask
+     * 
      * @param requiredUpdates to perform the task
      */
     protected UpdateCycleTask(int requiredUpdates)
@@ -30,7 +31,7 @@ public abstract class UpdateCycleTask extends ControlTaskBase
     }
 
     /**
-     * Run an iteration of the current task and apply any control changes 
+     * Run an iteration of the current task and apply any control changes
      */
     @Override
     public void update()
@@ -48,6 +49,7 @@ public abstract class UpdateCycleTask extends ControlTaskBase
 
     /**
      * Gets the ratio of the total duration that has elapsed
+     * 
      * @return value between approximately 0.0 and 1.0
      */
     protected double getRatioComplete()
@@ -68,6 +70,7 @@ public abstract class UpdateCycleTask extends ControlTaskBase
 
     /**
      * Checks whether this task has completed, or whether it should continue being processed
+     * 
      * @return true if we should continue onto the next task, otherwise false (to keep processing this task)
      */
     @Override

@@ -13,8 +13,9 @@ public class FloatingMedianCalculator extends FloatingCalculatorBase implements 
 
     /**
      * Average calculator to determine the mean value across a certain look-back time period
-     * @param timer to calculate elapsed time between updates
-     * @param duration over which to maintain the average
+     * 
+     * @param timer            to calculate elapsed time between updates
+     * @param duration         over which to maintain the average
      * @param samplesPerSecond number of samples to keep per second
      */
     public FloatingMedianCalculator(ITimer timer, double duration, double samplesPerSecond)
@@ -24,10 +25,11 @@ public class FloatingMedianCalculator extends FloatingCalculatorBase implements 
 
     /**
      * Average calculator to determine the mean value across a certain look-back time period
-     * @param minValue the max value to accept as an input
-     * @param maxValue the max value to accept as an input
-     * @param timer to calculate elapsed time between updates
-     * @param duration over which to maintain the average
+     * 
+     * @param minValue         the max value to accept as an input
+     * @param maxValue         the max value to accept as an input
+     * @param timer            to calculate elapsed time between updates
+     * @param duration         over which to maintain the average
      * @param samplesPerSecond number of samples to keep per second
      */
     public FloatingMedianCalculator(ITimer timer, double minValue, double maxValue, double duration, double samplesPerSecond)
@@ -52,7 +54,8 @@ public class FloatingMedianCalculator extends FloatingCalculatorBase implements 
     @Override
     protected double recalculateValue()
     {
-        // this isn't terribly efficient.  There's probably a more efficient algorithm for updating median besides this and the "needsRecalculation" optimization
+        // this isn't terribly efficient.
+        // There's probably a more efficient algorithm for updating median besides this and the "needsRecalculation" optimization
         System.arraycopy(this.samples, 0, this.sortedSamples, 0, this.totalSamples);
         Arrays.sort(this.sortedSamples);
 

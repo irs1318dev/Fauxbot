@@ -84,7 +84,15 @@ public class FauxbotTalonFX extends FauxbotAdvancedMotorBase implements ITalonFX
     }
 
     @Override
-    public void updateLimitSwitchConfig(boolean forwardEnabled, boolean forwardNormallyOpen, boolean forwardReset, double forwardResetPosition, boolean reverseEnabled, boolean reverseNormallyOpen, boolean reverseReset, double reverseResetPosition)
+    public void updateLimitSwitchConfig(
+        boolean forwardEnabled,
+        boolean forwardNormallyOpen,
+        boolean forwardReset,
+        double forwardResetPosition,
+        boolean reverseEnabled,
+        boolean reverseNormallyOpen,
+        boolean reverseReset,
+        double reverseResetPosition)
     {
     }
 
@@ -94,7 +102,13 @@ public class FauxbotTalonFX extends FauxbotAdvancedMotorBase implements ITalonFX
     }
 
     @Override
-    public void setCurrentLimit(boolean enabled, double currentLimit, double triggerThresholdCurrent, double triggerThresholdTime, boolean statorLimiting, double statorCurrentLimit)
+    public void setCurrentLimit(
+        boolean enabled,
+        double currentLimit,
+        double triggerThresholdCurrent,
+        double triggerThresholdTime,
+        boolean statorLimiting,
+        double statorCurrentLimit)
     {
     }
 

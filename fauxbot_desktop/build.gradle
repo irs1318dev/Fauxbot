@@ -1,6 +1,7 @@
 plugins
 {
     id "java-library"
+    id "com.diffplug.spotless" version "8.1.0"
 }
 
 version = '1.0'
@@ -80,3 +81,10 @@ tasks.register('dist', Jar) {
 }
 
 dist.dependsOn classes
+
+spotless {
+  java {
+    eclipse().configFile("../eclipse-formatter.xml")
+    removeUnusedImports()
+  }
+}

@@ -16,7 +16,8 @@ public abstract class StringLogger implements ILogger
 
     /**
      * Write a string to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     public void logString(LoggingKey key, String value)
@@ -29,7 +30,8 @@ public abstract class StringLogger implements ILogger
 
     /**
      * Write a boolean to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override
@@ -43,7 +45,8 @@ public abstract class StringLogger implements ILogger
 
     /**
      * Write a boolean array to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override
@@ -71,7 +74,8 @@ public abstract class StringLogger implements ILogger
 
     /**
      * Write a number (double) to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override
@@ -85,7 +89,8 @@ public abstract class StringLogger implements ILogger
 
     /**
      * Write a number (double) to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override
@@ -99,7 +104,8 @@ public abstract class StringLogger implements ILogger
 
     /**
      * Write a number (integer) to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override
@@ -113,7 +119,8 @@ public abstract class StringLogger implements ILogger
 
     /**
      * Write a number (integer) to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     @Override
@@ -127,8 +134,9 @@ public abstract class StringLogger implements ILogger
 
     /**
      * Write a number (integer) to the log
-     * @param key to write to
-     * @param value to write
+     * 
+     * @param key          to write to
+     * @param value        to write
      * @param formatString to use
      */
     @Override
@@ -159,7 +167,8 @@ public abstract class StringLogger implements ILogger
 
     /**
      * Write a string to the log
-     * @param key to write to
+     * 
+     * @param key   to write to
      * @param value to write
      */
     protected abstract void internalLogString(LoggingKey key, String value);

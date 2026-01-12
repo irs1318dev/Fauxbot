@@ -176,7 +176,9 @@ public class TrapezoidProfileTests
 
             // verify accel
             Assertions.assertTrue(curr.getPosition() >= prevPosition, "Position should be increasing");
-            Assertions.assertTrue(curr.getPosition() - prevPosition <= 0.01 * 18.0 + 1e-5, "Position should be increasing by at most 18.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
+            Assertions.assertTrue(
+                curr.getPosition() - prevPosition <= 0.01 * 18.0 + 1e-5,
+                "Position should be increasing by at most 18.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
             Assertions.assertTrue(curr.getVelocity() >= prevVelocity, "Velocity should be increasing");
 
             prevPosition = curr.getPosition();
@@ -189,7 +191,11 @@ public class TrapezoidProfileTests
 
             // verify coast
             Assertions.assertTrue(curr.getPosition() >= prevPosition, "Position should be increasing");
-            Assertions.assertEquals(curr.getPosition() - prevPosition, 0.01 * 18.0, 1e-5, "Position should be increasing by roughly 18.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
+            Assertions.assertEquals(
+                curr.getPosition() - prevPosition,
+                0.01 * 18.0,
+                1e-5,
+                "Position should be increasing by roughly 18.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
             Assertions.assertEquals(18.0, curr.getVelocity(), 1e-5, "Velocity should be consistently at max");
 
             prevPosition = curr.getPosition();
@@ -202,7 +208,9 @@ public class TrapezoidProfileTests
 
             // verify decel
             Assertions.assertTrue(curr.getPosition() >= prevPosition, "Position should be increasing");
-            Assertions.assertTrue(curr.getPosition() - prevPosition <= 0.01 * 18.0 + 1e-5, "Position should be increasing by at most 18.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
+            Assertions.assertTrue(
+                curr.getPosition() - prevPosition <= 0.01 * 18.0 + 1e-5,
+                "Position should be increasing by at most 18.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
             Assertions.assertTrue(curr.getVelocity() <= prevVelocity, "Velocity should be decreasing");
 
             prevPosition = curr.getPosition();
@@ -236,7 +244,9 @@ public class TrapezoidProfileTests
 
             // verify accel
             Assertions.assertTrue(curr.getPosition() >= prevPosition, "Position should be increasing");
-            Assertions.assertTrue(curr.getPosition() - prevPosition <= 0.01 * 4.0 + 1e-5, "Position should be increasing by at most 4.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
+            Assertions.assertTrue(
+                curr.getPosition() - prevPosition <= 0.01 * 4.0 + 1e-5,
+                "Position should be increasing by at most 4.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
             Assertions.assertTrue(curr.getVelocity() >= prevVelocity, "Velocity should be increasing");
 
             prevPosition = curr.getPosition();
@@ -249,7 +259,11 @@ public class TrapezoidProfileTests
 
             // verify coast
             Assertions.assertTrue(curr.getPosition() >= prevPosition, "Position should be increasing");
-            Assertions.assertEquals(curr.getPosition() - prevPosition, 0.01 * 4.0, 1e-5, "Position should be increasing by roughly 4.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
+            Assertions.assertEquals(
+                curr.getPosition() - prevPosition,
+                0.01 * 4.0,
+                1e-5,
+                "Position should be increasing by roughly 4.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
             Assertions.assertEquals(4.0, curr.getVelocity(), 1e-5, "Velocity should be consistently at max");
 
             prevPosition = curr.getPosition();
@@ -262,7 +276,9 @@ public class TrapezoidProfileTests
 
             // verify decel
             Assertions.assertTrue(curr.getPosition() >= prevPosition, "Position should be increasing");
-            Assertions.assertTrue(curr.getPosition() - prevPosition <= 0.01 * 4.0 + 1e-5, "Position should be increasing by at most 4.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
+            Assertions.assertTrue(
+                curr.getPosition() - prevPosition <= 0.01 * 4.0 + 1e-5,
+                "Position should be increasing by at most 4.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
             Assertions.assertTrue(curr.getVelocity() <= prevVelocity, "Velocity should be decreasing");
 
             prevPosition = curr.getPosition();
@@ -368,7 +384,9 @@ public class TrapezoidProfileTests
 
             // verify accel
             Assertions.assertTrue(curr.getPosition() <= prevPosition, "Position should be decreasing");
-            Assertions.assertTrue(curr.getPosition() - prevPosition >= -0.01 * 18.0 - 1e-5, "Position should be decreasing by at most -18.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
+            Assertions.assertTrue(
+                curr.getPosition() - prevPosition >= -0.01 * 18.0 - 1e-5,
+                "Position should be decreasing by at most -18.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
             Assertions.assertTrue(curr.getVelocity() <= prevVelocity, "Velocity should be decreasing");
 
             prevPosition = curr.getPosition();
@@ -381,7 +399,11 @@ public class TrapezoidProfileTests
 
             // verify coast
             Assertions.assertTrue(curr.getPosition() <= prevPosition, "Position should be decreasing");
-            Assertions.assertEquals(curr.getPosition() - prevPosition, -0.01 * 18.0, 1e-5, "Position should be decreasing by roughly -18.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
+            Assertions.assertEquals(
+                curr.getPosition() - prevPosition,
+                -0.01 * 18.0,
+                1e-5,
+                "Position should be decreasing by roughly -18.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
             Assertions.assertEquals(-18.0, curr.getVelocity(), 1e-5, "Velocity should be consistently at max");
 
             prevPosition = curr.getPosition();
@@ -394,7 +416,9 @@ public class TrapezoidProfileTests
 
             // verify decel
             Assertions.assertTrue(curr.getPosition() <= prevPosition, "Position should be decreasing");
-            Assertions.assertTrue(curr.getPosition() - prevPosition >= -0.01 * 18.0 - 1e-5, "Position should be decreasing by at most -18.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
+            Assertions.assertTrue(
+                curr.getPosition() - prevPosition >= -0.01 * 18.0 - 1e-5,
+                "Position should be decreasing by at most -18.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
             Assertions.assertTrue(curr.getVelocity() >= prevVelocity, "Velocity should be increasing");
 
             prevPosition = curr.getPosition();
@@ -427,7 +451,9 @@ public class TrapezoidProfileTests
 
             // verify accel
             Assertions.assertTrue(curr.getPosition() <= prevPosition, "Position should be decreasing");
-            Assertions.assertTrue(curr.getPosition() - prevPosition >= -0.01 * 4.0 - 1e-5, "Position should be decreasing by at most -4.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
+            Assertions.assertTrue(
+                curr.getPosition() - prevPosition >= -0.01 * 4.0 - 1e-5,
+                "Position should be decreasing by at most -4.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
             Assertions.assertTrue(curr.getVelocity() <= prevVelocity, "Velocity should be decreasing");
 
             prevPosition = curr.getPosition();
@@ -440,7 +466,11 @@ public class TrapezoidProfileTests
 
             // verify coast
             Assertions.assertTrue(curr.getPosition() <= prevPosition, "Position should be decreasing");
-            Assertions.assertEquals(curr.getPosition() - prevPosition, -0.01 * 4.0, 1e-5, "Position should be decreasing by roughly -4.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
+            Assertions.assertEquals(
+                curr.getPosition() - prevPosition,
+                -0.01 * 4.0,
+                1e-5,
+                "Position should be decreasing by roughly -4.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
             Assertions.assertEquals(-4.0, curr.getVelocity(), 1e-5, "Velocity should be consistently at max");
 
             prevPosition = curr.getPosition();
@@ -453,7 +483,9 @@ public class TrapezoidProfileTests
 
             // verify decel
             Assertions.assertTrue(curr.getPosition() <= prevPosition, "Position should be decreasing");
-            Assertions.assertTrue(curr.getPosition() - prevPosition >= -0.01 * 4.0 - 1e-5, "Position should be decreasing by at most -4.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
+            Assertions.assertTrue(
+                curr.getPosition() - prevPosition >= -0.01 * 4.0 - 1e-5,
+                "Position should be decreasing by at most -4.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
             Assertions.assertTrue(curr.getVelocity() >= prevVelocity, "Velocity should be increasing");
 
             prevPosition = curr.getPosition();
@@ -487,7 +519,9 @@ public class TrapezoidProfileTests
             // verify accel
             double positionChange = curr.getPosition() - prevPosition;
             Assertions.assertTrue(positionChange >= 0.0, "Position should be increasing");
-            Assertions.assertTrue(positionChange >= 0.01 * 5.0 - 1e-5 && positionChange <= 0.01 * 10.0 + 1e-5, "Position should be increasing by between 5.0 and 10.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
+            Assertions.assertTrue(
+                positionChange >= 0.01 * 5.0 - 1e-5 && positionChange <= 0.01 * 10.0 + 1e-5,
+                "Position should be increasing by between 5.0 and 10.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
             Assertions.assertTrue(curr.getVelocity() >= prevVelocity, "Velocity should be increasing");
 
             prevPosition = curr.getPosition();
@@ -500,7 +534,11 @@ public class TrapezoidProfileTests
 
             // verify coast
             Assertions.assertTrue(curr.getPosition() >= prevPosition, "Position should be decreasing");
-            Assertions.assertEquals(curr.getPosition() - prevPosition, 0.01 * 10.0, 1e-5, "Position should be increasing by roughly 10.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
+            Assertions.assertEquals(
+                curr.getPosition() - prevPosition,
+                0.01 * 10.0,
+                1e-5,
+                "Position should be increasing by roughly 10.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
             Assertions.assertEquals(10.0, curr.getVelocity(), 1e-5, "Velocity should be consistently at max");
 
             prevPosition = curr.getPosition();
@@ -514,7 +552,9 @@ public class TrapezoidProfileTests
             // verify decel
             double positionChange = curr.getPosition() - prevPosition;
             Assertions.assertTrue(positionChange >= 0.0, "Position should be increasing");
-            Assertions.assertTrue(positionChange >= 0.01 * 5.0 - 1e-5 && positionChange <= 0.01 * 10.0 + 1e-5, "Position should be increasing by between 5.0 and 10.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
+            Assertions.assertTrue(
+                positionChange >= 0.01 * 5.0 - 1e-5 && positionChange <= 0.01 * 10.0 + 1e-5,
+                "Position should be increasing by between 5.0 and 10.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
             Assertions.assertTrue(curr.getVelocity() <= prevVelocity, "Velocity should be decreasing");
 
             prevPosition = curr.getPosition();
@@ -547,7 +587,9 @@ public class TrapezoidProfileTests
 
             // verify accel
             Assertions.assertTrue(curr.getPosition() >= prevPosition, "Position should be increasing");
-            Assertions.assertTrue(curr.getPosition() - prevPosition <= 0.01 * 4.0 + 1e-5, "Position should be increasing by at most 4.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
+            Assertions.assertTrue(
+                curr.getPosition() - prevPosition <= 0.01 * 4.0 + 1e-5,
+                "Position should be increasing by at most 4.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
             Assertions.assertTrue(curr.getVelocity() >= prevVelocity, "Velocity should be increasing");
 
             prevPosition = curr.getPosition();
@@ -560,7 +602,11 @@ public class TrapezoidProfileTests
 
             // verify coast
             Assertions.assertTrue(curr.getPosition() >= prevPosition, "Position should be increasing");
-            Assertions.assertEquals(curr.getPosition() - prevPosition, 0.01 * 4.0, 1e-5, "Position should be increasing by roughly 4.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
+            Assertions.assertEquals(
+                curr.getPosition() - prevPosition,
+                0.01 * 4.0,
+                1e-5,
+                "Position should be increasing by roughly 4.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
             Assertions.assertEquals(4.0, curr.getVelocity(), 1e-5, "Velocity should be consistently at max");
 
             prevPosition = curr.getPosition();
@@ -573,7 +619,9 @@ public class TrapezoidProfileTests
 
             // verify decel
             Assertions.assertTrue(curr.getPosition() >= prevPosition, "Position should be increasing");
-            Assertions.assertTrue(curr.getPosition() - prevPosition <= 0.01 * 4.0 + 1e-5, "Position should be increasing by at most 4.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
+            Assertions.assertTrue(
+                curr.getPosition() - prevPosition <= 0.01 * 4.0 + 1e-5,
+                "Position should be increasing by at most 4.0 in/sec, actual " + prevPosition + " to " + curr.getPosition());
             Assertions.assertTrue(curr.getVelocity() <= prevVelocity, "Velocity should be decreasing");
 
             prevPosition = curr.getPosition();

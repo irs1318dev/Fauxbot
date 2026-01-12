@@ -33,6 +33,7 @@ public abstract class Graph<TGraphNode extends GraphNode>
 
     /**
      * Adds a note to the graph.
+     * 
      * @param node to add
      */
     protected void addNode(TGraphNode node)
@@ -41,11 +42,16 @@ public abstract class Graph<TGraphNode extends GraphNode>
         this.nodes.add(node);
         this.optimalPredecessorPathMap.add(null);
         ExceptionHelpers.Assert(this.nodes.size() == this.nodeCount, "Expect node count %d to equal node count %d", this.nodes.size(), this.nodeCount);
-        ExceptionHelpers.Assert(this.optimalPredecessorPathMap.size() == this.nodeCount, "Expect optimal predecessor map count %d to equal node count %d", this.nodes.size(), this.nodeCount);
+        ExceptionHelpers.Assert(
+            this.optimalPredecessorPathMap.size() == this.nodeCount,
+            "Expect optimal predecessor map count %d to equal node count %d",
+            this.nodes.size(),
+            this.nodeCount);
     }
 
     /**
      * Add an endge that connects the two graph nodes bidirectionally with the default weight
+     * 
      * @param node1 to connect
      * @param node2 to connect
      */
@@ -56,8 +62,9 @@ public abstract class Graph<TGraphNode extends GraphNode>
 
     /**
      * Add an endge that connects the two graph nodes bidirectionally with equal weights in each direction
-     * @param node1 to connect
-     * @param node2 to connect
+     * 
+     * @param node1  to connect
+     * @param node2  to connect
      * @param weight to travel in either direction between node1 and node2
      */
     public void connectBidirectional(TGraphNode node1, TGraphNode node2, double weight)
@@ -67,8 +74,9 @@ public abstract class Graph<TGraphNode extends GraphNode>
 
     /**
      * Add an endge that connects the two graph nodes bidirectionally with different weights for each direction
-     * @param node1 to connect
-     * @param node2 to connect
+     * 
+     * @param node1    to connect
+     * @param node2    to connect
      * @param weight12 weight for going from node1 to node2
      * @param weight21 weight for going from node2 to node1
      */
@@ -80,8 +88,9 @@ public abstract class Graph<TGraphNode extends GraphNode>
 
     /**
      * Add an edge that connects the two graph nodes from "from" to "to" with the default weight
+     * 
      * @param from node that is the origin of the weighted edge
-     * @param to node that is the destination of the weighted edge
+     * @param to   node that is the destination of the weighted edge
      */
     public void connect(TGraphNode from, TGraphNode to)
     {
@@ -90,8 +99,9 @@ public abstract class Graph<TGraphNode extends GraphNode>
 
     /**
      * Add an edge that connects the two graph nodes from "from" to "to" with the provided weight
-     * @param from node that is the origin of the weighted edge
-     * @param to node that is the destination of the weighted edge
+     * 
+     * @param from   node that is the origin of the weighted edge
+     * @param to     node that is the destination of the weighted edge
      * @param weight of the edge going from node "from" to node "to"
      */
     public void connect(TGraphNode from, TGraphNode to, double weight)
@@ -101,6 +111,7 @@ public abstract class Graph<TGraphNode extends GraphNode>
 
     /**
      * Retrieve the list of nodes for this graph
+     * 
      * @return list of nodes
      */
     public List<TGraphNode> getNodes()
@@ -127,8 +138,9 @@ public abstract class Graph<TGraphNode extends GraphNode>
 
     /**
      * Retrieve (and potentially calculate) the optimal path from "start" to "end" (where the optimal path has the lowest weight)
+     * 
      * @param start node of the path
-     * @param end node of the path
+     * @param end   node of the path
      * @return ordered list of nodes that make up the optimal (lowest-total weight) path from "start" to "end"
      */
     public List<TGraphNode> getOptimalPath(TGraphNode start, TGraphNode end)
@@ -162,6 +174,7 @@ public abstract class Graph<TGraphNode extends GraphNode>
 
     /**
      * Calculate dijkstra's algorithm from the provided starting node.
+     * 
      * @param start node
      * @return the "optimal predecessor" map for each node in the graph
      */

@@ -10,14 +10,26 @@ public class BilinearInterpolationTests
     @Test
     public void checkSimpleBilinearSystem()
     {
-        double[] xSamplePoints = new double[] { 0.0, 1.0, 2.0 };
-        double[] ySamplePoints = new double[] { 0.0, 1.0, 2.0 };
+        double[] xSamplePoints = new double[]
+            {
+                0.0, 1.0, 2.0
+            };
+        double[] ySamplePoints = new double[]
+            {
+                0.0, 1.0, 2.0
+            };
         double[][] samples = new double[][]
-        {
-            { 0.0, 1.0, 2.0 },
-            { 1.0, 2.0, 3.0 },
-            { 2.0, 3.0, 4.0 }
-        };
+            {
+                {
+                    0.0, 1.0, 2.0
+                },
+                {
+                    1.0, 2.0, 3.0
+                },
+                {
+                    2.0, 3.0, 4.0
+                }
+            };
 
         BilinearInterpolator interpolator = new BilinearInterpolator(xSamplePoints, ySamplePoints, samples);
 

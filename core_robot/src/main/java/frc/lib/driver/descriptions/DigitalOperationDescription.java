@@ -22,6 +22,7 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
 
     /**
      * Initializes a new DigitalOperationDescription without any user interaction
+     * 
      * @param operation the digital operation being described
      */
     public DigitalOperationDescription(
@@ -43,10 +44,11 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
 
     /**
      * Initializes a new DigitalOperationDescription based on a user interaction
-     * @param operation the digital operation being described
-     * @param userInputDevice which device will perform the operation (driver or codriver joystick) 
+     * 
+     * @param operation             the digital operation being described
+     * @param userInputDevice       which device will perform the operation (driver or codriver joystick)
      * @param userInputDeviceButton the button on the device that performs the operation
-     * @param buttonType the behavior type to use for the operation
+     * @param buttonType            the behavior type to use for the operation
      */
     public DigitalOperationDescription(
         DigitalOperation operation,
@@ -70,11 +72,12 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
 
     /**
      * Initializes a new DigitalOperationDescription based on a user interaction
-     * @param operation the digital operation being described
-     * @param userInputDevice which device will perform the operation (driver or codriver joystick) 
+     * 
+     * @param operation             the digital operation being described
+     * @param userInputDevice       which device will perform the operation (driver or codriver joystick)
      * @param userInputDeviceButton the button on the device that performs the operation
-     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
-     * @param buttonType the behavior type to use for the operation
+     * @param relevantContexts      the contexts that should be considered when checking if we should perform the operation
+     * @param buttonType            the behavior type to use for the operation
      */
     public DigitalOperationDescription(
         DigitalOperation operation,
@@ -99,13 +102,14 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
 
     /**
      * Initializes a new DigitalOperationDescription based on a user interaction
-     * @param operation the digital operation being described
-     * @param userInputDevice which device will perform the operation (driver or codriver joystick) 
+     * 
+     * @param operation             the digital operation being described
+     * @param userInputDevice       which device will perform the operation (driver or codriver joystick)
      * @param userInputDeviceButton the button on the device that performs the operation
-     * @param relevantShifts the shifts that should be considered when checking if we should perform the operation
-     * @param requiredShifts the shift button(s) that must be applied to perform operation
-     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
-     * @param buttonType the behavior type to use for the operation
+     * @param relevantShifts        the shifts that should be considered when checking if we should perform the operation
+     * @param requiredShifts        the shift button(s) that must be applied to perform operation
+     * @param relevantContexts      the contexts that should be considered when checking if we should perform the operation
+     * @param buttonType            the behavior type to use for the operation
      */
     public DigitalOperationDescription(
         DigitalOperation operation,
@@ -132,10 +136,11 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
 
     /**
      * Initializes a new DigitalOperationDescription based on a user interaction on the POV
-     * @param operation the digital operation being described
-     * @param userInputDevice which device will indicate the operation (driver or codriver joystick) 
-     * @param povValue the value of the POV (hat) used to perform the operation
-     * @param buttonType the behavior type to use for the operation
+     * 
+     * @param operation       the digital operation being described
+     * @param userInputDevice which device will indicate the operation (driver or codriver joystick)
+     * @param povValue        the value of the POV (hat) used to perform the operation
+     * @param buttonType      the behavior type to use for the operation
      */
     public DigitalOperationDescription(
         DigitalOperation operation,
@@ -159,11 +164,12 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
 
     /**
      * Initializes a new DigitalOperationDescription based on a user interaction on the POV
-     * @param operation the digital operation being described
-     * @param userInputDevice which device will indicate the operation (driver or codriver joystick) 
-     * @param povValue the value of the POV (hat) used to perform the operation
+     * 
+     * @param operation        the digital operation being described
+     * @param userInputDevice  which device will indicate the operation (driver or codriver joystick)
+     * @param povValue         the value of the POV (hat) used to perform the operation
      * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
-     * @param buttonType the behavior type to use for the operation
+     * @param buttonType       the behavior type to use for the operation
      */
     public DigitalOperationDescription(
         DigitalOperation operation,
@@ -188,13 +194,14 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
 
     /**
      * Initializes a new DigitalOperationDescription based on a user interaction on the POV
-     * @param operation the digital operation being described
-     * @param userInputDevice which device will indicate the operation (driver or codriver joystick) 
-     * @param povValue the value of the POV (hat) used to perform the operation
-     * @param relevantShifts the shifts that should be considered when checking if we should perform the operation
-     * @param requiredShifts the shift button(s) that must be applied to perform operation
+     * 
+     * @param operation        the digital operation being described
+     * @param userInputDevice  which device will indicate the operation (driver or codriver joystick)
+     * @param povValue         the value of the POV (hat) used to perform the operation
+     * @param relevantShifts   the shifts that should be considered when checking if we should perform the operation
+     * @param requiredShifts   the shift button(s) that must be applied to perform operation
      * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
-     * @param buttonType the behavior type to use for the operation
+     * @param buttonType       the behavior type to use for the operation
      */
     public DigitalOperationDescription(
         DigitalOperation operation,
@@ -221,12 +228,13 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
 
     /**
      * Initializes a new DigitalOperationDescription based on a user interaction on an axis
-     * @param operation the digital operation being described
-     * @param userInputDevice which device will indicate the operation (driver or codriver joystick)
-     * @param analogAxis the analog axis used to perform the operation
+     * 
+     * @param operation         the digital operation being described
+     * @param userInputDevice   which device will indicate the operation (driver or codriver joystick)
+     * @param analogAxis        the analog axis used to perform the operation
      * @param axisRangeMinValue the min value of the range that triggers the operation
      * @param axisRangeMaxValue the max value of the range that triggers the operation
-     * @param buttonType the behavior type to use for the operation
+     * @param buttonType        the behavior type to use for the operation
      */
     public DigitalOperationDescription(
         DigitalOperation operation,
@@ -252,13 +260,14 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
 
     /**
      * Initializes a new DigitalOperationDescription based on a user interaction on an axis
-     * @param operation the digital operation being described
-     * @param userInputDevice which device will indicate the operation (driver or codriver joystick)
-     * @param analogAxis the analog axis used to perform the operation
+     * 
+     * @param operation         the digital operation being described
+     * @param userInputDevice   which device will indicate the operation (driver or codriver joystick)
+     * @param analogAxis        the analog axis used to perform the operation
      * @param axisRangeMinValue the min value of the range that triggers the operation
      * @param axisRangeMaxValue the max value of the range that triggers the operation
-     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
-     * @param buttonType the behavior type to use for the operation
+     * @param relevantContexts  the contexts that should be considered when checking if we should perform the operation
+     * @param buttonType        the behavior type to use for the operation
      */
     public DigitalOperationDescription(
         DigitalOperation operation,
@@ -285,15 +294,16 @@ public class DigitalOperationDescription extends OperationDescription<DigitalOpe
 
     /**
      * Initializes a new DigitalOperationDescription based on a user interaction on an axis
-     * @param operation the digital operation being described
-     * @param userInputDevice which device will indicate the operation (driver or codriver joystick)
-     * @param analogAxis the analog axis used to perform the operation
+     * 
+     * @param operation         the digital operation being described
+     * @param userInputDevice   which device will indicate the operation (driver or codriver joystick)
+     * @param analogAxis        the analog axis used to perform the operation
      * @param axisRangeMinValue the min value of the range that triggers the operation
      * @param axisRangeMaxValue the max value of the range that triggers the operation
-     * @param relevantShifts the shifts that should be considered when checking if we should perform the operation
-     * @param requiredShifts the shift button(s) that must be applied to perform operation
-     * @param relevantContexts the contexts that should be considered when checking if we should perform the operation
-     * @param buttonType the behavior type to use for the operation
+     * @param relevantShifts    the shifts that should be considered when checking if we should perform the operation
+     * @param requiredShifts    the shift button(s) that must be applied to perform operation
+     * @param relevantContexts  the contexts that should be considered when checking if we should perform the operation
+     * @param buttonType        the behavior type to use for the operation
      */
     public DigitalOperationDescription(
         DigitalOperation operation,

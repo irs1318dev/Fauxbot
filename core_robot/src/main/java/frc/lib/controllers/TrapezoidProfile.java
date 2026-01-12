@@ -23,7 +23,7 @@ public class TrapezoidProfile
     /**
      * Initializes a new instance of the TrapezoidProfile class.
      * 
-     * @param maxVel the maximum velocity that should be used, in units/second
+     * @param maxVel   the maximum velocity that should be used, in units/second
      * @param maxAccel the maximum acceleration/deceleration that should be used, in units/second/second
      */
     public TrapezoidProfile(double maxVel, double maxAccel)
@@ -34,7 +34,7 @@ public class TrapezoidProfile
     /**
      * Initializes a new instance of the TrapezoidProfile class.
      * 
-     * @param maxVel the maximum velocity that should be used, in units/second
+     * @param maxVel   the maximum velocity that should be used, in units/second
      * @param maxAccel the maximum acceleration that should be used, in units/second/second
      * @param maxDecel the maximum deceleration that should be used, in units/second/second
      */
@@ -58,9 +58,10 @@ public class TrapezoidProfile
     /**
      * Updates the curr position into the desired position after a given time delta since the last update.
      * It modifies and returns the curr (instead of allocating another one) for performance reasons.
+     * 
      * @param timeDelta from the last update cycle, in seconds
-     * @param curr current position, velocity
-     * @param goal desired final/end position, velocity
+     * @param curr      current position, velocity
+     * @param goal      desired final/end position, velocity
      * @return true if we still have more progress to make, false if it was already at the goal
      */
     public boolean update(double timeDelta, State curr, State goal)
@@ -115,7 +116,8 @@ public class TrapezoidProfile
             // Notes:
             // peak velocity is the same for both accel and decel half ==> maxAccel * fullAccelDuration = maxDecel * fullDecelDuration
             // thus, fullDecelDuration = fullAccelDuration * maxAccel / maxDecel
-            // we want dist to equal half the peak velocity time the sum of fullAccelDuration and fullDecelDuration ==> dist = 0.5 * peakVelocity * (fullAccelDuration + fullDecelDuration)
+            // we want dist to equal half the peak velocity time the sum of fullAccelDuration and fullDecelDuration
+            // ==> dist = 0.5 * peakVelocity * (fullAccelDuration + fullDecelDuration)
             // ==> dist = 0.5 * maxAccel * fullAccelDuration * (fullAccelDuration + fullDecelDuration)
             // ==> dist = 0.5 * maxAccel * fullAccelDuration * (fullAccelDuration + fullAccelDuration * maxAccel / maxDecel)
             // ==> dist = 0.5 * maxAccel * fullAccelDuration * fullAccelDuration * (1 + maxAccel / maxDecel)
@@ -191,6 +193,7 @@ public class TrapezoidProfile
 
         /**
          * Initializes a new instance of the State class.
+         * 
          * @param position at the current moment of time
          * @param velocity at the current moment of time
          */
@@ -202,6 +205,7 @@ public class TrapezoidProfile
 
         /**
          * Retrieve the position
+         * 
          * @return the position
          */
         public double getPosition()
@@ -211,6 +215,7 @@ public class TrapezoidProfile
 
         /**
          * Retrieve the velocity
+         * 
          * @return the velocity
          */
         public double getVelocity()
@@ -220,6 +225,7 @@ public class TrapezoidProfile
 
         /**
          * Updates the position for this state
+         * 
          * @param position to apply, in units
          * @return true if the position has meaningfully changed
          */
@@ -236,6 +242,7 @@ public class TrapezoidProfile
 
         /**
          * Updates the velocity for this state
+         * 
          * @param velocity to apply, in units/sec
          */
         public void setVelocity(double velocity)

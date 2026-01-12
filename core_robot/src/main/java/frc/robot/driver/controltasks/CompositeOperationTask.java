@@ -25,7 +25,8 @@ public abstract class CompositeOperationTask extends UpdateCycleTask
 
     /**
      * Initializes a new CompositeOperationTask
-     * @param toPerform the operation to perform by setting to true for duration
+     * 
+     * @param toPerform          the operation to perform by setting to true for duration
      * @param possibleOperations to set of linked operations that should be set to false for duration
      */
     protected CompositeOperationTask(DigitalOperation toPerform, EnumSet<DigitalOperation> possibleOperations)
@@ -35,9 +36,10 @@ public abstract class CompositeOperationTask extends UpdateCycleTask
 
     /**
      * Initializes a new CompositeOperationTask
-     * @param toPerform the operation to perform by setting to true for duration
+     * 
+     * @param toPerform          the operation to perform by setting to true for duration
      * @param possibleOperations to set of linked operations that should be set to false for duration
-     * @param runIndefinitely whether to keep running indefinitely instead of for a single update cycle
+     * @param runIndefinitely    whether to keep running indefinitely instead of for a single update cycle
      */
     protected CompositeOperationTask(DigitalOperation toPerform, EnumSet<DigitalOperation> possibleOperations, boolean runIndefinitely)
     {
@@ -46,9 +48,10 @@ public abstract class CompositeOperationTask extends UpdateCycleTask
 
     /**
      * Initializes a new CompositeOperationTask
-     * @param toPerform the operation to perform by setting to true for duration
+     * 
+     * @param toPerform          the operation to perform by setting to true for duration
      * @param possibleOperations to set of linked operations that should be set to false for duration
-     * @param timeout how long to keep running the macro
+     * @param timeout            how long to keep running the macro
      */
     protected CompositeOperationTask(DigitalOperation toPerform, EnumSet<DigitalOperation> possibleOperations, double timeout)
     {
@@ -57,10 +60,11 @@ public abstract class CompositeOperationTask extends UpdateCycleTask
 
     /**
      * Initializes a new CompositeOperationTask
-     * @param toPerform the operation to perform by setting to true for duration
+     * 
+     * @param toPerform          the operation to perform by setting to true for duration
      * @param possibleOperations to set of linked operations that should be set to false for duration
-     * @param timeoutMode whether we are in timeout mode
-     * @param timeout the timeout, if we are in timeout mode
+     * @param timeoutMode        whether we are in timeout mode
+     * @param timeout            the timeout, if we are in timeout mode
      */
     private CompositeOperationTask(DigitalOperation toPerform, EnumSet<DigitalOperation> possibleOperations, boolean timeoutMode, double timeout, boolean runIndefinitely)
     {
@@ -84,6 +88,7 @@ public abstract class CompositeOperationTask extends UpdateCycleTask
 
     /**
      * Retrieve the set of analog operations that this task affects.
+     * 
      * @return set of analog operations that this task affects.
      */
     @Override
@@ -94,6 +99,7 @@ public abstract class CompositeOperationTask extends UpdateCycleTask
 
     /**
      * Retrieve the set of digital operations that this task affects.
+     * 
      * @return set of digital operations that this task affects.
      */
     public EnumSet<DigitalOperation> getAffectedDigitalOperations()
@@ -121,7 +127,7 @@ public abstract class CompositeOperationTask extends UpdateCycleTask
     }
 
     /**
-     * Run an iteration of the current task and apply any control changes 
+     * Run an iteration of the current task and apply any control changes
      */
     @Override
     public void update()
@@ -163,7 +169,8 @@ public abstract class CompositeOperationTask extends UpdateCycleTask
     }
 
     /**
-     * Update the toPerform value.  Note that we would want this to be called only really within an override for begin()
+     * Update the toPerform value. Note that we would want this to be called only really within an override for begin()
+     * 
      * @param toPerform the operation to perform (by setting to true)
      */
     protected void setToPerform(DigitalOperation toPerform)

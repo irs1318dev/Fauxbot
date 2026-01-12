@@ -15,6 +15,7 @@ public class MechanismManager implements IMechanism
 
     /**
      * Initializes a new instance of the MechanismManager class.
+     * 
      * @param mechanismList list of mechanisms to be managed
      */
     public MechanismManager(List<IMechanism> mechanismList)
@@ -53,6 +54,7 @@ public class MechanismManager implements IMechanism
     /**
      * Calculates the various states to use for each mechanism based on the sensors/operations and applies them to the outputs (actuators, etc.).
      * This function is called every ~20ms whenever the robot is enabled in some mode, after the update function is called.
+     * 
      * @param mode the current robot mode
      */
     @Override

@@ -8,6 +8,7 @@ public interface IOperationRetriever
 {
     /**
      * Get a boolean indicating whether the current digital operation is enabled
+     * 
      * @param digitalOperation to get
      * @return the current value of the digital operation
      */
@@ -15,6 +16,7 @@ public interface IOperationRetriever
 
     /**
      * Get a double between -1.0 and 1.0 indicating the current value of the analog operation
+     * 
      * @param analogOperation to get
      * @return the current value of the analog operation
      */
@@ -22,6 +24,7 @@ public interface IOperationRetriever
 
     /**
      * Retrieves the current operation context.
+     * 
      * @returns the current operation context
      */
     public OperationContext getContext();

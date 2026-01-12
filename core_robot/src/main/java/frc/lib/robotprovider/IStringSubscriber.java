@@ -7,6 +7,7 @@ public interface IStringSubscriber
 {
     /**
      * Retrieve the current value
+     * 
      * @return current value
      */
     String get();

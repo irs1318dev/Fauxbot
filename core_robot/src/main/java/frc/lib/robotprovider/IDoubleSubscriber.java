@@ -7,6 +7,7 @@ public interface IDoubleSubscriber
 {
     /**
      * Retrieve the current value
+     * 
      * @return current value
      */
     double get();

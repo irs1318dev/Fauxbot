@@ -11,7 +11,7 @@ import frc.lib.robotprovider.PowerDistributionModuleType;
  */
 public class ElectronicsConstants
 {
-    // We expect the following to be true.  Change INVERT_*_AXIS to true if any of the following are not met:
+    // We expect the following to be true. Change INVERT_*_AXIS to true if any of the following are not met:
     // 1. forwards/up on a joystick is positive, backwards/down is negative.
     // 2. right on a joystick is positive, left on a joystick is negative.
     // 3. pressed on a trigger is positive, released is negative/zero.
@@ -66,10 +66,10 @@ public class ElectronicsConstants
     public static final int ELEVATOR_ENCODER_DIGITAL_CHANNEL_A = 0;
     public static final int ELEVATOR_ENCODER_DIGITAL_CHANNEL_B = 1;
 
-   //================================================== Forklift =======================================================
+    //================================================== Forklift =======================================================
 
     public static final int FORKLIFT_DRIVE_LEFT_MOTOR_CAN_ID = 0;
-    public static final int FORKLIFT_DRIVE_RIGHT_MOTOR_CAN_ID = 1; 
+    public static final int FORKLIFT_DRIVE_RIGHT_MOTOR_CAN_ID = 1;
 
     public static final int FORKLIFT_LIFTER_FORWARD_PCM_CHANNEL = 7;
     public static final int FORKLIFT_LIFTER_BACKWARD_PCM_CHANNEL = 8;
@@ -85,7 +85,7 @@ public class ElectronicsConstants
     //================================================== Printer =======================================================
 
     public static final int PRINTER_X_MOTOR_CAN_ID = 0;
-    public static final int PRINTER_Y_MOTOR_CAN_ID = 1; 
+    public static final int PRINTER_Y_MOTOR_CAN_ID = 1;
 
     public static final int PRINTER_PEN_FORWARD_PCM_CHANNEL = 7;
     public static final int PRINTER_PEN_BACKWARD_PCM_CHANNEL = 8;

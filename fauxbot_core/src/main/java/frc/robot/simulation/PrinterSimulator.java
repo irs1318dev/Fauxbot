@@ -24,15 +24,13 @@ public class PrinterSimulator extends SimulatorBase
     private static final FauxbotActuatorConnection PenForwardConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PCM0A, 7);
     private static final FauxbotActuatorConnection PenReverseConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PCM0B, 8);
 
-    private final FauxbotSensorConnection[] sensors =
-        new FauxbotSensorConnection[]
+    private final FauxbotSensorConnection[] sensors = new FauxbotSensorConnection[]
         {
             PrinterSimulator.XEncoderConnection,
             PrinterSimulator.YEncoderConnection,
         };
 
-    private final FauxbotActuatorConnection[] actuators =
-        new FauxbotActuatorConnection[]
+    private final FauxbotActuatorConnection[] actuators = new FauxbotActuatorConnection[]
         {
             PrinterSimulator.XMotorConnection,
             PrinterSimulator.YMotorConnection,

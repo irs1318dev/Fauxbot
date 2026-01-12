@@ -28,13 +28,10 @@ public class ForkliftSimulator extends SimulatorBase
     private static final FauxbotActuatorConnection LifterForwardConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PCM0A, 7);
     private static final FauxbotActuatorConnection LifterReverseConnection = new FauxbotActuatorConnection(FauxbotActuatorConnection.ActuatorConnector.PCM0B, 8);
 
-    private final FauxbotSensorConnection[] sensors =
-        new FauxbotSensorConnection[]
-        {
-        };
+    private final FauxbotSensorConnection[] sensors = new FauxbotSensorConnection[]
+        {};
 
-    private final FauxbotActuatorConnection[] actuators =
-        new FauxbotActuatorConnection[]
+    private final FauxbotActuatorConnection[] actuators = new FauxbotActuatorConnection[]
         {
             ForkliftSimulator.LeftMotorConnection,
             ForkliftSimulator.RightMotorConnection,
@@ -65,8 +62,7 @@ public class ForkliftSimulator extends SimulatorBase
     private static final double STARTING_ANGLE_R = (float)Math.PI / 2.0f; // 90deg to the left (image-up)
     private static final double STARTING_X = ForkliftSimulator.MAX_X / 2.0f;
     private static final double STARTING_Y = ForkliftSimulator.MAX_Y / 2.0f;
-    private static final double MAX_WALL_DISTANCE =
-        (float)Math.sqrt(FORKLIFT_HALF_LENGTH * FORKLIFT_HALF_LENGTH + FORKLIFT_HALF_WIDTH * FORKLIFT_HALF_WIDTH);
+    private static final double MAX_WALL_DISTANCE = (float)Math.sqrt(FORKLIFT_HALF_LENGTH * FORKLIFT_HALF_LENGTH + FORKLIFT_HALF_WIDTH * FORKLIFT_HALF_WIDTH);
 
     private float leftPower;
     private float rightPower;
@@ -298,7 +294,7 @@ public class ForkliftSimulator extends SimulatorBase
         {
             forkliftToDraw = this.forkliftDownImage;
         }
-        
+
         batch.draw(
             forkliftToDraw,
             frameX + (float)ForkliftSimulator.MAX_X + 5.0f,

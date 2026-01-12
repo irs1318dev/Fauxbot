@@ -9,6 +9,7 @@ public interface IFileWriter
 {
     /**
      * Append data into the file
+     * 
      * @param string to append
      * @throws IOException if there's some issue writing data
      */
@@ -16,6 +17,7 @@ public interface IFileWriter
 
     /**
      * Attempt to flush the data to disk (out of buffer)
+     * 
      * @throws IOException if there's some issue writing data
      */
     public void flush() throws IOException;

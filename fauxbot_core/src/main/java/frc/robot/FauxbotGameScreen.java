@@ -39,8 +39,7 @@ public class FauxbotGameScreen extends FauxbotGameScreenBase implements Screen
         innerInfoTable.add(buttonsLabel).colspan(2).top().left().expandX().padTop(10);
         innerInfoTable.row();
 
-        FauxbotSmartDashboardLogger logger =
-            (FauxbotSmartDashboardLogger)this.robot.getInjector().getInstance(ISmartDashboardLogger.class);
+        FauxbotSmartDashboardLogger logger = (FauxbotSmartDashboardLogger)this.robot.getInjector().getInstance(ISmartDashboardLogger.class);
 
         LoggingKey[] keys = LoggingKey.values();
         for (LoggingKey key : keys)

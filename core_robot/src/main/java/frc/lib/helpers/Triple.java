@@ -11,9 +11,10 @@ public class Triple<T1, T2, T3>
 
     /**
      * Initializes a new instance of the Triple class, holding three values.
-     * @param first value to hold
+     * 
+     * @param first  value to hold
      * @param second value to hold
-     * @param third value to hold
+     * @param third  value to hold
      */
     public Triple(T1 first, T2 second, T3 third)
     {
@@ -24,6 +25,7 @@ public class Triple<T1, T2, T3>
 
     /**
      * Retrieve the first value of the triple
+     * 
      * @return first value
      */
     public T1 getFirst()
@@ -33,6 +35,7 @@ public class Triple<T1, T2, T3>
 
     /**
      * Retrieve the second value of the triple
+     * 
      * @return second value
      */
     public T2 getSecond()
@@ -42,6 +45,7 @@ public class Triple<T1, T2, T3>
 
     /**
      * Retrieve the third value of the triple
+     * 
      * @return third value
      */
     public T3 getThird()
@@ -51,9 +55,10 @@ public class Triple<T1, T2, T3>
 
     /**
      * Set the three values in the triple
-     * @param first value to set
+     * 
+     * @param first  value to set
      * @param second value to set
-     * @param third value to set
+     * @param third  value to set
      */
     public void set(T1 first, T2 second, T3 third)
     {
@@ -64,6 +69,7 @@ public class Triple<T1, T2, T3>
 
     /**
      * Set the first value in the triple
+     * 
      * @param first value to set
      */
     public void setFirst(T1 first)
@@ -73,6 +79,7 @@ public class Triple<T1, T2, T3>
 
     /**
      * Set the second value in the triple
+     * 
      * @param second value to set
      */
     public void setSecond(T2 second)
@@ -82,6 +89,7 @@ public class Triple<T1, T2, T3>
 
     /**
      * Set the third value in the triple
+     * 
      * @param third value to set
      */
     public void setThird(T3 third)

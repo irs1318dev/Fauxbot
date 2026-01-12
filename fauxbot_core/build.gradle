@@ -1,6 +1,7 @@
 plugins
 {
     id "java-library"
+    id "com.diffplug.spotless" version "8.1.0"
 }
 
 version = '1.0'
@@ -30,7 +31,7 @@ dependencies {
     implementation project(":core_robot")
 
     implementation "javax.inject:javax.inject:1"
-    implementation "com.google.guava:guava:33.4.8-jre"
+    implementation "com.google.guava:guava:33.5.0-jre"
     implementation "com.google.inject:guice:4.2.3:no_aop"
     implementation "space.earlygrey:shapedrawer:$shapedrawerVersion"
     api "com.badlogicgames.gdx:gdx:$gdxVersion"
@@ -40,3 +41,10 @@ dependencies {
 }
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+spotless {
+  java {
+    eclipse().configFile("../eclipse-formatter.xml")
+    removeUnusedImports()
+  }
+}

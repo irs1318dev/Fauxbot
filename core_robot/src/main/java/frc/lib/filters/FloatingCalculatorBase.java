@@ -28,10 +28,11 @@ abstract class FloatingCalculatorBase implements ISimpleFilter
 
     /**
      * Calculator to determine a filtered value across a certain look-back time period
-     * @param minValue the min value to accept as an input
-     * @param maxValue the max value to accept as an input
-     * @param timer to calculate elapsed time between updates
-     * @param duration over which to maintain the average
+     * 
+     * @param minValue         the min value to accept as an input
+     * @param maxValue         the max value to accept as an input
+     * @param timer            to calculate elapsed time between updates
+     * @param duration         over which to maintain the average
      * @param samplesPerSecond number of samples to keep per second
      */
     protected FloatingCalculatorBase(ITimer timer, double minValue, double maxValue, double duration, double samplesPerSecond)
@@ -53,6 +54,7 @@ abstract class FloatingCalculatorBase implements ISimpleFilter
 
     /**
      * Updates the filter and returns the filtered value
+     * 
      * @param value raw, without any filtering
      * @return filtered value
      */
@@ -111,7 +113,12 @@ abstract class FloatingCalculatorBase implements ISimpleFilter
             this.filteredValue = 0.0;
         }
 
-        ExceptionHelpers.Assert(Helpers.withinRange(this.filteredValue, this.minValue, this.maxValue), "How was our floating average (mean) outside our supported value range? %f between [%f, %f]", this.filteredValue, this.minValue, this.maxValue);
+        ExceptionHelpers.Assert(
+            Helpers.withinRange(this.filteredValue, this.minValue, this.maxValue),
+            "How was our floating average (mean) outside our supported value range? %f between [%f, %f]",
+            this.filteredValue,
+            this.minValue,
+            this.maxValue);
 
         this.prevTime = currTime;
 
@@ -119,11 +126,14 @@ abstract class FloatingCalculatorBase implements ISimpleFilter
     }
 
     protected abstract double updateValue(double oldValue, double newValue);
+
     protected abstract boolean shouldRecalculate(double currTime);
+
     protected abstract double recalculateValue();
 
     /**
      * Retrieve the most recent filtered value
+     * 
      * @return the filtered value after the last update
      */
     public double getValue()
@@ -148,6 +158,6 @@ abstract class FloatingCalculatorBase implements ISimpleFilter
     // for testing:
     // public void setValue(double value)
     // {
-    //     this.filteredValue = value;
+    // this.filteredValue = value;
     // }
 }

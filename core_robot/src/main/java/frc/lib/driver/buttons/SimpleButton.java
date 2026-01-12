@@ -3,11 +3,13 @@ package frc.lib.driver.buttons;
 /**
  * Defines a simple button that activates when pressed and deactivates when released
  * 
+ * @formatter:off
  *     button pressed:        _________________
  *                           |                 |
  * button not pressed: ______|                 |________
  *                            ^ active
  *                                              ^ not active
+ * @formatter:on
  * 
  */
 public class SimpleButton implements IButton
@@ -26,7 +28,8 @@ public class SimpleButton implements IButton
 
     /**
      * Initializes a new SimpleButton
-     * @param activateOnPress indicates whether to consider the button activated when the key is pressed or when released 
+     * 
+     * @param activateOnPress indicates whether to consider the button activated when the key is pressed or when released
      */
     public SimpleButton(boolean activateOnPress)
     {
@@ -35,12 +38,12 @@ public class SimpleButton implements IButton
 
     /**
      * update the state of the button based on information from the user input device.
+     * 
      * @param buttonState the current position of the button (whether it is currently pressed)
      */
     public void updateState(boolean buttonState)
     {
-        if ((this.activateOnPress && buttonState)
-            || (!this.activateOnPress && !buttonState))
+        if ((this.activateOnPress && buttonState) || (!this.activateOnPress && !buttonState))
         {
             this.activated = true;
         }
@@ -51,7 +54,8 @@ public class SimpleButton implements IButton
     }
 
     /**
-     * gets a value indicating whether the button is activated 
+     * gets a value indicating whether the button is activated
+     * 
      * @return true for active, otherwise false
      */
     public boolean isActivated()

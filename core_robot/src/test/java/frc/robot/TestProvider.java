@@ -275,12 +275,6 @@ public class TestProvider implements IRobotProvider
     @Override
     public IMotor getTalon(int channel)
     {
-        return this.getVictor(channel);
-    }
-
-    @Override
-    public IMotor getVictor(int channel)
-    {
         if (!this.motorMap.containsKey(channel))
         {
             this.motorMap.put(channel, mock(IMotor.class));
@@ -392,6 +386,7 @@ public class TestProvider implements IRobotProvider
     {
         return mock(ICANdle.class);
     }
+
     @Override
     public IDriverStation getDriverStation()
     {
@@ -401,13 +396,19 @@ public class TestProvider implements IRobotProvider
     @Override
     public INetworkTableProvider getNetworkTableProvider()
     {
-        return null;
+        return mock(INetworkTableProvider.class);
     }
 
     @Override
     public IPathPlanner getPathPlanner()
     {
         return null;
+    }
+
+    @Override
+    public ISwervePoseEstimator getSwervePoseEstimator()
+    {
+        return mock(ISwervePoseEstimator.class);
     }
 
     @Override

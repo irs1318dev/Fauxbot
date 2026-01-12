@@ -10,6 +10,7 @@ public class Point2d
 
     /**
      * A point in 2 dimensions.
+     * 
      * @param x typically in inches
      * @param y typically in inches
      */

@@ -23,6 +23,7 @@ public class PenMoveTask extends ControlTaskBase
 
     /**
      * Initializes a new PenMoveTask
+     * 
      * @param xPixel to move the pen to in pixels
      * @param yPixel to move the pen to in pixels
      */
@@ -36,6 +37,7 @@ public class PenMoveTask extends ControlTaskBase
 
     /**
      * Retrieve the set of analog operations that this task affects.
+     * 
      * @return set of analog operations that this task affects.
      */
     @Override
@@ -48,6 +50,7 @@ public class PenMoveTask extends ControlTaskBase
 
     /**
      * Retrieve the set of digital operations that this task affects.
+     * 
      * @return set of digital operations that this task affects.
      */
     @Override
@@ -66,7 +69,7 @@ public class PenMoveTask extends ControlTaskBase
     }
 
     /**
-     * Run an iteration of the current task and apply any control changes 
+     * Run an iteration of the current task and apply any control changes
      */
     @Override
     public void update()
@@ -85,12 +88,13 @@ public class PenMoveTask extends ControlTaskBase
 
     /**
      * Checks whether this task has completed, or whether it should continue being processed
+     * 
      * @return true if we should continue onto the next task, otherwise false (to keep processing this task)
      */
     @Override
     public boolean hasCompleted()
     {
         return Math.abs(this.printerMechanism.getXLocation() - this.xPixel) <= PenMoveTask.AllowableDelta &&
-                Math.abs(this.printerMechanism.getYLocation() - this.yPixel) <= PenMoveTask.AllowableDelta;
+            Math.abs(this.printerMechanism.getYLocation() - this.yPixel) <= PenMoveTask.AllowableDelta;
     }
 }

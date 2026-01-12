@@ -10,7 +10,8 @@ public class Pair<T1, T2>
 
     /**
      * Initializes a new instance of the Pair class, holding two values.
-     * @param first value to hold
+     * 
+     * @param first  value to hold
      * @param second value to hold
      */
     public Pair(T1 first, T2 second)
@@ -21,6 +22,7 @@ public class Pair<T1, T2>
 
     /**
      * Retrieve the first value of the pair
+     * 
      * @return first value
      */
     public T1 getFirst()
@@ -30,6 +32,7 @@ public class Pair<T1, T2>
 
     /**
      * Retrieve the second value of the pair
+     * 
      * @return second value
      */
     public T2 getSecond()
@@ -39,7 +42,8 @@ public class Pair<T1, T2>
 
     /**
      * Set the two values in the pair
-     * @param first value to set
+     * 
+     * @param first  value to set
      * @param second value to set
      */
     public void set(T1 first, T2 second)
@@ -50,6 +54,7 @@ public class Pair<T1, T2>
 
     /**
      * Set the first value in the pair
+     * 
      * @param first value to set
      */
     public void setFirst(T1 first)
@@ -59,6 +64,7 @@ public class Pair<T1, T2>
 
     /**
      * Set the second value in the pair
+     * 
      * @param second value to set
      */
     public void setSecond(T2 second)

@@ -155,12 +155,6 @@ public class FauxbotProvider implements IRobotProvider
     }
 
     @Override
-    public IMotor getVictor(int channel)
-    {
-        return new FauxbotVictor(channel);
-    }
-
-    @Override
     public IServo getServo(int channel)
     {
         return new FauxbotServo(channel);
@@ -254,6 +248,12 @@ public class FauxbotProvider implements IRobotProvider
     public IPathPlanner getPathPlanner()
     {
         return new FauxbotPathPlanner();
+    }
+
+    @Override
+    public ISwervePoseEstimator getSwervePoseEstimator()
+    {
+        return FauxbotSwervePoseEstimator.instance;
     }
 
     @Override

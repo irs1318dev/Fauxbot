@@ -24,7 +24,10 @@ public class ForkliftMechanism implements IMechanism
         this.driver = driver;
         this.leftMotor = provider.getTalon(ElectronicsConstants.FORKLIFT_DRIVE_LEFT_MOTOR_CAN_ID);
         this.rightMotor = provider.getTalon(ElectronicsConstants.FORKLIFT_DRIVE_RIGHT_MOTOR_CAN_ID);
-        this.lifter = provider.getDoubleSolenoid(PneumaticsModuleType.PneumaticsControlModule, ElectronicsConstants.FORKLIFT_LIFTER_FORWARD_PCM_CHANNEL, ElectronicsConstants.FORKLIFT_LIFTER_BACKWARD_PCM_CHANNEL);
+        this.lifter = provider.getDoubleSolenoid(
+            PneumaticsModuleType.PneumaticsControlModule,
+            ElectronicsConstants.FORKLIFT_LIFTER_FORWARD_PCM_CHANNEL,
+            ElectronicsConstants.FORKLIFT_LIFTER_BACKWARD_PCM_CHANNEL);
     }
 
     @Override

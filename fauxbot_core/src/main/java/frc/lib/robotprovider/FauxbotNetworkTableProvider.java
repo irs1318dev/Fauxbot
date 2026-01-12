@@ -64,6 +64,12 @@ public class FauxbotNetworkTableProvider implements INetworkTableProvider
     }
 
     @Override
+    public IDoubleArraySubscriber getDoubleArraySubscriber(String key)
+    {
+        return new FauxbotDoubleArraySubscriber(key);
+    }
+
+    @Override
     public IBooleanSubscriber getBooleanSubscriber(String key)
     {
         return new FauxbotBooleanSubscriber(key, false);

@@ -17,6 +17,7 @@ public interface ITimer
 
     /**
      * Gets the amount of time that has elapsed between when the timer was started and either now (if running) or when the timer was stopped
+     * 
      * @return elapsed time in seconds
      */
     double get();

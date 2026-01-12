@@ -54,7 +54,7 @@ public class CoreRobot<T extends AbstractModule>
     /**
      * Robot-wide initialization code should go here.
      * This default Robot-wide initialization code will be called when
-     * the robot is first powered on.  It will be called exactly 1 time.
+     * the robot is first powered on. It will be called exactly 1 time.
      */
     public void robotInit()
     {
@@ -290,6 +290,7 @@ public class CoreRobot<T extends AbstractModule>
 
     /**
      * Lazily initializes and retrieves the injector.
+     * 
      * @return the injector to use for this robot
      */
     public Injector getInjector()

@@ -84,7 +84,7 @@ public class FauxbotMenuScreen implements Screen
             this.simulateButton.addListener(
                 new ClickListener()
                 {
-                    @Override 
+                    @Override
                     public void clicked(InputEvent event, float x, float y)
                     {
                         game.setScreen(new FauxbotGameScreen(game, selectedSimulation, controllers));
@@ -99,7 +99,7 @@ public class FauxbotMenuScreen implements Screen
         this.simulateLiteButton.addListener(
             new ClickListener()
             {
-                @Override 
+                @Override
                 public void clicked(InputEvent event, float x, float y)
                 {
                     game.setScreen(new FauxbotGameLiteScreen(game, selectedSimulation));

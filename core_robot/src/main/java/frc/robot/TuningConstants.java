@@ -1,8 +1,5 @@
 package frc.robot;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 /**
  * All constants related to tuning the operation of the robot.
  * 
@@ -24,16 +21,16 @@ public class TuningConstants
     public static final boolean EXPECT_UNUSED_JOYSTICKS = true;
     public static final boolean PERFORM_COSTLY_TASKS_WHILE_DISABLED = true;
 
-    //================================================== Magic Values ==============================================================
+    // ================================================== Magic Values ==============================================================
 
     public static final double MAGIC_NULL_VALUE = -1318.0;
     public static final double ZERO = 0.0;
     public static final double ENDGAME_START_TIME = 30.0;
     public static final double ENDGAME_CLIMB_TIME = 5.0;
 
-    //================================================== Logging  ==============================================================
+    // ================================================== Logging ==============================================================
 
-    public static final int CALENDAR_YEAR = 2025;
+    public static final int CALENDAR_YEAR = 2026;
     public static final boolean LOG_TO_FILE = false; // TuningConstants.COMPETITION_ROBOT;
     public static final boolean LOG_FILE_ONLY_COMPETITION_MATCHES = false;
     public static final long LOG_FILE_REQUIRED_FREE_SPACE = 50 * 1024 * 1024; // require at least 50 MB of space

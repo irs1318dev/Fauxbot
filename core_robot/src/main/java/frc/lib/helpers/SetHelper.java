@@ -13,7 +13,8 @@ public class SetHelper
     /**
      * Generate a set that represents the intersection of the two provided sets.
      * Selects all of the items that exist in both the left and the right set (inner join)
-     * @param left set to perform the inner join
+     * 
+     * @param left  set to perform the inner join
      * @param right set to perform the inner join
      * @return a set of items that exist in both the left and the right set
      */
@@ -25,9 +26,30 @@ public class SetHelper
     }
 
     /**
+     * Generate a set that represents the intersection of all the provided sets.
+     * Selects all of the items that exist in each of the first and all subsequent sets (inner join)
+     * 
+     * @param first      set to perform the inner join
+     * @param subsequent set to perform the inner join
+     * @return a set of items that exist in every set
+     */
+    @SafeVarargs
+    public static <T extends Enum<T>> EnumSet<T> Intersection(EnumSet<T> first, EnumSet<T>... subsequent)
+    {
+        EnumSet<T> result = first.clone();
+        for (EnumSet<T> next : subsequent)
+        {
+            result.retainAll(next);
+        }
+
+        return result;
+    }
+
+    /**
      * Generate a set that represents the union of the two provided sets.
      * Selects all of the items that appear in either the left or the right set (outer join)
-     * @param left set to perform the outer join
+     * 
+     * @param left  set to perform the outer join
      * @param right set to perform the outer join
      * @return a set of items that exist in either the left or the right set
      */
@@ -39,10 +61,31 @@ public class SetHelper
     }
 
     /**
+     * Generate a set that represents the union of all the provided sets.
+     * Selects all of the items that appear in either the first or any subsequent set (outer join)
+     * 
+     * @param first      set to perform the outer join
+     * @param subsequent set to perform the outer join
+     * @return a set of items that exist in either the first or any subsequent set
+     */
+    @SafeVarargs
+    public static <T extends Enum<T>> EnumSet<T> Union(EnumSet<T> first, EnumSet<T>... subsequent)
+    {
+        EnumSet<T> result = first.clone();
+        for (EnumSet<T> next : subsequent)
+        {
+            result.addAll(next);
+        }
+
+        return result;
+    }
+
+    /**
      * Generate a set that represents the relative complement of notIn with respect to in.
      * Selects all of the items that appear in "in" but not in "notIn"
+     * 
      * @param notIn set of items that should not be included in the result
-     * @param in set of items that may be included in the result
+     * @param in    set of items that may be included in the result
      * @return a set of items that contain all of the values of "in" that are not in "notIn"
      */
     public static <T extends Enum<T>> EnumSet<T> RelativeComplement(EnumSet<T> notIn, EnumSet<T> in)
@@ -55,8 +98,9 @@ public class SetHelper
     /**
      * Generate a set that represents the relative complement of notIn with respect to in.
      * Selects all of the items that appear in "in" but not in "notIn"
+     * 
      * @param notIn set of items that should not be included in the result
-     * @param in set of items that may be included in the result
+     * @param in    set of items that may be included in the result
      * @return a set of items that contain all of the values of "in" that are not in "notIn"
      */
     public static <T extends Enum<T>> EnumSet<T> RelativeComplement(EnumSet<T> notIn, Set<T> in)
@@ -76,8 +120,9 @@ public class SetHelper
     /**
      * Generate a set that represents the relative complement of notIn with respect to in.
      * Selects all of the items that appear in "in" but not in "notIn"
+     * 
      * @param notIn set of items that should not be included in the result
-     * @param in set of items that may be included in the result
+     * @param in    set of items that may be included in the result
      * @return a set of items that contain all of the values of "in" that are not in "notIn"
      */
     public static <T extends Enum<T>> int Count(EnumSet<T> set)
@@ -99,7 +144,8 @@ public class SetHelper
     /**
      * Generate a set that represents the intersection of the two provided sets.
      * Selects all of the items that exist in both the left and the right set (inner join)
-     * @param left set to perform the inner join
+     * 
+     * @param left  set to perform the inner join
      * @param right set to perform the inner join
      * @return a set of items that exist in both the left and the right set
      */
@@ -120,7 +166,8 @@ public class SetHelper
     /**
      * Generate a set that represents the union of the two provided sets.
      * Selects all of the items that appear in either the left or the right set (outer join)
-     * @param left set to perform the outer join
+     * 
+     * @param left  set to perform the outer join
      * @param right set to perform the outer join
      * @return a set of items that exist in either the left or the right set
      */
@@ -135,8 +182,9 @@ public class SetHelper
     /**
      * Generate a set that represents the relative complement of notIn with respect to in.
      * Selects all of the items that appear in "in" but not in "notIn"
+     * 
      * @param notIn set of items that should not be included in the result
-     * @param in set of items that may be included in the result
+     * @param in    set of items that may be included in the result
      * @return a set of items that contain all of the values of "in" that are not in "notIn"
      */
     public static <T> Set<T> RelativeComplement(Set<T> notIn, Set<T> in)

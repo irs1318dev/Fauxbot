@@ -63,7 +63,7 @@ public class SettingsManager
         {
             if (TuningConstants.LOG_FILE_ONLY_COMPETITION_MATCHES)
             {
-                // strange 
+                // strange
                 return smartDashboardLogger;
             }
             else
@@ -92,16 +92,15 @@ public class SettingsManager
             // name the file a la "/U/2020 - Glacier Peak/Q03 (R2).auto.csv" or "/U/2020 - Glacier Peak/Q12R1 (B3).tele.csv"
             RobotMode mode = driverStation.getMode();
             file = injector.getInstance(IFile.class);
-            String fileName =
-                String.format(
-                    "%1$s%2$s%3$02d%4$s (%5$s%6$d).%7$s.csv",
-                    directoryPath,
-                    matchType.value,
-                    matchNumber,
-                    replayNumber == 0 ? "" : String.format("R%1$d", replayNumber),
-                    alliance.get().value,
-                    location.getAsInt(),
-                    mode.toString().toLowerCase());
+            String fileName = String.format(
+                "%1$s%2$s%3$02d%4$s (%5$s%6$d).%7$s.csv",
+                directoryPath,
+                matchType.value,
+                matchNumber,
+                replayNumber == 0 ? "" : String.format("R%1$d", replayNumber),
+                alliance.get().value,
+                location.getAsInt(),
+                mode.toString().toLowerCase());
 
             file.open(fileName);
             if (file.exists())
@@ -109,17 +108,16 @@ public class SettingsManager
                 for (int i = 2; i <= 5; i++)
                 {
                     // start adding .2, .3, etc. to the name, a la "/U/2020 - Glacier Peak/Q03 (R2).2.csv"
-                    fileName =
-                        String.format(
-                            "%1$s%2$s%3$02d%4$s (%5$s%6$d).%7$s.%8$d.csv",
-                            directoryPath,
-                            matchType.value,
-                            matchNumber,
-                            replayNumber == 0 ? "" : String.format("R%1$d", replayNumber),
-                            alliance.get().value,
-                            location.getAsInt(),
-                            mode.toString().toLowerCase(),
-                            i);
+                    fileName = String.format(
+                        "%1$s%2$s%3$02d%4$s (%5$s%6$d).%7$s.%8$d.csv",
+                        directoryPath,
+                        matchType.value,
+                        matchNumber,
+                        replayNumber == 0 ? "" : String.format("R%1$d", replayNumber),
+                        alliance.get().value,
+                        location.getAsInt(),
+                        mode.toString().toLowerCase(),
+                        i);
 
                     file.open(fileName);
                     if (!file.exists())

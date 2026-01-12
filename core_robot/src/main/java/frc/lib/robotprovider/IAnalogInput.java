@@ -7,6 +7,7 @@ public interface IAnalogInput
 {
     /**
      * Retreives the voltage from this input
+     * 
      * @return current voltage
      */
     double getVoltage();

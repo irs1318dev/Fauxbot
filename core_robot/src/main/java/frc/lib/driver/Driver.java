@@ -19,7 +19,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 /**
- * Driver that represents something that operates the robot.  This is either autonomous or teleop/user driver.
+ * Driver that represents something that operates the robot. This is either autonomous or teleop/user driver.
  *
  */
 @Singleton
@@ -46,10 +46,11 @@ public class Driver implements IDriver, IOperationModifier
 
     /**
      * Initializes a new Driver
-     * @param logger used to log data to the dashboard
-     * @param injector used to retrieve the components to utilize within the robot
+     * 
+     * @param logger    used to log data to the dashboard
+     * @param injector  used to retrieve the components to utilize within the robot
      * @param buttonMap to control the mapping of joysticks to the corresponding operations
-     * @param provider to retrieve abstracted robot joysticks
+     * @param provider  to retrieve abstracted robot joysticks
      */
     @Inject
     public Driver(
@@ -264,7 +265,7 @@ public class Driver implements IDriver, IOperationModifier
             }
         }
 
-        // Determine the list of macro operations to cancel.  Only keep macros that:
+        // Determine the list of macro operations to cancel. Only keep macros that:
         // 1. have not been usurped by a user action
         // 2. have not been usurped by a new macro (i.e. that was started in this round)
         // 3. are new macros that do not overlap with other new macros
@@ -292,7 +293,11 @@ public class Driver implements IDriver, IOperationModifier
                 else
                 {
                     // some disobey rule #2 (remove only those that were previously active, and not the 1 that is newly active...)
-                    ExceptionHelpers.Assert(!newRelevantMacroOperations.isEmpty(), "how did we end up with conflicting relevant macros for %s when there are no new ones (among %s)?", operation, relevantMacroOperations);
+                    ExceptionHelpers.Assert(
+                        !newRelevantMacroOperations.isEmpty(),
+                        "how did we end up with conflicting relevant macros for %s when there are no new ones (among %s)?",
+                        operation,
+                        relevantMacroOperations);
                     macroOperationsToCancel.addAll(SetHelper.<MacroOperation>RelativeComplement(newRelevantMacroOperations, relevantMacroOperations));
                 }
             }
@@ -320,7 +325,11 @@ public class Driver implements IDriver, IOperationModifier
                 else
                 {
                     // some disobey rule #2 (remove only those that were previously active, and not the 1 that is newly active...)
-                    ExceptionHelpers.Assert(!newRelevantMacroOperations.isEmpty(), "how did we end up with conflicting relevant macros for %s when there are no new ones (among %s)?", operation, relevantMacroOperations);
+                    ExceptionHelpers.Assert(
+                        !newRelevantMacroOperations.isEmpty(),
+                        "how did we end up with conflicting relevant macros for %s when there are no new ones (among %s)?",
+                        operation,
+                        relevantMacroOperations);
                     macroOperationsToCancel.addAll(SetHelper.<MacroOperation>RelativeComplement(newRelevantMacroOperations, relevantMacroOperations));
                 }
             }
@@ -412,6 +421,7 @@ public class Driver implements IDriver, IOperationModifier
 
     /**
      * Starts a particular mode of the match
+     * 
      * @param mode that is being started
      */
     @Override
@@ -441,6 +451,7 @@ public class Driver implements IDriver, IOperationModifier
 
     /**
      * Get a boolean indicating whether the current digital operation is enabled
+     * 
      * @param digitalOperation to get
      * @return the current value of the digital operation
      */
@@ -453,6 +464,7 @@ public class Driver implements IDriver, IOperationModifier
 
     /**
      * Get a double between -1.0 and 1.0 indicating the current value of the analog operation
+     * 
      * @param analogOperation to get
      * @return the current value of the analog operation
      */
@@ -465,9 +477,10 @@ public class Driver implements IDriver, IOperationModifier
 
     /**
      * Instructs the joystick to rumble (if supported)
+     * 
      * @param device device to attempt to rumble
-     * @param type whether left or right rumbler
-     * @param value between 0.0 for no rumble and 1.0 for full rumble
+     * @param type   whether left or right rumbler
+     * @param value  between 0.0 for no rumble and 1.0 for full rumble
      */
     @Override
     public void setRumble(UserInputDevice device, JoystickRumbleType type, double value)
@@ -484,6 +497,7 @@ public class Driver implements IDriver, IOperationModifier
 
     /**
      * Retrieves the current context.
+     * 
      * @returns the current context
      */
     @Override
@@ -494,6 +508,7 @@ public class Driver implements IDriver, IOperationModifier
 
     /**
      * Updates the driver to be in the specified context.
+     * 
      * @param context to apply
      */
     @Override
@@ -504,7 +519,8 @@ public class Driver implements IDriver, IOperationModifier
 
     /**
      * Sets the operation's interrupted state
-     * @param operation to set the interrupt state for
+     * 
+     * @param operation   to set the interrupt state for
      * @param interrupted whether the operation is interrupted
      */
     @Override
@@ -516,7 +532,8 @@ public class Driver implements IDriver, IOperationModifier
 
     /**
      * Sets the operation's interrupted state
-     * @param operation to set the interrupt state for
+     * 
+     * @param operation   to set the interrupt state for
      * @param interrupted whether the operation is interrupted
      */
     @Override
@@ -528,8 +545,9 @@ public class Driver implements IDriver, IOperationModifier
 
     /**
      * Sets the interrupted value for the operation state for a given analog operation to the provided value
+     * 
      * @param operation to set the interrupt state for
-     * @param value to set as the interrupt
+     * @param value     to set as the interrupt
      */
     @Override
     public void setAnalogOperationValue(AnalogOperation operation, double value)
@@ -540,8 +558,9 @@ public class Driver implements IDriver, IOperationModifier
 
     /**
      * Sets the interrupted value for the operation state for a given digital operation to the provided value
+     * 
      * @param operation to set the interrupt state for
-     * @param value to set as the interrupt
+     * @param value     to set as the interrupt
      */
     @Override
     public void setDigitalOperationValue(DigitalOperation operation, boolean value)

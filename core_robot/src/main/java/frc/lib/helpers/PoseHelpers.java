@@ -6,6 +6,7 @@ public class PoseHelpers
      * Calculate the pose exponential according to the algorithm described in
      * https://file.tavsys.net/control/controls-engineering-in-frc.pdf theorem 10.2.1
      * solving a differential equation moving the pose forward in time.
+     * 
      * @param v the x velocity, y velocity, and angular velocity (vx, vy, omega) - in inches, degrees --> updated to the result of the operation in-place
      */
     public static void poseExponential(Triple<Double, Double, Double> v)
@@ -41,6 +42,7 @@ public class PoseHelpers
      * Calculate the pose exponential according to the algorithm described in
      * https://file.tavsys.net/control/controls-engineering-in-frc.pdf theorem 10.2.1
      * solving a differential equation moving the pose forward in time.
+     * 
      * @param v the x velocity, y velocity, and angular velocity (vx, vy, omega) - in inches, degrees
      * @return the updated x velocity, y velocity, and angular velocity (vx, vy, omega) - in inches, degrees
      */
@@ -74,10 +76,10 @@ public class PoseHelpers
             omega);
     }
 
-
     /**
      * Calculate the inverse of the pose exponential according to the algorithm used
      * by WPILib's Pose2d.log() function.
+     * 
      * @param v the x velocity, y velocity, and angular velocity (vx, vy, omega) - in inches, degrees --> updated to the result of the operation in-place
      */
     public static void inversePoseExponential(Triple<Double, Double, Double> v)
@@ -121,6 +123,7 @@ public class PoseHelpers
     /**
      * Calculate the inverse of the pose exponential according to the algorithm used
      * by WPILib's Pose2d.log() function.
+     * 
      * @param pose the x velocity, y velocity, and angular velocity (vx, vy, omega) - in inches, degrees
      * @return the updated x velocity, y velocity, and angular velocity (vx, vy, omega) - in inches, degrees
      */

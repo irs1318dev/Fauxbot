@@ -5,21 +5,23 @@ package frc.lib.driver.buttons;
  * 
  * Toggle on press behavior:
  * 
+ * @formatter:off
  *     button pressed:        _________________
  *                           |                 |
  * button not pressed: ______|                 |________
  *                           ^ takes effect when first pressed
+ * @formatter:on
  * 
  * Toggle on release behavior:
  * 
+ * @formatter:off
  *     button pressed:        _________________
  *                           |                 |
  * button not pressed: ______|                 |________
  *                                             ^ takes effect when first released
- * 
+ * @formatter:on
  * 
  * @author Will
- *
  */
 public class ToggleButton implements IButton
 {
@@ -38,6 +40,7 @@ public class ToggleButton implements IButton
 
     /**
      * Initializes a new ToggleButton
+     * 
      * @param toggleOnPress indicates whether we should toggle when the button is first pressed or when released
      */
     public ToggleButton(boolean toggleOnPress)
@@ -50,6 +53,7 @@ public class ToggleButton implements IButton
 
     /**
      * update the state of the button based on information from the user input device.
+     * 
      * @param buttonState the current position of the button (whether it is currently pressed)
      */
     public void updateState(boolean buttonState)
@@ -65,7 +69,8 @@ public class ToggleButton implements IButton
     }
 
     /**
-     * gets a value indicating whether the button is activated 
+     * gets a value indicating whether the button is activated
+     * 
      * @return true for active, otherwise false
      */
     public boolean isActivated()

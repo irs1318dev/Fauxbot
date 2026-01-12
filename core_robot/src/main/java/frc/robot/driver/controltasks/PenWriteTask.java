@@ -13,7 +13,8 @@ public class PenWriteTask extends CompositeOperationTask
 
     /**
      * Initializes a new PenWriteTask
-     * @param toPerform the operation to perform by setting to true for duration
+     * 
+     * @param toPerform          the operation to perform by setting to true for duration
      * @param possibleOperations to set of linked operations that should be set to false for duration
      */
     public PenWriteTask(boolean penDown)

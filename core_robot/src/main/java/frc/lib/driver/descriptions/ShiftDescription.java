@@ -32,8 +32,9 @@ public class ShiftDescription
 
     /**
      * Initializes a new ShiftDescription based on a user interaction
-     * @param shift the identity of the shift being described
-     * @param userInputDevice which device will indicate the shift (driver or codriver joystick) 
+     * 
+     * @param shift                 the identity of the shift being described
+     * @param userInputDevice       which device will indicate the shift (driver or codriver joystick)
      * @param userInputDeviceButton the button on the device that performs the shift
      */
     public ShiftDescription(Shift shift, UserInputDevice userInputDevice, UserInputDeviceButton userInputDeviceButton)
@@ -51,10 +52,11 @@ public class ShiftDescription
 
     /**
      * Initializes a new ShiftDescription based on a user interaction
-     * @param shift the identity of the shift being described
-     * @param userInputDevice which device will indicate the shift (driver or codriver joystick) 
+     * 
+     * @param shift                 the identity of the shift being described
+     * @param userInputDevice       which device will indicate the shift (driver or codriver joystick)
      * @param userInputDeviceButton the button on the device that performs the shift
-     * @param relevantContexts the contexts that should be considered when checking if we should use the shift
+     * @param relevantContexts      the contexts that should be considered when checking if we should use the shift
      */
     public ShiftDescription(
         Shift shift,
@@ -75,9 +77,10 @@ public class ShiftDescription
 
     /**
      * Initializes a new ShiftDescription based on a user interaction
-     * @param shift the identity of the shift being described
-     * @param userInputDevice which device will indicate the shift (driver or codriver joystick) 
-     * @param povValue the value of the POV (hat) used to perform the shift
+     * 
+     * @param shift           the identity of the shift being described
+     * @param userInputDevice which device will indicate the shift (driver or codriver joystick)
+     * @param povValue        the value of the POV (hat) used to perform the shift
      */
     public ShiftDescription(
         Shift shift,
@@ -97,9 +100,10 @@ public class ShiftDescription
 
     /**
      * Initializes a new ShiftDescription based on a user interaction
-     * @param shift the identity of the shift being described
-     * @param userInputDevice which device will indicate the shift (driver or codriver joystick) 
-     * @param povValue the value of the POV (hat) used to perform the shift
+     * 
+     * @param shift            the identity of the shift being described
+     * @param userInputDevice  which device will indicate the shift (driver or codriver joystick)
+     * @param povValue         the value of the POV (hat) used to perform the shift
      * @param relevantContexts the contexts that should be considered when checking if we should use the shift
      */
     public ShiftDescription(
@@ -121,9 +125,10 @@ public class ShiftDescription
 
     /**
      * Initializes a new ShiftDescription based on a user interaction on an axis
-     * @param shift the identity of the shift being described
-     * @param userInputDevice which device will indicate the shift (driver or codriver joystick)
-     * @param analogAxis the analog axis used to perform the shift
+     * 
+     * @param shift             the identity of the shift being described
+     * @param userInputDevice   which device will indicate the shift (driver or codriver joystick)
+     * @param analogAxis        the analog axis used to perform the shift
      * @param axisRangeMinValue the min value of the range that triggers the shift
      * @param axisRangeMaxValue the max value of the range that triggers the shift
      */
@@ -147,12 +152,13 @@ public class ShiftDescription
 
     /**
      * Initializes a new ShiftDescription based on a user interaction on an axis
-     * @param shift the identity of the shift being described
-     * @param userInputDevice which device will indicate the shift (driver or codriver joystick)
-     * @param analogAxis the analog axis used to perform the shift
+     * 
+     * @param shift             the identity of the shift being described
+     * @param userInputDevice   which device will indicate the shift (driver or codriver joystick)
+     * @param analogAxis        the analog axis used to perform the shift
      * @param axisRangeMinValue the min value of the range that triggers the shift
      * @param axisRangeMaxValue the max value of the range that triggers the shift
-     * @param relevantContexts the contexts that should be considered when checking if we should use the shift
+     * @param relevantContexts  the contexts that should be considered when checking if we should use the shift
      */
     public ShiftDescription(
         Shift shift,
@@ -166,11 +172,11 @@ public class ShiftDescription
             shift,
             userInputDevice,
             UserInputDeviceButton.ANALOG_AXIS_RANGE,
-             UserInputDevicePOV.NONE,
-             analogAxis,
-             axisRangeMinValue,
-             axisRangeMaxValue,
-             relevantContexts);
+            UserInputDevicePOV.NONE,
+            analogAxis,
+            axisRangeMinValue,
+            axisRangeMaxValue,
+            relevantContexts);
     }
 
     private ShiftDescription(
@@ -248,8 +254,7 @@ public class ShiftDescription
         else if (relevantButton == UserInputDeviceButton.ANALOG_AXIS_RANGE)
         {
             double value = relevantJoystick.getAxis(this.userInputDeviceAxis.Value);
-            return
-                value >= this.userInputDeviceAxisRangeMin &&
+            return value >= this.userInputDeviceAxisRangeMin &&
                 value <= this.userInputDeviceAxisRangeMax;
         }
         else if (relevantButton != UserInputDeviceButton.NONE)

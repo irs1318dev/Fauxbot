@@ -6,10 +6,13 @@ import com.google.inject.Singleton;
 import frc.lib.driver.IControlTask;
 import frc.lib.driver.TrajectoryManager;
 import frc.lib.mechanisms.LoggingManager;
-import frc.lib.robotprovider.*;
-import frc.robot.AutonLocManager;
+import frc.lib.robotprovider.Alliance;
+import frc.lib.robotprovider.IDriverStation;
+import frc.lib.robotprovider.ILogger;
+import frc.lib.robotprovider.IRobotProvider;
+import frc.lib.robotprovider.RobotMode;
+import frc.robot.*;
 import frc.robot.LoggingKey;
-import frc.robot.TuningConstants;
 import frc.robot.driver.SmartDashboardSelectionManager.AutoRoutine;
 import frc.robot.driver.SmartDashboardSelectionManager.StartPosition;
 import frc.robot.driver.controltasks.*;
@@ -45,6 +48,7 @@ public class AutonomousRoutineSelector
 
     /**
      * Check what routine we want to use and return it
+     * 
      * @param mode that is starting
      * @return autonomous routine to execute during autonomous mode
      */
@@ -84,142 +88,76 @@ public class AutonomousRoutineSelector
     }
 }
 
-
-
-//IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS IRS
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
+ * @formatter:off
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                       .
                                     .;+;+
                                     .+;;'   `,+'.
@@ -364,4 +302,5 @@ __      _| |__  _   _  (_)___  \ \      / /_ _| | __| | ___
 | | | |  __/ | |  __/                                        
 |_| |_|\___|_|  \___|     
 
+ * @formatter:on
 */

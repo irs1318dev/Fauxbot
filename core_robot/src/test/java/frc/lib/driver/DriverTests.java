@@ -65,8 +65,7 @@ public class DriverTests
                     UserInputDevice.Driver,
                     UserInputDeviceButton.XBONE_Y_BUTTON,
                     ButtonType.Click),
-            }
-        );
+            });
 
         TestControlTask firstTask = new TestControlTask();
         TestControlTask secondTask = new TestControlTask();
@@ -89,8 +88,7 @@ public class DriverTests
                     () -> secondTask,
                     EnumSet.of(AnalogOperation.ExampleOne, AnalogOperation.ExampleTwo),
                     EnumSet.of(DigitalOperation.ExampleA, DigitalOperation.ExampleB)),
-            }
-        );
+            });
 
         when(buttonMap.getShiftSchema()).thenReturn(
             new ShiftDescription[]

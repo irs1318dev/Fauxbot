@@ -17,7 +17,8 @@ public class ImmutablePair<T1, T2>
 
     /**
      * Initializes a new instance of the ImmutablePair class, holding two values and not allowing them to be changed.
-     * @param first value to hold
+     * 
+     * @param first  value to hold
      * @param second value to hold
      */
     public ImmutablePair(T1 first, T2 second)

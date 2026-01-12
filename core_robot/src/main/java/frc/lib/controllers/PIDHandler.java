@@ -7,12 +7,12 @@ import frc.lib.robotprovider.*;
  * This class is a PID handler with a feed-forward handler and a complementary filter.
  * 
  * To use PID control:
- *      set the kp/ki/kd/kf tuning values
- *      calculate output based on the setpoint and measured value regularly
+ * 1. set the kp/ki/kd/kf tuning values
+ * 2. calculate output based on the setpoint and measured value regularly
  * 
  * for reference:
- *      http://en.wikipedia.org/wiki/PID_controller
- *      http://en.wikipedia.org/wiki/Feed_forward_(control)
+ * - http://en.wikipedia.org/wiki/PID_controller
+ * - http://en.wikipedia.org/wiki/Feed_forward_(control)
  * 
  * @author Will (adapted from old code)
  */
@@ -46,14 +46,14 @@ public class PIDHandler
      * This constructor initializes the object and sets constants to affect gain.
      * This defaults to not utilizing a complementary filter to slow ramp-up/ramp-down.
      * 
-     * @param kp scalar for proportional component
-     * @param ki scalar for integral component
-     * @param kd scalar for derivative component
-     * @param kf scalar for feed-forward control
-     * @param ks scalar for adjusting scale difference between measured value and setpoint value
+     * @param kp        scalar for proportional component
+     * @param ki        scalar for integral component
+     * @param kd        scalar for derivative component
+     * @param kf        scalar for feed-forward control
+     * @param ks        scalar for adjusting scale difference between measured value and setpoint value
      * @param minOutput indicates the minimum output value acceptable, or null
      * @param maxOutput indicates the maximum output value acceptable, or null
-     * @param timer to track how much time has passed
+     * @param timer     to track how much time has passed
      */
     public PIDHandler(
         double kp,
@@ -72,18 +72,18 @@ public class PIDHandler
      * This constructor initializes the object and sets constants to affect gain.
      * This utilizes a complementary filter to slow ramp-up/ramp-down.
      * 
-     * @param kp scalar for proportional component
-     * @param ki scalar for integral component
-     * @param kd scalar for derivative component
-     * @param kf scalar for feed-forward control
-     * @param ks scalar for adjusting scale difference between measured value and setpoint value
-     * @param kO scalar for output complementary filter multiplier
-     * @param kN scalar for output complementary filter multiplier
-     * @param kEO scalar for error complementary filter multiplier
-     * @param kEN scalar for error complementary filter multiplier
+     * @param kp        scalar for proportional component
+     * @param ki        scalar for integral component
+     * @param kd        scalar for derivative component
+     * @param kf        scalar for feed-forward control
+     * @param ks        scalar for adjusting scale difference between measured value and setpoint value
+     * @param kO        scalar for output complementary filter multiplier
+     * @param kN        scalar for output complementary filter multiplier
+     * @param kEO       scalar for error complementary filter multiplier
+     * @param kEN       scalar for error complementary filter multiplier
      * @param minOutput indicates the minimum output value acceptable, or null
      * @param maxOutput indicates the maximum output value acceptable, or null
-     * @param timer to track how much time has passed
+     * @param timer     to track how much time has passed
      */
     public PIDHandler(
         double kp,
@@ -117,10 +117,10 @@ public class PIDHandler
 
     /**
      * Calculate the desired output value based on the history, setpoint, and measured value.
-     * measuredValue should be in the same unit as the setpoint, basically a positive or negative percentage 
-     * between -1 and 1.  This method should be called in a loop and fed feedback data and setpoint changes
+     * measuredValue should be in the same unit as the setpoint, basically a positive or negative percentage
+     * between -1 and 1. This method should be called in a loop and fed feedback data and setpoint changes
      * 
-     * @param setpoint describes the goal value
+     * @param setpoint      describes the goal value
      * @param measuredValue describes the measured value
      * 
      * @return output value to be used
@@ -191,7 +191,7 @@ public class PIDHandler
      * measuredValue should be in the same unit as the setpoint, typically a rate of change of something over time.
      * This method should be called in a loop and fed feedback data and setpoint changes
      * 
-     * @param setpoint describes the goal velocity value
+     * @param setpoint      describes the goal velocity value
      * @param measuredValue describes the measured value
      * 
      * @return output value to be used
