@@ -22,4 +22,8 @@ public enum DigitalOperation implements IOperation
     // Shooter operations:
     Shoot,
     Spin,
+    FIRE,
+    SPIN,
+    
+    
 }

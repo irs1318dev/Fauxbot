@@ -58,11 +58,19 @@ public class TuningConstants
 
     //================================================== Shooter ==============================================================
 
-    public static final double SHOOTER_PID_KP = 1.0;
+    public static final double SHOOTER_PID_KP = 0.01;
     public static final double SHOOTER_PID_KI = 0.0;
-    public static final double SHOOTER_PID_KD = 0.1;
+    public static final double SHOOTER_PID_KD = 0.0;
     public static final double SHOOTER_PID_KF = 0.0;
-    public static final double SHOOTER_PID_KS = 1.0;
+    public static final double SHOOTER_PID_KS = 0.0;
+    public static final double SHOOTER_HOOD_MOTOR_KP=0.01;
+    public static final double SHOOTER_HOOD_MOTOR_KI=0.0;
+    public static final double SHOOTER_HOOD_MOTOR_KD=0.0;
+    public static final double SHOOTER_HOOD_MOTOR_KF=0.0;
+    public static final double SHOOTER_FLYWHEEL_MOTOR_KI=0.0;
+    public static final double SHOOTER_FLYWHEEL_MOTOR_KD=0.0;
+    public static final double SHOOTER_FLYWHEEL_MOTOR_KF=0.0;
+    public static final double SHOOTER_FLYWHEEL_MOTOR_KP=0.01;
     public static final double SHOOTER_MIN_OUTPUT = -1.0;
     public static final double SHOOTER_MAX_OUTPUT = 1.0; 
     //================================================== Printer ==============================================================

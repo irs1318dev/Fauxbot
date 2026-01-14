@@ -13,5 +13,4 @@ public enum AnalogOperation implements IOperation
 
     // Shooter operations:
     HoodPosition,
-    ShooterWheelPower,
 }
