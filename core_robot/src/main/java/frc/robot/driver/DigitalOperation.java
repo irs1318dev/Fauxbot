@@ -28,6 +28,8 @@ public enum DigitalOperation implements IOperation
     // Printer operations:
     PrinterPenUp,
     PrinterPenDown,
+    XPositionPrinter,
+    
 
     // Shooter operations:
     SpinButton,

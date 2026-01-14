@@ -14,6 +14,10 @@ public abstract class ControlTaskBase implements IControlTask
     private IOperationModifier operationModifier;
     private Injector injector;
 
+    public ControlTaskBase(AnalogOperation toPerform, EnumSet<AnalogOperation> possibleOperations) {
+        //TODO Auto-generated constructor stub
+    }
+
     /**
      * Initialize the task with the mapping of operations to states
      * @param operationModifier used for retrieving and modifying operation state

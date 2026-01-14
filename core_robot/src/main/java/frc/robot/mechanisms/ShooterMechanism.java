@@ -33,9 +33,9 @@ public class ShooterMechanism implements IMechanism{
         this.HoodMotor.setControlMode(TalonSRXControlMode.Position);
         this.HoodMotor.setPIDF(
             TuningConstants.SHOOTER_HOOD_MOTOR_KP, 
-            TuningConstants.SHOOTER_FLYWHEEL_MOTOR_KI, 
-            TuningConstants.SHOOTER_FLYWHEEL_MOTOR_KD, 
-            TuningConstants.SHOOTER_FLYWHEEL_MOTOR_KF,
+            TuningConstants.SHOOTER_HOOD_MOTOR_KI, 
+            TuningConstants.SHOOTER_HOOD_MOTOR_KD, 
+            TuningConstants.SHOOTER_HOOD_MOTOR_KF,
             1
         );
         this.FlyWheelMotor.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);

@@ -56,12 +56,13 @@ public class PrinterMechanism implements IMechanism{
     }
     @Override
     public void readSensors() {
-        this.XPosition = this.driver.getAnalog(AnalogOperation.XAxisPosition);
-        this.YPosition = this.driver.getAnalog(AnalogOperation.YAxisPosition);
+
     }
 
     @Override
     public void update(RobotMode mode) {
+        this.XPosition = this.driver.getAnalog(AnalogOperation.XAxisPosition);
+        this.YPosition = this.driver.getAnalog(AnalogOperation.YAxisPosition);
         if (this.driver.getDigital(DigitalOperation.PrinterPenUp)){
             this.penstate.set(DoubleSolenoidValue.Reverse);
         }
