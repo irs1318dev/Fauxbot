@@ -10,7 +10,8 @@ public enum AnalogOperation implements IOperation
     LeftMotorPower,
     RightMotorPower,
     // Printer operations:
-
+    XPosition,
+    YPosition,
     // Shooter operations:
     HoodPosition,
     ShooterWheelPower,

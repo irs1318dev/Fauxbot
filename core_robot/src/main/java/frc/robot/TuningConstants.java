@@ -64,20 +64,24 @@ public class TuningConstants
     
 
     //================================================== Shooter ==============================================================
-    public static final double SHOOTER_PID1_KP = 1.0;
-    public static final double SHOOTER_PID1_KI = 0.0;
-    public static final double SHOOTER_PID1_KD = 0.1;
-    public static final double SHOOTER_PID1_KF = 0.0;
-    public static final double SHOOTER_PID1_KS = 1.0;
-    public static final double SHOOTER_MIN1_OUTPUT = -1.0;
-    public static final double SHOOTER_MAX1_OUTPUT = 1.0; 
+    public static final double HOOD_PID_KP = 0.01;
+    public static final double HOOD_PID_KI = 0.0;
+    public static final double HOOD_PID_KD = 0.0;
+    public static final double HOOD_PID_KF = 0.0;
 
-    public static final double SHOOTER_PID2_KP = 1.0;
-    public static final double SHOOTER_PID2_KI = 0.0;
-    public static final double SHOOTER_PID2_KD = 0.1;
-    public static final double SHOOTER_PID2_KF = 0.0;
-    public static final double SHOOTER_PID2_KS = 1.0;
-    public static final double SHOOTER_MIN2_OUTPUT = -1.0;
-    public static final double SHOOTER_MAX2_OUTPUT = 1.0; 
+    public static final double FLYWHEEL_PID_KP = 0.01;
+    public static final double FLYWHEEL_PID_KI = 0.0;
+    public static final double FLYWHEEL_PID_KD = 0.0;
+    public static final double FLYWHEEL_PID_KF = 0.0;
+
     //================================================== Printer ==============================================================
+    public static final double PRINTER_X_PID_KP = 0.01;
+    public static final double PRINTER_X_PID_KI = 0.0;
+    public static final double PRINTER_X_PID_KD = 0.0;
+    public static final double PRINTER_X_PID_KF = 0.0;
+
+    public static final double PRINTER_Y_PID_KP = 0.01;
+    public static final double PRINTER_Y_PID_KI = 0.0;
+    public static final double PRINTER_Y_PID_KD = 0.0;
+    public static final double PRINTER_Y_PID_KF = 0.0;
 }

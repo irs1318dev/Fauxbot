@@ -1,17 +1,17 @@
 package frc.robot.mechanisms;
 import com.google.inject.Inject;
 
-import frc.lib.controllers.PIDHandler;
 import frc.lib.driver.IDriver;
 import frc.lib.mechanisms.IMechanism;
 import frc.lib.robotprovider.DoubleSolenoidValue;
 import frc.lib.robotprovider.IDoubleSolenoid;
-import frc.lib.robotprovider.IEncoder;
 import frc.lib.robotprovider.IRobotProvider;
 import frc.lib.robotprovider.ITalonSRX;
 import frc.lib.robotprovider.ITimer;
 import frc.lib.robotprovider.PneumaticsModuleType;
 import frc.lib.robotprovider.RobotMode;
+import frc.lib.robotprovider.TalonSRXControlMode;
+import frc.lib.robotprovider.TalonSRXFeedbackDevice;
 import frc.robot.ElectronicsConstants;
 import frc.robot.TuningConstants;
 import frc.robot.driver.AnalogOperation;
@@ -24,8 +24,6 @@ public class ShooterMechanism implements IMechanism
     private final ITalonSRX hood;
     private final ITalonSRX flywheel;
     private final IDoubleSolenoid kicker;
-    private final IEncoder encoder;
-    private final PIDHandler pidHandler;
     private double currentPosition;
     private double currentSpeed;
 
@@ -41,6 +39,7 @@ public class ShooterMechanism implements IMechanism
     @Inject
     public ShooterMechanism(IDriver driver, IRobotProvider provider, ITimer timer) {
         this.driver = driver;
+        this.currentState = State.Stopped;
 
         this.kicker = provider.getDoubleSolenoid(
             PneumaticsModuleType.PneumaticsControlModule,
@@ -49,25 +48,26 @@ public class ShooterMechanism implements IMechanism
 
         this.hood = provider.getTalonSRX(ElectronicsConstants.SHOOTER_HOOD_MOTOR_CHANNEL);
         this.flywheel = provider.getTalonSRX(ElectronicsConstants.SHOOTER_FLYWHEEL_MOTOR_CHANNEL);
-
-        this.pidHandler = new PIDHandler(   // Use same as elevator for now
-            TuningConstants.SHOOTER_PID1_KP, 
-            TuningConstants.SHOOTER_PID1_KI, 
-            TuningConstants.SHOOTER_PID1_KD, 
-            TuningConstants.SHOOTER_PID1_KF, 
-            TuningConstants.SHOOTER_PID1_KS,
-            TuningConstants.SHOOTER_MIN1_OUTPUT,
-            TuningConstants.SHOOTER_MAX1_OUTPUT,
-            timer
-            );
-        this.encoder = provider.getEncoder(ElectronicsConstants.SHOOTER_ENCODER_CHANNEL_A, ElectronicsConstants.SHOOTER_ENCODER_CHANNEL_B);
-
+        this.hood.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
+        this.flywheel.setSensorType(TalonSRXFeedbackDevice.QuadEncoder);
+        this.hood.setControlMode(TalonSRXControlMode.Velocity);
+        this.flywheel.setControlMode(TalonSRXControlMode.Position);
+        this.hood.setPIDF(
+            TuningConstants.HOOD_PID_KP, 
+            TuningConstants.HOOD_PID_KI, 
+            TuningConstants.HOOD_PID_KD, 
+            TuningConstants.HOOD_PID_KF, 
+            0);
+        this.flywheel.setPIDF(
+            TuningConstants.FLYWHEEL_PID_KP, 
+            TuningConstants.FLYWHEEL_PID_KI, 
+            TuningConstants.FLYWHEEL_PID_KD, 
+            TuningConstants.FLYWHEEL_PID_KF, 
+            0);
     }
 
     @Override
     public void readSensors() {
-        this.currentPosition = this.encoder.getDistance();
-        this.currentSpeed = this.encoder.getRate();
     }
 
 
@@ -76,39 +76,44 @@ public class ShooterMechanism implements IMechanism
     public void update(RobotMode mode) {
         if (this.driver.getDigital(DigitalOperation.Spin)) {
             this.currentState = State.Spinning;
-        } else if (this.driver.getDigital(DigitalOperation.Shoot)) {
-            this.currentState = State.Shooting;
-        } else {
-            this.currentState = State.Stopped;
+        } else{
+            if (this.driver.getDigital(DigitalOperation.Shoot)) {
+                if (this.currentState == State.Spinning) {
+                    this.currentState = State.Shooting;
+                }
+                else {
+                    this.currentState = State.Stopped;
+                }
+            }
         }
 
         switch (this.currentState) {
             case Stopped -> {
                 this.flywheel.stop();
                 this.kicker.set(DoubleSolenoidValue.Reverse);
+                this.flywheel.set(200);
             }
             case Spinning -> {
-                this.flywheel.set(this.driver.getAnalog(AnalogOperation.ShooterWheelPower));
+                this.flywheel.set(200);
                 this.kicker.set(DoubleSolenoidValue.Reverse);
             }
             case Shooting -> {
-                this.flywheel.set(this.driver.getAnalog(AnalogOperation.ShooterWheelPower));
+                this.flywheel.set(200);
             }
         }
-        this.hood.setPosition(this.driver.getAnalog(AnalogOperation.HoodPosition));
 
-        this.hood.set(pidHandler.calculatePosition(this.driver.getAnalog(AnalogOperation.HoodPosition) + 1 * 45, this.currentPosition));
+        this.hood.set(this.driver.getAnalog(AnalogOperation.HoodPosition) * 90);
         switch (this.currentState) {
             case Stopped -> {
                 this.flywheel.set(0);
                 this.kicker.set(DoubleSolenoidValue.Reverse);
             }
             case Spinning -> {
-                this.flywheel.set(pidHandler.calculateVelocity(200, this.currentSpeed)); // Set to desired flywheel speed
+                this.flywheel.set(200); // Set to desired flywheel speed
                 this.kicker.set(DoubleSolenoidValue.Reverse);
             }
             case Shooting -> {
-                this.flywheel.set(pidHandler.calculateVelocity(200, this.currentSpeed)); // Set to desired flywheel speed
+                this.flywheel.set(200); // Set to desired flywheel speed
                 this.kicker.set(DoubleSolenoidValue.Forward); // Activate kicker to shoot
             }
         }

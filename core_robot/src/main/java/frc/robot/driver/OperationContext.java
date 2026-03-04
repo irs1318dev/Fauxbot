@@ -7,6 +7,8 @@ public enum OperationContext
     GarageDoorMechanism,
     ElevatorMechanism,
     ShooterMechanism,
+    PrinterMechanism,
+    PrinterMacro,
     Awesome;
 
 

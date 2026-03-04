@@ -68,12 +68,36 @@ public class ButtonMap implements IButtonMap
             ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
             0.1),
         
-            new AnalogOperationDescription(
+        new AnalogOperationDescription(
             AnalogOperation.HoodPosition,
             UserInputDevice.Driver,
             AnalogAxis.XBONE_RSY,
             EnumSet.of(OperationContext.ShooterMechanism),
             ElectronicsConstants.INVERT_XBONE_RIGHT_Y_AXIS,
+            0.1),
+        
+        new AnalogOperationDescription(
+            AnalogOperation.ShooterWheelPower,
+            UserInputDevice.Driver,
+            AnalogAxis.XBONE_RSX,
+            EnumSet.of(OperationContext.ShooterMechanism),
+            ElectronicsConstants.INVERT_XBONE_RIGHT_Y_AXIS,
+            0.1),
+
+        new AnalogOperationDescription(
+            AnalogOperation.XPosition,
+            UserInputDevice.Driver,
+            AnalogAxis.XBONE_LSY,
+            EnumSet.of(OperationContext.PrinterMechanism),
+            ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
+            0.1),
+        
+        new AnalogOperationDescription(
+            AnalogOperation.YPosition,
+            UserInputDevice.Driver,
+            AnalogAxis.XBONE_LSX,
+            EnumSet.of(OperationContext.PrinterMechanism),
+            ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
             0.1),
     };
 
@@ -141,26 +165,41 @@ public class ButtonMap implements IButtonMap
             UserInputDeviceButton.BUTTON_PAD_BUTTON_5,
             EnumSet.of(OperationContext.ElevatorMechanism),
             ButtonType.Click),  
-        new DigitalOperationDescription(
-            DigitalOperation.Shoot,
-            UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_A_BUTTON,
-            EnumSet.of(OperationContext.ShooterMechanism),
-            ButtonType.Click),
-                    
-        new DigitalOperationDescription(
-            DigitalOperation.Spin,
-            UserInputDevice.Driver,
-            UserInputDeviceButton.XBONE_A_BUTTON,
-            EnumSet.of(OperationContext.ShooterMechanism),
-            ButtonType.Click),
 
         new DigitalOperationDescription(
             DigitalOperation.Shoot,
             UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_A_BUTTON,
+            EnumSet.of(OperationContext.ShooterMechanism),
+            ButtonType.Click),
+        
+        new DigitalOperationDescription(
+            DigitalOperation.Spin,
+            UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_B_BUTTON,
             EnumSet.of(OperationContext.ShooterMechanism),
             ButtonType.Click),
+        
+        new DigitalOperationDescription(
+            DigitalOperation.PenUp,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_A_BUTTON,
+            EnumSet.of(OperationContext.PrinterMechanism),
+            ButtonType.Click),
+        
+        new DigitalOperationDescription(
+            DigitalOperation.PenDown,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_B_BUTTON,
+            EnumSet.of(OperationContext.PrinterMechanism),
+            ButtonType.Click),
+        
+        new DigitalOperationDescription(
+            DigitalOperation.PrintMacro,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_A_BUTTON,
+            EnumSet.of(OperationContext.PrinterMacro),
+            ButtonType.Toggle),
     };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
@@ -238,6 +277,38 @@ public class ButtonMap implements IButtonMap
             UserInputDevice.Driver,
             UserInputDeviceButton.XBONE_LEFT_BUTTON,
             EnumSet.of(OperationContext.ShooterMechanism),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.General)),
+
+        new MacroOperationDescription(
+            MacroOperation.EnablePrinterContext,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_5,
+            EnumSet.of(OperationContext.General),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.PrinterMechanism)),
+
+        new MacroOperationDescription(
+            MacroOperation.EnableGeneralContextPR,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_LEFT_BUTTON,
+            EnumSet.of(OperationContext.PrinterMechanism),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.General)),
+
+        new MacroOperationDescription(
+            MacroOperation.EnablePrinterMacroContext,
+            UserInputDevice.Driver,
+            UserInputDeviceButton.BUTTON_PAD_BUTTON_6,
+            EnumSet.of(OperationContext.General),
+            ButtonType.Click,
+            () -> new SetOperationContextTask(OperationContext.PrinterMacro)),
+        
+        new MacroOperationDescription(
+            MacroOperation.EnableGeneralContextPM, 
+            UserInputDevice.Driver,
+            UserInputDeviceButton.XBONE_LEFT_BUTTON,
+            EnumSet.of(OperationContext.PrinterMacro),
             ButtonType.Click,
             () -> new SetOperationContextTask(OperationContext.General)),
         };
