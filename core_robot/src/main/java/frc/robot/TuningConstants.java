@@ -48,6 +48,11 @@ public class TuningConstants
 
     //================================================== Elevator ==============================================================
 
+    public static final double ELEVATOR_ADRC_OC = 12;
+    public static final double ELEVATOR_ADRC_OO = 4;
+    public static final double ELEVATOR_ADRC_B0 = 240;
+
+
     public static final double ELEVATOR_PID_KP = 1.0;
     public static final double ELEVATOR_PID_KI = 0.0;
     public static final double ELEVATOR_PID_KD = 0.1;

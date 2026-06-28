@@ -20,7 +20,7 @@ import frc.lib.robotprovider.ISmartDashboardLogger;
 import frc.lib.robotprovider.MatchType;
 import frc.lib.robotprovider.MultiLogger;
 import frc.lib.robotprovider.RobotMode;
-import frc.robot.mechanisms.PrinterMechanism;
+import frc.robot.mechanisms.*;
 import frc.robot.driver.controltasks.PrinterMacro;
 public class SettingsManager
 {
@@ -31,10 +31,10 @@ public class SettingsManager
         // mechanismList.add(injector.getInstance(ForkliftMechanism.class));
         // mechanismList.add(injector.getInstance(GarageDoorMechanism.class));
         // mechanismList.add(injector.getInstance(ForkliftMechanism.class));
-        // mechanismList.add(injector.getInstance(ElevatorMechanism.class));
+        mechanismList.add(injector.getInstance(ElevatorMechanism.class));
         // mechanismList.add(injector.getInstance(ShooterMechanism.class));
         // mechanismList.add(injector.getInstance(PrinterMechanism.class));
-        mechanismList.add(injector.getInstance(PrinterMechanism.class));
+        // mechanismList.add(injector.getInstance(PrinterMechanism.class));
         return mechanismList;
     }
 

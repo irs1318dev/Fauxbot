@@ -2,14 +2,10 @@ package frc.robot.mechanisms;
 
 import com.google.inject.Inject;
 
-import frc.lib.controllers.PIDHandler;
+import frc.lib.controllers.ADRCHandler;
 import frc.lib.driver.IDriver;
 import frc.lib.mechanisms.IMechanism;
-import frc.lib.robotprovider.IEncoder;
-import frc.lib.robotprovider.IMotor;
-import frc.lib.robotprovider.IRobotProvider;
-import frc.lib.robotprovider.ITimer;
-import frc.lib.robotprovider.RobotMode;
+import frc.lib.robotprovider.*;
 import frc.robot.ElectronicsConstants;
 import frc.robot.TuningConstants;
 import frc.robot.driver.DigitalOperation;
@@ -19,7 +15,7 @@ public class ElevatorMechanism implements IMechanism
     private final IDriver driver;
     private final IMotor motor;
     private final IEncoder encoder;
-    private final PIDHandler pidHandler;
+    private final ADRCHandler adrcHandler;
     private double targetPosition;
     private double currentPosition;
 
@@ -27,12 +23,10 @@ public class ElevatorMechanism implements IMechanism
     public ElevatorMechanism(IDriver driver, IRobotProvider provider, ITimer timer) {
         this.driver = driver;
         this.motor = provider.getTalon(ElectronicsConstants.ELEVATOR_MOTOR_CHANNEL);
-        this.pidHandler = new PIDHandler(
-            TuningConstants.ELEVATOR_PID_KP, 
-            TuningConstants.ELEVATOR_PID_KI, 
-            TuningConstants.ELEVATOR_PID_KD, 
-            TuningConstants.ELEVATOR_PID_KF, 
-            TuningConstants.ELEVATOR_PID_KS,
+        this.adrcHandler = new ADRCHandler(
+            TuningConstants.ELEVATOR_ADRC_OC,
+            TuningConstants.ELEVATOR_ADRC_OO,
+            TuningConstants.ELEVATOR_ADRC_B0,
             TuningConstants.ELEVATOR_MIN_OUTPUT,
             TuningConstants.ELEVATOR_MAX_OUTPUT,
             timer
@@ -60,7 +54,7 @@ public class ElevatorMechanism implements IMechanism
         } else if (this.driver.getDigital(DigitalOperation.ElevatorFloor5)){
             this.targetPosition = TuningConstants.FLOOR_5;
         }
-        double motorOutput = this.pidHandler.calculatePosition(this.targetPosition, this.currentPosition);
+        double motorOutput = this.adrcHandler.calculatePosition(this.targetPosition, this.currentPosition);
         this.motor.set(motorOutput);
     }
 
