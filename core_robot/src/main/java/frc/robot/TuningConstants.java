@@ -43,6 +43,8 @@ public class TuningConstants
     public static final boolean TRAJECTORY_FORCE_BUILD = false;
 
     //================================================== Forklift ==============================================================
+    
+    public static final double DRIVE_TRAIN_LEFT_AMOUNT = 0;
 
     //================================================== Garage Door ==============================================================
 
