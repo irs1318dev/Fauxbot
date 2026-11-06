@@ -1,5 +1,9 @@
 package frc.robot.driver.mechanisms;
 
+import javax.inject.Singleton;
+
+import com.google.inject.Inject;
+
 import frc.lib.driver.IDriver;
 import frc.lib.mechanisms.IMechanism;
 import frc.lib.robotprovider.DoubleSolenoidValue;
@@ -12,6 +16,7 @@ import frc.robot.ElectronicsConstants;
 import frc.robot.driver.AnalogOperation;
 import frc.robot.driver.DigitalOperation;
 
+@Singleton
 public class ForkliftMechanism implements IMechanism
 {
     private final IDriver driver;
@@ -19,6 +24,7 @@ public class ForkliftMechanism implements IMechanism
     private final IMotor rightMotor;
     private final IDoubleSolenoid lifter;
 
+    @Inject
     public ForkliftMechanism(IDriver driver, IRobotProvider provider)
     {
         this.driver = driver;
