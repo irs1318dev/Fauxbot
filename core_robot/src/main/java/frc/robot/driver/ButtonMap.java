@@ -1,7 +1,7 @@
 package frc.robot.driver;
 
 import javax.inject.Singleton;
-// import java.util.EnumSet;
+import java.util.EnumSet;
 
 import frc.lib.driver.*;
 import frc.lib.driver.buttons.*;
@@ -49,12 +49,14 @@ public class ButtonMap implements IButtonMap
                 AnalogOperation.DriveTrainLeft,
                 UserInputDevice.Driver,
                 AnalogAxis.XBONE_LSX,
+                EnumSet.of(OperationContext.Forklift),
                 ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
                 0.1),
             new AnalogOperationDescription(
                 AnalogOperation.DriveTrainRight,
                 UserInputDevice.Driver,
                 AnalogAxis.XBONE_RSX,
+                EnumSet.of(OperationContext.Forklift),
                 ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
                 0.1)
         };
@@ -71,11 +73,13 @@ public class ButtonMap implements IButtonMap
                 DigitalOperation.ForkliftUp,
                 UserInputDevice.Driver,
                 UserInputDeviceButton.XBONE_LEFT_BUTTON,
+                EnumSet.of(OperationContext.Forklift),
                 ButtonType.Click),
             new DigitalOperationDescription(
                 DigitalOperation.ForkliftDown,
                 UserInputDevice.Driver,
                 UserInputDeviceButton.XBONE_RIGHT_BUTTON,
+                EnumSet.of(OperationContext.Forklift),
                 ButtonType.Click),
         };
 
@@ -93,6 +97,13 @@ public class ButtonMap implements IButtonMap
             //         AnalogOperation.ExampleOne,
             //         DigitalOperation.ExampleA,
             //     }),
+            new MacroOperationDescription(
+                MacroOperation.SetForkliftContext,
+                UserInputDevice.Driver,
+                UserInputDeviceButton.XBONE_A_BUTTON,
+                EnumSet.of(OperationContext.General),
+                ButtonType.Toggle,
+                () -> new SetOperationContextTask(OperationContext.Forklift))
         };
 
     @Override

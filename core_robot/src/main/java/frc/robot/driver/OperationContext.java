@@ -3,7 +3,8 @@ package frc.robot.driver;
 public enum OperationContext
 {
     General,
-    Awesome;
+    Awesome,
+    Forklift;
 
     public static OperationContext getDefault()
     {
