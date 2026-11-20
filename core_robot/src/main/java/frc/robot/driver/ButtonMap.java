@@ -1,5 +1,7 @@
 package frc.robot.driver;
 
+import java.util.EnumSet;
+
 import javax.inject.Singleton;
 // import java.util.EnumSet;
 
@@ -45,6 +47,32 @@ public class ButtonMap implements IButtonMap
             //     AnalogAxis.XBONE_LSX,
             //     ElectronicsConstants.INVERT_XBONE_LEFT_Y_AXIS,
             //     0.1),
+
+            new AnalogOperationDescription(
+                AnalogOperation.LeftMotorPower,
+                UserInputDevice.Driver,
+                AnalogAxis.XBONE_LSX,
+                EnumSet.noneOf(Shift.class),
+                EnumSet.noneOf(Shift.class),
+                EnumSet.of(OperationContext.Forklift),
+                ElectronicsConstants.INVERT_XBONE_LEFT_X_AXIS,
+                -0.1,
+                0.1),
+
+            new AnalogOperationDescription(
+                AnalogOperation.RightMotorPower, 
+                UserInputDevice.Driver, 
+                AnalogAxis.XBONE_RSX,
+                EnumSet.noneOf(Shift.class),
+                EnumSet.noneOf(Shift.class), 
+                EnumSet.of(OperationContext.Forklift), 
+                ElectronicsConstants.INVERT_XBONE_RIGHT_X_AXIS, 
+                -0.1, 
+                0.1), 
+
+
+            
+
         };
 
     public static DigitalOperationDescription[] DigitalOperationSchema = new DigitalOperationDescription[]
@@ -55,6 +83,24 @@ public class ButtonMap implements IButtonMap
             //     UserInputDevice.Driver,
             //     UserInputDeviceButton.XBONE_A_BUTTON,
             //     ButtonType.Toggle),
+
+            new DigitalOperationDescription(
+                DigitalOperation.LifterUp,
+                UserInputDevice.Driver,
+                UserInputDeviceButton.XBONE_A_BUTTON,
+                EnumSet.noneOf(Shift.class),
+                EnumSet.noneOf(Shift.class),
+                EnumSet.of(OperationContext.Forklift),
+                ButtonType.Click),
+
+            new DigitalOperationDescription(
+                 DigitalOperation.LifterDown,
+                UserInputDevice.Driver,
+                UserInputDeviceButton.XBONE_B_BUTTON,
+                EnumSet.noneOf(Shift.class),
+                EnumSet.noneOf(Shift.class),
+                EnumSet.of(OperationContext.Forklift),
+                ButtonType.Click),
         };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
@@ -71,6 +117,14 @@ public class ButtonMap implements IButtonMap
             //         AnalogOperation.ExampleOne,
             //         DigitalOperation.ExampleA,
             //     }),
+
+            new MacroOperationDescription(
+                MacroOperation.SetForkliftContext,
+                UserInputDevice.Driver,
+                UserInputDeviceButton.XBONE_RIGHT_BUTTON,
+                EnumSet.of(OperationContext.General),
+                ButtonType.Click,
+                () -> new SetOperationContextTask(OperationContext.Forklift)),
         };
 
     @Override

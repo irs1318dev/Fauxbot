@@ -9,6 +9,7 @@ public enum AnalogOperation implements IOperation
 
     // Forklift operations: 
     LeftMotorPower,
+    RightMotorPower
     
     // Printer operations:
 

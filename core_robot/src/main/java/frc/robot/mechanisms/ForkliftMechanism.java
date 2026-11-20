@@ -41,14 +41,16 @@ public class ForkliftMechanism implements IMechanism {
     @Override
     public void update(RobotMode mode) {
         this.leftMotor.set(this.driver.getAnalog(AnalogOperation.LeftMotorPower));
-        this.rightMotor.set(this.driver.getAnalog(AnalogOperation.LeftMotorPower));
-        this.lifter.set();
+        this.rightMotor.set(this.driver.getAnalog(AnalogOperation.RightMotorPower));
 
-        if (this.driver.getDigital(DigitalOperation. ))
+        if (this.driver.getDigital(DigitalOperation.LifterUp))
         {
             this.lifter.set(DoubleSolenoidValue.Forward);
         }
-        if (this.driver.getDigital(digitalOperation: DigitalOperation. ))
+        if (this.driver.getDigital(DigitalOperation.LifterDown))
+        {
+            this.lifter.set(DoubleSolenoidValue.Reverse);
+        }
 
         
 
@@ -57,6 +59,7 @@ public class ForkliftMechanism implements IMechanism {
     @Override
     public void stop() {
         this.leftMotor.set(0);
+        this.rightMotor.set(0);
         this.lifter.set(DoubleSolenoidValue.Off);
     }
     
