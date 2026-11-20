@@ -53,6 +53,11 @@ public class ElectronicsConstants
 
     //================================================== Garage Door =======================================================
 
+    public static final int GARAGE_DOOR_MOTOR_PWM_CHANNEL = 0;
+    public static final int GARAGE_DOOR_OPEN_SENSOR_IO_CHANNEL = 1;
+    public static final int GARAGE_DOOR_CLOSED_SENSOR_IO_CHANNEL = 2;
+    public static final int GARAGE_DOOR_THROUGH_BEAM_SENSOR_IO_CHANNEL = 0;
+
     //================================================== Elevator ==========================================================
 
     //================================================== Forklift =======================================================

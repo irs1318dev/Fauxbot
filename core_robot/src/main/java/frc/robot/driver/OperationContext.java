@@ -4,7 +4,8 @@ public enum OperationContext
 {
     General,
     Awesome,
-    Forklift;
+    Forklift,
+    GarageDoor;
 
     public static OperationContext getDefault()
     {

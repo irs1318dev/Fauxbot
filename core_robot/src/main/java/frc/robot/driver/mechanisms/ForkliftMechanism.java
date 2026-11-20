@@ -28,6 +28,7 @@ public class ForkliftMechanism implements IMechanism
     public ForkliftMechanism(IDriver driver, IRobotProvider provider)
     {
         this.driver = driver;
+        
         this.leftMotor = provider.getTalon(ElectronicsConstants.FORKLIFT_LEFT_MOTOR_PWM_CHANNEL);
         this.rightMotor = provider.getTalon(ElectronicsConstants.FORKLIFT_RIGHT_MOTOR_PWM_CHANNEL);
         this.lifter = provider.getDoubleSolenoid(

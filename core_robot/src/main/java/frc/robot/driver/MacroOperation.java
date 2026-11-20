@@ -10,4 +10,5 @@ public enum MacroOperation implements IOperation
     ExampleBeta,
 
     SetForkliftContext,
+    SetGarageDoorContext,
 }

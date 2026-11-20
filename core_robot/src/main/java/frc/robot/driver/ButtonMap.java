@@ -81,6 +81,12 @@ public class ButtonMap implements IButtonMap
                 UserInputDeviceButton.XBONE_RIGHT_BUTTON,
                 EnumSet.of(OperationContext.Forklift),
                 ButtonType.Click),
+            new DigitalOperationDescription(
+                DigitalOperation.GarageDoor,
+                UserInputDevice.Driver,
+                UserInputDeviceButton.XBONE_LEFT_BUTTON,
+                EnumSet.of(OperationContext.GarageDoor),
+                ButtonType.Click),
         };
 
     public static MacroOperationDescription[] MacroSchema = new MacroOperationDescription[]
@@ -103,7 +109,14 @@ public class ButtonMap implements IButtonMap
                 UserInputDeviceButton.XBONE_A_BUTTON,
                 EnumSet.of(OperationContext.General),
                 ButtonType.Toggle,
-                () -> new SetOperationContextTask(OperationContext.Forklift))
+                () -> new SetOperationContextTask(OperationContext.Forklift)),
+            new MacroOperationDescription(
+                MacroOperation.SetGarageDoorContext,
+                UserInputDevice.Driver,
+                UserInputDeviceButton.XBONE_B_BUTTON,
+                EnumSet.of(OperationContext.General),
+                ButtonType.Toggle,
+                () -> new SetOperationContextTask(OperationContext.GarageDoor)),
         };
 
     @Override
