@@ -11,9 +11,8 @@ import frc.lib.robotprovider.IMotor;
 import frc.lib.robotprovider.IRobotProvider;
 import frc.lib.robotprovider.RobotMode;
 import frc.robot.ElectronicsConstants;
+import frc.robot.TuningConstants;
 import frc.robot.driver.DigitalOperation;
-
-
 
 @Singleton 
 public class GarageDoorMechanism implements IMechanism {
@@ -66,25 +65,25 @@ public class GarageDoorMechanism implements IMechanism {
             switch (garageDoorState) {
                 case Open:
                     garageDoorState = GarageDoorState.Closing;
-                    this.motor.set(-1);
+                    this.motor.set(TuningConstants.GARAGE_DOOR_CLOSING_POWER);
                     break;
                 case Closed:
                     garageDoorState = GarageDoorState.Opening;
-                    this.motor.set(1);
+                    this.motor.set(TuningConstants.GARAGE_DOOR_OPENING_POWER);
                     break;
                 case Opening:
                     garageDoorState = GarageDoorState.Closing;
-                    this.motor.set(-1);
+                    this.motor.set(TuningConstants.GARAGE_DOOR_CLOSING_POWER);
                     break;
                 case Closing:
                     garageDoorState = GarageDoorState.Opening;
-                    this.motor.set(1);
+                    this.motor.set(TuningConstants.GARAGE_DOOR_OPENING_POWER);
                     break;
             }
         }
         if (garageDoorState == GarageDoorState.Closing && this.throughBeamSensorSetting) {
             garageDoorState = GarageDoorState.Opening;
-            this.motor.set(1);
+            this.motor.set(TuningConstants.GARAGE_DOOR_OPENING_POWER);
         }
         if (garageDoorState == GarageDoorState.Opening && this.openSensorSetting) {
             garageDoorState = GarageDoorState.Open;
